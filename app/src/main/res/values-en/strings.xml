@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AgriTopo</string>
+    <string name="action_settings">Configuration</string>
+    <string name="title_activity_mapa">Map</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="action_novo_ponto">New Point</string>
+    <string name="action_nova_area">Nova Área</string>
+    <string name="action_poi">Point of Interest</string>
+    <string name="action_curvas_nivel">Level Curves</string>
+    <string name="action_terrenos">Grounds</string>
+    <string name="action_geometrias">Geometry</string>
+    <string name="edt_pesquisa">Search maps...</string>
+</resources>
