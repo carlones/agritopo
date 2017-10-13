@@ -5,11 +5,23 @@
     <string name="title_activity_mapa">Mapa</string>
     <string name="navigation_drawer_open">Abrir</string>
     <string name="navigation_drawer_close">Fechar</string>
-    <string name="action_novo_ponto">Novo Ponto</string>
-    <string name="action_nova_area">Nova Área</string>
+    <string name="action_novo_ponto">Ponto</string>
+    <string name="action_nova_area">Área</string>
     <string name="action_poi">Ponto de Interesse</string>
     <string name="action_curvas_nivel">Curvas de Nível</string>
     <string name="action_terrenos">Terrenos</string>
     <string name="action_geometrias">Geometrias</string>
     <string name="edt_pesquisa">Pesquisar mapas...</string>
+    <string name="action_layer_poi">Pontos de Interesse</string>
+    <string name="action_layer_curvas_nivel">Curvas de Nível</string>
+    <string name="action_layer_geometry">Geometrias</string>
+    <string name="action_carregarmapas">Carregar Mapas</string>
+    <string name="action_layer">Camada</string>
+    <string name="action_layers">Camadas</string>
+    <string name="action_gps">GPS</string>
+    <string name="menu_cadastros">Cadastros</string>
+    <string name="menu_mapas">Mapas</string>
+    <string name="menu_configuracao">Configurações</string>
+    <string name="menu_exportacao">Exportação</string>
+    <string name="title_activity_configuracao">Configurações</string>
 </resources>
