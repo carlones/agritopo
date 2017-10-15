@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_layer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ImageButton
+        android:id="@+id/btnPopupLayerFecharBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cbxCurvasDeNivel"
+        android:alpha="0.5" />
+
+    <ImageButton
+        android:id="@+id/btnPopupLayerFechar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cbxGeometrias"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/btnPopupLayerFecharTop"
+        android:background="@color/colorPrimaryDark"
+        android:paddingRight="10sp"
+        android:src="@drawable/ic_close_white_24dp" />
+
+    <TextView
+        android:id="@+id/layer_popup_descricao_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnPopupLayerFecharTop"
+        android:layout_toStartOf="@+id/btnPopupLayerFechar"
+        android:background="@color/colorPrimaryDark"
+        android:paddingBottom="10sp"
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp"
+        android:text="@string/action_layers"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/cbxGeometrias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/layer_popup_descricao_tv"
+        android:background="@color/colorPrimary"
+        android:checked="true"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:text="@string/cbx_geometrias"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
+
+    <CheckBox
+        android:id="@+id/cbxPontosDeInteresse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cbxGeometrias"
+        android:background="@color/colorPrimary"
+        android:checked="true"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:text="@string/cbx_pontos_de_interesse"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
+
+    <CheckBox
+        android:id="@+id/cbxCurvasDeNivel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cbxPontosDeInteresse"
+        android:background="@color/colorPrimary"
+        android:checked="true"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:text="@string/cbx_curvas_de_nivel"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
+
+    <ImageButton
+        android:id="@+id/btnPopupLayerFecharTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:alpha="0.5"
+        android:paddingTop="100sp" />
+
+</RelativeLayout>

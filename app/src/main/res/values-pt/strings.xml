@@ -24,4 +24,14 @@
     <string name="menu_configuracao">Configurações</string>
     <string name="menu_exportacao">Exportação</string>
     <string name="title_activity_configuracao">Configurações</string>
+    <string name="cbx_pontos_de_interesse">Pontos de Interesse</string>
+    <string name="cbx_geometrias">Áreas / Polígonos</string>
+    <string name="cbx_curvas_de_nivel">Curvas de Nível</string>
+    <string name="action_rotacao">Rotação</string>
+    <string name="action_concluido">Concluído</string>
+    <string name="title_activity_settings" translatable="false">Configurações</string>
+    <string name="action_cancelar">Cancelar</string>
+    <string name="title_info">Informações</string>
+    <string name="text_titulo">Título</string>
+    <string name="text_descricao">Descrição</string>
 </resources>

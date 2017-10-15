@@ -4,15 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/action_concluido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_done_white_24dp"
+        android:visibility="invisible"
+        fab:fab_label="@string/action_concluido" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/action_cancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/action_concluido"
+        android:src="@drawable/ic_close_white_24dp"
+        android:visibility="invisible"
+        fab:fab_label="@string/action_cancelar" />
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/material_design_android_floating_action_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="11dp"
-        android:layout_marginLeft="11dp"
-        android:layout_marginRight="11dp"
         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
@@ -48,7 +65,7 @@
             android:id="@+id/action_novo_ponto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_location_black_24dp"
+            android:src="@drawable/ic_add_location_white_24dp"
             fab:fab_label="@string/action_novo_ponto"
             fab:fab_size="mini" />
 
@@ -56,8 +73,9 @@
             android:id="@+id/action_nova_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_crop_original_black_24dp"
+            android:src="@drawable/ic_crop_original_white_24dp"
             fab:fab_label="@string/action_nova_area"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
+
 </RelativeLayout>

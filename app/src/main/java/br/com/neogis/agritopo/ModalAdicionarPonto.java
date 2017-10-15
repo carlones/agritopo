@@ -44,12 +44,12 @@ public class ModalAdicionarPonto extends Overlay {
         //c.drawLine(10, 10, 100, 100, cor);
     }
 
-    // Exibir o ponto quando der um toque na tela
+    // Exibir o Ponto quando der um toque na tela
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        Log.d("Agritopo", "AdicionarPontoOverlay: ponto registrado");
-
-        listaPontos.addItem(new OverlayItem("Teste", "", this.mapa.getMapCenter()));
-        this.mapa.invalidate();
+        Log.d("Agritopo", "AdicionarPontoOverlay: Ponto registrado");
+        PopupPonto popupPonto = new PopupPonto(mapView.getContext());
+        listaPontos.addItem(new OverlayItem(popupPonto.getPontoTitulo(), popupPonto.getPontoDescricao(), this.mapa.getMapCenter()));
+        mapView.invalidate();
 
         return true; // Não propogar evento para demais overlays
     }

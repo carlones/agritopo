@@ -13,23 +13,23 @@ import java.io.File;
  * Created by carlo on 06/10/2017.
  */
 
-public class MapaLadrilho {
+public class MapaTiles {
     public String formatoImagem = ".png";
-    public int zoom_min;
-    public int zoom_max;
-    public GeoPoint pontoCentro;
+    public int zoomMin;
+    public int zoomMax;
+    public GeoPoint pontoCentral;
 
-    public MapaLadrilho(File arquivo)
+    public MapaTiles(File arquivo)
     {
-        // pegar níves de zoom e ponto central diretamente do arquivo
+        // pegar níves de zoom e Ponto central diretamente do arquivo
         //SQLiteDatabase db_mapa = SQLiteDatabase.openOrCreateDatabase(arquivo.toString(), Context.MODE_PRIVATE, null);
         SQLiteDatabase db_mapa = SQLiteDatabase.openDatabase(arquivo.toString(), null, Context.MODE_PRIVATE);
         Cursor cursor = db_mapa.rawQuery("SELECT value FROM metadata WHERE name IN ('minzoom', 'maxzoom') ORDER BY value", null);
         cursor.moveToFirst();
-        this.zoom_min = cursor.getInt(0);
+        this.zoomMin = cursor.getInt(0);
         cursor.moveToNext();
-        this.zoom_max = cursor.getInt(0);
-        Log.d("Agritopo", String.format("níveis de zoom do arquivo: %d, %d", zoom_min, zoom_max) );
+        this.zoomMax = cursor.getInt(0);
+        Log.d("Agritopo", String.format("níveis de zoom do arquivo: %d, %d", zoomMin, zoomMax));
         cursor.close();
         cursor = db_mapa.rawQuery("SELECT value FROM metadata WHERE name = 'bounds'", null);
         cursor.moveToFirst();
@@ -41,6 +41,6 @@ public class MapaLadrilho {
         cursor.close();
         db_mapa.close();
 
-        pontoCentro = new GeoPoint(lat, lon);
+        pontoCentral = new GeoPoint(lat, lon);
     }
 }

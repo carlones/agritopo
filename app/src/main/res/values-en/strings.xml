@@ -21,8 +21,17 @@
     <string name="action_gps">GPS</string>
     <string name="menu_cadastros">Register</string>
     <string name="menu_mapas">Maps</string>
-    <string name="title_activity_settings" translatable="false"></string>
+    <string name="title_activity_settings" translatable="false">Settings</string>
     <string name="menu_configuracao">Settings</string>
     <string name="menu_exportacao">Export</string>
     <string name="title_activity_configuracao">Settings</string>
+    <string name="cbx_pontos_de_interesse">Pontos de Interesse</string>
+    <string name="cbx_geometrias">Areas / Polygons</string>
+    <string name="cbx_curvas_de_nivel">Level curves</string>
+    <string name="action_rotacao">Rotation</string>
+    <string name="action_concluido">Done</string>
+    <string name="action_cancelar">Cancelar</string>
+    <string name="title_info">Info</string>
+    <string name="text_titulo">Título</string>
+    <string name="text_descricao">Descrição</string>
 </resources>
