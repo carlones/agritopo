@@ -27,7 +27,7 @@ public class PopupPonto extends PopupWindow {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        setCustomView(inflater.inflate(R.layout.popup_layer, null));
+        setCustomView(inflater.inflate(R.layout.popup_ponto, null));
         setContentView(customView);
 
         if (Build.VERSION.SDK_INT >= 21) {

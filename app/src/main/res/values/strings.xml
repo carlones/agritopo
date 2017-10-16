@@ -108,4 +108,6 @@
     <string name="title_info">Informações</string>
     <string name="text_titulo">Título</string>
     <string name="text_descricao">Descrição</string>
+    <string name="title_elemento_list">Elementos</string>
+    <string name="title_elemento_detail">Elemento Detail</string>
 </resources>

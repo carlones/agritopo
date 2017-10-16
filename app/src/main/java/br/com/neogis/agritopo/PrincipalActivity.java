@@ -78,7 +78,7 @@ import java.util.List;
 
 import static android.view.View.VISIBLE;
 
-public class Principal extends AppCompatActivity
+public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
 
     //Mapas
@@ -124,7 +124,7 @@ public class Principal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mContext = getApplicationContext();
-        mActivity = Principal.this;
+        mActivity = PrincipalActivity.this;
 
         inicializarMapas();
         inicializarBotoes();
@@ -440,6 +440,11 @@ public class Principal extends AppCompatActivity
         if (id == R.id.nav_cadastros) {
 
         } else if (id == R.id.nav_mapas) {
+            Intent intent = new Intent(this, ElementoListActivity.class);
+            //EditText editText = (EditText) findViewById(R.id.edit_message);
+            //String message = editText.getText().toString();
+            //intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
 
         } else if (id == R.id.nav_exportacao) {
 
@@ -587,8 +592,8 @@ public class Principal extends AppCompatActivity
         //mGroundOverlayBearing += 20.0f;
         //map.getOverlays().add(myGroundOverlay);
 
-        PopupPonto popupPonto = new PopupPonto(map.getContext());
-        geoPointList.addItem(new OverlayItem(popupPonto.getPontoTitulo(), popupPonto.getPontoDescricao(), p));
+        //PopupPonto popupPonto = new PopupPonto(map.getContext());
+        geoPointList.addItem(new OverlayItem("Titulo exemplo", "Descrição exemplo\r\nem várias linhas", p));
         map.invalidate();
         return true;
     }
@@ -614,8 +619,6 @@ public class Principal extends AppCompatActivity
 
                     @Override
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        PopupPonto popupPonto = new PopupPonto(map.getContext());
-                        geoPointList.addItem(new OverlayItem(popupPonto.getPontoTitulo(), popupPonto.getPontoDescricao(), item.getPoint()));
                         return true;
                     }
                 }
