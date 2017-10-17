@@ -68,6 +68,10 @@ public class ModalAdicionarArea extends Overlay {
     //
     public Area finalizar() {
         this.removerModal();
+        this.area.calcularArea();
+        Log.d("Agritopo", "Descrição área: " + this.area.descricaoArea());
+        this.area.calcularPerimetro();
+        Log.d("Agritopo", "Descrição perímetro: " + this.area.descricaoPerimetro());
         return this.area;
     }
 
