@@ -40,16 +40,12 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
-import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.modules.IArchiveFile;
 import org.osmdroid.tileprovider.modules.MBTilesFileArchive;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
-import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
-import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
-import org.osmdroid.tileprovider.modules.TileWriter;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.BoundingBox;
@@ -103,6 +99,7 @@ public class PrincipalActivity extends AppCompatActivity
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
     private boolean exibirAreas;
+    private IMapController mapController;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
@@ -301,6 +298,8 @@ public class PrincipalActivity extends AppCompatActivity
                     Log.d("Agritopo", "Nova área: " + novaArea.toString());
                     if (novaArea.ehValida()) {
                         Log.d("Agritopo", "Nova área é válida, adicionando à lista");
+                        if (areaList == null)
+                            areaList = new ArrayList<Area>();
                         areaList.add(novaArea);
                         if (exibirAreas)
                             map.getOverlays().add(novaArea.poligono);
@@ -345,6 +344,7 @@ public class PrincipalActivity extends AppCompatActivity
 
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
+        map.setTilesScaledToDpi(true);
 
         mRotationGestureOverlay = new RotationGestureOverlay(map);
         mRotationGestureOverlay.setEnabled(false);
@@ -366,14 +366,15 @@ public class PrincipalActivity extends AppCompatActivity
         mMyLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(mMyLocationNewOverlay);
 
-        //carregarMapaOnline();
+        mapController = map.getController();
+        criarListaPontos();
+        Configuration.getInstance().setDebugMode(true);
 
-        if (listaArquivosMapas.length > 0) {
+        if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0)) {
             carregarMapaDeArquivo(map, listaArquivosMapas[0]);
-            criarListaPontos();
             map.getOverlays().add(geoPointList);
         } else {
-            Utils.toast(this, "Nenhum mapa encontrado");
+            carregarMapaOnline();
         }
     }
 
@@ -465,7 +466,7 @@ public class PrincipalActivity extends AppCompatActivity
     public void onLocationChanged(Location location) {
         if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
             if (mMyLocationNewOverlay.getMyLocation() != null)
-                (map.getController()).setCenter(mMyLocationNewOverlay.getMyLocation());
+                mapController.setCenter(mMyLocationNewOverlay.getMyLocation());
         }
     }
 
@@ -498,31 +499,18 @@ public class PrincipalActivity extends AppCompatActivity
             }
         };
         listaArquivosMapas = pasta_mapas.listFiles(filtro);
-        for (File arquivo : listaArquivosMapas)
-            Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
+        if (listaArquivosMapas != null)
+            for (File arquivo : listaArquivosMapas)
+                Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
     }
 
     public void carregarMapaOnline() {
-        map.removeAllViews();
-        Context ctx = getApplicationContext();
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-        XYTileSource onlineSource = new XYTileSource(
-                "Mapnik",
-                1, 18,
-                256, ".png", new String[]{"http://tile.openstreetmap.org/"});
-
-        // Create a file cache modular provider
-        IRegisterReceiver registerReceiver = new SimpleRegisterReceiver(ctx);
-        MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(registerReceiver, onlineSource);
-
-        // Create a download modular tile provider
-        TileWriter tileWriter = new TileWriter();
-        NetworkAvailabliltyCheck networkAvailabliltyCheck = new NetworkAvailabliltyCheck(ctx);
-        MapTileDownloader downloaderProvider = new MapTileDownloader(onlineSource, tileWriter, networkAvailabliltyCheck);
-        MapTileProviderArray mProvider = new MapTileProviderArray(onlineSource, null, new MapTileModuleProviderBase[]{downloaderProvider});
-        map.setTileProvider(mProvider);
+        map.setUseDataConnection(true);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.getController().setZoom(10);
+        if (mMyLocationNewOverlay.getMyLocation() != null)
+            mapController.animateTo(mMyLocationNewOverlay.getMyLocation());
     }
-
 
     public void carregarMapaDeArquivo(MapView map, File arquivo) {
         MapaTiles am = new MapaTiles(arquivo);
