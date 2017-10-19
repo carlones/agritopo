@@ -218,12 +218,11 @@ public class PrincipalActivity extends AppCompatActivity
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         exibirAreas = isChecked;
                         List<Overlay> overlays = map.getOverlays();
-                        if (areaList != null) {
-                            for (Area area : areaList)
-                                if (isChecked)
-                                    area.desenharEm(map);
-                                else
-                                    area.removerDe(map);
+                        for (Area area : areaList) {
+                            if (isChecked)
+                                area.desenharEm(map);
+                            else
+                                area.removerDe(map);
                         }
                         map.invalidate();
                         if (isChecked) {
@@ -301,8 +300,6 @@ public class PrincipalActivity extends AppCompatActivity
                     Log.d("Agritopo", "Nova área: " + novaArea.toString());
                     if (novaArea.ehValida()) {
                         Log.d("Agritopo", "Nova área é válida, adicionando à lista");
-                        if (areaList == null)
-                            areaList = new ArrayList<Area>();
                         areaList.add(novaArea);
                         if (exibirAreas)
                             novaArea.desenharEm(map);
