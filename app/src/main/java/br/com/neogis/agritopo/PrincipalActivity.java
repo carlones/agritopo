@@ -123,6 +123,9 @@ public class PrincipalActivity extends AppCompatActivity
         mContext = getApplicationContext();
         mActivity = PrincipalActivity.this;
 
+        exibirAreas = true;
+        areaList = new ArrayList<Area>();
+
         inicializarMapas();
         inicializarBotoes();
     }
@@ -218,9 +221,9 @@ public class PrincipalActivity extends AppCompatActivity
                         if (areaList != null) {
                             for (Area area : areaList)
                                 if (isChecked)
-                                    overlays.add(area.poligono);
+                                    area.desenharEm(map);
                                 else
-                                    overlays.remove(area.poligono);
+                                    area.removerDe(map);
                         }
                         map.invalidate();
                         if (isChecked) {
@@ -302,12 +305,9 @@ public class PrincipalActivity extends AppCompatActivity
                             areaList = new ArrayList<Area>();
                         areaList.add(novaArea);
                         if (exibirAreas)
-                            map.getOverlays().add(novaArea.poligono);
+                            novaArea.desenharEm(map);
                     } else {
                         Log.d("Agritopo", "Nova área é inválida, descartando");
-                    }
-                    if (map.getOverlays().contains(modalAdicionarArea)) {
-                        map.getOverlays().remove(modalAdicionarArea);
                     }
                     modalAdicionarArea = null;
                 }
@@ -320,10 +320,7 @@ public class PrincipalActivity extends AppCompatActivity
         fabCancelar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (modalAdicionarArea != null) {
-                    Log.d("Agritopo", "Nova área é inválida, descartando");
-                    if (map.getOverlays().contains(modalAdicionarArea)) {
-                        map.getOverlays().remove(modalAdicionarArea);
-                    }
+                    modalAdicionarArea.cancelar();
                     modalAdicionarArea = null;
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
