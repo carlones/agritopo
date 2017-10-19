@@ -5,10 +5,14 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
+
+import br.com.neogis.agritopo.dao.tabelas.PontoDao;
+import br.com.neogis.agritopo.dao.tabelas.PontoDaoImpl;
 
 /**
  * Created by Wagner on 23/09/2017.
@@ -33,22 +37,22 @@ public class ModalAdicionarPonto extends Overlay {
         int centroX = c.getWidth() / 2;
         int centroY = c.getHeight() / 2;
         int tamanho = 50;
-        ;
-
-        //Log.d("Agritopo", "AdicionarPontoOverlay centroX: " + centroX);
-        //Log.d("Agritopo", "AdicionarPontoOverlay centroY: " + centroY);
-        //Log.d("Agritopo", "AdicionarPontoOverlay tamanho: " + tamanho);
 
         c.drawLine(centroX - (tamanho / 2), centroY, centroX + (tamanho / 2), centroY, cor);
         c.drawLine(centroX, centroY - (tamanho / 2), centroX, centroY + (tamanho / 2), cor);
-        //c.drawLine(10, 10, 100, 100, cor);
     }
 
     // Exibir o Ponto quando der um toque na tela
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        Log.d("Agritopo", "AdicionarPontoOverlay: Ponto registrado");
+        Log.d("Agritopo", "ModalAdicionarPonto: registrando Ponto");
         //PopupPonto popupPonto = new PopupPonto(mapView.getContext());
-        listaPontos.addItem(new OverlayItem("Titulo exemplo", "Descrição exemplo\r\nem várias linhas", mapView.getMapCenter()));
+        Ponto p = new Ponto("Titulo exemplo", "Descrição exemplo\r\nem várias linhas", (GeoPoint) mapView.getMapCenter());
+
+        PontoDao dao = new PontoDaoImpl(mapView.getContext());
+        dao.insert(p);
+        Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + p.toString());
+
+        listaPontos.addItem(new OverlayItem(p.getTitulo(), p.getDescricao(), p.getCoordenadas()));
         mapView.invalidate();
 
         return true; // Não propogar evento para demais overlays

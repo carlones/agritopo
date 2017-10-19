@@ -8,22 +8,22 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public class DaoController {
-    private SQLiteDatabase db;
+    protected SQLiteDatabase db;
     private BancoDeDadosSQLite banco;
 
     public DaoController(Context context) {
         banco = new BancoDeDadosSQLite(context);
     }
 
-    private void abrirGravacao() {
+    public void abrirGravacao() {
         db = banco.getWritableDatabase();
     }
 
-    private void abrirLeitura() {
+    public void abrirLeitura() {
         db = banco.getReadableDatabase();
     }
 
-    private void fecharConexao() {
+    public void fecharConexao() {
         db.close();
     }
 }

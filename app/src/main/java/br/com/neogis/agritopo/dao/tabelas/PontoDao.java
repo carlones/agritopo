@@ -1,6 +1,7 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
 import java.util.List;
+import br.com.neogis.agritopo.Ponto;
 
 /**
  * Created by carlo on 15/10/2017.
