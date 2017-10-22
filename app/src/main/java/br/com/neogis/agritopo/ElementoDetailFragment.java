@@ -1,15 +1,17 @@
 package br.com.neogis.agritopo;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import br.com.neogis.agritopo.dummy.DummyContent;
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 
 /**
  * A fragment representing a single Elemento detail screen.
@@ -22,12 +24,12 @@ public class ElementoDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ELEMENTOID = "elementoid";
 
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Elemento mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,16 +42,17 @@ public class ElementoDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(ARG_ELEMENTOID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            ElementoDao elementoDao = new ElementoDaoImpl(getContext());
+            mItem = elementoDao.get(getArguments().getInt(ARG_ELEMENTOID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mItem.getTitulo());
             }
         }
     }
@@ -61,7 +64,7 @@ public class ElementoDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.elemento_detail)).setText(mItem.details);
+            ((TextView) rootView.findViewById(R.id.elemento_detail)).setText(mItem.getDescricao());
         }
 
         return rootView;

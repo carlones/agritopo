@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -16,7 +17,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.neogis.agritopo.dummy.DummyContent;
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 
 /**
  * An activity representing a list of Elementos. This activity
@@ -32,8 +34,7 @@ public class ElementoListActivity extends AppCompatActivity {
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private boolean mTwoPane;
-
+    private boolean painelDuplo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,29 +53,34 @@ public class ElementoListActivity extends AppCompatActivity {
             }
         });
 
-        View recyclerView = findViewById(R.id.elemento_list);
+        RecyclerView recyclerView = ((RecyclerView) findViewById(R.id.elemento_list));
         assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        setupRecyclerView(recyclerView);
+
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(layout);
 
         if (findViewById(R.id.elemento_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
-            mTwoPane = true;
+            painelDuplo = true;
         }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        List<Elemento> list = (new ElementoDaoImpl(getBaseContext()).getAll());
+        recyclerView.setAdapter(new ElementoRecyclerViewAdapter(list));
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class ElementoRecyclerViewAdapter
+            extends RecyclerView.Adapter<ElementoRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<Elemento> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public ElementoRecyclerViewAdapter(List<Elemento> items) {
             mValues = items;
         }
 
@@ -88,15 +94,17 @@ public class ElementoListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.elementoIdView.setText(Integer.toString(holder.mItem.getElementoid()));
+            holder.tipoElementoView.setText(holder.mItem.getTipoElemento().getNome());
+            holder.classeView.setText(holder.mItem.getClasse().getNome());
+            holder.tituloView.setText(holder.mItem.getTitulo());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {
+                    if (painelDuplo) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ElementoDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putInt(ElementoDetailFragment.ARG_ELEMENTOID, holder.mItem.getElementoid());
                         ElementoDetailFragment fragment = new ElementoDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -105,7 +113,7 @@ public class ElementoListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ElementoDetailActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, holder.mItem.getElementoid());
 
                         context.startActivity(intent);
                     }
@@ -120,20 +128,25 @@ public class ElementoListActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public final TextView elementoIdView;
+            public final TextView tipoElementoView;
+            public final TextView classeView;
+            public final TextView tituloView;
+            public Elemento mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+
+                elementoIdView = (TextView) view.findViewById(R.id.elementoid);
+                tipoElementoView = (TextView) view.findViewById(R.id.tipoElemento);
+                classeView = (TextView) view.findViewById(R.id.classe);
+                tituloView = (TextView) view.findViewById(R.id.titulo);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + ", " + elementoIdView.getText() + ", " + tipoElementoView.getText() + ", " + classeView.getText() + ", " + tituloView.getText();
             }
         }
     }

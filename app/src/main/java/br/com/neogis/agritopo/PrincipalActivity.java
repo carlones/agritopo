@@ -449,22 +449,21 @@ public class PrincipalActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_cadastros) {
-
-        } else if (id == R.id.nav_mapas) {
             Intent intent = new Intent(this, ElementoListActivity.class);
             //EditText editText = (EditText) findViewById(R.id.edit_message);
             //String message = editText.getText().toString();
             //intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
+            //} else if (id == R.id.nav_mapas) {
 
         } else if (id == R.id.nav_exportacao) {
 
-        } else if (id == R.id.nav_configuracao) {
-            Intent intent = new Intent(this, ConfiguracaoActivity.class);
+            //} else if (id == R.id.nav_configuracao) {
+            //Intent intent = new Intent(this, ConfiguracaoActivity.class);
             //EditText editText = (EditText) findViewById(R.id.edit_message);
             //String message = editText.getText().toString();
             //intent.putExtra(EXTRA_MESSAGE, message);
-            startActivity(intent);
+            //startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
