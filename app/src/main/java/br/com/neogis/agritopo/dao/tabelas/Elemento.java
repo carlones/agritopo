@@ -3,6 +3,11 @@ package br.com.neogis.agritopo.dao.tabelas;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
+
+import br.com.neogis.agritopo.MyGeoPoint;
+import flexjson.JSONDeserializer;
+import flexjson.JSONSerializer;
 
 public class Elemento {
 
@@ -22,6 +27,12 @@ public class Elemento {
 
     private String modified_at;
 
+    public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {
+        this(tipoElemento, classe, titulo, descricao, "");
+        JSONSerializer serializer = new JSONSerializer();
+        setGeometria(serializer.serialize(geometria));
+    }
+
     public Elemento(int elementoid, TipoElemento tipoElemento, Classe classe, String titulo, String descricao, String geometria, String created_at, String modified_at) {
         this(tipoElemento, classe, titulo, descricao, geometria);
         this.elementoid = elementoid;
@@ -37,8 +48,8 @@ public class Elemento {
         this.titulo = titulo;
         this.descricao = descricao;
         this.geometria = geometria;
-        this.created_at = dateFormat.format(cal);
-        this.modified_at = dateFormat.format(cal);
+        this.created_at = dateFormat.format(cal.getTime());
+        this.modified_at = dateFormat.format(cal.getTime());
     }
 
     public String getGeometria() {
@@ -47,6 +58,16 @@ public class Elemento {
 
     public void setGeometria(String geometria) {
         this.geometria = geometria;
+    }
+
+    public MyGeoPoint getGeometriaMyGeoPoint() {
+        JSONDeserializer<MyGeoPoint> deserializer = new JSONDeserializer<>();
+        return deserializer.deserialize(geometria);
+    }
+
+    public List<MyGeoPoint> getGeometriaListMyGeoPoint() {
+        JSONDeserializer<List<MyGeoPoint>> deserializer = new JSONDeserializer<>();
+        return deserializer.deserialize(geometria);
     }
 
     public int getElementoid() {
@@ -113,6 +134,6 @@ public class Elemento {
     public void setModified_at() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
-        this.modified_at = dateFormat.format(cal);
+        this.modified_at = dateFormat.format(cal.getTime());
     }
 }

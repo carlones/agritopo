@@ -22,8 +22,8 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
         List<TipoElemento> l = new ArrayList<>();
         while (cursor.moveToNext()) {
             l.add(new TipoElemento(
-                    cursor.getInt(0),
-                    cursor.getString(1)
+                    cursor.getInt(cursor.getColumnIndex("tipoelementoid")),
+                    cursor.getString(cursor.getColumnIndex("nome"))
             ));
         }
         return l;

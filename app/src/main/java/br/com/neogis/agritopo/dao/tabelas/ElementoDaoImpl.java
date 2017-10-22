@@ -24,14 +24,14 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
             TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(context);
             ClasseDao classeDao = new ClasseDaoImpl(context);
             l.add(new Elemento(
-                    cursor.getInt(0),
-                    tipoElementoDao.get(cursor.getInt(1)),
-                    classeDao.get(cursor.getInt(2)),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7)
+                    cursor.getInt(cursor.getColumnIndex("elementoid")),
+                    tipoElementoDao.get(cursor.getInt(cursor.getColumnIndex("tipoelementoid"))),
+                    classeDao.get(cursor.getInt(cursor.getColumnIndex("classeid"))),
+                    cursor.getString(cursor.getColumnIndex("titulo")),
+                    cursor.getString(cursor.getColumnIndex("descricao")),
+                    cursor.getString(cursor.getColumnIndex("geometria")),
+                    cursor.getString(cursor.getColumnIndex("created_at")),
+                    cursor.getString(cursor.getColumnIndex("modified_at"))
             ));
         }
         return l;

@@ -9,6 +9,16 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
+import br.com.neogis.agritopo.dao.tabelas.Classe;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
+
 /**
  * Created by Wagner on 23/09/2017.
  */
@@ -72,6 +82,15 @@ public class ModalAdicionarArea extends Overlay {
         Log.d("Agritopo", "Descrição área: " + this.area.descricaoArea());
         this.area.calcularPerimetro();
         Log.d("Agritopo", "Descrição perímetro: " + this.area.descricaoPerimetro());
+
+        TipoElementoDao ted = new TipoElementoDaoImpl(mapa.getContext());
+        TipoElemento te = ted.get(3);
+        ClasseDao cd = new ClasseDaoImpl(mapa.getContext());
+        Classe c = cd.get(2);
+        Elemento e = new Elemento(te, c, "", "", area.getMyGeoPointList());
+        ElementoDao elementoDao = new ElementoDaoImpl(mapa.getContext());
+        elementoDao.insert(e);
+
         return this.area;
     }
 

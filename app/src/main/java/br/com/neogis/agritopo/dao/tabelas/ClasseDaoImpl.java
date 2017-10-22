@@ -22,8 +22,8 @@ public class ClasseDaoImpl extends DaoController implements ClasseDao {
         List<Classe> l = new ArrayList<>();
         while (cursor.moveToNext()) {
             l.add(new Classe(
-                    cursor.getInt(0),
-                    cursor.getString(1)
+                    cursor.getInt(cursor.getColumnIndex("classeid")),
+                    cursor.getString(cursor.getColumnIndex("nome"))
             ));
         }
         return l;

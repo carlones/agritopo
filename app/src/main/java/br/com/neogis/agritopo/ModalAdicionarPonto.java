@@ -11,10 +11,6 @@ import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import br.com.neogis.agritopo.dao.tabelas.Classe;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
@@ -57,25 +53,18 @@ public class ModalAdicionarPonto extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         Log.d("Agritopo", "ModalAdicionarPonto: registrando Ponto");
-        GeoPoint ponto = (GeoPoint) mapView.getMapCenter();
+        MyGeoPoint ponto = new MyGeoPoint((GeoPoint) mapView.getMapCenter());
 
         TipoElementoDao ted = new TipoElementoDaoImpl(mapView.getContext());
         TipoElemento te = ted.get(1);
         ClasseDao cd = new ClasseDaoImpl(mapView.getContext());
         Classe c = cd.get(1);
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bos);
-            out.writeObject(ponto);
-            Elemento e = new Elemento(te, c, "título", "descrição", out.toString());
-            ElementoDao dao = new ElementoDaoImpl(mapView.getContext());
-            dao.insert(e);
-            Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + e.toString());
+        Elemento e = new Elemento(te, c, "título", "descrição", ponto);
+        ElementoDao dao = new ElementoDaoImpl(mapView.getContext());
+        dao.insert(e);
+        Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + e.toString());
 
-            listaPontos.addItem(new OverlayItem(e.getTitulo(), e.getDescricao(), ponto));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        listaPontos.addItem(new OverlayItem(e.getTitulo(), e.getDescricao(), ponto));
         mapView.invalidate();
 
         return true; // Não propogar evento para demais overlays

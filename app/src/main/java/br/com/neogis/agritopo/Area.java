@@ -12,16 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Area {
+    // Overlay que exibe os pontos no mapa
+    public Polygon poligono;
+    public Marker texto;
     List<GeoPoint> pontos;
     double area; // m²
     double perimetro; // m
 
-    // Overlay que exibe os pontos no mapa
-    public Polygon poligono;
-    public Marker texto;
-
     public Area() {
-        this.pontos = new ArrayList<GeoPoint>();
+        this.pontos = new ArrayList<>();
         this.poligono = new Polygon();
 
         // Cor e estilo da área
@@ -32,6 +31,7 @@ public class Area {
 
     public void adicionarPonto(GeoPoint ponto) {
         this.pontos.add(ponto);
+
         this.poligono.setPoints(this.pontos);
     }
 
@@ -151,5 +151,22 @@ public class Area {
 
     public String toString() {
         return this.pontos.toString();
+    }
+
+    public List<MyGeoPoint> getMyGeoPointList() {
+        List<MyGeoPoint> lista = new ArrayList<>();
+        for (GeoPoint ponto : pontos) {
+            lista.add(new MyGeoPoint(ponto));
+        }
+        return lista;
+    }
+
+    public void setMyGeoPointList(List<MyGeoPoint> lista) {
+        pontos.clear();
+        for (MyGeoPoint ponto : lista) {
+            adicionarPonto((GeoPoint) ponto);
+        }
+        calcularArea();
+        calcularPerimetro();
     }
 }

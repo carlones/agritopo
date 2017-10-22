@@ -22,7 +22,7 @@ public class GeradorIdDaoImpl extends DaoController implements GeradorIdDao {
     private List<GeradorId> getListaObjetos(Cursor cursor) {
         List<GeradorId> l = new ArrayList<>();
         while (cursor.moveToNext()) {
-            l.add(new GeradorId(cursor.getString(0), cursor.getInt(1)));
+            l.add(new GeradorId(cursor.getString(cursor.getColumnIndex("tabela")), cursor.getInt(cursor.getColumnIndex("id_atual"))));
         }
         return l;
     }

@@ -72,6 +72,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+
 import static android.view.View.VISIBLE;
 
 public class PrincipalActivity extends AppCompatActivity
@@ -372,7 +376,8 @@ public class PrincipalActivity extends AppCompatActivity
         map.getOverlays().add(mMyLocationNewOverlay);
 
         mapController = map.getController();
-        criarListaPontos();
+        carregarPontos();
+        carregarAreas();
         Configuration.getInstance().setDebugMode(true);
 
         if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0)) {
@@ -585,12 +590,12 @@ public class PrincipalActivity extends AppCompatActivity
         //mGroundOverlayBearing += 20.0f;
         //map.getOverlays().add(myGroundOverlay);
 
-        geoPointList.addItem(new OverlayItem("Titulo exemplo", "Descrição exemplo\r\nem várias linhas", p));
+        // Adicionar ponto? Pode atrapalhar enquanto cria área
         map.invalidate();
         return true;
     }
 
-    void criarListaPontos() {
+    void carregarPontos() {
         // https://stackoverflow.com/questions/41090639/add-marker-to-osmdroid-5-5-map
 
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
@@ -598,6 +603,14 @@ public class PrincipalActivity extends AppCompatActivity
         //GeoPoint pontoDesbravador = new GeoPoint(-27.1048003, -52.6145871);
         //items.add(new OverlayItem("Aeroporto de Chapecó", "Descrição", pontoAeroporto));
         //items.add(new OverlayItem("Desbravador", "Descrição", pontoDesbravador));
+
+        ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
+        List<Elemento> pontos = elementoDao.getAll();
+        for (Elemento ponto : pontos) {
+            if (ponto.getClasse().getNome().equals("Ponto")) {
+                items.add(new OverlayItem(ponto.getTitulo(), ponto.getDescricao(), ponto.getGeometriaMyGeoPoint()));
+            }
+        }
 
         //the overlay
         geoPointList = new ItemizedOverlayWithFocus<OverlayItem>(
@@ -617,6 +630,20 @@ public class PrincipalActivity extends AppCompatActivity
         );
         geoPointList.setFocusItemsOnTap(true);
     }
+
+    private void carregarAreas() {
+        ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
+        List<Elemento> elementos = elementoDao.getAll();
+        for (Elemento e : elementos) {
+            if (e.getClasse().getNome().equals("Area")) {
+                Area a = new Area();
+                a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
+                areaList.add(a);
+                a.desenharEm(map);
+            }
+        }
+    }
+
 
     //0. Using the Marker and Polyline overlays - advanced options
     class OnMarkerDragListenerDrawer implements Marker.OnMarkerDragListener {
