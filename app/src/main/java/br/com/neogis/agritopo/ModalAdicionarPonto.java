@@ -11,8 +11,20 @@ import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
-import br.com.neogis.agritopo.dao.tabelas.PontoDao;
-import br.com.neogis.agritopo.dao.tabelas.PontoDaoImpl;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import br.com.neogis.agritopo.dao.tabelas.Classe;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
+
 
 /**
  * Created by Wagner on 23/09/2017.
@@ -45,14 +57,25 @@ public class ModalAdicionarPonto extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         Log.d("Agritopo", "ModalAdicionarPonto: registrando Ponto");
-        //PopupPonto popupPonto = new PopupPonto(mapView.getContext());
-        Ponto p = new Ponto("Titulo exemplo", "Descrição exemplo\r\nem várias linhas", (GeoPoint) mapView.getMapCenter());
+        GeoPoint ponto = (GeoPoint) mapView.getMapCenter();
 
-        PontoDao dao = new PontoDaoImpl(mapView.getContext());
-        dao.insert(p);
-        Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + p.toString());
+        TipoElementoDao ted = new TipoElementoDaoImpl(mapView.getContext());
+        TipoElemento te = ted.get(1);
+        ClasseDao cd = new ClasseDaoImpl(mapView.getContext());
+        Classe c = cd.get(1);
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(ponto);
+            Elemento e = new Elemento(te, c, "título", "descrição", out.toString());
+            ElementoDao dao = new ElementoDaoImpl(mapView.getContext());
+            dao.insert(e);
+            Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + e.toString());
 
-        listaPontos.addItem(new OverlayItem(p.getTitulo(), p.getDescricao(), p.getCoordenadas()));
+            listaPontos.addItem(new OverlayItem(e.getTitulo(), e.getDescricao(), ponto));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mapView.invalidate();
 
         return true; // Não propogar evento para demais overlays

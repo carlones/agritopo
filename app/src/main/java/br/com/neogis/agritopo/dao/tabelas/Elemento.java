@@ -16,20 +16,37 @@ public class Elemento {
 
     private String descricao;
 
+    private String geometria;
+
     private String created_at;
 
     private String modified_at;
 
-    public Elemento(int elementoid, TipoElemento tipoElemento, Classe classe, String titulo, String descricao) {
+    public Elemento(int elementoid, TipoElemento tipoElemento, Classe classe, String titulo, String descricao, String geometria, String created_at, String modified_at) {
+        this(tipoElemento, classe, titulo, descricao, geometria);
+        this.elementoid = elementoid;
+        this.created_at = created_at;
+        this.modified_at = modified_at;
+    }
+
+    public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, String geometria) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
-        this.elementoid = elementoid;
         this.tipoElemento = tipoElemento;
         this.classe = classe;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.geometria = geometria;
         this.created_at = dateFormat.format(cal);
         this.modified_at = dateFormat.format(cal);
+    }
+
+    public String getGeometria() {
+        return geometria;
+    }
+
+    public void setGeometria(String geometria) {
+        this.geometria = geometria;
     }
 
     public int getElementoid() {

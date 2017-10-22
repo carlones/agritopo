@@ -10,33 +10,33 @@ import br.com.neogis.agritopo.dao.controlador.DaoController;
  * Created by carlo on 15/10/2017.
  */
 
-public class PontoImagemDaoImpl extends DaoController implements PontoImagemDao {
-    public PontoImagemDaoImpl(Context context) {
+public class ElementoImagemDaoImpl extends DaoController implements ElementoImagemDao {
+    public ElementoImagemDaoImpl(Context context) {
         super(context);
     }
 
     @Override
-    public List<PontoImagem> getAll() {
+    public List<ElementoImagem> getAll() {
         return null;
     }
 
     @Override
-    public PontoImagem get(int id) {
+    public ElementoImagem get(int id) {
         return null;
     }
 
     @Override
-    public void insert(PontoImagem obj) {
+    public void insert(ElementoImagem obj) {
 
     }
 
     @Override
-    public void update(PontoImagem obj) {
+    public void update(ElementoImagem obj) {
 
     }
 
     @Override
-    public void delete(PontoImagem obj) {
+    public void delete(ElementoImagem obj) {
 
     }
 }

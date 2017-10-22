@@ -1,7 +1,10 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.controlador.DaoController;
@@ -15,28 +18,104 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         super(context);
     }
 
+    private List<Elemento> getListaObjetos(Cursor cursor) {
+        List<Elemento> l = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(context);
+            ClasseDao classeDao = new ClasseDaoImpl(context);
+            l.add(new Elemento(
+                    cursor.getInt(0),
+                    tipoElementoDao.get(cursor.getInt(1)),
+                    classeDao.get(cursor.getInt(2)),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getString(7)
+            ));
+        }
+        return l;
+    }
+
     @Override
     public List<Elemento> getAll() {
-        return null;
+        abrirLeitura();
+        Cursor cursor = db.rawQuery("" +
+                "SELECT elementoid\n" +
+                "  ,classeid\n" +
+                "  ,tipoelementoid\n" +
+                "  ,titulo\n" +
+                "  ,descricao\n" +
+                "  ,geometria\n" +
+                "  ,created_at\n" +
+                "  ,modified_at\n" +
+                "FROM elemento", new String[]{});
+        return getListaObjetos(cursor);
     }
 
     @Override
     public Elemento get(int id) {
-        return null;
+        abrirLeitura();
+        Cursor cursor = db.rawQuery(
+                "SELECT elementoid\n" +
+                        "  ,classeid\n" +
+                        "  ,tipoelementoid\n" +
+                        "  ,titulo\n" +
+                        "  ,descricao\n" +
+                        "  ,geometria\n" +
+                        "  ,created_at\n" +
+                        "  ,modified_at\n" +
+                        "FROM elemento WHERE elementoid = ?"
+                , new String[]{Integer.toString(id)});
+        List<Elemento> l = getListaObjetos(cursor);
+        fecharConexao();
+        if (l.isEmpty())
+            return null;
+        else
+            return l.get(0);
     }
 
     @Override
     public void insert(Elemento obj) {
-
+        abrirGravacao();
+        ContentValues cv = new ContentValues();
+        cv.put("elementoid", getId("elemento"));
+        cv.put("classeid", obj.getClasse().getClasseid());
+        cv.put("tipoelementoid", obj.getTipoElemento().getTipoelementoid());
+        cv.put("titulo", obj.getTitulo());
+        cv.put("descricao", obj.getDescricao());
+        cv.put("geometria", obj.getGeometria());
+        cv.put("created_at", obj.getCreated_at());
+        cv.put("modified_at", obj.getModified_at());
+        if (db.insert("elemento", null, cv) == -1) {
+            new Exception("Erro ao inserir elemento");
+        }
+        fecharConexao();
     }
 
     @Override
     public void update(Elemento obj) {
+        abrirGravacao();
+        ContentValues cv = new ContentValues();
+        cv.put("classeid", obj.getClasse().getClasseid());
+        cv.put("tipoelementoid", obj.getTipoElemento().getTipoelementoid());
+        cv.put("titulo", obj.getTitulo());
+        cv.put("descricao", obj.getDescricao());
+        cv.put("geometria", obj.getGeometria());
+        cv.put("modified_at", obj.getModified_at());
 
+        if (db.update("elemento", cv, "elementoid = ?", new String[]{(Integer.toString(obj.getElementoid()))}) != 1) {
+            new Exception("Erro ao atualizar elemento");
+        }
+        fecharConexao();
     }
 
     @Override
     public void delete(Elemento obj) {
-
+        abrirGravacao();
+        if (db.delete("elemento", "elementoid = ?", new String[]{(Integer.toString(obj.getElementoid()))}) != 1) {
+            new Exception("Erro ao excluir elemento");
+        }
+        fecharConexao();
     }
 }

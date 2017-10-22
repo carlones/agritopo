@@ -4,23 +4,23 @@ package br.com.neogis.agritopo.dao.tabelas;
  * Created by carlo on 15/10/2017.
  */
 
-public class PontoImagem {
+public class ElementoImagem {
 
-    private Ponto ponto;
+    private Elemento elemento;
 
     private Imagem imagem;
 
-    public PontoImagem(Ponto ponto, Imagem imagem) {
-        this.ponto = ponto;
+    public ElementoImagem(Elemento elemento, Imagem imagem) {
+        this.elemento = elemento;
         this.imagem = imagem;
     }
 
-    public Ponto getPonto() {
-        return ponto;
+    public Elemento getElemento() {
+        return elemento;
     }
 
-    public void setPonto(Ponto ponto) {
-        this.ponto = ponto;
+    public void setElemento(Elemento elemento) {
+        this.elemento = elemento;
     }
 
     public Imagem getImagem() {

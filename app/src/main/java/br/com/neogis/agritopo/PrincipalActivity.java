@@ -120,6 +120,9 @@ public class PrincipalActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        criarDiretorio("agritopo");
+        criarDiretorio("OsmDroid");
+
         mContext = getApplicationContext();
         mActivity = PrincipalActivity.this;
 
@@ -128,6 +131,14 @@ public class PrincipalActivity extends AppCompatActivity
 
         inicializarMapas();
         inicializarBotoes();
+    }
+
+    private boolean criarDiretorio(String diretorio) {
+        File root = Environment.getRootDirectory().getAbsoluteFile();
+        File dir = new File(root, diretorio);
+        if (!dir.exists())
+            dir.mkdirs();
+        return dir.exists();
     }
 
     public void inicializarBotoes() {
@@ -574,7 +585,6 @@ public class PrincipalActivity extends AppCompatActivity
         //mGroundOverlayBearing += 20.0f;
         //map.getOverlays().add(myGroundOverlay);
 
-        //PopupPonto popupPonto = new PopupPonto(map.getContext());
         geoPointList.addItem(new OverlayItem("Titulo exemplo", "Descrição exemplo\r\nem várias linhas", p));
         map.invalidate();
         return true;
