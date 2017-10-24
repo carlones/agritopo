@@ -149,7 +149,8 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO classe (classeid, nome) VALUES(1, 'Ponto'), (2, 'Area')");
         db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (1, 'Coleta de solo'), (2, 'Vertente'), (3, 'Terreno'), (4, 'Açude')");
-        //db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 1)");
+        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('classe', 2)");
+        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 4)");
     }
 
     @Override

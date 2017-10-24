@@ -11,6 +11,10 @@ public class TipoElemento {
         this.nome = nome;
     }
 
+    public TipoElemento(String nome) {
+        this.nome = nome;
+    }
+
     public int getTipoelementoid() {
         return tipoelementoid;
     }

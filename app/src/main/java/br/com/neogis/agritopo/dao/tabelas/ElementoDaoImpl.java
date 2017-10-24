@@ -78,8 +78,9 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
     @Override
     public void insert(Elemento obj) {
         abrirGravacao();
+        obj.setElementoid(getId("elemento"));
         ContentValues cv = new ContentValues();
-        cv.put("elementoid", getId("elemento"));
+        cv.put("elementoid", obj.getElementoid());
         cv.put("classeid", obj.getClasse().getClasseid());
         cv.put("tipoelementoid", obj.getTipoElemento().getTipoelementoid());
         cv.put("titulo", obj.getTitulo());

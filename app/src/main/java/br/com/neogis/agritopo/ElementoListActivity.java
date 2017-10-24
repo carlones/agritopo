@@ -102,6 +102,7 @@ public class ElementoListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
                     if (painelDuplo) {
                         Bundle arguments = new Bundle();
                         arguments.putInt(ElementoDetailFragment.ARG_ELEMENTOID, holder.mItem.getElementoid());
@@ -111,12 +112,13 @@ public class ElementoListActivity extends AppCompatActivity {
                                 .replace(R.id.elemento_detail_container, fragment)
                                 .commit();
                     } else {
+                        */
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ElementoDetailActivity.class);
                         intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, holder.mItem.getElementoid());
 
                         context.startActivity(intent);
-                    }
+                    //}
                 }
             });
         }

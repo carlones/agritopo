@@ -33,7 +33,17 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
         abrirLeitura();
         Cursor cursor = db.rawQuery(
                 "SELECT tipoelementoid, nome\n" +
-                        "FROM tipoelemento", new String[]{});
+                        "FROM tipoelemento " +
+                        "ORDER BY nome", new String[]{});
+        return getListaObjetos(cursor);
+    }
+
+    public List<TipoElemento> getAllDescricao() {
+        abrirLeitura();
+        Cursor cursor = db.rawQuery(
+                "SELECT tipoelementoid, nome\n" +
+                        "FROM tipoelemento " +
+                        "ORDER BY nome", new String[]{});
         return getListaObjetos(cursor);
     }
 
@@ -55,14 +65,33 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
     }
 
     @Override
+    public TipoElemento getByNome(String nome) {
+        abrirLeitura();
+        Cursor cursor = db.rawQuery(
+                "SELECT tipoelementoid, nome " +
+                        "FROM tipoelemento " +
+                        "WHERE nome = ?",
+                new String[]{nome}
+        );
+        List<TipoElemento> l = getListaObjetos(cursor);
+        fecharConexao();
+        if (l.isEmpty())
+            return null;
+        else
+            return l.get(0);
+    }
+
+    @Override
     public void insert(TipoElemento obj) {
         abrirGravacao();
+        obj.setTipoelementoid(getId("tipoelemento"));
         ContentValues cv = new ContentValues();
-        cv.put("tipoelementoid", getId("tipoelemento"));
+        cv.put("tipoelementoid", obj.getTipoelementoid());
         cv.put("nome", obj.getNome());
         if (db.insert("tipoelemento", null, cv) == -1) {
             new Exception("Erro ao inserir tipoelemento");
         }
+
         fecharConexao();
     }
 

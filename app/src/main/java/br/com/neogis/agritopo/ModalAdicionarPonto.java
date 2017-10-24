@@ -59,7 +59,7 @@ public class ModalAdicionarPonto extends Overlay {
         TipoElemento te = ted.get(1);
         ClasseDao cd = new ClasseDaoImpl(mapView.getContext());
         Classe c = cd.get(1);
-        Elemento e = new Elemento(te, c, "título", "descrição", ponto);
+        Elemento e = new Elemento(te, c, "", "", ponto);
         ElementoDao dao = new ElementoDaoImpl(mapView.getContext());
         dao.insert(e);
         Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + e.toString());

@@ -11,6 +11,8 @@ public interface TipoElementoDao {
 
     public TipoElemento get(int id);
 
+    public TipoElemento getByNome(String nome);
+
     public void insert(TipoElemento obj);
 
     public void update(TipoElemento obj);

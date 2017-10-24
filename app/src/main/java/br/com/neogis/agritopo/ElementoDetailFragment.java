@@ -7,11 +7,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.neogis.agritopo.dao.tabelas.Classe;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
 /**
  * A fragment representing a single Elemento detail screen.
@@ -25,11 +36,17 @@ public class ElementoDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ELEMENTOID = "elementoid";
+    public static final String ARG_CLASSEID = "classeid";
+    public static final String ARG_GEOMETRIA = "geometria";
 
     /**
      * The dummy content this fragment is presenting.
      */
     private Elemento mItem;
+
+    private EditText elementoTituloView;
+    private AutoCompleteTextView elementoTipoElementoView;
+    private EditText elementoDescricaoView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,18 +59,23 @@ public class ElementoDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ELEMENTOID)) {
+        int elementoId = getArguments().getInt(ARG_ELEMENTOID);
+        if (elementoId != 0) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             ElementoDao elementoDao = new ElementoDaoImpl(getContext());
-            mItem = elementoDao.get(getArguments().getInt(ARG_ELEMENTOID));
+            mItem = elementoDao.get(elementoId);
+        } else {
+            ClasseDao classeDao = new ClasseDaoImpl(this.getContext());
+            Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
+            mItem = new Elemento(null, classe, "", "", getArguments().getString(ARG_GEOMETRIA));
+        }
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getTitulo());
-            }
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mItem.getClasse().getNome());
         }
     }
 
@@ -62,11 +84,51 @@ public class ElementoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.elemento_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        elementoTituloView = (EditText) rootView.findViewById(R.id.elementoTitulo);
+        elementoTipoElementoView = (AutoCompleteTextView) rootView.findViewById(R.id.elementoTipoElemento);
+        elementoDescricaoView = (EditText) rootView.findViewById(R.id.elementoDescricao);
+
+        TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(rootView.getContext());
+        List<TipoElemento> listaTipoElemento = tipoElementoDao.getAll();
+        List<String> nomesTipoElemento = new ArrayList<>();
+        for (TipoElemento te : listaTipoElemento) {
+            nomesTipoElemento.add(te.getNome());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                rootView.getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                nomesTipoElemento
+        );
+        elementoTipoElementoView.setAdapter(adapter);
+        elementoTipoElementoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                elementoTipoElementoView.showDropDown();
+            }
+        });
+
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.elemento_detail)).setText(mItem.getDescricao());
+            elementoTituloView.setText(mItem.getTitulo());
+            elementoTipoElementoView.setText(mItem.getTipoElemento().getNome());
+            elementoDescricaoView.setText(mItem.getDescricao());
         }
 
         return rootView;
+    }
+
+    public String getTitulo() {
+        return elementoTituloView.getText().toString();
+    }
+
+    public String getDescricao() {
+        return elementoDescricaoView.getText().toString();
+    }
+
+    public String getNomeTipoElemento() {
+        return elementoTipoElementoView.getText().toString();
+    }
+
+    public Elemento getElemento() {
+        return mItem;
     }
 }

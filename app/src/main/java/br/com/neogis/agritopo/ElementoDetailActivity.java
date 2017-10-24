@@ -3,12 +3,18 @@ package br.com.neogis.agritopo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
 /**
  * An activity representing a single Elemento detail screen. This
@@ -18,6 +24,11 @@ import android.view.MenuItem;
  */
 public class ElementoDetailActivity extends AppCompatActivity {
 
+    private ElementoDetailFragment fragment;
+    private int elementoId;
+    private int classeId;
+    private String geometria;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +36,18 @@ public class ElementoDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        elementoId = getIntent().getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+        classeId = getIntent().getIntExtra(ElementoDetailFragment.ARG_CLASSEID, 0);
+        geometria = getIntent().getStringExtra(ElementoDetailFragment.ARG_GEOMETRIA);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                gravarElemento();
+                finish();
+                onBackPressed();
+                //Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -53,9 +70,8 @@ public class ElementoDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putInt(ElementoDetailFragment.ARG_ELEMENTOID,
-                    getIntent().getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0));
-            ElementoDetailFragment fragment = new ElementoDetailFragment();
+            arguments.putInt(ElementoDetailFragment.ARG_ELEMENTOID, elementoId);
+            fragment = new ElementoDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.elemento_detail_container, fragment)
@@ -77,5 +93,29 @@ public class ElementoDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void gravarElemento() {
+        String titulo = fragment.getTitulo();
+        String descricao = fragment.getDescricao();
+        String nomeTipoElemento = fragment.getNomeTipoElemento();
+        Elemento mItem = fragment.getElemento();
+        TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(getBaseContext());
+        TipoElemento tipoElemento = tipoElementoDao.getByNome(nomeTipoElemento);
+        if (tipoElemento == null) {
+            tipoElemento = new TipoElemento(nomeTipoElemento);
+            tipoElementoDao.insert(tipoElemento);
+        }
+
+        ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
+        if (elementoId != 0) {
+            mItem.setTitulo(titulo);
+            mItem.setDescricao(descricao);
+            mItem.setTipoElemento(tipoElemento);
+            elementoDao.update(mItem);
+        } else {
+            Elemento e = new Elemento(tipoElemento, mItem.getClasse(), titulo, descricao, geometria);
+            elementoDao.insert(e);
+        }
     }
 }

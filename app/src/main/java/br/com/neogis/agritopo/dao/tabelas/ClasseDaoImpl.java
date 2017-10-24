@@ -57,8 +57,9 @@ public class ClasseDaoImpl extends DaoController implements ClasseDao {
     @Override
     public void insert(Classe obj) {
         abrirGravacao();
+        obj.setClasseid(getId("classe"));
         ContentValues cv = new ContentValues();
-        cv.put("classeid", getId("classe"));
+        cv.put("classeid", obj.getClasseid());
         cv.put("nome", obj.getNome());
         if (db.insert("classe", null, cv) == -1) {
             new Exception("Erro ao inserir classe");
