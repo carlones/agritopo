@@ -25,8 +25,8 @@ public class Area {
 
         // Cor e estilo da área
         this.poligono.setFillColor(0x12121212);
-        this.poligono.setStrokeColor(Color.RED);
-        this.poligono.setStrokeWidth(1);
+        this.poligono.setStrokeColor(Color.MAGENTA);
+        this.poligono.setStrokeWidth(4.0f);
     }
 
     public void adicionarPonto(GeoPoint ponto) {
