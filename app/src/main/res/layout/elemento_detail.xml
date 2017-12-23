@@ -10,7 +10,8 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Título" />
+        android:text="Título"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/elementoTitulo"
@@ -19,26 +20,30 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:padding="16dp"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tipo" />
+        android:text="Tipo"
+        android:textSize="18sp" />
 
     <AutoCompleteTextView
         android:id="@+id/elementoTipoElemento"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descrição" />
+        android:text="Descrição"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/elementoDescricao"
@@ -47,5 +52,6 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:padding="16dp"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:textSize="24sp" />
 </LinearLayout>

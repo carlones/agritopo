@@ -40,8 +40,6 @@ public class ModalAdicionarPonto extends Overlay {
     @Override
     public void draw(Canvas c, MapView osmv, boolean shadow) {
         Utils.desenharMira(c);
-        c.drawLine(centroX-1, centroY - (tamanho / 2), centroX-1, centroY + (tamanho / 2), cor);
-        c.drawCircle(centroX, centroY, tamanho/2, cor2);
     }
 
     // Exibir o Ponto quando der um toque na tela
