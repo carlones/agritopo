@@ -8,6 +8,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class Area {
 
         // Cor e estilo da área
         this.poligono.setFillColor(0x12121212);
-        this.poligono.setStrokeColor(Color.CYAN);
-        this.poligono.setStrokeWidth(5);
+        this.poligono.setStrokeColor(Color.MAGENTA);
+        this.poligono.setStrokeWidth(4.0f);
     }
 
     public void adicionarPonto(GeoPoint ponto) {
@@ -105,17 +106,13 @@ public class Area {
     }
 
     public String descricaoArea() {
-        if( this.area > 1000.0 ) {
-            return String.format("%.1f ha", this.area / 10000);
-        }
-        return String.format("%.1f m²", this.area);
+        DecimalFormat df = new DecimalFormat("#,###,###,##0.0");
+        return df.format(this.area) + " m²";
     }
 
     public String descricaoPerimetro() {
-        if( this.perimetro > 100.0 ) {
-            return String.format("%.1f km", this.perimetro / 1000);
-        }
-        return String.format("%.1f m", this.perimetro);
+        DecimalFormat df = new DecimalFormat("#,###,###,##0.0");
+        return df.format(this.perimetro) + " m";
     }
 
     public void desenharEm(MapView mapa) {
