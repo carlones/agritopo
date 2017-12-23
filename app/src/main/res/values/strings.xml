@@ -99,9 +99,8 @@
     <string name="menu_mapas">Mapas</string>
     <string name="menu_exportacao">Exportação</string>
     <string name="menu_configuracao">Configurações</string>
-    <string name="cbx_pontos_de_interesse">Pontos de Interesse</string>
-    <string name="cbx_geometrias">Áreas / Polígonos</string>
-    <string name="cbx_curvas_de_nivel">Curvas de Nível</string>
+    <string name="cbx_pontos_de_interesse">Pontos</string>
+    <string name="cbx_geometrias">Áreas</string>
     <string name="action_rotacao">Rotação</string>
     <string name="action_concluido">Concluído</string>
     <string name="action_cancelar">Cancelar</string>
@@ -109,5 +108,6 @@
     <string name="text_titulo">Título</string>
     <string name="text_descricao">Descrição</string>
     <string name="title_elemento_list">Elementos</string>
-    <string name="title_elemento_detail">Elemento Detail</string>
+    <string name="title_elemento_detail">Detalhe do Elemento</string>
+    <string name="cbx_distancias">Distâncias</string>
 </resources>

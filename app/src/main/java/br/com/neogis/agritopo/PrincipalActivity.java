@@ -212,7 +212,7 @@ public class PrincipalActivity extends AppCompatActivity
                 ImageButton btnPopupLayerFecharBottom = (ImageButton) customView.findViewById(R.id.btnPopupLayerFecharBottom);
                 CheckBox cbxPontosDeInteresse = (CheckBox) customView.findViewById(R.id.cbxPontosDeInteresse);
                 CheckBox cbxAreas = (CheckBox) customView.findViewById(R.id.cbxGeometrias);
-                CheckBox cbxCurvasDeNivel = (CheckBox) customView.findViewById(R.id.cbxCurvasDeNivel);
+                CheckBox cbxCurvasDeNivel = (CheckBox) customView.findViewById(R.id.cbxDistancias);
 
                 cbxPontosDeInteresse.setChecked(map.getOverlays().contains(geoPointList));
                 cbxAreas.setChecked(exibirAreas);

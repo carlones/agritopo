@@ -6,20 +6,19 @@
             android:id="@+id/nav_cadastros"
             android:icon="@drawable/ic_add_circle_black_24dp"
             android:title="@string/menu_cadastros" />
-        <!--<item
+        <item
             android:id="@+id/nav_mapas"
             android:icon="@drawable/ic_map_black_24dp"
-            android:title="@string/menu_mapas" />-->
+            android:title="@string/menu_mapas" />
         <item
             android:id="@+id/nav_exportacao"
             android:icon="@drawable/ic_cloud_black_24dp"
             android:title="@string/menu_exportacao" />
-        <!--<item
+        <item
             android:id="@+id/nav_configuracao"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_configuracao" />-->
+            android:title="@string/menu_configuracao" />
     </group>
-<!--
     <item android:title="Exportar">
         <menu>
             <item
@@ -32,5 +31,4 @@
                 android:title="Send" />
         </menu>
     </item>
--->
 </menu>
