@@ -76,6 +76,14 @@
             android:src="@drawable/ic_crop_original_white_24dp"
             fab:fab_label="@string/action_nova_area"
             fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/action_nova_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_crop_original_white_24dp"
+            fab:fab_label="Distância"
+            fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 
 </RelativeLayout>

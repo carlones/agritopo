@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "neogis_agritopo.db";
-    private static final int VERSAO = 3;
+    private static final int VERSAO = 4;
 
     public BancoDeDadosSQLite(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
@@ -147,16 +147,16 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 "\n" +
                 "\n");
 
-        db.execSQL("INSERT INTO classe (classeid, nome) VALUES(1, 'Ponto'), (2, 'Area')");
-        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (1, 'Coleta de solo'), (2, 'Vertente'), (3, 'Terreno'), (4, 'Açude')");
-        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('classe', 2)");
-        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 4)");
+        db.execSQL("INSERT INTO classe (classeid, nome) VALUES(1, 'Ponto'), (2, 'Area'), (3, 'Distancia')");
+        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (1, 'Coleta de solo'), (2, 'Vertente'), (3, 'Terreno'), (4, 'Açude'), (5, 'Distância')");
+        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('classe', 3)");
+        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 5)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("Agritopo", "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
-        if (oldVersion == 2 && newVersion == 3) {
+        if ( newVersion > oldVersion ) {
             db.execSQL("DROP TABLE campodinamico");
             db.execSQL("DROP TABLE campodinamicovalores");
             db.execSQL("DROP TABLE classe");
@@ -165,13 +165,13 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE elementocampodinamico");
             db.execSQL("DROP TABLE geradorid");
             db.execSQL("DROP TABLE imagem");
-            //db.execSQL("DROP TABLE imovel");
-            //db.execSQL("DROP TABLE imovelelemento");
-            //db.execSQL("DROP TABLE imovelmapa");
-            //db.execSQL("DROP TABLE imovelusuario");
-            //db.execSQL("DROP TABLE mapa");
+            db.execSQL("DROP TABLE imovel");
+            db.execSQL("DROP TABLE imovelelemento");
+            db.execSQL("DROP TABLE imovelmapa");
+            db.execSQL("DROP TABLE imovelusuario");
+            db.execSQL("DROP TABLE mapa");
             db.execSQL("DROP TABLE tipoelemento");
-            //db.execSQL("DROP TABLE usuario");
+            db.execSQL("DROP TABLE usuario");
             onCreate(db);
             Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de 2 para 3");
         }

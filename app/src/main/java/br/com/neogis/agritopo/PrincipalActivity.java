@@ -86,8 +86,10 @@ public class PrincipalActivity extends AppCompatActivity
     float mGroundOverlayBearing = 0.0f;
     ModalAdicionarArea modalAdicionarArea;
     ModalAdicionarPonto modalAdicionarPonto;
+    ModalAdicionarDistancia modalAdicionarDistancia;
     ItemizedOverlayWithFocus<OverlayItem> geoPointList;
     List<Area> areaList;
+    List<Distancia> distanciaList;
     private MyLocationNewOverlay mMyLocationNewOverlay;
     private CompassOverlay mCompassOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
@@ -99,10 +101,11 @@ public class PrincipalActivity extends AppCompatActivity
     private FloatingActionMenu famNovo;
     private Context mContext;
     private Activity mActivity;
-    private FloatingActionButton fabNovoPonto, fabNovaArea, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar;
+    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar;
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
     private boolean exibirAreas;
+    private boolean exibirDistancias;
     private IMapController mapController;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
@@ -132,6 +135,8 @@ public class PrincipalActivity extends AppCompatActivity
 
         exibirAreas = true;
         areaList = new ArrayList<Area>();
+        exibirDistancias = true;
+        distanciaList = new ArrayList<Distancia>();
 
         inicializarMapas();
         inicializarBotoes();
@@ -149,6 +154,7 @@ public class PrincipalActivity extends AppCompatActivity
         famNovo = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         fabNovoPonto = (FloatingActionButton) findViewById(R.id.action_novo_ponto);
         fabNovaArea = (FloatingActionButton) findViewById(R.id.action_nova_area);
+        fabNovaDistancia = (FloatingActionButton) findViewById(R.id.action_nova_distancia);
         fabGPS = (FloatingActionButton) findViewById(R.id.action_gps);
         fabCamadas = (FloatingActionButton) findViewById(R.id.action_layer);
         fabRotacao = (FloatingActionButton) findViewById(R.id.action_rotacao);
@@ -171,6 +177,17 @@ public class PrincipalActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (modalAdicionarArea == null) {
                     modalAdicionarArea = new ModalAdicionarArea(map);
+                    famNovo.close(false);
+                    famNovo.setVisibility(View.INVISIBLE);
+                    fabConcluido.setVisibility(View.VISIBLE);
+                    fabCancelar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (modalAdicionarDistancia == null) {
+                    modalAdicionarDistancia = new ModalAdicionarDistancia(map);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -212,10 +229,11 @@ public class PrincipalActivity extends AppCompatActivity
                 ImageButton btnPopupLayerFecharBottom = (ImageButton) customView.findViewById(R.id.btnPopupLayerFecharBottom);
                 CheckBox cbxPontosDeInteresse = (CheckBox) customView.findViewById(R.id.cbxPontosDeInteresse);
                 CheckBox cbxAreas = (CheckBox) customView.findViewById(R.id.cbxGeometrias);
-                CheckBox cbxCurvasDeNivel = (CheckBox) customView.findViewById(R.id.cbxDistancias);
+                CheckBox cbxDistancias = (CheckBox) customView.findViewById(R.id.cbxDistancias);
 
                 cbxPontosDeInteresse.setChecked(map.getOverlays().contains(geoPointList));
                 cbxAreas.setChecked(exibirAreas);
+                cbxDistancias.setChecked(exibirDistancias);
 
                 cbxPontosDeInteresse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -247,13 +265,21 @@ public class PrincipalActivity extends AppCompatActivity
                         }
                     }
                 });
-                cbxCurvasDeNivel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                cbxDistancias.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        //TODO fazer a ação layer curvas de nível
+                        exibirDistancias = isChecked;
+                        List<Overlay> overlays = map.getOverlays();
+                        for (Distancia distancia : distanciaList) {
+                            if (isChecked)
+                                distancia.desenharEm(map);
+                            else
+                                distancia.removerDe(map);
+                        }
+                        map.invalidate();
                         if (isChecked) {
-                            Utils.toast(getBaseContext(), "Curvas de Nível: Ativado");
+                            Utils.toast(getBaseContext(), "Distâncias: Ativado");
                         } else {
-                            Utils.toast(getBaseContext(), "Curvas de Nível: Desativado");
+                            Utils.toast(getBaseContext(), "Distâncias: Desativado");
                         }
                     }
                 });
@@ -323,6 +349,19 @@ public class PrincipalActivity extends AppCompatActivity
                     }
                     modalAdicionarArea = null;
                 }
+                if (modalAdicionarDistancia != null) {
+                    Distancia novaDistancia = modalAdicionarDistancia.finalizar();
+                    Log.i("Agritopo", "Nova distância: " + novaDistancia.toString());
+                    if (novaDistancia.ehValida()) {
+                        Log.i("Agritopo", "Nova distância é válida, adicionando à lista");
+                        distanciaList.add(novaDistancia);
+                        if (exibirDistancias)
+                            novaDistancia.desenharEm(map);
+                    } else {
+                        Log.i("Agritopo", "Nova distância é inválida, descartando");
+                    }
+                    modalAdicionarDistancia = null;
+                }
                 fabCancelar.setVisibility(View.INVISIBLE);
                 fabConcluido.setVisibility(View.INVISIBLE);
                 famNovo.setVisibility(View.VISIBLE);
@@ -334,6 +373,10 @@ public class PrincipalActivity extends AppCompatActivity
                 if (modalAdicionarArea != null) {
                     modalAdicionarArea.cancelar();
                     modalAdicionarArea = null;
+                }
+                if (modalAdicionarDistancia != null) {
+                    modalAdicionarDistancia.cancelar();
+                    modalAdicionarDistancia = null;
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
                 fabConcluido.setVisibility(View.INVISIBLE);
@@ -375,9 +418,9 @@ public class PrincipalActivity extends AppCompatActivity
         mMyLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(mMyLocationNewOverlay);
 
-        mapController = map.getController();
         carregarPontos();
         carregarAreas();
+        carregarDistancias();
         Configuration.getInstance().setDebugMode(true);
 
         if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0)) {
@@ -641,6 +684,28 @@ public class PrincipalActivity extends AppCompatActivity
                 a.desenharEm(map);
             }
         }
+    }
+
+    private void carregarDistancias() {
+        ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
+        List<Elemento> elementos = elementoDao.getAll();
+        for (Elemento e : elementos) {
+            if (e.getClasse().getNome().equals("Distancia")) {
+                Distancia d = new Distancia();
+                d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
+                distanciaList.add(d);
+                d.desenharEm(map);
+            }
+        }
+
+//         Se carregar o App sem mapas começamos posicionados próximo ao canto oposto de 0,0
+//         Se tentar medir a distância através deste ponto, o label fica no canto errado do mundo
+//        Area cantos = new Area();
+//        cantos.adicionarPonto(new GeoPoint( 85.02,  179.6));
+//        cantos.adicionarPonto(new GeoPoint( 85.02, -179.6));
+//        cantos.adicionarPonto(new GeoPoint(-85.02, -179.6));
+//        cantos.adicionarPonto(new GeoPoint(-85.02,  179.6));
+//        cantos.desenharEm(map);
     }
 
 
