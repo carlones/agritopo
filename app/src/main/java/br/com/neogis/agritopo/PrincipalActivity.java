@@ -680,6 +680,7 @@ public class PrincipalActivity extends AppCompatActivity
             if (e.getClasse().getNome().equals("Area")) {
                 Area a = new Area();
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
+                a.setTitulo(e.getTitulo());
                 areaList.add(a);
                 a.desenharEm(map);
             }

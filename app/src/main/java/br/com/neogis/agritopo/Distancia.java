@@ -88,11 +88,11 @@ public class Distancia {
         mapa.getOverlays().add(this.linha);
 
         if( this.texto == null )
-            this.texto = new Marker(mapa);
+            this.texto = new Marcador(mapa);
         this.definirTexto();
 
         // Usar texto ao invés de ícone
-        Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
+        Marcador.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
         this.texto.setIcon(null);
 
         mapa.getOverlays().add(this.texto);
