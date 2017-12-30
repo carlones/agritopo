@@ -1,7 +1,8 @@
 package br.com.neogis.agritopo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -11,16 +12,6 @@ import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
-import br.com.neogis.agritopo.dao.tabelas.Classe;
-import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
-import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
-import br.com.neogis.agritopo.dao.tabelas.Elemento;
-import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
-import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
-import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
-import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
-import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
-
 
 /**
  * Created by Wagner on 23/09/2017.
@@ -28,12 +19,10 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
 public class ModalAdicionarPonto extends Overlay {
 
-    private MapView mapa;
-    private ItemizedOverlayWithFocus<OverlayItem> listaPontos;
+    private Activity activity;
 
-    public ModalAdicionarPonto(MapView mapa, ItemizedOverlayWithFocus<OverlayItem> listaPontosOverlay) {
-        this.mapa = mapa;
-        this.listaPontos = listaPontosOverlay;
+    public ModalAdicionarPonto(Activity activity) {
+        this.activity = activity;
     }
 
     // Desenha a mira no meio do mapa
@@ -47,18 +36,14 @@ public class ModalAdicionarPonto extends Overlay {
         Log.d("Agritopo", "ModalAdicionarPonto: registrando Ponto");
         MyGeoPoint ponto = new MyGeoPoint((GeoPoint) mapView.getMapCenter());
 
-        TipoElementoDao ted = new TipoElementoDaoImpl(mapView.getContext());
-        TipoElemento te = ted.get(1);
-        ClasseDao cd = new ClasseDaoImpl(mapView.getContext());
-        Classe c = cd.get(1);
-        Elemento e = new Elemento(te, c, "", "", ponto);
-        ElementoDao dao = new ElementoDaoImpl(mapView.getContext());
-        dao.insert(e);
-        Log.d("Agritopo", "ModalAdicionarPonto: Ponto salvo: " + e.toString());
+        Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
+        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+        intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 1);
+        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
+        intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, ponto.toString());
+        activity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
 
-        listaPontos.addItem(new OverlayItem(e.getTitulo(), e.getDescricao(), ponto));
         mapView.invalidate();
-
         return true; // Não propogar evento para demais overlays
     }
 }

@@ -12,6 +12,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import flexjson.JSONSerializer;
+
 public class Area {
     // Overlay que exibe os pontos no mapa
     public Polygon poligono;
@@ -19,7 +21,6 @@ public class Area {
     List<GeoPoint> pontos;
     double area; // m²
     double perimetro; // m
-    private String titulo = "";
 
     public Area() {
         this.pontos = new ArrayList<>();
@@ -119,10 +120,10 @@ public class Area {
     public void desenharEm(MapView mapa) {
         mapa.getOverlays().add(this.poligono);
 
-        Marcador.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
+        Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
         if( this.texto == null )
-            this.texto = new Marcador(mapa);
-        this.texto.setTitle(this.titulo + "\nÁrea: " + this.descricaoArea() + "\nPerímetro: " + this.descricaoPerimetro());
+            this.texto = new Marker(mapa);
+        this.texto.setTitle("Área " + this.descricaoArea() + ", Perímetro: " + this.descricaoPerimetro());
         this.texto.setIcon(null);
         this.texto.setPosition(this.getCentro());
         mapa.getOverlays().add(this.texto);
@@ -168,11 +169,8 @@ public class Area {
         calcularPerimetro();
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public String serializeMyGeoPointList() {
+        JSONSerializer serializer = new JSONSerializer();
+        return serializer.serialize(getMyGeoPointList());
     }
 }

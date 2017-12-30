@@ -164,7 +164,7 @@ public class PrincipalActivity extends AppCompatActivity
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (modalAdicionarPonto == null) {
-                    modalAdicionarPonto = new ModalAdicionarPonto(map, geoPointList);
+                    modalAdicionarPonto = new ModalAdicionarPonto(mActivity);
                     map.getOverlays().add(modalAdicionarPonto);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
@@ -176,7 +176,7 @@ public class PrincipalActivity extends AppCompatActivity
         fabNovaArea.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (modalAdicionarArea == null) {
-                    modalAdicionarArea = new ModalAdicionarArea(map);
+                    modalAdicionarArea = new ModalAdicionarArea(map, mActivity);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -595,7 +595,19 @@ public class PrincipalActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ElementoDetailFragment.PICK_PONTO_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ElementoDetailFragment.ARG_ELEMENTOID));
+                geoPointList.addItem(new OverlayItem(mItem.getTitulo(), mItem.getDescricao(), mItem.getGeometriaMyGeoPoint()));
+                map.invalidate();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    @Override
     public void onFirstLayout(View v, int left, int top, int right, int bottom) {
         if (mInitialBoundingBox != null)
             map.zoomToBoundingBox(mInitialBoundingBox, false);
@@ -603,7 +615,7 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
-        Utils.toast(this, Utils.getFormattedLocationInDegree(p));
+        Utils.toast(this, "Ponto indicado em (" + p.getLatitude() + "," + p.getLongitude() + ")");
         InfoWindow.closeAllInfoWindowsOn(map);
         return true;
     }
@@ -680,7 +692,6 @@ public class PrincipalActivity extends AppCompatActivity
             if (e.getClasse().getNome().equals("Area")) {
                 Area a = new Area();
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
-                a.setTitulo(e.getTitulo());
                 areaList.add(a);
                 a.desenharEm(map);
             }

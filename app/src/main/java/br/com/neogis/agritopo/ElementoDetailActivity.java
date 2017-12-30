@@ -26,8 +26,10 @@ public class ElementoDetailActivity extends AppCompatActivity {
 
     private ElementoDetailFragment fragment;
     private int elementoId;
+    private int tipoelementoId;
     private int classeId;
     private String geometria;
+    private Elemento mItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         elementoId = getIntent().getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+        tipoelementoId = getIntent().getIntExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 0);
         classeId = getIntent().getIntExtra(ElementoDetailFragment.ARG_CLASSEID, 0);
         geometria = getIntent().getStringExtra(ElementoDetailFragment.ARG_GEOMETRIA);
 
@@ -45,6 +48,9 @@ public class ElementoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 gravarElemento();
+                Intent intent = new Intent();
+                intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, mItem.getElementoid());
+                setResult(RESULT_OK, intent);
                 finish();
                 onBackPressed();
                 //Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -71,6 +77,9 @@ public class ElementoDetailActivity extends AppCompatActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putInt(ElementoDetailFragment.ARG_ELEMENTOID, elementoId);
+            arguments.putInt(ElementoDetailFragment.ARG_TIPOELEMENTOID, tipoelementoId);
+            arguments.putInt(ElementoDetailFragment.ARG_CLASSEID, classeId);
+            arguments.putString(ElementoDetailFragment.ARG_GEOMETRIA, geometria);
             fragment = new ElementoDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -99,23 +108,23 @@ public class ElementoDetailActivity extends AppCompatActivity {
         String titulo = fragment.getTitulo();
         String descricao = fragment.getDescricao();
         String nomeTipoElemento = fragment.getNomeTipoElemento();
-        Elemento mItem = fragment.getElemento();
         TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(getBaseContext());
         TipoElemento tipoElemento = tipoElementoDao.getByNome(nomeTipoElemento);
         if (tipoElemento == null) {
             tipoElemento = new TipoElemento(nomeTipoElemento);
             tipoElementoDao.insert(tipoElemento);
         }
+        mItem = fragment.getElemento();
+        mItem.setTitulo(titulo);
+        mItem.setDescricao(descricao);
+        mItem.setTipoElemento(tipoElemento);
 
         ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
         if (elementoId != 0) {
-            mItem.setTitulo(titulo);
-            mItem.setDescricao(descricao);
-            mItem.setTipoElemento(tipoElemento);
             elementoDao.update(mItem);
         } else {
-            Elemento e = new Elemento(tipoElemento, mItem.getClasse(), titulo, descricao, geometria);
-            elementoDao.insert(e);
+            mItem.setGeometria(geometria);
+            elementoDao.insert(mItem);
         }
     }
 }

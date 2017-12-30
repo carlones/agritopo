@@ -37,7 +37,9 @@ public class ElementoDetailFragment extends Fragment {
      */
     public static final String ARG_ELEMENTOID = "elementoid";
     public static final String ARG_CLASSEID = "classeid";
+    public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
     public static final String ARG_GEOMETRIA = "geometria";
+    public static final int PICK_PONTO_REQUEST = 5000;
 
     /**
      * The dummy content this fragment is presenting.
@@ -58,18 +60,16 @@ public class ElementoDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         int elementoId = getArguments().getInt(ARG_ELEMENTOID);
         if (elementoId != 0) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             ElementoDao elementoDao = new ElementoDaoImpl(getContext());
             mItem = elementoDao.get(elementoId);
         } else {
             ClasseDao classeDao = new ClasseDaoImpl(this.getContext());
             Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
-            mItem = new Elemento(null, classe, "", "", getArguments().getString(ARG_GEOMETRIA));
+            TipoElementoDao ted = new TipoElementoDaoImpl(this.getContext());
+            TipoElemento te = ted.get(getArguments().getInt(ARG_TIPOELEMENTOID, 0));
+            mItem = new Elemento(te, classe, "", "", getArguments().getString(ARG_GEOMETRIA));
         }
 
         Activity activity = this.getActivity();

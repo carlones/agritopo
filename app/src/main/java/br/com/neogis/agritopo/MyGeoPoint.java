@@ -4,6 +4,8 @@ import android.location.Location;
 
 import org.osmdroid.util.GeoPoint;
 
+import flexjson.JSONSerializer;
+
 /**
  * Created by carlo on 22/10/2017.
  */
@@ -35,5 +37,10 @@ public class MyGeoPoint extends GeoPoint {
 
     public MyGeoPoint(GeoPoint aGeopoint) {
         super(aGeopoint);
+    }
+
+    public String toString() {
+        JSONSerializer serializer = new JSONSerializer();
+        return serializer.serialize(this);
     }
 }

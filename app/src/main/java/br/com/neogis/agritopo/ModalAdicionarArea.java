@@ -1,5 +1,7 @@
 package br.com.neogis.agritopo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
@@ -27,10 +29,12 @@ public class ModalAdicionarArea extends Overlay {
 
     MapView mapa;
     Area area;
+    Activity activity;
 
-    public ModalAdicionarArea(MapView mapa) {
+    public ModalAdicionarArea(MapView mapa, Activity activity) {
         Log.d("Agritopo", "ModalAdicionarArea: iniciando classe");
         this.mapa = mapa;
+        this.activity = activity;
         this.area = new Area();
 
         // Exibir o modal
@@ -62,17 +66,22 @@ public class ModalAdicionarArea extends Overlay {
     public Area finalizar() {
         this.removerModal();
         this.area.calcularArea();
-        Log.d("Agritopo", "Descrição área: " + this.area.descricaoArea());
         this.area.calcularPerimetro();
-        Log.d("Agritopo", "Descrição perímetro: " + this.area.descricaoPerimetro());
 
-        TipoElementoDao ted = new TipoElementoDaoImpl(mapa.getContext());
-        TipoElemento te = ted.get(3);
-        ClasseDao cd = new ClasseDaoImpl(mapa.getContext());
-        Classe c = cd.get(2);
-        Elemento e = new Elemento(te, c, "", "", area.getMyGeoPointList());
-        ElementoDao elementoDao = new ElementoDaoImpl(mapa.getContext());
-        elementoDao.insert(e);
+//        TipoElementoDao ted = new TipoElementoDaoImpl(mapa.getContext());
+//        TipoElemento te = ted.get(3);
+//        ClasseDao cd = new ClasseDaoImpl(mapa.getContext());
+//        Classe c = cd.get(2);
+//        Elemento e = new Elemento(te, c, "", "", area.getMyGeoPointList());
+//        ElementoDao elementoDao = new ElementoDaoImpl(mapa.getContext());
+//        elementoDao.insert(e);
+
+        Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
+        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+        intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 3);
+        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
+        intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, area.serializeMyGeoPointList());
+        activity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
 
         return this.area;
     }
