@@ -5,9 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.location.Location;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import org.osmdroid.util.GeoPoint;
 
 /**
  * Created by carlo on 14/10/2017.
@@ -56,4 +59,43 @@ public final class Utils {
         c.drawCircle(centroX, centroY, diametroCirculo / 2, paint);
     }
 
+    public static String getFormattedLocationInDegree(GeoPoint point) {
+        double latitude = point.getLatitude() ;
+        double longitude = point.getLongitude();
+        StringBuilder builder = new StringBuilder();
+
+        String letter = latitude < 0 ? " S" : " N";
+
+        String latitudeDegrees = Location.convert(Math.abs(latitude), Location.FORMAT_SECONDS);
+        String[] latitudeSplit = latitudeDegrees.split(":");
+        builder.append(latitudeSplit[0]);
+        builder.append("°");
+        builder.append(String.format("%02d", Integer.parseInt(latitudeSplit[1])));
+        builder.append("'");
+        String[] seconds = latitudeSplit[2].split(",");
+        builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
+//        builder.append(".");
+//        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));
+        builder.append("\"");
+        builder.append(letter);
+
+        builder.append(" ");
+
+        letter = longitude < 0 ? " W" : " E";
+
+        String longitudeDegrees = Location.convert(Math.abs(longitude), Location.FORMAT_SECONDS);
+        String[] longitudeSplit = longitudeDegrees.split(":");
+        builder.append(longitudeSplit[0]);
+        builder.append("°");
+        builder.append(String.format("%02d", Integer.parseInt(longitudeSplit[1])));
+        builder.append("'");
+        seconds = longitudeSplit[2].split(",");
+        builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
+//        builder.append(".");
+//        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));
+        builder.append("\"");
+        builder.append(letter);
+
+        return builder.toString();
+    }
 }

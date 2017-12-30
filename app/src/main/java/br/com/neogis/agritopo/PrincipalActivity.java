@@ -603,7 +603,7 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
-        Utils.toast(this, "Ponto indicado em (" + p.getLatitude() + "," + p.getLongitude() + ")");
+        Utils.toast(this, Utils.getFormattedLocationInDegree(p));
         InfoWindow.closeAllInfoWindowsOn(map);
         return true;
     }
