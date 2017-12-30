@@ -29,4 +29,7 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="FonteMenu">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
