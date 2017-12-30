@@ -63,27 +63,19 @@ public class ModalAdicionarArea extends Overlay {
 
     // Termina o modal e devolve a área (que pode estar incompleta)
     //
-    public Area finalizar() {
+    public void finalizar() {
         this.removerModal();
-        this.area.calcularArea();
-        this.area.calcularPerimetro();
-
-//        TipoElementoDao ted = new TipoElementoDaoImpl(mapa.getContext());
-//        TipoElemento te = ted.get(3);
-//        ClasseDao cd = new ClasseDaoImpl(mapa.getContext());
-//        Classe c = cd.get(2);
-//        Elemento e = new Elemento(te, c, "", "", area.getMyGeoPointList());
-//        ElementoDao elementoDao = new ElementoDaoImpl(mapa.getContext());
-//        elementoDao.insert(e);
-
-        Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
-        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
-        intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 3);
-        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
-        intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, area.serializeMyGeoPointList());
-        activity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
-
-        return this.area;
+        if (area.ehValida()) {
+            Log.d("Agritopo", "Nova área é válida, adicionando à lista");
+            Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
+            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 3);
+            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
+            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, area.serializeMyGeoPointList());
+            activity.startActivityForResult(intent, ElementoDetailFragment.PICK_AREA_REQUEST);
+        } else {
+            Log.d("Agritopo", "Nova área é inválida, descartando");
+        }
     }
 
     // Termina o modal, ignorando e descartando a seleção feita pelo usuário

@@ -187,7 +187,7 @@ public class PrincipalActivity extends AppCompatActivity
         fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (modalAdicionarDistancia == null) {
-                    modalAdicionarDistancia = new ModalAdicionarDistancia(map);
+                    modalAdicionarDistancia = new ModalAdicionarDistancia(map, mActivity);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -337,29 +337,11 @@ public class PrincipalActivity extends AppCompatActivity
                     modalAdicionarPonto = null;
                 }
                 if (modalAdicionarArea != null) {
-                    Area novaArea = modalAdicionarArea.finalizar();
-                    Log.d("Agritopo", "Nova área: " + novaArea.toString());
-                    if (novaArea.ehValida()) {
-                        Log.d("Agritopo", "Nova área é válida, adicionando à lista");
-                        areaList.add(novaArea);
-                        if (exibirAreas)
-                            novaArea.desenharEm(map);
-                    } else {
-                        Log.d("Agritopo", "Nova área é inválida, descartando");
-                    }
+                    modalAdicionarArea.finalizar();
                     modalAdicionarArea = null;
                 }
                 if (modalAdicionarDistancia != null) {
-                    Distancia novaDistancia = modalAdicionarDistancia.finalizar();
-                    Log.i("Agritopo", "Nova distância: " + novaDistancia.toString());
-                    if (novaDistancia.ehValida()) {
-                        Log.i("Agritopo", "Nova distância é válida, adicionando à lista");
-                        distanciaList.add(novaDistancia);
-                        if (exibirDistancias)
-                            novaDistancia.desenharEm(map);
-                    } else {
-                        Log.i("Agritopo", "Nova distância é inválida, descartando");
-                    }
+                    modalAdicionarDistancia.finalizar();
                     modalAdicionarDistancia = null;
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
@@ -596,6 +578,33 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ElementoDetailFragment.PICK_AREA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ElementoDetailFragment.ARG_ELEMENTOID));
+                Area area = new Area();
+                area.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
+                area.setTitulo(mItem.getTitulo());
+                areaList.add(area);
+                if (exibirAreas) {
+                    area.desenharEm(map);
+                    map.invalidate();
+                }
+            }
+        }
+        if (requestCode == ElementoDetailFragment.PICK_DISTANCIA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ElementoDetailFragment.ARG_ELEMENTOID));
+                Distancia distancia = new Distancia();
+                distancia.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
+                distanciaList.add(distancia);
+                if (exibirDistancias) {
+                    distancia.desenharEm(map);
+                    map.invalidate();
+                }
+            }
+        }
         if (requestCode == ElementoDetailFragment.PICK_PONTO_REQUEST) {
             if (resultCode == RESULT_OK) {
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
@@ -615,7 +624,7 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
-        Utils.toast(this, "Ponto indicado em (" + p.getLatitude() + "," + p.getLongitude() + ")");
+        Utils.toast(this, Utils.getFormattedLocationInDegree(p));
         InfoWindow.closeAllInfoWindowsOn(map);
         return true;
     }
@@ -692,6 +701,7 @@ public class PrincipalActivity extends AppCompatActivity
             if (e.getClasse().getNome().equals("Area")) {
                 Area a = new Area();
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
+                a.setTitulo(e.getTitulo());
                 areaList.add(a);
                 a.desenharEm(map);
             }

@@ -48,7 +48,7 @@ public final class Utils {
         float espessuraLinha = 6.0f;
 
         Paint paint = new Paint();
-        paint.setColor(Color.MAGENTA);
+        paint.setColor(Color.YELLOW);
         paint.setStrokeWidth(espessuraLinha);
         paint.setStyle(Paint.Style.STROKE);
         int centroX = c.getWidth() / 2;

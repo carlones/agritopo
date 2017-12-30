@@ -12,6 +12,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import flexjson.JSONSerializer;
+
 public class Distancia {
     // Overlay que exibe os pontos no mapa
     public Polygon linha;
@@ -134,5 +136,10 @@ public class Distancia {
         GeoPoint centro = new GeoPoint(centroLat, centroLon);
         Log.i("Agritopo", "centro da linha: " + centro.toString());
         return centro;
+    }
+
+    public String serializeMyGeoPointList() {
+        JSONSerializer serializer = new JSONSerializer();
+        return serializer.serialize(getMyGeoPointList());
     }
 }

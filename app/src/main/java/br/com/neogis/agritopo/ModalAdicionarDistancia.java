@@ -1,5 +1,7 @@
 package br.com.neogis.agritopo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,11 +28,13 @@ public class ModalAdicionarDistancia extends Overlay {
 
     MapView mapa;
     Distancia distancia;
+    Activity activity;
 
-    public ModalAdicionarDistancia(MapView mapa) {
+    public ModalAdicionarDistancia(MapView mapa, Activity activity) {
         Log.i("Agritopo", "ModalAdicionarArea: iniciando classe");
         this.mapa = mapa;
         this.distancia = new Distancia();
+        this.activity = activity;
 
         // Exibir o modal
         this.distancia.desenharEm(this.mapa);
@@ -58,19 +62,16 @@ public class ModalAdicionarDistancia extends Overlay {
 
     // Termina o modal e devolve a área (que pode estar incompleta)
     //
-    public Distancia finalizar() {
+    public void finalizar() {
         this.removerModal();
-        Log.i("Agritopo", "Finalizando Distância: " + this.distancia.toString());
-
-        TipoElementoDao ted = new TipoElementoDaoImpl(mapa.getContext());
-        TipoElemento te = ted.get(5);
-        ClasseDao cd = new ClasseDaoImpl(mapa.getContext());
-        Classe c = cd.get(3);
-        Elemento e = new Elemento(te, c, "", "", distancia.getMyGeoPointList());
-        ElementoDao elementoDao = new ElementoDaoImpl(mapa.getContext());
-        elementoDao.insert(e);
-
-        return this.distancia;
+        if (distancia.ehValida()) {
+            Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
+            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 5);
+            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 3);
+            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, distancia.serializeMyGeoPointList());
+            activity.startActivityForResult(intent, ElementoDetailFragment.PICK_DISTANCIA_REQUEST);
+        }
     }
 
     // Termina o modal, ignorando e descartando a seleção feita pelo usuário
