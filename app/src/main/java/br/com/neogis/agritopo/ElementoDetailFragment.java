@@ -39,9 +39,13 @@ public class ElementoDetailFragment extends Fragment {
     public static final String ARG_CLASSEID = "classeid";
     public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
     public static final String ARG_GEOMETRIA = "geometria";
+    public static final String ARG_POSICAO_LISTA = "posicao_lista";
+
     public static final int PICK_AREA_REQUEST = 4000;
     public static final int PICK_DISTANCIA_REQUEST = 3000;
     public static final int PICK_PONTO_REQUEST = 5000;
+
+    public static final int ALTERAR_ELEMENTO_REQUEST = 10;
 
     /**
      * The dummy content this fragment is presenting.

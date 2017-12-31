@@ -35,6 +35,8 @@ public class ElementoListActivity extends AppCompatActivity {
      * device.
      */
     private boolean painelDuplo;
+    private ElementoRecyclerViewAdapter viewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +45,6 @@ public class ElementoListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         RecyclerView recyclerView = ((RecyclerView) findViewById(R.id.elemento_list));
         assert recyclerView != null;
@@ -72,13 +65,14 @@ public class ElementoListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         List<Elemento> list = (new ElementoDaoImpl(getBaseContext()).getAll());
-        recyclerView.setAdapter(new ElementoRecyclerViewAdapter(list));
+        viewAdapter = new ElementoRecyclerViewAdapter(list);
+        recyclerView.setAdapter(viewAdapter);
     }
 
     public class ElementoRecyclerViewAdapter
             extends RecyclerView.Adapter<ElementoRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Elemento> mValues;
+        public final List<Elemento> mValues;
 
         public ElementoRecyclerViewAdapter(List<Elemento> items) {
             mValues = items;
@@ -92,7 +86,7 @@ public class ElementoListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
             holder.elementoIdView.setText(Integer.toString(holder.mItem.getElementoid()));
             holder.tipoElementoView.setText(holder.mItem.getTipoElemento().getNome());
@@ -116,8 +110,9 @@ public class ElementoListActivity extends AppCompatActivity {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ElementoDetailActivity.class);
                         intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, holder.mItem.getElementoid());
+                        intent.putExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, position);
 
-                        context.startActivity(intent);
+                        ElementoListActivity.this.startActivityForResult(intent, ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST);
                     //}
                 }
             });
@@ -151,5 +146,24 @@ public class ElementoListActivity extends AppCompatActivity {
                 return super.toString() + ", " + elementoIdView.getText() + ", " + tipoElementoView.getText() + ", " + classeView.getText() + ", " + tituloView.getText();
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if( resultCode == RESULT_OK )
+        {
+            if( requestCode == ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST )
+            {
+                int elementoId = data.getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, -1);
+                int posicao_lista = data.getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
+                if( posicao_lista > -1 && elementoId > -1 )
+                {
+                    Elemento e = (new ElementoDaoImpl(getBaseContext())).get(elementoId);
+                    viewAdapter.mValues.set(posicao_lista, e);
+                    viewAdapter.notifyItemChanged(posicao_lista);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

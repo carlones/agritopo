@@ -29,6 +29,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
     private int tipoelementoId;
     private int classeId;
     private String geometria;
+    private int posicao_lista;
     private Elemento mItem;
 
     @Override
@@ -42,6 +43,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
         tipoelementoId = getIntent().getIntExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 0);
         classeId = getIntent().getIntExtra(ElementoDetailFragment.ARG_CLASSEID, 0);
         geometria = getIntent().getStringExtra(ElementoDetailFragment.ARG_GEOMETRIA);
+        posicao_lista = getIntent().getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +52,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
                 gravarElemento();
                 Intent intent = new Intent();
                 intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, mItem.getElementoid());
+                intent.putExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, posicao_lista);
                 setResult(RESULT_OK, intent);
                 finish();
                 onBackPressed();
