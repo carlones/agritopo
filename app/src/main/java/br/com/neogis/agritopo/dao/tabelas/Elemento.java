@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.neogis.agritopo.MyGeoPoint;
+import br.com.neogis.agritopo.model.MyGeoPoint;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 

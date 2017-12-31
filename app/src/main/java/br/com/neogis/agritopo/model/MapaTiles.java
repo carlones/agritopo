@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.model;
 
 import android.content.Context;
 import android.database.Cursor;

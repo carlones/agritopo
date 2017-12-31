@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.activity;
 
 
 import android.annotation.TargetApi;
@@ -21,6 +21,8 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import java.util.List;
+
+import br.com.neogis.agritopo.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

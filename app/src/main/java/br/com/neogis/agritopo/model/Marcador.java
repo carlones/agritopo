@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.model;
 
 import android.graphics.Bitmap;
 import android.content.Context;
@@ -18,7 +18,7 @@ import org.osmdroid.views.overlay.Marker;
 
 public class Marcador extends Marker {
 
-    protected int mTextLabelBackgroundColor = Color.WHITE;
+    private int mTextLabelBackgroundColor = Color.WHITE;
 
     public Marcador(MapView mapView) {
         super(mapView);

@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.model;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -16,11 +16,11 @@ import flexjson.JSONSerializer;
 
 public class Area {
     // Overlay que exibe os pontos no mapa
-    public Polygon poligono;
-    public Marker texto;
-    List<GeoPoint> pontos;
-    double area; // m²
-    double perimetro; // m
+    private Polygon poligono;
+    private Marker texto;
+    private List<GeoPoint> pontos;
+    private double area; // m²
+    private double perimetro; // m
     private String titulo = "";
 
     public Area() {
@@ -31,6 +31,38 @@ public class Area {
         this.poligono.setFillColor(0x12121212);
         this.poligono.setStrokeColor(Color.MAGENTA);
         this.poligono.setStrokeWidth(4.0f);
+    }
+
+    public Polygon getPoligono() {
+        return poligono;
+    }
+
+    public void setPoligono(Polygon poligono) {
+        this.poligono = poligono;
+    }
+
+    public Marker getTexto() {
+        return texto;
+    }
+
+    public void setTexto(Marker texto) {
+        this.texto = texto;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public double getPerimetro() {
+        return perimetro;
+    }
+
+    public void setPerimetro(double perimetro) {
+        this.perimetro = perimetro;
     }
 
     public void adicionarPonto(GeoPoint ponto) {
@@ -45,6 +77,10 @@ public class Area {
 
     public List<GeoPoint> getPontos() {
         return this.pontos;
+    }
+
+    public void setPontos(List<GeoPoint> pontos) {
+        this.pontos = pontos;
     }
 
     // https://gis.stackexchange.com/questions/711/how-can-i-measure-area-from-geographic-coordinates
@@ -164,7 +200,7 @@ public class Area {
     public void setMyGeoPointList(List<MyGeoPoint> lista) {
         pontos.clear();
         for (MyGeoPoint ponto : lista) {
-            adicionarPonto((GeoPoint) ponto);
+            adicionarPonto(ponto);
         }
         calcularArea();
         calcularPerimetro();
