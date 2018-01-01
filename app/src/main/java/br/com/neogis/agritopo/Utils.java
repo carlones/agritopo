@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -28,6 +29,9 @@ public final class Utils {
         Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show();
     }
 
+    public static void info(String msg) {
+        Log.i("Agritopo", msg);
+    }
     /**
      * Retorna um Ponto com o tamanho da tela onde x é comprimento (width) e y é altura (height)
      *

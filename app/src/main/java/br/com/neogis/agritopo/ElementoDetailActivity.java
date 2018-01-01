@@ -45,8 +45,8 @@ public class ElementoDetailActivity extends AppCompatActivity {
         geometria = getIntent().getStringExtra(ElementoDetailFragment.ARG_GEOMETRIA);
         posicao_lista = getIntent().getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton botaoSalvar = (FloatingActionButton) findViewById(R.id.botaoSalvar);
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gravarElemento();

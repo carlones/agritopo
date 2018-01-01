@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
@@ -73,6 +74,7 @@ public class ElementoListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ElementoRecyclerViewAdapter.ViewHolder> {
 
         public final List<Elemento> mValues;
+        private ArrayList<Integer> ids_selecionados = new ArrayList<Integer>();
 
         public ElementoRecyclerViewAdapter(List<Elemento> items) {
             mValues = items;
@@ -92,6 +94,8 @@ public class ElementoListActivity extends AppCompatActivity {
             holder.tipoElementoView.setText(holder.mItem.getTipoElemento().getNome());
             holder.classeView.setText(holder.mItem.getClasse().getNome());
             holder.tituloView.setText(holder.mItem.getTitulo());
+
+            holder.itemView.setBackgroundColor(getResources().getColor(isSelected(holder) ? R.color.item_marcado : R.color.item_desmarcado));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,6 +120,30 @@ public class ElementoListActivity extends AppCompatActivity {
                     //}
                 }
             });
+            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    toggleSelection(holder);
+                    int posicao = holder.getLayoutPosition();
+                    notifyItemChanged(posicao);
+                    return true;
+                }
+            });
+        }
+
+        private boolean isSelected(ViewHolder holder) {
+            Integer id = new Integer(holder.mItem.getElementoid());
+            return ids_selecionados.contains(id);
+        }
+
+        private void toggleSelection(ViewHolder holder) {
+            Integer id = new Integer(holder.mItem.getElementoid());
+            if( ids_selecionados.contains(id) ) {
+                ids_selecionados.remove(id);
+            }
+            else {
+                ids_selecionados.add(id);
+            }
         }
 
         @Override
