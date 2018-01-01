@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
+import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 

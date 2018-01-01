@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.holder;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,28 +10,23 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
-import br.com.neogis.agritopo.dao.tabelas.Classe;
-import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
-import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
-import br.com.neogis.agritopo.dao.tabelas.Elemento;
-import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
-import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
-import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
-import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
-import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
+import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
+import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.activity.ElementoDetailActivity;
+import br.com.neogis.agritopo.model.Distancia;
 
 /**
  * Created by Wagner on 23/09/2017.
  */
 
-public class ModalAdicionarDistancia extends Overlay {
+public class AdicionarDistanciaHolder extends Overlay {
 
-    MapView mapa;
-    Distancia distancia;
-    Activity activity;
+    private MapView mapa;
+    private Distancia distancia;
+    private Activity activity;
 
-    public ModalAdicionarDistancia(MapView mapa, Activity activity) {
-        Log.i("Agritopo", "ModalAdicionarArea: iniciando classe");
+    public AdicionarDistanciaHolder(MapView mapa, Activity activity) {
+        Log.i("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
         this.distancia = new Distancia();
         this.activity = activity;
@@ -51,7 +46,7 @@ public class ModalAdicionarDistancia extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     //
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        Log.i("Agritopo", "ModalAdicionarArea: Ponto registrado");
+        Log.i("Agritopo", "AdicionarAreaHolder: Ponto registrado");
 
         GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
         this.distancia.adicionarPonto(ponto);

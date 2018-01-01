@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     android:background="@color/item_desmarcado"
     app:layoutManager="LinearLayoutManager"
-    tools:context="br.com.neogis.agritopo.ElementoListActivity"
+    tools:context="br.com.neogis.agritopo.activity.ElementoListActivity"
     tools:listitem="@layout/elemento_list_content" />

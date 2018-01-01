@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -72,6 +72,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.neogis.agritopo.fragment.CamadasArvoreFragment;
+import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
+import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
+import br.com.neogis.agritopo.model.Area;
+import br.com.neogis.agritopo.model.Distancia;
+import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
+import br.com.neogis.agritopo.model.MapaTiles;
+import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
+import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
@@ -84,9 +94,9 @@ public class PrincipalActivity extends AppCompatActivity
     //Mapas
     BoundingBox mInitialBoundingBox = null;
     float mGroundOverlayBearing = 0.0f;
-    ModalAdicionarArea modalAdicionarArea;
-    ModalAdicionarPonto modalAdicionarPonto;
-    ModalAdicionarDistancia modalAdicionarDistancia;
+    AdicionarAreaHolder adicionarAreaHolder;
+    AdicionarPontoHolder adicionarPontoHolder;
+    AdicionarDistanciaHolder adicionarDistanciaHolder;
     ItemizedOverlayWithFocus<OverlayItem> geoPointList;
     List<Area> areaList;
     List<Distancia> distanciaList;
@@ -163,9 +173,9 @@ public class PrincipalActivity extends AppCompatActivity
 
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAdicionarPonto == null) {
-                    modalAdicionarPonto = new ModalAdicionarPonto(mActivity);
-                    map.getOverlays().add(modalAdicionarPonto);
+                if (adicionarPontoHolder == null) {
+                    adicionarPontoHolder = new AdicionarPontoHolder(mActivity);
+                    map.getOverlays().add(adicionarPontoHolder);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -175,8 +185,8 @@ public class PrincipalActivity extends AppCompatActivity
         });
         fabNovaArea.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAdicionarArea == null) {
-                    modalAdicionarArea = new ModalAdicionarArea(map, mActivity);
+                if (adicionarAreaHolder == null) {
+                    adicionarAreaHolder = new AdicionarAreaHolder(map, mActivity);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -186,8 +196,8 @@ public class PrincipalActivity extends AppCompatActivity
         });
         fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAdicionarDistancia == null) {
-                    modalAdicionarDistancia = new ModalAdicionarDistancia(map, mActivity);
+                if (adicionarDistanciaHolder == null) {
+                    adicionarDistanciaHolder = new AdicionarDistanciaHolder(map, mActivity);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -331,18 +341,18 @@ public class PrincipalActivity extends AppCompatActivity
         });
         fabConcluido.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAdicionarPonto != null) {
+                if (adicionarPontoHolder != null) {
                     List<Overlay> overlays = map.getOverlays();
-                    overlays.remove(modalAdicionarPonto);
-                    modalAdicionarPonto = null;
+                    overlays.remove(adicionarPontoHolder);
+                    adicionarPontoHolder = null;
                 }
-                if (modalAdicionarArea != null) {
-                    modalAdicionarArea.finalizar();
-                    modalAdicionarArea = null;
+                if (adicionarAreaHolder != null) {
+                    adicionarAreaHolder.finalizar();
+                    adicionarAreaHolder = null;
                 }
-                if (modalAdicionarDistancia != null) {
-                    modalAdicionarDistancia.finalizar();
-                    modalAdicionarDistancia = null;
+                if (adicionarDistanciaHolder != null) {
+                    adicionarDistanciaHolder.finalizar();
+                    adicionarDistanciaHolder = null;
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
                 fabConcluido.setVisibility(View.INVISIBLE);
@@ -352,13 +362,13 @@ public class PrincipalActivity extends AppCompatActivity
         });
         fabCancelar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAdicionarArea != null) {
-                    modalAdicionarArea.cancelar();
-                    modalAdicionarArea = null;
+                if (adicionarAreaHolder != null) {
+                    adicionarAreaHolder.cancelar();
+                    adicionarAreaHolder = null;
                 }
-                if (modalAdicionarDistancia != null) {
-                    modalAdicionarDistancia.cancelar();
-                    modalAdicionarDistancia = null;
+                if (adicionarDistanciaHolder != null) {
+                    adicionarDistanciaHolder.cancelar();
+                    adicionarDistanciaHolder = null;
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
                 fabConcluido.setVisibility(View.INVISIBLE);
@@ -480,7 +490,11 @@ public class PrincipalActivity extends AppCompatActivity
             //intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
             //} else if (id == R.id.nav_mapas) {
-
+        } else if (id == R.id.nav_camadas) {
+            Class<?> clazz = CamadasArvoreFragment.class;
+            Intent intent = new Intent(this, SingleFragmentActivity.class);
+            intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
+            startActivity(intent);
         } else if (id == R.id.nav_exportacao) {
 
             //} else if (id == R.id.nav_configuracao) {

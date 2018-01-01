@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.model;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -16,10 +16,10 @@ import flexjson.JSONSerializer;
 
 public class Distancia {
     // Overlay que exibe os pontos no mapa
-    public Polygon linha;
-    public Marker texto;
-    List<GeoPoint> pontos;
-    double distancia; // em metros
+    private Polygon linha;
+    private Marker texto;
+    private List<GeoPoint> pontos;
+    private double distancia; // em metros
 
     public Distancia() {
         this.pontos = new ArrayList<>();
@@ -120,7 +120,7 @@ public class Distancia {
     public void setMyGeoPointList(List<MyGeoPoint> lista) {
         pontos.clear();
         for (MyGeoPoint ponto : lista) {
-            adicionarPonto((GeoPoint) ponto);
+            adicionarPonto(ponto);
         }
     }
 

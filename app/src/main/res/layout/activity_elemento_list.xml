@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="br.com.neogis.agritopo.ElementoListActivity">
+    tools:context="br.com.neogis.agritopo.activity.ElementoListActivity">
 
     <include layout="@layout/toolbar_principal" />
 

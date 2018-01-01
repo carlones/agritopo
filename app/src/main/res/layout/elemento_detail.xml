@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="br.com.neogis.agritopo.ElementoDetailFragment">
+    tools:context="br.com.neogis.agritopo.fragment.ElementoDetailFragment">
 
     <TextView
         android:id="@+id/textView4"

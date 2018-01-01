@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo;
+package br.com.neogis.agritopo.holder;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,20 +8,23 @@ import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayItem;
+
+import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
+import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.activity.ElementoDetailActivity;
+import br.com.neogis.agritopo.model.MyGeoPoint;
 
 
 /**
  * Created by Wagner on 23/09/2017.
  */
 
-public class ModalAdicionarPonto extends Overlay {
+public class AdicionarPontoHolder extends Overlay {
 
     private Activity activity;
 
-    public ModalAdicionarPonto(Activity activity) {
+    public AdicionarPontoHolder(Activity activity) {
         this.activity = activity;
     }
 
@@ -33,7 +36,7 @@ public class ModalAdicionarPonto extends Overlay {
 
     // Exibir o Ponto quando der um toque na tela
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        Log.d("Agritopo", "ModalAdicionarPonto: registrando Ponto");
+        Log.d("Agritopo", "AdicionarPontoHolder: registrando Ponto");
         MyGeoPoint ponto = new MyGeoPoint((GeoPoint) mapView.getMapCenter());
 
         Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);

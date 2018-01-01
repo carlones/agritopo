@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:minHeight="48dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+
+    <com.github.johnkil.print.PrintView
+        android:id="@+id/arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:iconColor="@android:color/white"
+        app:iconFont="fonts/material-icon-font.ttf"
+        app:iconSize="20dp"
+        app:iconText="@string/ic_keyboard_arrow_right" />
+
+    <com.github.johnkil.print.PrintView
+        android:id="@+id/like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="13sp"
+        app:iconColor="@color/text_lgray"
+        app:iconFont="fonts/material-icon-font.ttf"
+        app:iconSize="20dp" />
+
+    <LinearLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/like"
+        android:layout_toRightOf="@id/arrow_icon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/place_name"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:text="My Hotel"
+            android:textColor="@color/text_lgray"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.github.johnkil.print.PrintView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconColor="@color/text_lgray"
+                app:iconFont="fonts/material-icon-font.ttf"
+                app:iconSize="9dp"
+                app:iconText="@string/ic_star" />
+
+            <com.github.johnkil.print.PrintView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconColor="@color/text_lgray"
+                app:iconFont="fonts/material-icon-font.ttf"
+                app:iconSize="9dp"
+                app:iconText="@string/ic_star" />
+
+            <com.github.johnkil.print.PrintView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconColor="@color/text_lgray"
+                app:iconFont="fonts/material-icon-font.ttf"
+                app:iconSize="9dp"
+                app:iconText="@string/ic_star" />
+
+            <com.github.johnkil.print.PrintView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconColor="@color/text_lgray"
+                app:iconFont="fonts/material-icon-font.ttf"
+                app:iconSize="9dp"
+                app:iconText="@string/ic_star" />
+
+            <com.github.johnkil.print.PrintView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconColor="@color/text_lgray"
+                app:iconFont="fonts/material-icon-font.ttf"
+                app:iconSize="9dp"
+                app:iconText="@string/ic_star_outline" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

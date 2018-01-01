@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PrincipalActivity"
+            android:name=".activity.PrincipalActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,21 +27,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConfiguracaoActivity"
+            android:name=".activity.ConfiguracaoActivity"
             android:label="@string/title_activity_configuracao" />
         <activity
-            android:name=".ElementoListActivity"
+            android:name=".activity.ElementoListActivity"
             android:label="@string/title_elemento_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".ElementoDetailActivity"
+            android:name=".activity.ElementoDetailActivity"
             android:label="@string/title_elemento_detail"
-            android:parentActivityName=".ElementoListActivity"
+            android:parentActivityName=".activity.ElementoListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.neogis.agritopo.ElementoListActivity" />
+                android:value="br.com.neogis.agritopo.activity.ElementoListActivity" />
         </activity>
+
+        <activity android:name="br.com.neogis.agritopo.activity.SingleFragmentActivity" />
     </application>
 
 </manifest>

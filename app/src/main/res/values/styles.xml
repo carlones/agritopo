@@ -29,7 +29,23 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="TreeNodeStyle">
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+
     <style name="FonteMenu">
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="TreeNodeStyleCustom">
+        <item name="android:paddingLeft">20dp</item>
+        <!--<item name="android:showDividers">middle</item>-->
+        <!--<item name="android:divider">@android:drawable/divider_horizontal_bright</item>-->
+    </style>
+
+    <style name="TreeNodeStyleDivided">
+        <item name="android:showDividers">middle</item>
+        <item name="android:divider">@android:drawable/divider_horizontal_bright</item>
+    </style>
+
 </resources>
