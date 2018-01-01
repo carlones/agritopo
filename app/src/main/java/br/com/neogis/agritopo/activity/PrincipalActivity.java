@@ -91,6 +91,8 @@ import static android.view.View.VISIBLE;
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
 
+    public final int REQUEST_MENU_CADASTROS = 1;
+
     //Mapas
     BoundingBox mInitialBoundingBox = null;
     float mGroundOverlayBearing = 0.0f;
@@ -485,12 +487,9 @@ public class PrincipalActivity extends AppCompatActivity
 
         if (id == R.id.nav_cadastros) {
             Intent intent = new Intent(this, ElementoListActivity.class);
-            //EditText editText = (EditText) findViewById(R.id.edit_message);
-            //String message = editText.getText().toString();
-            //intent.putExtra(EXTRA_MESSAGE, message);
-            startActivity(intent);
-            //} else if (id == R.id.nav_mapas) {
-        } else if (id == R.id.nav_camadas) {
+            startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+        }
+        else if (id == R.id.nav_camadas) {
             Class<?> clazz = CamadasArvoreFragment.class;
             Intent intent = new Intent(this, SingleFragmentActivity.class);
             intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
@@ -627,6 +626,13 @@ public class PrincipalActivity extends AppCompatActivity
                 map.invalidate();
             }
         }
+        if( requestCode == REQUEST_MENU_CADASTROS ) {
+            // pode ter alterado algum elemento, então temos que redesenhar os Elementos
+            carregarPontos();
+            carregarAreas();
+            carregarDistancias();
+            map.invalidate();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -675,6 +681,7 @@ public class PrincipalActivity extends AppCompatActivity
     void carregarPontos() {
         // https://stackoverflow.com/questions/41090639/add-marker-to-osmdroid-5-5-map
 
+        map.getOverlays().remove(geoPointList);
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         //GeoPoint pontoAeroporto = new GeoPoint(-27.1341, -52.6606);
         //GeoPoint pontoDesbravador = new GeoPoint(-27.1048003, -52.6145871);
@@ -711,6 +718,10 @@ public class PrincipalActivity extends AppCompatActivity
     private void carregarAreas() {
         ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
+        for(Area a: areaList) {
+            a.removerDe(map);
+        }
+        areaList.clear();
         for (Elemento e : elementos) {
             if (e.getClasse().getNome().equals("Area")) {
                 Area a = new Area();
@@ -725,6 +736,10 @@ public class PrincipalActivity extends AppCompatActivity
     private void carregarDistancias() {
         ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
+        for(Distancia d: distanciaList) {
+            d.removerDe(map);
+        }
+        distanciaList.clear();
         for (Elemento e : elementos) {
             if (e.getClasse().getNome().equals("Distancia")) {
                 Distancia d = new Distancia();

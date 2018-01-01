@@ -1,16 +1,18 @@
 package br.com.neogis.agritopo.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
@@ -46,8 +49,8 @@ public class ElementoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_elemento_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Cadastros");
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
 
         RecyclerView recyclerView = ((RecyclerView) findViewById(R.id.elemento_list));
         assert recyclerView != null;
@@ -66,16 +69,67 @@ public class ElementoListActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.cadastros, menu);
+
+        boolean mostrarBotaoRemover = !viewAdapter.ids_selecionados.isEmpty();
+        MenuItem botaoRemover = menu.findItem(R.id.menu_cadastros_acao_remover);
+        botaoRemover.setVisible(mostrarBotaoRemover);
+        return true;
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         List<Elemento> list = (new ElementoDaoImpl(getBaseContext()).getAll());
         viewAdapter = new ElementoRecyclerViewAdapter(list);
         recyclerView.setAdapter(viewAdapter);
     }
 
+    public void removerElementosSelecionados(MenuItem item) {
+        if( viewAdapter.ids_selecionados.isEmpty() ) return;
+
+        String mensagemAlerta = viewAdapter.ids_selecionados.size() == 1
+            ? "Remover esse item?"
+            : "Remover " + Integer.toString(viewAdapter.ids_selecionados.size()) + " itens?"
+        ;
+        AlertDialog confirmacao = new AlertDialog.Builder(this)
+            .setMessage(mensagemAlerta)
+            .setIcon(android.R.drawable.ic_menu_delete)
+            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            })
+            .setPositiveButton("Remover", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    ElementoDao dao = new ElementoDaoImpl(getBaseContext());
+                    for(Integer id: viewAdapter.ids_selecionados) {
+                        Elemento e = dao.get(id);
+                        dao.delete(e);
+                    }
+
+                    // Ocultar o botao de remover
+                    viewAdapter.ids_selecionados.clear();
+                    invalidateOptionsMenu();
+
+                    // Reconstruir lista
+                    List<Elemento> list = (new ElementoDaoImpl(getBaseContext()).getAll());
+                    viewAdapter.mValues = list;
+                    viewAdapter.notifyDataSetChanged();
+
+                    dialog.dismiss();
+                }
+
+            })
+            .create();
+        confirmacao.show();
+    }
+
     public class ElementoRecyclerViewAdapter
             extends RecyclerView.Adapter<ElementoRecyclerViewAdapter.ViewHolder> {
 
-        public final List<Elemento> mValues;
+        public List<Elemento> mValues;
         private ArrayList<Integer> ids_selecionados = new ArrayList<Integer>();
 
         public ElementoRecyclerViewAdapter(List<Elemento> items) {
@@ -146,6 +200,7 @@ public class ElementoListActivity extends AppCompatActivity {
             else {
                 ids_selecionados.add(id);
             }
+            invalidateOptionsMenu(); // mostrar/ocultar botão Remover
         }
 
         @Override
