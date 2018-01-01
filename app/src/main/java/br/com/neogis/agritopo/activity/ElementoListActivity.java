@@ -42,6 +42,7 @@ public class ElementoListActivity extends AppCompatActivity {
      */
     private boolean painelDuplo;
     private ElementoRecyclerViewAdapter viewAdapter;
+    private ArrayList<Integer> ids_selecionados = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +71,23 @@ public class ElementoListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putIntegerArrayList("ids_selecionados", ids_selecionados);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        ids_selecionados = savedInstanceState.getIntegerArrayList("ids_selecionados");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.cadastros, menu);
 
-        boolean mostrarBotaoRemover = !viewAdapter.ids_selecionados.isEmpty();
+        boolean mostrarBotaoRemover = !ids_selecionados.isEmpty();
         MenuItem botaoRemover = menu.findItem(R.id.menu_cadastros_acao_remover);
         botaoRemover.setVisible(mostrarBotaoRemover);
         return true;
@@ -87,11 +100,11 @@ public class ElementoListActivity extends AppCompatActivity {
     }
 
     public void removerElementosSelecionados(MenuItem item) {
-        if( viewAdapter.ids_selecionados.isEmpty() ) return;
+        if( ids_selecionados.isEmpty() ) return;
 
-        String mensagemAlerta = viewAdapter.ids_selecionados.size() == 1
+        String mensagemAlerta = ids_selecionados.size() == 1
             ? "Remover esse item?"
-            : "Remover " + Integer.toString(viewAdapter.ids_selecionados.size()) + " itens?"
+            : "Remover " + Integer.toString(ids_selecionados.size()) + " itens?"
         ;
         AlertDialog confirmacao = new AlertDialog.Builder(this)
             .setMessage(mensagemAlerta)
@@ -104,13 +117,13 @@ public class ElementoListActivity extends AppCompatActivity {
             .setPositiveButton("Remover", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     ElementoDao dao = new ElementoDaoImpl(getBaseContext());
-                    for(Integer id: viewAdapter.ids_selecionados) {
+                    for(Integer id: ids_selecionados) {
                         Elemento e = dao.get(id);
                         dao.delete(e);
                     }
 
                     // Ocultar o botao de remover
-                    viewAdapter.ids_selecionados.clear();
+                    ids_selecionados.clear();
                     invalidateOptionsMenu();
 
                     // Reconstruir lista
@@ -130,7 +143,6 @@ public class ElementoListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ElementoRecyclerViewAdapter.ViewHolder> {
 
         public List<Elemento> mValues;
-        private ArrayList<Integer> ids_selecionados = new ArrayList<Integer>();
 
         public ElementoRecyclerViewAdapter(List<Elemento> items) {
             mValues = items;
