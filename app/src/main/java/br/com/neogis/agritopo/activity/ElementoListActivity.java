@@ -41,12 +41,16 @@ public class ElementoListActivity extends AppCompatActivity {
      * device.
      */
     private boolean painelDuplo;
+    private int classeId;
     private ElementoRecyclerViewAdapter viewAdapter;
     private ArrayList<Integer> ids_selecionados = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        classeId = getIntent().getIntExtra(ElementoDetailFragment.ARG_CLASSEID, 0);
+
         setContentView(R.layout.activity_elemento_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -94,7 +98,13 @@ public class ElementoListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        List<Elemento> list = (new ElementoDaoImpl(getBaseContext()).getAll());
+        ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
+        List<Elemento> list = null;
+        if (classeId == 0) {
+            list = elementoDao.getAll();
+        } else {
+            list = elementoDao.getByClasse(classeId);
+        }
         viewAdapter = new ElementoRecyclerViewAdapter(list);
         recyclerView.setAdapter(viewAdapter);
     }
@@ -137,6 +147,22 @@ public class ElementoListActivity extends AppCompatActivity {
             })
             .create();
         confirmacao.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST) {
+                int elementoId = data.getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, -1);
+                int posicao_lista = data.getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
+                if (posicao_lista > -1 && elementoId > -1) {
+                    Elemento e = (new ElementoDaoImpl(getBaseContext())).get(elementoId);
+                    viewAdapter.mValues.set(posicao_lista, e);
+                    viewAdapter.notifyItemChanged(posicao_lista);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public class ElementoRecyclerViewAdapter
@@ -243,24 +269,5 @@ public class ElementoListActivity extends AppCompatActivity {
                 return super.toString() + ", " + elementoIdView.getText() + ", " + tipoElementoView.getText() + ", " + classeView.getText() + ", " + tituloView.getText();
             }
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if( resultCode == RESULT_OK )
-        {
-            if( requestCode == ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST )
-            {
-                int elementoId = data.getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, -1);
-                int posicao_lista = data.getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
-                if( posicao_lista > -1 && elementoId > -1 )
-                {
-                    Elemento e = (new ElementoDaoImpl(getBaseContext())).get(elementoId);
-                    viewAdapter.mValues.set(posicao_lista, e);
-                    viewAdapter.notifyItemChanged(posicao_lista);
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

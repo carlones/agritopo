@@ -20,7 +20,7 @@ import br.com.neogis.agritopo.view.AndroidTreeView;
  * Created by carlo on 30/12/2017.
  */
 
-public class CamadasArvoreFragment extends Fragment {
+public class CamadasFragment extends Fragment {
     private AndroidTreeView tView;
     private boolean selectionModeEnabled = false;
 

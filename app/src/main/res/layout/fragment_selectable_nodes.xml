@@ -15,28 +15,36 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ic_check_box_outline" />
+            android:text="Marcar"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            android:textColorLink="@android:color/white" />
 
         <Button
             android:id="@+id/btn_selectAll"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+ All" />
+            android:text="+ Todos"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            android:textColorLink="@android:color/white" />
 
         <Button
             android:id="@+id/btn_deselectAll"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="- All" />
+            android:text="- Todos"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            android:textColorLink="@android:color/white" />
 
         <Button
             android:id="@+id/btn_checkSelection"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Selection" />
+            android:text="Pegar seleção"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            android:textColorLink="@android:color/white" />
 
     </LinearLayout>
 

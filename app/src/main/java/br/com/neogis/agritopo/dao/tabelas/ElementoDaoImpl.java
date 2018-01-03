@@ -54,6 +54,23 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
     }
 
     @Override
+    public List<Elemento> getByClasse(int classeid) {
+        abrirLeitura();
+        Cursor cursor = db.rawQuery(
+                "SELECT elementoid\n" +
+                        "  ,classeid\n" +
+                        "  ,tipoelementoid\n" +
+                        "  ,titulo\n" +
+                        "  ,descricao\n" +
+                        "  ,geometria\n" +
+                        "  ,created_at\n" +
+                        "  ,modified_at\n" +
+                        "FROM elemento WHERE classeid = ?"
+                , new String[]{Integer.toString(classeid)});
+        return getListaObjetos(cursor);
+    }
+
+    @Override
     public Elemento get(int id) {
         abrirLeitura();
         Cursor cursor = db.rawQuery(
