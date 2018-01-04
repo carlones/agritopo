@@ -87,7 +87,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
             arguments.putString(ElementoDetailFragment.ARG_GEOMETRIA, geometria);
             fragment = new ElementoDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.elemento_detail_container, fragment)
                     .commit();
         }

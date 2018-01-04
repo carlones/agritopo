@@ -3,7 +3,7 @@ package br.com.neogis.agritopo.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +71,12 @@ public class ElementoDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         int elementoId = getArguments().getInt(ARG_ELEMENTOID);
         if (elementoId != 0) {
-            ElementoDao elementoDao = new ElementoDaoImpl(getContext());
+            ElementoDao elementoDao = new ElementoDaoImpl(getActivity().getBaseContext());
             mItem = elementoDao.get(elementoId);
         } else {
-            ClasseDao classeDao = new ClasseDaoImpl(this.getContext());
+            ClasseDao classeDao = new ClasseDaoImpl(getActivity().getBaseContext());
             Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
-            TipoElementoDao ted = new TipoElementoDaoImpl(this.getContext());
+            TipoElementoDao ted = new TipoElementoDaoImpl(getActivity().getBaseContext());
             TipoElemento te = ted.get(getArguments().getInt(ARG_TIPOELEMENTOID, 0));
             mItem = new Elemento(te, classe, "", "", getArguments().getString(ARG_GEOMETRIA));
         }

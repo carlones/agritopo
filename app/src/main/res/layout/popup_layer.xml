@@ -8,22 +8,28 @@
     android:weightSum="1">
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/btnElementoDistancia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/cbxDistancias"
+        android:layout_above="@+id/cbxPontos"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/cbxGeometrias"
-        app:srcCompat="@drawable/ic_info_black_24dp" />
+        android:layout_below="@+id/cbxAreas"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:src="@drawable/ic_info_white_24dp" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnElementoPonto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnPopupLayerFecharBottom"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/imageButton4"
-        app:srcCompat="@drawable/ic_info_black_24dp" />
+        android:layout_below="@+id/btnElementoDistancia"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:src="@drawable/ic_info_white_24dp" />
 
     <ImageButton
         android:id="@+id/btnPopupLayerFecharBottom"
@@ -31,20 +37,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/cbxDistancias"
-        android:alpha="0.5" />
+        android:layout_below="@+id/cbxPontos"
+        android:alpha="0.5"
+        android:background="@android:color/white" />
 
     <ImageButton
         android:id="@+id/btnPopupLayerFechar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/cbxGeometrias"
+        android:layout_above="@+id/cbxAreas"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/btnPopupLayerFecharTop"
+        android:layout_toEndOf="@+id/layer_popup_descricao_tv"
         android:background="@color/colorPrimaryDark"
+        android:paddingLeft="10sp"
         android:paddingRight="10sp"
-        android:src="@drawable/ic_close_white_24dp"
-        android:layout_toEndOf="@+id/layer_popup_descricao_tv" />
+        android:src="@drawable/ic_close_white_24dp" />
 
     <TextView
         android:id="@+id/layer_popup_descricao_tv"
@@ -52,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/btnPopupLayerFecharTop"
-        android:layout_toStartOf="@+id/imageButton2"
+        android:layout_toStartOf="@+id/btnElementoArea"
         android:background="@color/colorPrimaryDark"
         android:paddingBottom="10sp"
         android:paddingLeft="10sp"
@@ -64,49 +72,49 @@
         android:textStyle="bold" />
 
     <CheckBox
-        android:id="@+id/cbxGeometrias"
+        android:id="@+id/cbxAreas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/layer_popup_descricao_tv"
+        android:layout_toStartOf="@+id/btnElementoArea"
         android:background="@color/colorPrimary"
         android:checked="true"
         android:paddingBottom="10sp"
         android:paddingTop="10sp"
         android:text="@string/cbx_geometrias"
         android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        android:layout_toStartOf="@+id/imageButton2" />
-
-    <CheckBox
-        android:id="@+id/cbxPontosDeInteresse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/cbxGeometrias"
-        android:background="@color/colorPrimary"
-        android:checked="true"
-        android:paddingBottom="10sp"
-        android:paddingTop="10sp"
-        android:text="@string/cbx_pontos_de_interesse"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        android:layout_toStartOf="@+id/imageButton3" />
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/cbxDistancias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/cbxPontosDeInteresse"
+        android:layout_below="@+id/cbxAreas"
+        android:layout_toStartOf="@+id/btnElementoDistancia"
         android:background="@color/colorPrimary"
         android:checked="true"
         android:paddingBottom="10sp"
         android:paddingTop="10sp"
         android:text="@string/cbx_distancias"
         android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        android:layout_toStartOf="@+id/imageButton4" />
+        android:textSize="24sp" />
+
+    <CheckBox
+        android:id="@+id/cbxPontos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cbxDistancias"
+        android:layout_toStartOf="@+id/btnElementoDistancia"
+        android:background="@color/colorPrimary"
+        android:checked="true"
+        android:paddingBottom="10sp"
+        android:paddingTop="10sp"
+        android:text="@string/cbx_pontos_de_interesse"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
 
     <ImageButton
         android:id="@+id/btnPopupLayerFecharTop"
@@ -115,15 +123,19 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:alpha="0.5"
+        android:background="@android:color/white"
         android:paddingTop="100sp" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnElementoArea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/cbxPontosDeInteresse"
+        android:layout_above="@+id/cbxDistancias"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/btnPopupLayerFechar"
-        app:srcCompat="@drawable/ic_info_black_24dp" />
+        android:background="@color/colorPrimary"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:src="@drawable/ic_info_white_24dp" />
 
 </RelativeLayout>

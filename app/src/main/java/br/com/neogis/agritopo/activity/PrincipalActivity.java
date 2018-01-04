@@ -72,7 +72,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.neogis.agritopo.fragment.CamadasArvoreFragment;
+import br.com.neogis.agritopo.fragment.CamadasFragment;
+import br.com.neogis.agritopo.fragment.ExportarFragment;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
 import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
 import br.com.neogis.agritopo.model.Area;
@@ -85,6 +86,7 @@ import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.model.MyGeoPoint;
 
 import static android.view.View.VISIBLE;
 
@@ -239,15 +241,18 @@ public class PrincipalActivity extends AppCompatActivity
                 ImageButton btnPopupLayerFechar = (ImageButton) customView.findViewById(R.id.btnPopupLayerFechar);
                 ImageButton btnPopupLayerFecharTop = (ImageButton) customView.findViewById(R.id.btnPopupLayerFecharTop);
                 ImageButton btnPopupLayerFecharBottom = (ImageButton) customView.findViewById(R.id.btnPopupLayerFecharBottom);
-                CheckBox cbxPontosDeInteresse = (CheckBox) customView.findViewById(R.id.cbxPontosDeInteresse);
-                CheckBox cbxAreas = (CheckBox) customView.findViewById(R.id.cbxGeometrias);
+                ImageButton btnElementoArea = (ImageButton) customView.findViewById(R.id.btnElementoArea);
+                ImageButton btnElementoDistancia = (ImageButton) customView.findViewById(R.id.btnElementoDistancia);
+                ImageButton btnElementoPonto = (ImageButton) customView.findViewById(R.id.btnElementoPonto);
+                CheckBox cbxAreas = (CheckBox) customView.findViewById(R.id.cbxAreas);
                 CheckBox cbxDistancias = (CheckBox) customView.findViewById(R.id.cbxDistancias);
+                CheckBox cbxPontos = (CheckBox) customView.findViewById(R.id.cbxPontos);
 
-                cbxPontosDeInteresse.setChecked(map.getOverlays().contains(geoPointList));
+                cbxPontos.setChecked(map.getOverlays().contains(geoPointList));
                 cbxAreas.setChecked(exibirAreas);
                 cbxDistancias.setChecked(exibirDistancias);
 
-                cbxPontosDeInteresse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                cbxPontos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             map.getOverlays().add(geoPointList);
@@ -311,6 +316,33 @@ public class PrincipalActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
+                    }
+                });
+                btnElementoArea.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupLayers.dismiss();
+                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
+                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
+                        startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+                    }
+                });
+                btnElementoDistancia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupLayers.dismiss();
+                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
+                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 3);
+                        startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+                    }
+                });
+                btnElementoPonto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupLayers.dismiss();
+                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
+                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
+                        startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
                 /*
@@ -488,20 +520,19 @@ public class PrincipalActivity extends AppCompatActivity
         if (id == R.id.nav_cadastros) {
             Intent intent = new Intent(this, CadastrosListarActivity.class);
             startActivityForResult(intent, REQUEST_MENU_CADASTROS);
-        }
-        else if (id == R.id.nav_camadas) {
-            Class<?> clazz = CamadasArvoreFragment.class;
+        } else if (id == R.id.nav_camadas) {
+            Class<?> clazz = CamadasFragment.class;
             Intent intent = new Intent(this, SingleFragmentActivity.class);
             intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
             startActivity(intent);
         } else if (id == R.id.nav_exportacao) {
-
-            //} else if (id == R.id.nav_configuracao) {
-            //Intent intent = new Intent(this, ConfiguracaoActivity.class);
-            //EditText editText = (EditText) findViewById(R.id.edit_message);
-            //String message = editText.getText().toString();
-            //intent.putExtra(EXTRA_MESSAGE, message);
-            //startActivity(intent);
+            Class<?> clazz = ExportarFragment.class;
+            Intent intent = new Intent(this, SingleFragmentActivity.class);
+            intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
+            startActivity(intent);
+        } else if (id == R.id.nav_configuracao) {
+            Intent intent = new Intent(this, ConfiguracaoActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -651,30 +682,16 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public boolean longPressHelper(GeoPoint p) {
-        //Toast.makeText(this, "Long press", Toast.LENGTH_SHORT).show();
-        //17. Using Polygon, defined as a circle:
-        //Polygon circle = new Polygon();
-        //circle.setPoints(Polygon.pointsAsCircle(p, 2000.0));
-        //circle.setFillColor(0x12121212);
-        //circle.setStrokeColor(Color.RED);
-        //circle.setStrokeWidth(2);
-        //map.getOverlays().add(circle);
-        //circle.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
-        //circle.setTitle("Centralizado em " + p.getLatitude() + "," + p.getLongitude());
+        if ((adicionarAreaHolder == null) && (adicionarDistanciaHolder == null) && (adicionarPontoHolder == null)) {
+            MyGeoPoint ponto = new MyGeoPoint(p);
 
-        //18. Using GroundOverlay
-        //GroundOverlay myGroundOverlay = new GroundOverlay();
-        //myGroundOverlay.setPosition(p);
-        //Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_place_black_24dp, null);
-        //myGroundOverlay.setImage(d.mutate());
-        //myGroundOverlay.setDimensions(200.0f);
-        //myGroundOverlay.setTransparency(0.25f);
-        //myGroundOverlay.setBearing(mGroundOverlayBearing);
-        //mGroundOverlayBearing += 20.0f;
-        //map.getOverlays().add(myGroundOverlay);
-
-        // Adicionar ponto? Pode atrapalhar enquanto cria área
-        map.invalidate();
+            Intent intent = new Intent(mActivity.getBaseContext(), ElementoDetailActivity.class);
+            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 1);
+            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
+            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, ponto.toString());
+            mActivity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
+        }
         return true;
     }
 

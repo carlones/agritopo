@@ -9,6 +9,8 @@ import java.util.List;
 public interface ElementoDao {
     public List<Elemento> getAll();
 
+    public List<Elemento> getByClasse(int classeid);
+
     public Elemento get(int id);
 
     public void insert(Elemento obj);
