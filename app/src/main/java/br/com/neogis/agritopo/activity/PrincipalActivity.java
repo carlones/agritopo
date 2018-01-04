@@ -37,6 +37,9 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
@@ -165,6 +168,8 @@ public class PrincipalActivity extends AppCompatActivity
 
         inicializarMapas();
         inicializarBotoes();
+
+        //lerPastasDoKML();
     }
 
     private boolean criarDiretorio(String diretorio) {
@@ -814,6 +819,32 @@ public class PrincipalActivity extends AppCompatActivity
         double lon = savedInstanceState.getDouble("longitudeAtual", 0.0);
         if( lat != 0.0 && lon != 0.0 )
             coordenadasIniciais = new GeoPoint(lat, lon);
+    }
+
+    // https://github.com/MKergall/osmbonuspack/issues/266
+    private void lerPastasDoKML() {
+        File arquivoKml = new File(caminhoPastaMapas + "KML_Samples_sem_icones.kml");
+        KmlDocument kmlDocument = new KmlDocument();
+        if (!kmlDocument.parseKMLFile(arquivoKml))
+            Utils.info("Erro durante parse do arquivo KML");
+        else
+            Utils.info("parse do arquivo KML ok");
+
+        listarPastas(kmlDocument.mKmlRoot, 0);
+    }
+
+    // Achei um bug: a pasta "Screen Overlays" vem como "Dynamic Positioning: Right of screen" (linha 333):
+    // parece que por não reconhecer a tag <ScreenOverlay> acabou pegando o último <name>.
+    // Vamos ver o arquivo que o Angelo manda, se isso será um problema.
+    //
+    private void listarPastas(KmlFolder pasta, int nivel) {
+        for(KmlFeature f: pasta.mItems) {
+            if( f.getClass() == KmlFolder.class ) {
+                Utils.info(String.format("%"+ (nivel * 4 + 1) + "s", "")  + f.mName);
+                listarPastas((KmlFolder) f, nivel + 1);
+            }
+        }
+
     }
 
     //0. Using the Marker and Polyline overlays - advanced options
