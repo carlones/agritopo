@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
 public class Distancia {
@@ -28,6 +29,11 @@ public class Distancia {
         // Cor e estilo da área
         this.linha.setStrokeColor(Color.MAGENTA);
         this.linha.setStrokeWidth(5.0f);
+    }
+
+    public Distancia(Elemento elemento) {
+        this();
+        setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
     }
 
     public void adicionarPonto(GeoPoint ponto) {

@@ -22,17 +22,22 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.CadastrosListarActivity"
+            android:label="@string/title_cadastros_listar"
+            android:theme="@style/AgritopoActionBarTheme" />
+
         <activity
             android:name=".activity.ConfiguracaoActivity"
             android:label="@string/title_activity_configuracao" />
         <activity
             android:name=".activity.ElementoListActivity"
             android:label="@string/title_elemento_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ElementoDetailActivity"
             android:label="@string/title_elemento_detail"

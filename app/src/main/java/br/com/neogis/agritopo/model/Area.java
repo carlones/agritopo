@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
 public class Area {
@@ -31,6 +32,12 @@ public class Area {
         this.poligono.setFillColor(0x12121212);
         this.poligono.setStrokeColor(Color.MAGENTA);
         this.poligono.setStrokeWidth(4.0f);
+    }
+
+    public Area(Elemento elemento) {
+        this();
+        setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
+        setTitulo(elemento.getTitulo());
     }
 
     public Polygon getPoligono() {

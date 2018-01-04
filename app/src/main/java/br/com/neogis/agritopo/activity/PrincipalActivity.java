@@ -486,7 +486,7 @@ public class PrincipalActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_cadastros) {
-            Intent intent = new Intent(this, ElementoListActivity.class);
+            Intent intent = new Intent(this, CadastrosListarActivity.class);
             startActivityForResult(intent, REQUEST_MENU_CADASTROS);
         }
         else if (id == R.id.nav_camadas) {
@@ -724,9 +724,7 @@ public class PrincipalActivity extends AppCompatActivity
         areaList.clear();
         for (Elemento e : elementos) {
             if (e.getClasse().getNome().equals("Area")) {
-                Area a = new Area();
-                a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
-                a.setTitulo(e.getTitulo());
+                Area a = new Area(e);
                 areaList.add(a);
                 a.desenharEm(map);
             }
@@ -742,8 +740,7 @@ public class PrincipalActivity extends AppCompatActivity
         distanciaList.clear();
         for (Elemento e : elementos) {
             if (e.getClasse().getNome().equals("Distancia")) {
-                Distancia d = new Distancia();
-                d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
+                Distancia d = new Distancia(e);
                 distanciaList.add(d);
                 d.desenharEm(map);
             }

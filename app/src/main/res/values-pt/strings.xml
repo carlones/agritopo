@@ -35,5 +35,6 @@
     <string name="text_descricao">Descrição</string>
     <string name="cbx_distancias">Distâncias</string>
     <string name="title_elemento_detail">Detalhe do Elemento</string>
-    <string name="title_elemento_list">Elementos</string>
+    <string name="title_elemento_list">Cadastros</string>
+    <string name="title_cadastros_listar">Cadastros</string>
 </resources>
