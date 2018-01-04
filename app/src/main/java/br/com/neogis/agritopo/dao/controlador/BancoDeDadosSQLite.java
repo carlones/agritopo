@@ -156,7 +156,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("Agritopo", "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
-        if ( newVersion > oldVersion ) {
+        if (newVersion > oldVersion) {
             db.execSQL("DROP TABLE campodinamico");
             db.execSQL("DROP TABLE campodinamicovalores");
             db.execSQL("DROP TABLE classe");

@@ -10,8 +10,6 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.holder.ProfileHolder;
-import br.com.neogis.agritopo.holder.SelectableHeaderHolder;
 import br.com.neogis.agritopo.view.AndroidTreeView;
 import br.com.neogis.agritopo.view.TreeNodeWrapperView;
 

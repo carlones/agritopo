@@ -19,8 +19,7 @@ public class MapaTiles {
     public int zoomMax;
     public GeoPoint pontoCentral;
 
-    public MapaTiles(File arquivo)
-    {
+    public MapaTiles(File arquivo) {
         // pegar níves de zoom e Ponto central diretamente do arquivo
         //SQLiteDatabase db_mapa = SQLiteDatabase.openOrCreateDatabase(arquivo.toString(), Context.MODE_PRIVATE, null);
         SQLiteDatabase db_mapa = SQLiteDatabase.openDatabase(arquivo.toString(), null, Context.MODE_PRIVATE);
@@ -37,7 +36,7 @@ public class MapaTiles {
         String[] bounds_parts = comma_separated_bounds.split(",");
         double lat = (Double.parseDouble(bounds_parts[1]) + Double.parseDouble(bounds_parts[3])) / 2.0;
         double lon = (Double.parseDouble(bounds_parts[0]) + Double.parseDouble(bounds_parts[2])) / 2.0;
-        Log.d("Agritopo", String.format("posições calculadas: %f, %f", lat, lon) );
+        Log.d("Agritopo", String.format("posições calculadas: %f, %f", lat, lon));
         cursor.close();
         db_mapa.close();
 

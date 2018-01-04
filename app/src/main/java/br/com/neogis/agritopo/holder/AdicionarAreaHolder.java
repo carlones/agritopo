@@ -10,10 +10,16 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
+import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.model.Area;
+
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 
 /**
  * Created by Wagner on 23/09/2017.
@@ -29,7 +35,7 @@ public class AdicionarAreaHolder extends Overlay {
         Log.d("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
         this.activity = activity;
-        this.area = new Area();
+        this.area = new Area(new Elemento());
 
         // Exibir o modal
         this.mapa.getOverlays().add(this.area.getPoligono());
@@ -62,11 +68,11 @@ public class AdicionarAreaHolder extends Overlay {
         if (area.ehValida()) {
             Log.d("Agritopo", "Nova área é válida, adicionando à lista");
             Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
-            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
-            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 3);
-            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
-            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, area.serializeMyGeoPointList());
-            activity.startActivityForResult(intent, ElementoDetailFragment.PICK_AREA_REQUEST);
+            intent.putExtra(ARG_ELEMENTOID, 0);
+            intent.putExtra(ARG_TIPOELEMENTOID, 3);
+            intent.putExtra(ARG_CLASSEID, 2);
+            intent.putExtra(ARG_GEOMETRIA, area.serializeMyGeoPointList());
+            activity.startActivityForResult(intent, PEGAR_ELEMENTO_AREA_REQUEST);
         } else {
             Log.d("Agritopo", "Nova área é inválida, descartando");
         }

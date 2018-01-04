@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
@@ -17,6 +16,13 @@ import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
+import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
+
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_POSICAO_LISTA;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
 
 /**
  * An activity representing a single Elemento detail screen. This
@@ -41,11 +47,11 @@ public class ElementoDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        elementoId = getIntent().getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
-        tipoelementoId = getIntent().getIntExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 0);
-        classeId = getIntent().getIntExtra(ElementoDetailFragment.ARG_CLASSEID, 0);
-        geometria = getIntent().getStringExtra(ElementoDetailFragment.ARG_GEOMETRIA);
-        posicao_lista = getIntent().getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
+        elementoId = getIntent().getIntExtra(ARG_ELEMENTOID, 0);
+        tipoelementoId = getIntent().getIntExtra(ARG_TIPOELEMENTOID, 0);
+        classeId = getIntent().getIntExtra(ARG_CLASSEID, 0);
+        geometria = getIntent().getStringExtra(ARG_GEOMETRIA);
+        posicao_lista = getIntent().getIntExtra(ARG_POSICAO_LISTA, -1);
 
         FloatingActionButton botaoSalvar = (FloatingActionButton) findViewById(R.id.botaoSalvar);
         botaoSalvar.setOnClickListener(new View.OnClickListener() {
@@ -53,8 +59,8 @@ public class ElementoDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 gravarElemento();
                 Intent intent = new Intent();
-                intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, mItem.getElementoid());
-                intent.putExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, posicao_lista);
+                intent.putExtra(ARG_ELEMENTOID, mItem.getElementoid());
+                intent.putExtra(ARG_POSICAO_LISTA, posicao_lista);
                 setResult(RESULT_OK, intent);
                 finish();
                 onBackPressed();
@@ -81,10 +87,10 @@ public class ElementoDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putInt(ElementoDetailFragment.ARG_ELEMENTOID, elementoId);
-            arguments.putInt(ElementoDetailFragment.ARG_TIPOELEMENTOID, tipoelementoId);
-            arguments.putInt(ElementoDetailFragment.ARG_CLASSEID, classeId);
-            arguments.putString(ElementoDetailFragment.ARG_GEOMETRIA, geometria);
+            arguments.putInt(ARG_ELEMENTOID, elementoId);
+            arguments.putInt(ARG_TIPOELEMENTOID, tipoelementoId);
+            arguments.putInt(ARG_CLASSEID, classeId);
+            arguments.putString(ARG_GEOMETRIA, geometria);
             fragment = new ElementoDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()

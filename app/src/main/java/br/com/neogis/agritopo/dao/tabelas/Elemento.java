@@ -27,6 +27,10 @@ public class Elemento {
 
     private String modified_at;
 
+    public Elemento() {
+        this(new TipoElemento("Indefinido"), new Classe("Indefinido"), "", "", "");
+    }
+
     public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {
         this(tipoElemento, classe, titulo, descricao, "");
         JSONSerializer serializer = new JSONSerializer();

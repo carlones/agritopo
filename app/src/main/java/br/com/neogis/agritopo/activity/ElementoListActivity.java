@@ -20,11 +20,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+
+import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_POSICAO_LISTA;
 
 /**
  * An activity representing a list of Elementos. This activity
@@ -49,7 +53,7 @@ public class ElementoListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        classeId = getIntent().getIntExtra(ElementoDetailFragment.ARG_CLASSEID, 0);
+        classeId = getIntent().getIntExtra(ARG_CLASSEID, 0);
 
         setContentView(R.layout.activity_elemento_list);
 
@@ -98,6 +102,48 @@ public class ElementoListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        viewAdapter = new ElementoRecyclerViewAdapter(reconstruirLista());
+        recyclerView.setAdapter(viewAdapter);
+    }
+
+    public void removerElementosSelecionados(MenuItem item) {
+        if (ids_selecionados.isEmpty()) return;
+
+        String mensagemAlerta = ids_selecionados.size() == 1
+                ? "Remover esse item?"
+                : "Remover " + Integer.toString(ids_selecionados.size()) + " itens?";
+        AlertDialog confirmacao = new AlertDialog.Builder(this)
+                .setMessage(mensagemAlerta)
+                .setIcon(android.R.drawable.ic_menu_delete)
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Remover", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        ElementoDao dao = new ElementoDaoImpl(getBaseContext());
+                        for (Integer id : ids_selecionados) {
+                            Elemento e = dao.get(id);
+                            dao.delete(e);
+                        }
+
+                        // Ocultar o botao de remover
+                        ids_selecionados.clear();
+                        invalidateOptionsMenu();
+
+                        viewAdapter.mValues = reconstruirLista();
+                        viewAdapter.notifyDataSetChanged();
+
+                        dialog.dismiss();
+                    }
+
+                })
+                .create();
+        confirmacao.show();
+    }
+
+    private List<Elemento> reconstruirLista() {
         ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
         List<Elemento> list = null;
         if (classeId == 0) {
@@ -105,56 +151,15 @@ public class ElementoListActivity extends AppCompatActivity {
         } else {
             list = elementoDao.getByClasse(classeId);
         }
-        viewAdapter = new ElementoRecyclerViewAdapter(list);
-        recyclerView.setAdapter(viewAdapter);
-    }
-
-    public void removerElementosSelecionados(MenuItem item) {
-        if( ids_selecionados.isEmpty() ) return;
-
-        String mensagemAlerta = ids_selecionados.size() == 1
-            ? "Remover esse item?"
-            : "Remover " + Integer.toString(ids_selecionados.size()) + " itens?"
-        ;
-        AlertDialog confirmacao = new AlertDialog.Builder(this)
-            .setMessage(mensagemAlerta)
-            .setIcon(android.R.drawable.ic_menu_delete)
-            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            })
-            .setPositiveButton("Remover", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    ElementoDao dao = new ElementoDaoImpl(getBaseContext());
-                    for(Integer id: ids_selecionados) {
-                        Elemento e = dao.get(id);
-                        dao.delete(e);
-                    }
-
-                    // Ocultar o botao de remover
-                    ids_selecionados.clear();
-                    invalidateOptionsMenu();
-
-                    // Reconstruir lista
-                    List<Elemento> list = (new ElementoDaoImpl(getBaseContext()).getAll());
-                    viewAdapter.mValues = list;
-                    viewAdapter.notifyDataSetChanged();
-
-                    dialog.dismiss();
-                }
-
-            })
-            .create();
-        confirmacao.show();
+        return list;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST) {
-                int elementoId = data.getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, -1);
-                int posicao_lista = data.getIntExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, -1);
+            if (requestCode == ALTERAR_ELEMENTO_REQUEST) {
+                int elementoId = data.getIntExtra(ARG_ELEMENTOID, -1);
+                int posicao_lista = data.getIntExtra(ARG_POSICAO_LISTA, -1);
                 if (posicao_lista > -1 && elementoId > -1) {
                     Elemento e = (new ElementoDaoImpl(getBaseContext())).get(elementoId);
                     viewAdapter.mValues.set(posicao_lista, e);
@@ -205,12 +210,12 @@ public class ElementoListActivity extends AppCompatActivity {
                                 .commit();
                     } else {
                         */
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, ElementoDetailActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, holder.mItem.getElementoid());
-                        intent.putExtra(ElementoDetailFragment.ARG_POSICAO_LISTA, position);
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, ElementoDetailActivity.class);
+                    intent.putExtra(ARG_ELEMENTOID, holder.mItem.getElementoid());
+                    intent.putExtra(ARG_POSICAO_LISTA, position);
 
-                        ElementoListActivity.this.startActivityForResult(intent, ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST);
+                    ElementoListActivity.this.startActivityForResult(intent, ALTERAR_ELEMENTO_REQUEST);
                     //}
                 }
             });
@@ -232,10 +237,9 @@ public class ElementoListActivity extends AppCompatActivity {
 
         private void toggleSelection(ViewHolder holder) {
             Integer id = new Integer(holder.mItem.getElementoid());
-            if( ids_selecionados.contains(id) ) {
+            if (ids_selecionados.contains(id)) {
                 ids_selecionados.remove(id);
-            }
-            else {
+            } else {
                 ids_selecionados.add(id);
             }
             invalidateOptionsMenu(); // mostrar/ocultar botão Remover

@@ -32,6 +32,7 @@ public final class Utils {
     public static void info(String msg) {
         Log.i("Agritopo", msg);
     }
+
     /**
      * Retorna um Ponto com o tamanho da tela onde x é comprimento (width) e y é altura (height)
      *
@@ -64,7 +65,7 @@ public final class Utils {
     }
 
     public static String getFormattedLocationInDegree(GeoPoint point) {
-        double latitude = point.getLatitude() ;
+        double latitude = point.getLatitude();
         double longitude = point.getLongitude();
         StringBuilder builder = new StringBuilder();
 

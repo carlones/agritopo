@@ -3,6 +3,7 @@ package br.com.neogis.agritopo.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
@@ -51,19 +52,15 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.File;
@@ -72,25 +69,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.neogis.agritopo.fragment.CamadasFragment;
-import br.com.neogis.agritopo.fragment.ExportarFragment;
-import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
-import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
-import br.com.neogis.agritopo.model.Area;
-import br.com.neogis.agritopo.model.Distancia;
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
-import br.com.neogis.agritopo.model.MapaTiles;
-import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
-import br.com.neogis.agritopo.model.MyGeoPoint;
+import br.com.neogis.agritopo.fragment.CamadasFragment;
+import br.com.neogis.agritopo.fragment.ExportarFragment;
+import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
+import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
+import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
+import br.com.neogis.agritopo.model.Area;
+import br.com.neogis.agritopo.model.Distancia;
+import br.com.neogis.agritopo.model.MapaTiles;
+import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
+import br.com.neogis.agritopo.model.MyItemizedIconOverlay;
+import br.com.neogis.agritopo.model.MyItemizedOverlayWithFocus;
+import br.com.neogis.agritopo.model.MyOverlayItem;
 
 import static android.view.View.VISIBLE;
+import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_MAPA_MODO;
+import static br.com.neogis.agritopo.dao.Constantes.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
+import static br.com.neogis.agritopo.dao.Constantes.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
+import static br.com.neogis.agritopo.dao.Constantes.OFFLINE;
+import static br.com.neogis.agritopo.dao.Constantes.ONLINE;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
 
-public class PrincipalActivity extends AppCompatActivity
+public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
 
     public final int REQUEST_MENU_CADASTROS = 1;
@@ -101,7 +111,7 @@ public class PrincipalActivity extends AppCompatActivity
     AdicionarAreaHolder adicionarAreaHolder;
     AdicionarPontoHolder adicionarPontoHolder;
     AdicionarDistanciaHolder adicionarDistanciaHolder;
-    ItemizedOverlayWithFocus<OverlayItem> geoPointList;
+    MyItemizedOverlayWithFocus<MyOverlayItem> geoPointList;
     List<Area> areaList;
     List<Distancia> distanciaList;
     private MyLocationNewOverlay mMyLocationNewOverlay;
@@ -145,14 +155,14 @@ public class PrincipalActivity extends AppCompatActivity
         criarDiretorio("OsmDroid");
 
         mContext = getApplicationContext();
-        mActivity = PrincipalActivity.this;
+        mActivity = MapActivity.this;
 
         exibirAreas = true;
         areaList = new ArrayList<Area>();
         exibirDistancias = true;
         distanciaList = new ArrayList<Distancia>();
 
-        inicializarMapas();
+        inicializarMapas(getIntent().getIntExtra(ARG_MAPA_MODO, OFFLINE) == OFFLINE);
         inicializarBotoes();
     }
 
@@ -212,9 +222,11 @@ public class PrincipalActivity extends AppCompatActivity
         fabGPS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
+                    mMyLocationNewOverlay.disableMyLocation();
                     mMyLocationNewOverlay.disableFollowLocation();
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_gps_not_fixed_white_24dp);
                 } else {
+                    mMyLocationNewOverlay.enableMyLocation();
                     mMyLocationNewOverlay.enableFollowLocation();
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_gps_fixed_white_24dp);
                     if (mMyLocationNewOverlay.getMyLocation() != null)
@@ -323,7 +335,7 @@ public class PrincipalActivity extends AppCompatActivity
                     public void onClick(View view) {
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
+                        intent.putExtra(ARG_CLASSEID, 2);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
@@ -332,7 +344,7 @@ public class PrincipalActivity extends AppCompatActivity
                     public void onClick(View view) {
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 3);
+                        intent.putExtra(ARG_CLASSEID, 3);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
@@ -341,24 +353,10 @@ public class PrincipalActivity extends AppCompatActivity
                     public void onClick(View view) {
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
+                        intent.putExtra(ARG_CLASSEID, 1);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
-                /*
-                    public void showAtLocation (View parent, int gravity, int x, int y)
-                        Display the content view in a popup window at the specified location. If the
-                        popup window cannot fit on screen, it will be clipped.
-                        Learn WindowManager.LayoutParams for more information on how gravity and the x
-                        and y parameters are related. Specifying a gravity of NO_GRAVITY is similar
-                        to specifying Gravity.LEFT | Gravity.TOP.
-
-                    Parameters
-                        parent : a parent view to get the getWindowToken() token from
-                        gravity : the gravity which controls the placement of the popup window
-                        x : the popup's x location offset
-                        y : the popup's y location offset
-                */
                 popupLayers.showAtLocation(layoutTelaPrincipal, Gravity.CENTER, 0, 0);
             }
         });
@@ -412,7 +410,7 @@ public class PrincipalActivity extends AppCompatActivity
         });
     }
 
-    public void inicializarMapas() {
+    public void inicializarMapas(boolean modoOffline) {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         buscarMapasDoImovel();
@@ -440,7 +438,7 @@ public class PrincipalActivity extends AppCompatActivity
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
         map.getOverlays().add(0, mapEventsOverlay);
 
-        mMyLocationNewOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx), map);
+        mMyLocationNewOverlay = new MyLocationNewOverlay(new MyGpsMyLocationProvider(ctx, this), map);
         mMyLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(mMyLocationNewOverlay);
 
@@ -449,12 +447,60 @@ public class PrincipalActivity extends AppCompatActivity
         carregarDistancias();
         Configuration.getInstance().setDebugMode(true);
 
-        if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0)) {
+        if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0) && (modoOffline)) {
             carregarMapaDeArquivo(map, listaArquivosMapas[0]);
             map.getOverlays().add(geoPointList);
         } else {
-            carregarMapaOnline();
+            map.setUseDataConnection(true);
+            map.setTileSource(TileSourceFactory.MAPNIK);
+            map.getController().setZoom(10);
+            if (mMyLocationNewOverlay.getMyLocation() != null) {
+                IMapController mapController = map.getController();
+                mapController.setZoom(15);
+                mapController.animateTo(mMyLocationNewOverlay.getMyLocation());
+            }
         }
+    }
+
+    public void buscarMapasDoImovel() {
+        File pasta_mapas = new File(caminhoPastaMapas);
+        FilenameFilter filtro = new FilenameFilter() {
+            String[] extensoesValidas = {"mbtiles"};
+
+            @Override
+            public boolean accept(File dir, String name) {
+                String extensao = name.substring(name.lastIndexOf(".") + 1);
+                extensao = extensao.toLowerCase();
+                Log.d("Agritopo", "extensao: " + extensao);
+                return Arrays.asList(extensoesValidas).contains(extensao);
+            }
+        };
+        listaArquivosMapas = pasta_mapas.listFiles(filtro);
+        if (listaArquivosMapas != null)
+            for (File arquivo : listaArquivosMapas)
+                Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
+    }
+
+    public void carregarMapaOnline() {
+        Intent intent = new Intent();
+        intent.putExtra(ARG_MAPA_MODO, ONLINE);
+        setResult(RESULT_OK, intent);
+        finish();
+        onBackPressed();
+    }
+
+    public void carregarMapaDeArquivo(MapView map, File arquivo) {
+        MapaTiles am = new MapaTiles(arquivo);
+        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
+        XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
+        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
+        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
+        MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
+        map.setTileProvider(mProvider);
+
+        IMapController mapController = map.getController();
+        mapController.setZoom(15);
+        mapController.animateTo(am.pontoCentral);
     }
 
     @Override
@@ -498,7 +544,6 @@ public class PrincipalActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == -1) {
-            map.setUseDataConnection(true);
             carregarMapaOnline();
         } else {
             if (listaArquivosMapas != null) {
@@ -563,55 +608,6 @@ public class PrincipalActivity extends AppCompatActivity
 
     }
 
-    public void buscarMapasDoImovel() {
-        File pasta_mapas = new File(caminhoPastaMapas);
-        FilenameFilter filtro = new FilenameFilter() {
-            String[] extensoesValidas = {"mbtiles"};
-
-            @Override
-            public boolean accept(File dir, String name) {
-                String extensao = name.substring(name.lastIndexOf(".") + 1);
-                extensao = extensao.toLowerCase();
-                Log.d("Agritopo", "extensao: " + extensao);
-                return Arrays.asList(extensoesValidas).contains(extensao);
-            }
-        };
-        listaArquivosMapas = pasta_mapas.listFiles(filtro);
-        if (listaArquivosMapas != null)
-            for (File arquivo : listaArquivosMapas)
-                Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
-    }
-
-    public void carregarMapaOnline() {
-        map.setUseDataConnection(true);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.getController().setZoom(10);
-        if (mMyLocationNewOverlay.getMyLocation() != null)
-            mapController.animateTo(mMyLocationNewOverlay.getMyLocation());
-    }
-
-    public void carregarMapaDeArquivo(MapView map, File arquivo) {
-        MapaTiles am = new MapaTiles(arquivo);
-
-        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
-        XYTileSource mbtilesRender = new XYTileSource(
-                "mbtiles",
-                am.zoomMin,
-                am.zoomMax,
-                256,
-                am.formatoImagem,
-                new String[]{}
-        );
-        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
-        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
-        MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
-        map.setTileProvider(mProvider);
-
-        IMapController mapController = map.getController();
-        mapController.setZoom(15);
-        mapController.animateTo(am.pontoCentral);
-    }
-
     void setInitialViewOn(BoundingBox bb) {
         if (map.getScreenRect(null).height() == 0) {
             mInitialBoundingBox = bb;
@@ -622,13 +618,13 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ElementoDetailFragment.PICK_AREA_REQUEST) {
+        if (requestCode == PEGAR_ELEMENTO_AREA_REQUEST) {
             if (resultCode == RESULT_OK) {
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
-                Elemento mItem = elementoDao.get(data.getExtras().getInt(ElementoDetailFragment.ARG_ELEMENTOID));
-                Area area = new Area();
-                area.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
+                Area area = new Area(mItem);
                 area.setTitulo(mItem.getTitulo());
+                area.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
                 areaList.add(area);
                 if (exibirAreas) {
                     area.desenharEm(map);
@@ -636,11 +632,11 @@ public class PrincipalActivity extends AppCompatActivity
                 }
             }
         }
-        if (requestCode == ElementoDetailFragment.PICK_DISTANCIA_REQUEST) {
+        if (requestCode == PEGAR_ELEMENTO_DISTANCIA_REQUEST) {
             if (resultCode == RESULT_OK) {
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
-                Elemento mItem = elementoDao.get(data.getExtras().getInt(ElementoDetailFragment.ARG_ELEMENTOID));
-                Distancia distancia = new Distancia();
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
+                Distancia distancia = new Distancia(mItem);
                 distancia.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
                 distanciaList.add(distancia);
                 if (exibirDistancias) {
@@ -649,15 +645,15 @@ public class PrincipalActivity extends AppCompatActivity
                 }
             }
         }
-        if (requestCode == ElementoDetailFragment.PICK_PONTO_REQUEST) {
+        if (requestCode == PEGAR_ELEMENTO_PONTO_REQUEST) {
             if (resultCode == RESULT_OK) {
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
-                Elemento mItem = elementoDao.get(data.getExtras().getInt(ElementoDetailFragment.ARG_ELEMENTOID));
-                geoPointList.addItem(new OverlayItem(mItem.getTitulo(), mItem.getDescricao(), mItem.getGeometriaMyGeoPoint()));
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
+                geoPointList.addItem(new MyOverlayItem(mItem.getTitulo(), mItem.getDescricao(), mItem.getGeometriaMyGeoPoint(), mItem.getElementoid()));
                 map.invalidate();
             }
         }
-        if( requestCode == REQUEST_MENU_CADASTROS ) {
+        if (requestCode == REQUEST_MENU_CADASTROS) {
             // pode ter alterado algum elemento, então temos que redesenhar os Elementos
             carregarPontos();
             carregarAreas();
@@ -665,6 +661,44 @@ public class PrincipalActivity extends AppCompatActivity
             map.invalidate();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_ACCESS_COARSE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            case MY_PERMISSIONS_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
@@ -682,16 +716,16 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public boolean longPressHelper(GeoPoint p) {
-        if ((adicionarAreaHolder == null) && (adicionarDistanciaHolder == null) && (adicionarPontoHolder == null)) {
-            MyGeoPoint ponto = new MyGeoPoint(p);
-
-            Intent intent = new Intent(mActivity.getBaseContext(), ElementoDetailActivity.class);
-            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
-            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 1);
-            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
-            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, ponto.toString());
-            mActivity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
-        }
+//        if ((adicionarAreaHolder == null) && (adicionarDistanciaHolder == null) && (adicionarPontoHolder == null)) {
+//            MyGeoPoint ponto = new MyGeoPoint(p);
+//
+//            Intent intent = new Intent(mActivity.getBaseContext(), ElementoDetailActivity.class);
+//            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
+//            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 1);
+//            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
+//            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, ponto.toString());
+//            mActivity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
+//        }
         return true;
     }
 
@@ -699,7 +733,7 @@ public class PrincipalActivity extends AppCompatActivity
         // https://stackoverflow.com/questions/41090639/add-marker-to-osmdroid-5-5-map
 
         map.getOverlays().remove(geoPointList);
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        ArrayList<MyOverlayItem> items = new ArrayList<MyOverlayItem>();
         //GeoPoint pontoAeroporto = new GeoPoint(-27.1341, -52.6606);
         //GeoPoint pontoDesbravador = new GeoPoint(-27.1048003, -52.6145871);
         //items.add(new OverlayItem("Aeroporto de Chapecó", "Descrição", pontoAeroporto));
@@ -709,22 +743,26 @@ public class PrincipalActivity extends AppCompatActivity
         List<Elemento> pontos = elementoDao.getAll();
         for (Elemento ponto : pontos) {
             if (ponto.getClasse().getNome().equals("Ponto")) {
-                items.add(new OverlayItem(ponto.getTitulo(), ponto.getDescricao(), ponto.getGeometriaMyGeoPoint()));
+                items.add(new MyOverlayItem(ponto.getTitulo(), ponto.getDescricao(), ponto.getGeometriaMyGeoPoint(), ponto.getElementoid()));
             }
         }
 
         //the overlay
-        geoPointList = new ItemizedOverlayWithFocus<OverlayItem>(
+        geoPointList = new MyItemizedOverlayWithFocus<MyOverlayItem>(
                 this, items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                new MyItemizedIconOverlay.OnItemGestureListener<MyOverlayItem>() {
                     @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        //do something
-                        return true;
+                    public boolean onItemSingleTapUp(int index, MyOverlayItem item) {
+                        return false;
                     }
 
                     @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                    public boolean onItemLongPress(int index, MyOverlayItem item) {
+                        if ((adicionarAreaHolder == null) && (adicionarDistanciaHolder == null) && (adicionarPontoHolder == null)) {
+                            Intent intent = new Intent(mActivity.getBaseContext(), ElementoDetailActivity.class);
+                            intent.putExtra(ARG_ELEMENTOID, item.getElementoId());
+                            mActivity.startActivityForResult(intent, ALTERAR_ELEMENTO_REQUEST);
+                        }
                         return true;
                     }
                 }
@@ -735,13 +773,13 @@ public class PrincipalActivity extends AppCompatActivity
     private void carregarAreas() {
         ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
-        for(Area a: areaList) {
+        for (Area a : areaList) {
             a.removerDe(map);
         }
         areaList.clear();
         for (Elemento e : elementos) {
             if (e.getClasse().getNome().equals("Area")) {
-                Area a = new Area();
+                Area a = new Area(e);
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 a.setTitulo(e.getTitulo());
                 areaList.add(a);
@@ -753,13 +791,13 @@ public class PrincipalActivity extends AppCompatActivity
     private void carregarDistancias() {
         ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
-        for(Distancia d: distanciaList) {
+        for (Distancia d : distanciaList) {
             d.removerDe(map);
         }
         distanciaList.clear();
         for (Elemento e : elementos) {
             if (e.getClasse().getNome().equals("Distancia")) {
-                Distancia d = new Distancia();
+                Distancia d = new Distancia(e);
                 d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 distanciaList.add(d);
                 d.desenharEm(map);

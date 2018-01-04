@@ -2,7 +2,6 @@ package br.com.neogis.agritopo.activity;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import br.com.neogis.agritopo.R;

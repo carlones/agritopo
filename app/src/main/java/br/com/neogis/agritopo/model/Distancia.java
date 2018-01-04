@@ -6,24 +6,23 @@ import android.util.Log;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polygon;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
 public class Distancia {
-    // Overlay que exibe os pontos no mapa
-    private Polygon linha;
+    private MyPolygon linha;
     private Marker texto;
     private List<GeoPoint> pontos;
     private double distancia; // em metros
 
-    public Distancia() {
+    public Distancia(Elemento elemento) {
         this.pontos = new ArrayList<>();
-        this.linha = new Polygon();
+        this.linha = new MyPolygon(elemento);
 
         // Cor e estilo da área
         this.linha.setStrokeColor(Color.MAGENTA);
@@ -31,7 +30,7 @@ public class Distancia {
     }
 
     public void adicionarPonto(GeoPoint ponto) {
-        if( this.ehValida() ) return; // não deixar adicionar mais que 2 pontos
+        if (this.ehValida()) return; // não deixar adicionar mais que 2 pontos
 
         this.pontos.add(ponto);
         this.linha.setPoints(this.pontos);
@@ -44,7 +43,7 @@ public class Distancia {
     }
 
     private void definirTexto() {
-        if( this.texto != null && this.ehValida() ) {
+        if (this.texto != null && this.ehValida()) {
             calcularDistancia();
             this.texto.setTitle(this.descricaoDistancia());
             this.texto.setPosition(this.getCentro());
@@ -55,11 +54,15 @@ public class Distancia {
         return this.pontos;
     }
 
+    public void setPontos(List<GeoPoint> pontos) {
+        this.pontos = pontos;
+    }
+
     // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
     //
     public void calcularDistancia() {
         this.distancia = 0.0;
-        if( !this.ehValida() )
+        if (!this.ehValida())
             return;
 
         double raioTerra = 6371000; // Radius of the earth in m
@@ -70,11 +73,10 @@ public class Distancia {
         double dLat = Math.toRadians(p2.getLatitude() - p1.getLatitude());
         double dLon = Math.toRadians(p2.getLongitude() - p1.getLongitude());
         double a =
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                         Math.cos(Math.toRadians(p1.getLatitude())) * Math.cos(Math.toRadians(p2.getLatitude())) *
-                                Math.sin(dLon/2) * Math.sin(dLon/2)
-                ;
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         this.distancia = raioTerra * c; // Distance in m
 
         Log.i("Agritopo", "Distância: " + this.descricaoDistancia());
@@ -89,7 +91,7 @@ public class Distancia {
     public void desenharEm(MapView mapa) {
         mapa.getOverlays().add(this.linha);
 
-        if( this.texto == null )
+        if (this.texto == null)
             this.texto = new Marcador(mapa);
         this.definirTexto();
 
@@ -127,7 +129,7 @@ public class Distancia {
     public GeoPoint getCentro() {
         double centroLat = 0.0;
         double centroLon = 0.0;
-        for(GeoPoint ponto : this.getPontos()) {
+        for (GeoPoint ponto : this.getPontos()) {
             centroLat += ponto.getLatitude();
             centroLon += ponto.getLongitude();
         }
@@ -142,4 +144,37 @@ public class Distancia {
         JSONSerializer serializer = new JSONSerializer();
         return serializer.serialize(getMyGeoPointList());
     }
+
+    public Elemento getElemento() {
+        return linha.getElemento();
+    }
+
+    public void setElemento(Elemento elemento) {
+        this.linha.setElemento(elemento);
+    }
+
+    public MyPolygon getLinha() {
+        return linha;
+    }
+
+    public void setLinha(MyPolygon linha) {
+        this.linha = linha;
+    }
+
+    public Marker getTexto() {
+        return texto;
+    }
+
+    public void setTexto(Marker texto) {
+        this.texto = texto;
+    }
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
+    }
+
 }

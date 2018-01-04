@@ -28,6 +28,7 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
         }
         return l;
     }
+
     @Override
     public List<TipoElemento> getAll() {
         abrirLeitura();

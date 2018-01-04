@@ -10,10 +10,15 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
+import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.model.MyGeoPoint;
+
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
 
 
 /**
@@ -40,11 +45,11 @@ public class AdicionarPontoHolder extends Overlay {
         MyGeoPoint ponto = new MyGeoPoint((GeoPoint) mapView.getMapCenter());
 
         Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
-        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
-        intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 1);
-        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
-        intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, ponto.toString());
-        activity.startActivityForResult(intent, ElementoDetailFragment.PICK_PONTO_REQUEST);
+        intent.putExtra(ARG_ELEMENTOID, 0);
+        intent.putExtra(ARG_TIPOELEMENTOID, 1);
+        intent.putExtra(ARG_CLASSEID, 1);
+        intent.putExtra(ARG_GEOMETRIA, ponto.toString());
+        activity.startActivityForResult(intent, PEGAR_ELEMENTO_PONTO_REQUEST);
 
         mapView.invalidate();
         return true; // Não propogar evento para demais overlays

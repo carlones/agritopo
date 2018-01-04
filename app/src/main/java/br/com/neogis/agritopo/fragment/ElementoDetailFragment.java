@@ -1,9 +1,9 @@
 package br.com.neogis.agritopo.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,11 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+
 /**
  * A fragment representing a single Elemento detail screen.
  * This fragment is either contained in a {@link ElementoListActivity}
@@ -34,35 +39,11 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
  * on handsets.
  */
 public class ElementoDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ELEMENTOID = "elementoid";
-    public static final String ARG_CLASSEID = "classeid";
-    public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
-    public static final String ARG_GEOMETRIA = "geometria";
-    public static final String ARG_POSICAO_LISTA = "posicao_lista";
-
-    public static final int PICK_AREA_REQUEST = 4000;
-    public static final int PICK_DISTANCIA_REQUEST = 3000;
-    public static final int PICK_PONTO_REQUEST = 5000;
-
-    public static final int ALTERAR_ELEMENTO_REQUEST = 10;
-
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private Elemento mItem;
-
     private EditText elementoTituloView;
     private AutoCompleteTextView elementoTipoElementoView;
     private EditText elementoDescricaoView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ElementoDetailFragment() {
     }
 

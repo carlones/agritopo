@@ -10,10 +10,16 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
+import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.model.Distancia;
+
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 
 /**
  * Created by Wagner on 23/09/2017.
@@ -28,7 +34,7 @@ public class AdicionarDistanciaHolder extends Overlay {
     public AdicionarDistanciaHolder(MapView mapa, Activity activity) {
         Log.i("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
-        this.distancia = new Distancia();
+        this.distancia = new Distancia(new Elemento());
         this.activity = activity;
 
         // Exibir o modal
@@ -61,18 +67,17 @@ public class AdicionarDistanciaHolder extends Overlay {
         this.removerModal();
         if (distancia.ehValida()) {
             Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
-            intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, 0);
-            intent.putExtra(ElementoDetailFragment.ARG_TIPOELEMENTOID, 5);
-            intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 3);
-            intent.putExtra(ElementoDetailFragment.ARG_GEOMETRIA, distancia.serializeMyGeoPointList());
-            activity.startActivityForResult(intent, ElementoDetailFragment.PICK_DISTANCIA_REQUEST);
+            intent.putExtra(ARG_ELEMENTOID, 0);
+            intent.putExtra(ARG_TIPOELEMENTOID, 5);
+            intent.putExtra(ARG_CLASSEID, 3);
+            intent.putExtra(ARG_GEOMETRIA, distancia.serializeMyGeoPointList());
+            activity.startActivityForResult(intent, PEGAR_ELEMENTO_DISTANCIA_REQUEST);
         }
     }
 
     // Termina o modal, ignorando e descartando a seleção feita pelo usuário
     //
-    public void cancelar()
-    {
+    public void cancelar() {
         Log.i("Agritopo", "Cancelando Distância");
         this.removerModal();
     }

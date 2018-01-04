@@ -28,6 +28,7 @@ public class ClasseDaoImpl extends DaoController implements ClasseDao {
         }
         return l;
     }
+
     @Override
     public List<Classe> getAll() {
         abrirLeitura();

@@ -6,26 +6,26 @@ import android.util.Log;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polygon;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
 public class Area {
     // Overlay que exibe os pontos no mapa
-    private Polygon poligono;
+    private MyPolygon poligono;
     private Marker texto;
     private List<GeoPoint> pontos;
     private double area; // m²
     private double perimetro; // m
     private String titulo = "";
 
-    public Area() {
+    public Area(Elemento elemento) {
         this.pontos = new ArrayList<>();
-        this.poligono = new Polygon();
+        this.poligono = new MyPolygon(elemento);
 
         // Cor e estilo da área
         this.poligono.setFillColor(0x12121212);
@@ -33,11 +33,19 @@ public class Area {
         this.poligono.setStrokeWidth(4.0f);
     }
 
-    public Polygon getPoligono() {
+    public Elemento getElemento() {
+        return poligono.getElemento();
+    }
+
+    public void setElemento(Elemento elemento) {
+        poligono.setElemento(elemento);
+    }
+
+    public MyPolygon getPoligono() {
         return poligono;
     }
 
-    public void setPoligono(Polygon poligono) {
+    public void setPoligono(MyPolygon poligono) {
         this.poligono = poligono;
     }
 
@@ -88,18 +96,18 @@ public class Area {
     //
     public void calcularArea() {
         this.area = 0.0;
-        if( !this.ehValida() )
+        if (!this.ehValida())
             return;
 
         GeoPoint p1, p2;
-        for (int i=0; i<this.pontos.size(); i++) {
+        for (int i = 0; i < this.pontos.size(); i++) {
             p1 = this.pontos.get(i);
 
             // comparar o último ponto com o primeiro
-            if( (i+1) == this.pontos.size() )
+            if ((i + 1) == this.pontos.size())
                 p2 = this.pontos.get(0);
             else
-                p2 = this.pontos.get(i+1);
+                p2 = this.pontos.get(i + 1);
 
             this.area += Math.toRadians(p2.getLongitude() - p1.getLongitude()) * (
                     2 + Math.sin(Math.toRadians(p1.getLatitude())) +
@@ -115,29 +123,28 @@ public class Area {
     //
     public void calcularPerimetro() {
         this.perimetro = 0.0;
-        if( !this.ehValida() )
+        if (!this.ehValida())
             return;
 
         double raioTerra = 6371000; // Radius of the earth in m
 
         GeoPoint p1, p2;
-        for (int i=0; i<this.pontos.size(); i++) {
+        for (int i = 0; i < this.pontos.size(); i++) {
             p1 = this.pontos.get(i);
 
             // comparar o último ponto com o primeiro
-            if( (i+1) == this.pontos.size() )
+            if ((i + 1) == this.pontos.size())
                 p2 = this.pontos.get(0);
             else
-                p2 = this.pontos.get(i+1);
+                p2 = this.pontos.get(i + 1);
 
             double dLat = Math.toRadians(p2.getLatitude() - p1.getLatitude());
             double dLon = Math.toRadians(p2.getLongitude() - p1.getLongitude());
             double a =
-                    Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                             Math.cos(Math.toRadians(p1.getLatitude())) * Math.cos(Math.toRadians(p2.getLatitude())) *
-                                    Math.sin(dLon/2) * Math.sin(dLon/2)
-                    ;
-            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             double d = raioTerra * c; // Distance in m
             this.perimetro += d;
         }
@@ -158,7 +165,7 @@ public class Area {
         mapa.getOverlays().add(this.poligono);
 
         Marcador.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
-        if( this.texto == null )
+        if (this.texto == null)
             this.texto = new Marcador(mapa);
         this.texto.setTitle(this.titulo + "\nÁrea: " + this.descricaoArea() + "\nPerímetro: " + this.descricaoPerimetro());
         this.texto.setIcon(null);
@@ -174,7 +181,7 @@ public class Area {
     public GeoPoint getCentro() {
         double centroLat = 0.0;
         double centroLon = 0.0;
-        for(GeoPoint ponto : this.getPontos()) {
+        for (GeoPoint ponto : this.getPontos()) {
             centroLat += ponto.getLatitude();
             centroLon += ponto.getLongitude();
         }

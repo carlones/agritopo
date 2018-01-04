@@ -15,6 +15,10 @@ public class Classe {
         this.nome = nome;
     }
 
+    public Classe(String nome) {
+        this.nome = nome;
+    }
+
     public int getClasseid() {
         return classeid;
     }
