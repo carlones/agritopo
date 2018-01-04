@@ -10,10 +10,14 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.model.Distancia;
+import br.com.neogis.agritopo.model.MyGeoPoint;
 
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
@@ -34,7 +38,8 @@ public class AdicionarDistanciaHolder extends Overlay {
     public AdicionarDistanciaHolder(MapView mapa, Activity activity) {
         Log.i("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
-        this.distancia = new Distancia(new Elemento());
+        List<MyGeoPoint> lista = new ArrayList<>();
+        this.distancia = new Distancia(new Elemento(lista));
         this.activity = activity;
 
         // Exibir o modal

@@ -616,27 +616,6 @@ public class MapActivity extends AppCompatActivity
                 Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
     }
 
-    public void carregarMapaDeArquivo(MapView map, File arquivo) {
-        MapaTiles am = new MapaTiles(arquivo);
-        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
-        XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
-        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
-        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
-        MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
-        map.setTileProvider(mProvider);
-
-        IMapController mapController = map.getController();
-        if( zoomInicial == 0 )
-            zoomInicial = 15;
-        mapController.setZoom(zoomInicial);
-
-        // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
-        if( coordenadasIniciais == null )
-            coordenadasIniciais = am.pontoCentral;
-        mapController.setCenter(coordenadasIniciais);
-        mapController.animateTo(am.pontoCentral);
-    }
-
     public void carregarMapaOnline() {
         Intent intent = new Intent();
         intent.putExtra(ARG_MAPA_MODO, ONLINE);

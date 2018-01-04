@@ -27,8 +27,8 @@ public class Elemento {
 
     private String modified_at;
 
-    public Elemento() {
-        this(new TipoElemento("Indefinido"), new Classe("Indefinido"), "", "", "");
+    public Elemento(Object geometria) {
+        this(new TipoElemento("Indefinido"), new Classe("Indefinido"), "", "", geometria);
     }
 
     public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {

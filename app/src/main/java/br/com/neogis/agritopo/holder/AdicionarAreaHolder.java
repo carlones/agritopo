@@ -10,10 +10,14 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.model.Area;
+import br.com.neogis.agritopo.model.MyGeoPoint;
 
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
@@ -35,7 +39,9 @@ public class AdicionarAreaHolder extends Overlay {
         Log.d("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
         this.activity = activity;
-        this.area = new Area(new Elemento());
+
+        List<MyGeoPoint> lista = new ArrayList<>();
+        this.area = new Area(new Elemento(lista));
 
         // Exibir o modal
         this.mapa.getOverlays().add(this.area.getPoligono());

@@ -31,10 +31,6 @@ public class Area {
         this.poligono.setFillColor(0x12121212);
         this.poligono.setStrokeColor(Color.MAGENTA);
         this.poligono.setStrokeWidth(4.0f);
-    }
-
-    public Area(Elemento elemento) {
-        this();
         setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
         setTitulo(elemento.getTitulo());
     }

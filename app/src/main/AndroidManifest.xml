@@ -40,17 +40,13 @@
             android:name=".activity.ConfiguracaoActivity"
             android:label="@string/title_activity_configuracao" />
         <activity
-            android:name=".activity.ElementoListActivity"
-            android:label="@string/title_elemento_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.ElementoDetailActivity"
             android:label="@string/title_elemento_detail"
-            android:parentActivityName=".activity.ElementoListActivity"
+            android:parentActivityName=".activity.CadastrosListarActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.neogis.agritopo.activity.ElementoListActivity" />
+                android:value="br.com.neogis.agritopo.activity.CadastrosListarActivity" />
         </activity>
         <activity android:name=".activity.SingleFragmentActivity" />
     </application>

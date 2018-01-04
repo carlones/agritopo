@@ -27,10 +27,6 @@ public class Distancia {
         // Cor e estilo da área
         this.linha.setStrokeColor(Color.MAGENTA);
         this.linha.setStrokeWidth(5.0f);
-    }
-
-    public Distancia(Elemento elemento) {
-        this();
         setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
     }
 

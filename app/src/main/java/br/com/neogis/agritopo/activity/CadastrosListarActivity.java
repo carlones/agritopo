@@ -21,19 +21,19 @@ import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.fragment.CadastrosAbaFragment;
-import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
+
+import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
 
 public class CadastrosListarActivity extends AppCompatActivity {
 
     public static final String ARG_CLASSEID = "ClasseIdAba";
-
+    public ArrayList<Integer> idsSelecionados = new ArrayList<>();
     TabLayout abas;
     AbaAdapter abaAdapter;
     ViewPager viewPager;
-
-    private String[] titulosAbas = {"Tudo", "Pontos", "Áreas", "Distâncias"};
     List<Elemento> elementos;
-    public ArrayList<Integer> idsSelecionados = new ArrayList<>();
+    private String[] titulosAbas = {"Tudo", "Pontos", "Áreas", "Distâncias"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,17 +118,17 @@ public class CadastrosListarActivity extends AppCompatActivity {
     }
     public void onElementoClicado(Elemento elemento) {
         Intent intent = new Intent(getBaseContext(), ElementoDetailActivity.class);
-        intent.putExtra(ElementoDetailFragment.ARG_ELEMENTOID, elemento.getElementoid());
-        startActivityForResult(intent, ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST);
+        intent.putExtra(ARG_ELEMENTOID, elemento.getElementoid());
+        startActivityForResult(intent, ALTERAR_ELEMENTO_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if( resultCode == RESULT_OK )
         {
-            if( requestCode == ElementoDetailFragment.ALTERAR_ELEMENTO_REQUEST )
+            if (requestCode == ALTERAR_ELEMENTO_REQUEST)
             {
-                int elementoId = data.getIntExtra(ElementoDetailFragment.ARG_ELEMENTOID, -1);
+                int elementoId = data.getIntExtra(ARG_ELEMENTOID, -1);
                 if( elementoId > -1 )
                 {
                     // Reconstruir conteúdo abas
