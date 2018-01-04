@@ -121,12 +121,21 @@ public class PrincipalActivity extends AppCompatActivity
     private boolean exibirPontos;
     private boolean exibirAreas;
     private boolean exibirDistancias;
+
+    private GeoPoint coordenadasIniciais;
+    private int zoomInicial = 0;
+
     private IMapController mapController;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Restaurar posição no mapa, nível do zoom, e outros
+        if( savedInstanceState != null )
+            onRestoreInstanceState(savedInstanceState);
+
         setContentView(R.layout.activity_principal);
 
         layoutTelaPrincipal = (ConstraintLayout) findViewById(R.id.content_principal);
@@ -610,8 +619,14 @@ public class PrincipalActivity extends AppCompatActivity
         map.setTileProvider(mProvider);
 
         IMapController mapController = map.getController();
-        mapController.setZoom(15);
-        mapController.animateTo(am.pontoCentral);
+        if( zoomInicial == 0 )
+            zoomInicial = 15;
+        mapController.setZoom(zoomInicial);
+
+        // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
+        if( coordenadasIniciais == null )
+            coordenadasIniciais = am.pontoCentral;
+        mapController.setCenter(coordenadasIniciais);
     }
 
     void setInitialViewOn(BoundingBox bb) {
@@ -779,6 +794,27 @@ public class PrincipalActivity extends AppCompatActivity
 //        cantos.desenharEm(map);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if( map != null ) {
+            outState.putInt("zoomInicial", map.getZoomLevel());
+            outState.putDouble("latitudeAtual", map.getMapCenter().getLatitude());
+            outState.putDouble("longitudeAtual", map.getMapCenter().getLongitude());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        zoomInicial = savedInstanceState.getInt("zoomInicial", 0);
+
+        double lat = savedInstanceState.getDouble("latitudeAtual", 0.0);
+        double lon = savedInstanceState.getDouble("longitudeAtual", 0.0);
+        if( lat != 0.0 && lon != 0.0 )
+            coordenadasIniciais = new GeoPoint(lat, lon);
+    }
 
     //0. Using the Marker and Polyline overlays - advanced options
     class OnMarkerDragListenerDrawer implements Marker.OnMarkerDragListener {
