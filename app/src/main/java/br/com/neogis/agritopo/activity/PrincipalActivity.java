@@ -322,8 +322,8 @@ public class PrincipalActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
-                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 2);
+                        Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
+                        intent.putExtra(CadastrosListarActivity.ARG_CLASSEID, 2);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
@@ -331,8 +331,8 @@ public class PrincipalActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
-                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 3);
+                        Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
+                        intent.putExtra(CadastrosListarActivity.ARG_CLASSEID, 3);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
@@ -340,8 +340,8 @@ public class PrincipalActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
-                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
-                        intent.putExtra(ElementoDetailFragment.ARG_CLASSEID, 1);
+                        Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
+                        intent.putExtra(CadastrosListarActivity.ARG_CLASSEID, 1);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });

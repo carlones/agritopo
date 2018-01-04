@@ -25,6 +25,8 @@ import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
 
 public class CadastrosListarActivity extends AppCompatActivity {
 
+    public static final String ARG_CLASSEID = "ClasseIdAba";
+
     TabLayout abas;
     AbaAdapter abaAdapter;
     ViewPager viewPager;
@@ -45,6 +47,9 @@ public class CadastrosListarActivity extends AppCompatActivity {
         viewPager.setAdapter(abaAdapter);
         abas = (TabLayout) findViewById(R.id.tabs);
         abas.setupWithViewPager(viewPager);
+
+        int abrirNaAba = getIntent().getIntExtra(ARG_CLASSEID, 0);
+        viewPager.setCurrentItem(abrirNaAba);
     }
 
     private void carregarElementos() {
@@ -180,6 +185,12 @@ public class CadastrosListarActivity extends AppCompatActivity {
                 for (Elemento e : elementos) {
                     if (f.classe.equals("Tudo") || e.getClasse().getNome().equals(f.classe))
                         f.elementosDaAba.add(e);
+                }
+            }
+            // Após remover um elemento o título não é recriado automaticamente
+            if( abas != null ) {
+                for(int i=0; i < abas.getTabCount(); i++) {
+                    abas.getTabAt(i).setText(getPageTitle(i));
                 }
             }
         }
