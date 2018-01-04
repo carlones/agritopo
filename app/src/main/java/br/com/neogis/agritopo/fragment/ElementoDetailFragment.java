@@ -16,7 +16,6 @@ import java.util.List;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
-import br.com.neogis.agritopo.activity.ElementoListActivity;
 import br.com.neogis.agritopo.dao.tabelas.Classe;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
