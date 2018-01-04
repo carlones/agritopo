@@ -10,4 +10,7 @@
 
     <color name="item_desmarcado">#ffffff</color>
     <color name="item_marcado">#4d90fe</color>
+
+    <color name="aba_fundo">#ffffff</color>
+    <color name="aba_texto">#000000</color>
 </resources>

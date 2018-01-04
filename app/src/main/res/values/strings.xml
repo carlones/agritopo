@@ -107,6 +107,7 @@
     <string name="text_descricao">Descrição</string>
     <string name="title_elemento_list">Elementos</string>
     <string name="title_elemento_detail">Detalhe do Elemento</string>
+    <string name="title_cadastros_listar">Cadastros</string>
     <string name="cbx_distancias">Distâncias</string>
     <string name="ic_access_alarms" translatable="false">&#xe000;</string>
     <string name="ic_access_time" translatable="false">&#xe001;</string>

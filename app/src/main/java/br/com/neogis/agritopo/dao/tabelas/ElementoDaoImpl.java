@@ -53,6 +53,25 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         return getListaObjetos(cursor);
     }
 
+    public List<Elemento> getAll(String orderBy) {
+        abrirLeitura();
+        String sql = "" +
+                "SELECT elementoid\n" +
+                "  ,classeid\n" +
+                "  ,tipoelementoid\n" +
+                "  ,titulo\n" +
+                "  ,descricao\n" +
+                "  ,geometria\n" +
+                "  ,created_at\n" +
+                "  ,modified_at\n" +
+                "FROM elemento";
+        if( orderBy != null && !orderBy.isEmpty() ) {
+            sql += " ORDER BY " + orderBy;
+        }
+        Cursor cursor = db.rawQuery(sql, new String[]{});
+        return getListaObjetos(cursor);
+    }
+
     @Override
     public List<Elemento> getByClasse(int classeid) {
         abrirLeitura();

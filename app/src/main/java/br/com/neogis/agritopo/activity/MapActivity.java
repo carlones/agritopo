@@ -38,6 +38,9 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
@@ -128,14 +131,24 @@ public class MapActivity extends AppCompatActivity
     private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar;
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
+    private boolean exibirPontos;
     private boolean exibirAreas;
     private boolean exibirDistancias;
+
+    private GeoPoint coordenadasIniciais;
+    private int zoomInicial = 0;
+
     private IMapController mapController;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Restaurar posição no mapa, nível do zoom, e outros
+        if( savedInstanceState != null )
+            onRestoreInstanceState(savedInstanceState);
+
         setContentView(R.layout.activity_principal);
 
         layoutTelaPrincipal = (ConstraintLayout) findViewById(R.id.content_principal);
@@ -157,6 +170,7 @@ public class MapActivity extends AppCompatActivity
         mContext = getApplicationContext();
         mActivity = MapActivity.this;
 
+        exibirPontos = true;
         exibirAreas = true;
         areaList = new ArrayList<Area>();
         exibirDistancias = true;
@@ -164,6 +178,8 @@ public class MapActivity extends AppCompatActivity
 
         inicializarMapas(getIntent().getIntExtra(ARG_MAPA_MODO, OFFLINE) == OFFLINE);
         inicializarBotoes();
+
+        //lerPastasDoKML();
     }
 
     private boolean criarDiretorio(String diretorio) {
@@ -260,12 +276,13 @@ public class MapActivity extends AppCompatActivity
                 CheckBox cbxDistancias = (CheckBox) customView.findViewById(R.id.cbxDistancias);
                 CheckBox cbxPontos = (CheckBox) customView.findViewById(R.id.cbxPontos);
 
-                cbxPontos.setChecked(map.getOverlays().contains(geoPointList));
+                cbxPontos.setChecked(exibirPontos);
                 cbxAreas.setChecked(exibirAreas);
                 cbxDistancias.setChecked(exibirDistancias);
 
                 cbxPontos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        exibirPontos = isChecked;
                         if (isChecked) {
                             map.getOverlays().add(geoPointList);
                             Utils.toast(getBaseContext(), "Pontos de Interesse: Ativado");
@@ -334,7 +351,7 @@ public class MapActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
-                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
+                        Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 2);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
@@ -343,7 +360,7 @@ public class MapActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
-                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
+                        Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 3);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
@@ -352,11 +369,25 @@ public class MapActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
-                        Intent intent = new Intent(getBaseContext(), ElementoListActivity.class);
+                        Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 1);
                         startActivityForResult(intent, REQUEST_MENU_CADASTROS);
                     }
                 });
+                /*
+                    public void showAtLocation (View parent, int gravity, int x, int y)
+                        Display the content view in a popup window at the specified location. If the
+                        popup window cannot fit on screen, it will be clipped.
+                        Learn WindowManager.LayoutParams for more information on how gravity and the x
+                        and y parameters are related. Specifying a gravity of NO_GRAVITY is similar
+                        to specifying Gravity.LEFT | Gravity.TOP.
+
+                    Parameters
+                        parent : a parent view to get the getWindowToken() token from
+                        gravity : the gravity which controls the placement of the popup window
+                        x : the popup's x location offset
+                        y : the popup's y location offset
+                */
                 popupLayers.showAtLocation(layoutTelaPrincipal, Gravity.CENTER, 0, 0);
             }
         });
@@ -449,7 +480,6 @@ public class MapActivity extends AppCompatActivity
 
         if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0) && (modoOffline)) {
             carregarMapaDeArquivo(map, listaArquivosMapas[0]);
-            map.getOverlays().add(geoPointList);
         } else {
             map.setUseDataConnection(true);
             map.setTileSource(TileSourceFactory.MAPNIK);
@@ -460,47 +490,6 @@ public class MapActivity extends AppCompatActivity
                 mapController.animateTo(mMyLocationNewOverlay.getMyLocation());
             }
         }
-    }
-
-    public void buscarMapasDoImovel() {
-        File pasta_mapas = new File(caminhoPastaMapas);
-        FilenameFilter filtro = new FilenameFilter() {
-            String[] extensoesValidas = {"mbtiles"};
-
-            @Override
-            public boolean accept(File dir, String name) {
-                String extensao = name.substring(name.lastIndexOf(".") + 1);
-                extensao = extensao.toLowerCase();
-                Log.d("Agritopo", "extensao: " + extensao);
-                return Arrays.asList(extensoesValidas).contains(extensao);
-            }
-        };
-        listaArquivosMapas = pasta_mapas.listFiles(filtro);
-        if (listaArquivosMapas != null)
-            for (File arquivo : listaArquivosMapas)
-                Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
-    }
-
-    public void carregarMapaOnline() {
-        Intent intent = new Intent();
-        intent.putExtra(ARG_MAPA_MODO, ONLINE);
-        setResult(RESULT_OK, intent);
-        finish();
-        onBackPressed();
-    }
-
-    public void carregarMapaDeArquivo(MapView map, File arquivo) {
-        MapaTiles am = new MapaTiles(arquivo);
-        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
-        XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
-        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
-        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
-        MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
-        map.setTileProvider(mProvider);
-
-        IMapController mapController = map.getController();
-        mapController.setZoom(15);
-        mapController.animateTo(am.pontoCentral);
     }
 
     @Override
@@ -563,7 +552,7 @@ public class MapActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_cadastros) {
-            Intent intent = new Intent(this, ElementoListActivity.class);
+            Intent intent = new Intent(this, CadastrosListarActivity.class);
             startActivityForResult(intent, REQUEST_MENU_CADASTROS);
         } else if (id == R.id.nav_camadas) {
             Class<?> clazz = CamadasFragment.class;
@@ -606,6 +595,75 @@ public class MapActivity extends AppCompatActivity
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public void buscarMapasDoImovel() {
+        File pasta_mapas = new File(caminhoPastaMapas);
+        FilenameFilter filtro = new FilenameFilter() {
+            String[] extensoesValidas = {"mbtiles"};
+
+            @Override
+            public boolean accept(File dir, String name) {
+                String extensao = name.substring(name.lastIndexOf(".") + 1);
+                extensao = extensao.toLowerCase();
+                Log.d("Agritopo", "extensao: " + extensao);
+                return Arrays.asList(extensoesValidas).contains(extensao);
+            }
+        };
+        listaArquivosMapas = pasta_mapas.listFiles(filtro);
+        if (listaArquivosMapas != null)
+            for (File arquivo : listaArquivosMapas)
+                Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
+    }
+
+    public void carregarMapaDeArquivo(MapView map, File arquivo) {
+        MapaTiles am = new MapaTiles(arquivo);
+        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
+        XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
+        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
+        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
+        MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
+        map.setTileProvider(mProvider);
+
+        IMapController mapController = map.getController();
+        if( zoomInicial == 0 )
+            zoomInicial = 15;
+        mapController.setZoom(zoomInicial);
+
+        // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
+        if( coordenadasIniciais == null )
+            coordenadasIniciais = am.pontoCentral;
+        mapController.setCenter(coordenadasIniciais);
+        mapController.animateTo(am.pontoCentral);
+    }
+
+    public void carregarMapaOnline() {
+        Intent intent = new Intent();
+        intent.putExtra(ARG_MAPA_MODO, ONLINE);
+        setResult(RESULT_OK, intent);
+        finish();
+        onBackPressed();
+    }
+
+    public void carregarMapaDeArquivo(MapView map, File arquivo) {
+        MapaTiles am = new MapaTiles(arquivo);
+
+        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
+        XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
+        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
+        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
+        MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
+        map.setTileProvider(mProvider);
+
+        IMapController mapController = map.getController();
+        if( zoomInicial == 0 )
+            zoomInicial = 15;
+        mapController.setZoom(zoomInicial);
+
+        // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
+        if( coordenadasIniciais == null )
+            coordenadasIniciais = am.pontoCentral;
+        mapController.setCenter(coordenadasIniciais);
     }
 
     void setInitialViewOn(BoundingBox bb) {
@@ -768,6 +826,8 @@ public class MapActivity extends AppCompatActivity
                 }
         );
         geoPointList.setFocusItemsOnTap(true);
+        if( exibirPontos )
+            map.getOverlays().add(geoPointList);
     }
 
     private void carregarAreas() {
@@ -783,7 +843,8 @@ public class MapActivity extends AppCompatActivity
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 a.setTitulo(e.getTitulo());
                 areaList.add(a);
-                a.desenharEm(map);
+                if( exibirAreas )
+                    a.desenharEm(map);
             }
         }
     }
@@ -800,7 +861,8 @@ public class MapActivity extends AppCompatActivity
                 Distancia d = new Distancia(e);
                 d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 distanciaList.add(d);
-                d.desenharEm(map);
+                if( exibirDistancias )
+                    d.desenharEm(map);
             }
         }
 
@@ -814,6 +876,53 @@ public class MapActivity extends AppCompatActivity
 //        cantos.desenharEm(map);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if( map != null ) {
+            outState.putInt("zoomInicial", map.getZoomLevel());
+            outState.putDouble("latitudeAtual", map.getMapCenter().getLatitude());
+            outState.putDouble("longitudeAtual", map.getMapCenter().getLongitude());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        zoomInicial = savedInstanceState.getInt("zoomInicial", 0);
+
+        double lat = savedInstanceState.getDouble("latitudeAtual", 0.0);
+        double lon = savedInstanceState.getDouble("longitudeAtual", 0.0);
+        if( lat != 0.0 && lon != 0.0 )
+            coordenadasIniciais = new GeoPoint(lat, lon);
+    }
+
+    // https://github.com/MKergall/osmbonuspack/issues/266
+    private void lerPastasDoKML() {
+        File arquivoKml = new File(caminhoPastaMapas + "KML_Samples_sem_icones.kml");
+        KmlDocument kmlDocument = new KmlDocument();
+        if (!kmlDocument.parseKMLFile(arquivoKml))
+            Utils.info("Erro durante parse do arquivo KML");
+        else
+            Utils.info("parse do arquivo KML ok");
+
+        listarPastas(kmlDocument.mKmlRoot, 0);
+    }
+
+    // Achei um bug: a pasta "Screen Overlays" vem como "Dynamic Positioning: Right of screen" (linha 333):
+    // parece que por não reconhecer a tag <ScreenOverlay> acabou pegando o último <name>.
+    // Vamos ver o arquivo que o Angelo manda, se isso será um problema.
+    //
+    private void listarPastas(KmlFolder pasta, int nivel) {
+        for(KmlFeature f: pasta.mItems) {
+            if( f.getClass() == KmlFolder.class ) {
+                Utils.info(String.format("%"+ (nivel * 4 + 1) + "s", "")  + f.mName);
+                listarPastas((KmlFolder) f, nivel + 1);
+            }
+        }
+
+    }
 
     //0. Using the Marker and Polyline overlays - advanced options
     class OnMarkerDragListenerDrawer implements Marker.OnMarkerDragListener {

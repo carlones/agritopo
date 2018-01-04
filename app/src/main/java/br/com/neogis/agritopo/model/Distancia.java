@@ -29,6 +29,11 @@ public class Distancia {
         this.linha.setStrokeWidth(5.0f);
     }
 
+    public Distancia(Elemento elemento) {
+        this();
+        setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
+    }
+
     public void adicionarPonto(GeoPoint ponto) {
         if (this.ehValida()) return; // não deixar adicionar mais que 2 pontos
 

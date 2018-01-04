@@ -33,6 +33,12 @@ public class Area {
         this.poligono.setStrokeWidth(4.0f);
     }
 
+    public Area(Elemento elemento) {
+        this();
+        setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
+        setTitulo(elemento.getTitulo());
+    }
+
     public Elemento getElemento() {
         return poligono.getElemento();
     }

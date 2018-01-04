@@ -35,7 +35,8 @@
     <string name="text_descricao">Descrição</string>
     <string name="cbx_distancias">Distâncias</string>
     <string name="title_elemento_detail">Detalhe do Elemento</string>
-    <string name="title_elemento_list">Elementos</string>
+    <string name="title_elemento_list">Cadastros</string>
+    <string name="title_cadastros_listar">Cadastros</string>
     <string name="pref_default_display_name" translatable="false">John Smith</string>
     <string name="pref_description_social_recommendations" translatable="false">Recomendações</string>
     <string name="pref_header_data_sync" translatable="false">Dados &amp; sincronização</string>
