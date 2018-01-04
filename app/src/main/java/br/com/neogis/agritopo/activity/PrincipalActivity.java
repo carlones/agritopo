@@ -118,6 +118,7 @@ public class PrincipalActivity extends AppCompatActivity
     private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar;
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
+    private boolean exibirPontos;
     private boolean exibirAreas;
     private boolean exibirDistancias;
     private IMapController mapController;
@@ -147,6 +148,7 @@ public class PrincipalActivity extends AppCompatActivity
         mContext = getApplicationContext();
         mActivity = PrincipalActivity.this;
 
+        exibirPontos = true;
         exibirAreas = true;
         areaList = new ArrayList<Area>();
         exibirDistancias = true;
@@ -248,12 +250,13 @@ public class PrincipalActivity extends AppCompatActivity
                 CheckBox cbxDistancias = (CheckBox) customView.findViewById(R.id.cbxDistancias);
                 CheckBox cbxPontos = (CheckBox) customView.findViewById(R.id.cbxPontos);
 
-                cbxPontos.setChecked(map.getOverlays().contains(geoPointList));
+                cbxPontos.setChecked(exibirPontos);
                 cbxAreas.setChecked(exibirAreas);
                 cbxDistancias.setChecked(exibirDistancias);
 
                 cbxPontos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        exibirPontos = isChecked;
                         if (isChecked) {
                             map.getOverlays().add(geoPointList);
                             Utils.toast(getBaseContext(), "Pontos de Interesse: Ativado");
@@ -451,7 +454,6 @@ public class PrincipalActivity extends AppCompatActivity
 
         if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0)) {
             carregarMapaDeArquivo(map, listaArquivosMapas[0]);
-            map.getOverlays().add(geoPointList);
         } else {
             carregarMapaOnline();
         }
@@ -730,6 +732,8 @@ public class PrincipalActivity extends AppCompatActivity
                 }
         );
         geoPointList.setFocusItemsOnTap(true);
+        if( exibirPontos )
+            map.getOverlays().add(geoPointList);
     }
 
     private void carregarAreas() {
@@ -743,7 +747,8 @@ public class PrincipalActivity extends AppCompatActivity
             if (e.getClasse().getNome().equals("Area")) {
                 Area a = new Area(e);
                 areaList.add(a);
-                a.desenharEm(map);
+                if( exibirAreas )
+                    a.desenharEm(map);
             }
         }
     }
@@ -759,7 +764,8 @@ public class PrincipalActivity extends AppCompatActivity
             if (e.getClasse().getNome().equals("Distancia")) {
                 Distancia d = new Distancia(e);
                 distanciaList.add(d);
-                d.desenharEm(map);
+                if( exibirDistancias )
+                    d.desenharEm(map);
             }
         }
 
