@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="br.com.neogis.agritopo.activity.ExportarActivity"
+    tools:showIn="@layout/activity_exportar">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -11,16 +15,16 @@
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Arquivo KML" />
+        android:text="@string/arquivo_nome" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text='O mesmo será salvo na pasta "agritopo" de seu dispositivo' />
+        android:text="@string/arquivo_informacao" />
 
     <EditText
-        android:id="@+id/edtNomeArquivoKml"
+        android:id="@+id/edtNomeArquivo"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,16 +32,31 @@
         android:ems="10"
         android:inputType="text"
         android:singleLine="true"
-        android:text="nome_do_arquivo"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
         tools:layout_editor_absoluteY="86dp" />
 
-    <Button
-        android:id="@+id/btnSalvarArquivoKml"
+    <RadioGroup
+        android:id="@+id/radioGroupTipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salvar" />
+        android:checkedButton="@+id/rdbKml">
+
+        <RadioButton
+            android:id="@+id/rdbKml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/arquivo_tipo_kml" />
+
+        <RadioButton
+            android:id="@+id/rdbGeoJson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/arquivo_tipo_geojson" />
+    </RadioGroup>
+
 
 </LinearLayout>

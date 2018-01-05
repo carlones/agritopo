@@ -544,7 +544,10 @@
     <string name="ic_work" translatable="false">&#xe1b0;</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_exportar_kml">ExportarKmlActivity</string>
+    <string name="title_activity_main">Principal</string>
+    <string name="title_activity_exportar_kml">Exportar Arquivo</string>
+    <string name="arquivo_nome">Nome do Arquivo</string>
+    <string name="arquivo_informacao">O mesmo será salvo na pasta \"agritopo\" de seu dispositivo</string>
+    <string name="arquivo_tipo_kml">Formato KML</string>
+    <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
 </resources>

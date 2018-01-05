@@ -25,5 +25,6 @@ public final class Constantes {
     public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
     public static final String ARG_GEOMETRIA = "geometria";
     public static final String ARG_POSICAO_LISTA = "posicao_lista";
-    public static final String ARG_NOME_ARQUIVO_KML = "nome_arquivo_kml";
+    public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";
+    public static final String ARG_EXPORTAR_TIPO_ARQUIVO = "exportar_tipo_arquivo";
 }
