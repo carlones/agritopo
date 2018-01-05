@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="br.com.neogis.agritopo.activity.ExportarKmlActivity"
+    tools:showIn="@layout/activity_exportar_kml">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -34,10 +38,5 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_editor_absoluteY="86dp" />
 
-    <Button
-        android:id="@+id/btnSalvarArquivoKml"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Salvar" />
 
 </LinearLayout>

@@ -78,7 +78,6 @@ import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.fragment.CamadasFragment;
-import br.com.neogis.agritopo.fragment.ExportarFragment;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
 import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
 import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
@@ -102,13 +101,12 @@ import static br.com.neogis.agritopo.dao.Constantes.ONLINE;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_MENU_CADASTROS_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_KML_REQUEST;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
 
-    public final int REQUEST_MENU_CADASTROS = 1;
-
-    //Mapas
     BoundingBox mInitialBoundingBox = null;
     float mGroundOverlayBearing = 0.0f;
     AdicionarAreaHolder adicionarAreaHolder;
@@ -146,7 +144,7 @@ public class MapActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Restaurar posição no mapa, nível do zoom, e outros
-        if( savedInstanceState != null )
+        if (savedInstanceState != null)
             onRestoreInstanceState(savedInstanceState);
 
         setContentView(R.layout.activity_principal);
@@ -353,7 +351,7 @@ public class MapActivity extends AppCompatActivity
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 2);
-                        startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+                        startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
                     }
                 });
                 btnElementoDistancia.setOnClickListener(new View.OnClickListener() {
@@ -362,7 +360,7 @@ public class MapActivity extends AppCompatActivity
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 3);
-                        startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+                        startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
                     }
                 });
                 btnElementoPonto.setOnClickListener(new View.OnClickListener() {
@@ -371,7 +369,7 @@ public class MapActivity extends AppCompatActivity
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 1);
-                        startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+                        startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
                     }
                 });
                 /*
@@ -553,17 +551,15 @@ public class MapActivity extends AppCompatActivity
 
         if (id == R.id.nav_cadastros) {
             Intent intent = new Intent(this, CadastrosListarActivity.class);
-            startActivityForResult(intent, REQUEST_MENU_CADASTROS);
+            startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
         } else if (id == R.id.nav_camadas) {
             Class<?> clazz = CamadasFragment.class;
             Intent intent = new Intent(this, SingleFragmentActivity.class);
             intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
-            startActivity(intent);
+            startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
         } else if (id == R.id.nav_exportacao) {
-            Class<?> clazz = ExportarFragment.class;
-            Intent intent = new Intent(this, SingleFragmentActivity.class);
-            intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
-            startActivity(intent);
+            Intent intent = new Intent(this, ExportarKmlActivity.class);
+            startActivityForResult(intent, PEGAR_NOME_ARQUIVO_KML_REQUEST);
         } else if (id == R.id.nav_configuracao) {
             Intent intent = new Intent(this, ConfiguracaoActivity.class);
             startActivity(intent);
@@ -635,12 +631,12 @@ public class MapActivity extends AppCompatActivity
         map.setTileProvider(mProvider);
 
         IMapController mapController = map.getController();
-        if( zoomInicial == 0 )
+        if (zoomInicial == 0)
             zoomInicial = 15;
         mapController.setZoom(zoomInicial);
 
         // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
-        if( coordenadasIniciais == null )
+        if (coordenadasIniciais == null)
             coordenadasIniciais = am.pontoCentral;
         mapController.setCenter(coordenadasIniciais);
     }
@@ -690,12 +686,32 @@ public class MapActivity extends AppCompatActivity
                 map.invalidate();
             }
         }
-        if (requestCode == REQUEST_MENU_CADASTROS) {
+        if (requestCode == PEGAR_MENU_CADASTROS_REQUEST) {
             // pode ter alterado algum elemento, então temos que redesenhar os Elementos
             carregarPontos();
             carregarAreas();
             carregarDistancias();
             map.invalidate();
+        }
+        if (requestCode == PEGAR_NOME_ARQUIVO_KML_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                //TODO: Não está retornando o nome do arquivo!
+                //TODO: Alterar a descrição dos elementos overlay para conter o mesmo que no cadastro!
+                //String nomeArquivoKml = data.getExtras().getString(ARG_NOME_ARQUIVO_KML);
+                String nomeArquivoKml = "testeExportacao.kml";
+                File arquivoKml = new File(caminhoPastaMapas + nomeArquivoKml);
+                KmlDocument kmlDocument = new KmlDocument();
+
+                for (Overlay overlay : map.getOverlays()) {
+                    kmlDocument.mKmlRoot.addOverlay(overlay, kmlDocument);
+                }
+
+                if (kmlDocument.saveAsKML(arquivoKml)) {
+                    Utils.info("Gravou o arquivo " + caminhoPastaMapas + nomeArquivoKml);
+                } else {
+                    Utils.info("Erro ao gravar arquivo KML");
+                }
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -805,7 +821,7 @@ public class MapActivity extends AppCompatActivity
                 }
         );
         geoPointList.setFocusItemsOnTap(true);
-        if( exibirPontos )
+        if (exibirPontos)
             map.getOverlays().add(geoPointList);
     }
 
@@ -822,7 +838,7 @@ public class MapActivity extends AppCompatActivity
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 a.setTitulo(e.getTitulo());
                 areaList.add(a);
-                if( exibirAreas )
+                if (exibirAreas)
                     a.desenharEm(map);
             }
         }
@@ -840,7 +856,7 @@ public class MapActivity extends AppCompatActivity
                 Distancia d = new Distancia(e);
                 d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 distanciaList.add(d);
-                if( exibirDistancias )
+                if (exibirDistancias)
                     d.desenharEm(map);
             }
         }
@@ -858,7 +874,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if( map != null ) {
+        if (map != null) {
             outState.putInt("zoomInicial", map.getZoomLevel());
             outState.putDouble("latitudeAtual", map.getMapCenter().getLatitude());
             outState.putDouble("longitudeAtual", map.getMapCenter().getLongitude());
@@ -873,7 +889,7 @@ public class MapActivity extends AppCompatActivity
 
         double lat = savedInstanceState.getDouble("latitudeAtual", 0.0);
         double lon = savedInstanceState.getDouble("longitudeAtual", 0.0);
-        if( lat != 0.0 && lon != 0.0 )
+        if (lat != 0.0 && lon != 0.0)
             coordenadasIniciais = new GeoPoint(lat, lon);
     }
 
@@ -894,9 +910,9 @@ public class MapActivity extends AppCompatActivity
     // Vamos ver o arquivo que o Angelo manda, se isso será um problema.
     //
     private void listarPastas(KmlFolder pasta, int nivel) {
-        for(KmlFeature f: pasta.mItems) {
-            if( f.getClass() == KmlFolder.class ) {
-                Utils.info(String.format("%"+ (nivel * 4 + 1) + "s", "")  + f.mName);
+        for (KmlFeature f : pasta.mItems) {
+            if (f.getClass() == KmlFolder.class) {
+                Utils.info(String.format("%" + (nivel * 4 + 1) + "s", "") + f.mName);
                 listarPastas((KmlFolder) f, nivel + 1);
             }
         }

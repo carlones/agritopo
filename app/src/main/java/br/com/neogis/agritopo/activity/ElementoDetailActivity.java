@@ -28,10 +28,9 @@ import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
  * An activity representing a single Elemento detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link ElementoListActivity}.
+ * in a {@link CadastrosListarActivity}.
  */
 public class ElementoDetailActivity extends AppCompatActivity {
-
     private ElementoDetailFragment fragment;
     private int elementoId;
     private int tipoelementoId;
