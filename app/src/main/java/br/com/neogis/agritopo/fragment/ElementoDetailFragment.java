@@ -33,15 +33,18 @@ import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
 
 /**
  * A fragment representing a single Elemento detail screen.
- * This fragment is either contained in a {@link ElementoListActivity}
+ * This fragment is either contained in a {@link br.com.neogis.agritopo.activity.CadastrosListarActivity}
  * in two-pane mode (on tablets) or a {@link ElementoDetailActivity}
  * on handsets.
  */
 public class ElementoDetailFragment extends Fragment {
     private Elemento mItem;
-    private EditText elementoTituloView;
-    private AutoCompleteTextView elementoTipoElementoView;
-    private EditText elementoDescricaoView;
+    private EditText elementoTitulo;
+    private AutoCompleteTextView elementoTipoElemento;
+    private EditText elementoDescricao;
+    private EditText elementoInformacao;
+    private EditText elementoDataCriacao;
+    private EditText elementoDataModificacao;
 
     public ElementoDetailFragment() {
     }
@@ -71,11 +74,14 @@ public class ElementoDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.elemento_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_elemento_detail, container, false);
 
-        elementoTituloView = (EditText) rootView.findViewById(R.id.elementoTitulo);
-        elementoTipoElementoView = (AutoCompleteTextView) rootView.findViewById(R.id.elementoTipoElemento);
-        elementoDescricaoView = (EditText) rootView.findViewById(R.id.elementoDescricao);
+        elementoTitulo = (EditText) rootView.findViewById(R.id.elementoTitulo);
+        elementoTipoElemento = (AutoCompleteTextView) rootView.findViewById(R.id.elementoTipoElemento);
+        elementoDescricao = (EditText) rootView.findViewById(R.id.elementoDescricao);
+        elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
+        elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
+        elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
 
         TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(rootView.getContext());
         List<TipoElemento> listaTipoElemento = tipoElementoDao.getAll();
@@ -88,33 +94,37 @@ public class ElementoDetailFragment extends Fragment {
                 android.R.layout.simple_dropdown_item_1line,
                 nomesTipoElemento
         );
-        elementoTipoElementoView.setAdapter(adapter);
-        elementoTipoElementoView.setOnClickListener(new View.OnClickListener() {
+        elementoTipoElemento.setAdapter(adapter);
+        elementoTipoElemento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                elementoTipoElementoView.showDropDown();
+                elementoTipoElemento.showDropDown();
             }
         });
 
         if (mItem != null) {
-            elementoTituloView.setText(mItem.getTitulo());
-            elementoTipoElementoView.setText(mItem.getTipoElemento().getNome());
-            elementoDescricaoView.setText(mItem.getDescricao());
+            elementoTitulo.setText(mItem.getTitulo());
+            elementoTipoElemento.setText(mItem.getTipoElemento().getNome());
+            elementoDescricao.setText(mItem.getDescricao());
+            elementoDataCriacao.setText(mItem.getCreated_at().toString());
+            elementoDataModificacao.setText(mItem.getModified_at().toString());
+            elementoInformacao.setKeyListener(null);
+            elementoInformacao.setText(Elemento.getInformacaoExtra(mItem));
         }
 
         return rootView;
     }
 
     public String getTitulo() {
-        return elementoTituloView.getText().toString();
+        return elementoTitulo.getText().toString();
     }
 
     public String getDescricao() {
-        return elementoDescricaoView.getText().toString();
+        return elementoDescricao.getText().toString();
     }
 
     public String getNomeTipoElemento() {
-        return elementoTipoElementoView.getText().toString();
+        return elementoTipoElemento.getText().toString();
     }
 
     public Elemento getElemento() {

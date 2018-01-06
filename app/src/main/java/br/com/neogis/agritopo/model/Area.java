@@ -14,10 +14,14 @@ import java.util.List;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
+import static br.com.neogis.agritopo.dao.Constantes.KM2_EM_METROS2;
+import static br.com.neogis.agritopo.dao.Constantes.KM_EM_METROS;
+import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
+
 public class Area {
     // Overlay que exibe os pontos no mapa
     private MyPolygon poligono;
-    private Marker texto;
+    private Marker marcador;
     private List<GeoPoint> pontos;
     private double area; // m²
     private double perimetro; // m
@@ -26,13 +30,13 @@ public class Area {
     public Area(Elemento elemento) {
         this.pontos = new ArrayList<>();
         this.poligono = new MyPolygon(elemento);
-
-        // Cor e estilo da área
         this.poligono.setFillColor(0x12121212);
         this.poligono.setStrokeColor(Color.MAGENTA);
         this.poligono.setStrokeWidth(4.0f);
         setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
         setTitulo(elemento.getTitulo());
+        setArea();
+        setPerimetro();
     }
 
     public Elemento getElemento() {
@@ -51,33 +55,19 @@ public class Area {
         this.poligono = poligono;
     }
 
-    public Marker getTexto() {
-        return texto;
+    public Marker getMarcador() {
+        return marcador;
     }
 
-    public void setTexto(Marker texto) {
-        this.texto = texto;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-    public double getPerimetro() {
-        return perimetro;
-    }
-
-    public void setPerimetro(double perimetro) {
-        this.perimetro = perimetro;
+    public void setMarcador(Marker marcador) {
+        this.marcador = marcador;
+        this.marcador.setTitle(this.titulo + "\nÁrea: " + this.getAreaDescricao() + "\nPerímetro: " + this.descricaoPerimetro());
+        this.marcador.setPosition(this.getCentro());
+        this.marcador.setIcon(null);
     }
 
     public void adicionarPonto(GeoPoint ponto) {
         this.pontos.add(ponto);
-
         this.poligono.setPoints(this.pontos);
     }
 
@@ -93,52 +83,65 @@ public class Area {
         this.pontos = pontos;
     }
 
+    public void setArea() {
+        area = 0.0;
+        if (this.ehValida()) {
+            area = calcularArea();
+        }
+    }
+
+    public double getArea() {
+        return area;
+    }
+
     // https://gis.stackexchange.com/questions/711/how-can-i-measure-area-from-geographic-coordinates
     // https://stackoverflow.com/questions/2861272/polygon-area-calculation-using-latitude-and-longitude-generated-from-cartesian-s
-    //
-    public void calcularArea() {
-        this.area = 0.0;
-        if (!this.ehValida())
-            return;
-
+    private double calcularArea() {
+        double area = 0.0;
         GeoPoint p1, p2;
-        for (int i = 0; i < this.pontos.size(); i++) {
-            p1 = this.pontos.get(i);
+        for (int i = 0; i < getPontos().size(); i++) {
+            p1 = getPontos().get(i);
 
             // comparar o último ponto com o primeiro
-            if ((i + 1) == this.pontos.size())
-                p2 = this.pontos.get(0);
+            if ((i + 1) == getPontos().size())
+                p2 = getPontos().get(0);
             else
-                p2 = this.pontos.get(i + 1);
+                p2 = getPontos().get(i + 1);
 
-            this.area += Math.toRadians(p2.getLongitude() - p1.getLongitude()) * (
+            area += Math.toRadians(p2.getLongitude() - p1.getLongitude()) * (
                     2 + Math.sin(Math.toRadians(p1.getLatitude())) +
                             Math.sin(Math.toRadians(p2.getLatitude()))
             );
         }
-        this.area = this.area * 6378137.0 * 6378137.0 / 2.0;
-        this.area = Math.abs(this.area);
-        Log.d("Agritopo", "Área: " + Double.toString(this.area) + "m²");
+        area = area * 6378137.0 * 6378137.0 / 2.0;
+        area = Math.abs(area);
+        return area;
+    }
+
+    public void setPerimetro() {
+        perimetro = 0.0;
+        if (this.ehValida()) {
+            perimetro = calcularPerimetro();
+        }
+    }
+
+    public double getPerimetro() {
+        return perimetro;
     }
 
     // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-    //
-    public void calcularPerimetro() {
-        this.perimetro = 0.0;
-        if (!this.ehValida())
-            return;
-
-        double raioTerra = 6371000; // Radius of the earth in m
+    public double calcularPerimetro() {
+        double perimetro = 0.0;
 
         GeoPoint p1, p2;
-        for (int i = 0; i < this.pontos.size(); i++) {
-            p1 = this.pontos.get(i);
+        for (int i = 0; i < getPontos().size(); i++) {
+            p1 = getPontos().get(i);
 
             // comparar o último ponto com o primeiro
-            if ((i + 1) == this.pontos.size())
-                p2 = this.pontos.get(0);
+            if ((i + 1) == getPontos().size())
+                p2 = getPontos().get(0);
             else
-                p2 = this.pontos.get(i + 1);
+                p2 = getPontos().get(i + 1);
 
             double dLat = Math.toRadians(p2.getLatitude() - p1.getLatitude());
             double dLon = Math.toRadians(p2.getLongitude() - p1.getLongitude());
@@ -147,37 +150,67 @@ public class Area {
                             Math.cos(Math.toRadians(p1.getLatitude())) * Math.cos(Math.toRadians(p2.getLatitude())) *
                                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            double d = raioTerra * c; // Distance in m
-            this.perimetro += d;
+            double d = RAIO_DA_TERRA_EM_METROS * c; // Distance in m
+            perimetro += d;
         }
-        Log.d("Agritopo", "Perímetro: " + Double.toString(this.perimetro) + "m");
+        Log.d("Agritopo", "Perímetro: " + Double.toString(perimetro) + "m");
+        return perimetro;
     }
 
-    public String descricaoArea() {
-        DecimalFormat df = new DecimalFormat("#,###,###,##0.0");
-        return df.format(this.area) + " m²";
+    public String getAreaDescricao() {
+        if (this.ehValida()) {
+            DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+            double area = getArea();
+            String unidadeMedida = (area >= KM2_EM_METROS2 ? "Km²" : "m²");
+            area = (area >= KM2_EM_METROS2 ? area / KM2_EM_METROS2 : area);
+            Log.i("Agritopo", "Area.getAreaDescricao(): " + df.format(area) + " " + unidadeMedida);
+            return df.format(area) + " " + unidadeMedida;
+        } else {
+            return "";
+        }
     }
 
     public String descricaoPerimetro() {
-        DecimalFormat df = new DecimalFormat("#,###,###,##0.0");
-        return df.format(this.perimetro) + " m";
+        if (this.ehValida()) {
+            DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+            double perimetro = getPerimetro();
+            String unidadeMedida = (perimetro >= KM_EM_METROS ? "Km" : "m");
+            perimetro = (perimetro >= KM_EM_METROS ? perimetro / KM_EM_METROS : perimetro);
+            Log.i("Agritopo", "Area.getAreaDescricao(): " + df.format(perimetro) + " " + unidadeMedida);
+            return df.format(perimetro) + " " + unidadeMedida;
+        } else {
+            return "";
+        }
     }
 
     public void desenharEm(MapView mapa) {
-        mapa.getOverlays().add(this.poligono);
+        desenharPoligono(mapa);
+        desenharMarcador(mapa);
+    }
 
-        Marcador.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
-        if (this.texto == null)
-            this.texto = new Marcador(mapa);
-        this.texto.setTitle(this.titulo + "\nÁrea: " + this.descricaoArea() + "\nPerímetro: " + this.descricaoPerimetro());
-        this.texto.setIcon(null);
-        this.texto.setPosition(this.getCentro());
-        mapa.getOverlays().add(this.texto);
+    private void desenharMarcador(MapView mapa) {
+        if (getMarcador() == null)
+            setMarcador(new MyMarker(mapa));
+        else
+            removerMarcador(mapa);
+        mapa.getOverlays().add(getMarcador());
+    }
+
+    private void desenharPoligono(MapView mapa) {
+        mapa.getOverlays().add(this.poligono);
     }
 
     public void removerDe(MapView mapa) {
+        removerPoligono(mapa);
+        removerMarcador(mapa);
+    }
+
+    private void removerMarcador(MapView mapa) {
+        mapa.getOverlays().remove(getMarcador());
+    }
+
+    private void removerPoligono(MapView mapa) {
         mapa.getOverlays().remove(this.poligono);
-        mapa.getOverlays().remove(this.texto);
     }
 
     public GeoPoint getCentro() {

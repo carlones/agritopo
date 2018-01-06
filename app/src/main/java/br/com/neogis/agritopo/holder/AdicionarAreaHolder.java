@@ -15,7 +15,13 @@ import java.util.List;
 
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
 import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.dao.tabelas.Classe;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 
@@ -41,7 +47,11 @@ public class AdicionarAreaHolder extends Overlay {
         this.activity = activity;
 
         List<MyGeoPoint> lista = new ArrayList<>();
-        this.area = new Area(new Elemento(lista));
+        ClasseDao classeDao = new ClasseDaoImpl(activity.getBaseContext());
+        Classe classe = classeDao.get(2);
+        TipoElementoDao ted = new TipoElementoDaoImpl(activity.getBaseContext());
+        TipoElemento te = ted.get(3);
+        this.area = new Area(new Elemento(te, classe, lista));
 
         // Exibir o modal
         this.mapa.getOverlays().add(this.area.getPoligono());

@@ -5,9 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.model.Area;
+import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
+
+import static br.com.neogis.agritopo.dao.Constantes.CLASSE_AREA_ID;
+import static br.com.neogis.agritopo.dao.Constantes.CLASSE_DISTANCIA_ID;
+import static br.com.neogis.agritopo.dao.Constantes.CLASSE_PONTO_ID;
 
 public class Elemento {
 
@@ -27,8 +34,8 @@ public class Elemento {
 
     private String modified_at;
 
-    public Elemento(Object geometria) {
-        this(new TipoElemento("Indefinido"), new Classe("Indefinido"), "", "", geometria);
+    public Elemento(TipoElemento tipoElemento, Classe classe, Object geometria) {
+        this(tipoElemento, classe, "", "", geometria);
     }
 
     public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {
@@ -54,6 +61,24 @@ public class Elemento {
         this.geometria = geometria;
         this.created_at = dateFormat.format(cal.getTime());
         this.modified_at = dateFormat.format(cal.getTime());
+    }
+
+    public static String getInformacaoExtra(Elemento elemento) {
+        String extra = "";
+        switch (elemento.getClasse().getClasseid()) {
+            case CLASSE_PONTO_ID:
+                extra = Utils.getFormattedLocationInDegree(elemento.getGeometriaMyGeoPoint());
+                break;
+            case CLASSE_AREA_ID:
+                Area area = new Area(elemento);
+                extra = area.getAreaDescricao();
+                break;
+            case CLASSE_DISTANCIA_ID:
+                Distancia d = new Distancia(elemento);
+                extra = d.getDistanciaDescricao();
+                break;
+        }
+        return extra;
     }
 
     public String getGeometria() {
@@ -140,4 +165,5 @@ public class Elemento {
         Calendar cal = Calendar.getInstance();
         this.modified_at = dateFormat.format(cal.getTime());
     }
+
 }

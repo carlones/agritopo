@@ -15,15 +15,18 @@ import android.text.TextPaint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-public class Marcador extends Marker {
+public class MyMarker extends Marker {
 
-    private int mTextLabelBackgroundColor = Color.WHITE;
+    protected int mTextLabelBackgroundColor = Color.WHITE;
+    protected int mTextLabelForegroundColor = Color.BLACK;
+    protected int mTextLabelFontSize = 16;
+    protected double mTextLabelOpacity = 0.50;
 
-    public Marcador(MapView mapView) {
+    public MyMarker(MapView mapView) {
         super(mapView);
     }
 
-    public Marcador(MapView mapView, final Context resourceProxy) {
+    public MyMarker(MapView mapView, final Context resourceProxy) {
         super(mapView, resourceProxy);
     }
 
@@ -36,10 +39,10 @@ public class Marcador extends Marker {
         }
     }
 
+    @Override
     public void setIcon(final Drawable icon) {
         if (ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon == null && this.mTitle != null && this.mTitle.length() > 0) {
-            // Transparência
-            int opacity = (int) (0.85 * 255);
+            int opacity = (int) (mTextLabelOpacity * 255);
             mTextLabelBackgroundColor = Color.argb(opacity, 255, 255, 255);
 
             Paint background = new Paint();
@@ -50,8 +53,8 @@ public class Marcador extends Marker {
             p.setColor(mTextLabelForegroundColor);
 
             p.setAntiAlias(true);
-            p.setTypeface(Typeface.DEFAULT_BOLD);
-            p.setTextAlign(Paint.Align.LEFT);
+            p.setTypeface(Typeface.DEFAULT);
+            p.setTextAlign(Paint.Align.CENTER);
 
 //            int width=(int)(p.measureText(getTitle()) + 0.5f);
 //            float baseline=(int)(-p.ascent() + 0.5f);

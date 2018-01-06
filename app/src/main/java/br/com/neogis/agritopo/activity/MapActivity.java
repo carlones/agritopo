@@ -87,6 +87,7 @@ import br.com.neogis.agritopo.model.MapaTiles;
 import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 import br.com.neogis.agritopo.model.MyItemizedIconOverlay;
 import br.com.neogis.agritopo.model.MyItemizedOverlayWithFocus;
+import br.com.neogis.agritopo.model.MyMarker;
 import br.com.neogis.agritopo.model.MyOverlayItem;
 
 import static android.view.View.VISIBLE;
@@ -166,6 +167,8 @@ public class MapActivity extends AppCompatActivity
 
         criarDiretorio("agritopo");
         criarDiretorio("OsmDroid");
+
+        MyMarker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
 
         mContext = getApplicationContext();
         mActivity = MapActivity.this;

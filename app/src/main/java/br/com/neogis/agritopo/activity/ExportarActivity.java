@@ -3,6 +3,7 @@ package br.com.neogis.agritopo.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -41,6 +42,12 @@ public class ExportarActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Exportar Arquivo");
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 }

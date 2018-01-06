@@ -19,6 +19,10 @@ public final class Constantes {
     public static final int ONLINE = 1;
     public static final int OFFLINE = 0;
 
+    public static final double RAIO_DA_TERRA_EM_METROS = 6371000;
+    public static final int KM_EM_METROS = 1000;
+    public static final int KM2_EM_METROS2 = 1000000;
+
     public static final String ARG_MAPA_MODO = "mapa_modo";
     public static final String ARG_ELEMENTOID = "elementoid";
     public static final String ARG_CLASSEID = "classeid";
@@ -27,4 +31,8 @@ public final class Constantes {
     public static final String ARG_POSICAO_LISTA = "posicao_lista";
     public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";
     public static final String ARG_EXPORTAR_TIPO_ARQUIVO = "exportar_tipo_arquivo";
+
+    public static final int CLASSE_AREA_ID = 2;
+    public static final int CLASSE_DISTANCIA_ID = 3;
+    public static final int CLASSE_PONTO_ID = 1;
 }

@@ -15,7 +15,13 @@ import java.util.List;
 
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
 import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.dao.tabelas.Classe;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 
@@ -39,7 +45,11 @@ public class AdicionarDistanciaHolder extends Overlay {
         Log.i("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
         List<MyGeoPoint> lista = new ArrayList<>();
-        this.distancia = new Distancia(new Elemento(lista));
+        ClasseDao classeDao = new ClasseDaoImpl(activity.getBaseContext());
+        Classe classe = classeDao.get(3);
+        TipoElementoDao ted = new TipoElementoDaoImpl(activity.getBaseContext());
+        TipoElemento te = ted.get(5);
+        this.distancia = new Distancia(new Elemento(te, classe, lista));
         this.activity = activity;
 
         // Exibir o modal
@@ -57,12 +67,9 @@ public class AdicionarDistanciaHolder extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     //
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        Log.i("Agritopo", "AdicionarAreaHolder: Ponto registrado");
-
         GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
         this.distancia.adicionarPonto(ponto);
         this.mapa.invalidate();
-
         return true; // Não propogar evento para demais overlays
     }
 

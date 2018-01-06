@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 
+import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
+
 /**
  * Created by carlo on 14/10/2017.
  */
@@ -102,5 +104,16 @@ public final class Utils {
         builder.append(letter);
 
         return builder.toString();
+    }
+
+    // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+    public static double medirDistanciaEmMetros(GeoPoint p1, GeoPoint p2) {
+        double dLat = Math.toRadians(p2.getLatitude() - p1.getLatitude());
+        double dLon = Math.toRadians(p2.getLongitude() - p1.getLongitude());
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(p1.getLatitude())) * Math.cos(Math.toRadians(p2.getLatitude())) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return RAIO_DA_TERRA_EM_METROS * c; // Distance in m
     }
 }

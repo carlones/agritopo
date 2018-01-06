@@ -11,44 +11,45 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
+import static br.com.neogis.agritopo.dao.Constantes.KM_EM_METROS;
+
 public class Distancia {
-    private MyPolygon linha;
-    private Marker texto;
+    private MyPolyline linha;
+    private Marker marcador;
     private List<GeoPoint> pontos;
     private double distancia; // em metros
 
     public Distancia(Elemento elemento) {
         this.pontos = new ArrayList<>();
-        this.linha = new MyPolygon(elemento);
-
-        // Cor e estilo da área
-        this.linha.setStrokeColor(Color.MAGENTA);
-        this.linha.setStrokeWidth(5.0f);
+        this.linha = new MyPolyline(elemento);
+        this.linha.setColor(Color.MAGENTA);
+        this.linha.setWidth(5.0f);
         setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
+        setDistancia();
     }
 
     public void adicionarPonto(GeoPoint ponto) {
-        if (this.ehValida()) return; // não deixar adicionar mais que 2 pontos
-
         this.pontos.add(ponto);
         this.linha.setPoints(this.pontos);
-
-        this.definirTexto();
     }
 
     public boolean ehValida() {
-        return this.pontos.size() == 2;
+        return this.pontos.size() > 1;
     }
 
-    private void definirTexto() {
-        if (this.texto != null && this.ehValida()) {
-            calcularDistancia();
-            this.texto.setTitle(this.descricaoDistancia());
-            this.texto.setPosition(this.getCentro());
-        }
+    public Marker getMarcador() {
+        return marcador;
+    }
+
+    public void setMarcador(Marker marcador) {
+        this.marcador = marcador;
+        this.marcador.setTitle(getLinha().getElemento().getTitulo() + "\n" + this.getDistanciaDescricao());
+        this.marcador.setPosition(this.getCentro());
+        this.marcador.setIcon(null);
     }
 
     public List<GeoPoint> getPontos() {
@@ -59,53 +60,76 @@ public class Distancia {
         this.pontos = pontos;
     }
 
-    // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-    //
-    public void calcularDistancia() {
-        this.distancia = 0.0;
-        if (!this.ehValida())
-            return;
-
-        double raioTerra = 6371000; // Radius of the earth in m
-
-        GeoPoint p1 = this.pontos.get(0);
-        GeoPoint p2 = this.pontos.get(1);
-
-        double dLat = Math.toRadians(p2.getLatitude() - p1.getLatitude());
-        double dLon = Math.toRadians(p2.getLongitude() - p1.getLongitude());
-        double a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                        Math.cos(Math.toRadians(p1.getLatitude())) * Math.cos(Math.toRadians(p2.getLatitude())) *
-                                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        this.distancia = raioTerra * c; // Distance in m
-
-        Log.i("Agritopo", "Distância: " + this.descricaoDistancia());
+    public void setDistancia() {
+        distancia = 0.0;
+        if (this.ehValida()) {
+            distancia = calcularDistancia();
+        }
     }
 
-    public String descricaoDistancia() {
-        DecimalFormat df = new DecimalFormat("#,###,###,##0.0");
-        Log.i("Agritopo", "Distancia.descricaoDistancia(): " + df.format(this.distancia) + " m");
-        return df.format(this.distancia) + " m";
+    public double getDistancia() {
+        return distancia;
+    }
+
+    private double calcularDistancia() {
+        GeoPoint p1 = null, p2;
+        boolean ehPrimeiro = true;
+        double distancia = 0.0;
+        for (GeoPoint ponto : pontos) {
+            if (ehPrimeiro) {
+                p1 = ponto;
+                ehPrimeiro = false;
+            } else {
+                p2 = ponto;
+                distancia += Utils.medirDistanciaEmMetros(p1, p2);
+                p1 = p2;
+            }
+        }
+        return distancia;
+    }
+
+    public String getDistanciaDescricao() {
+        if (this.ehValida()) {
+            DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+            double distancia = getDistancia();
+            String unidadeMedida = (distancia >= KM_EM_METROS ? "Km" : "m");
+            distancia = (distancia >= KM_EM_METROS ? distancia / KM_EM_METROS : distancia);
+            Log.i("Agritopo", "Distancia.getDistanciaDescricao(): " + df.format(distancia) + " " + unidadeMedida);
+            return df.format(distancia) + " " + unidadeMedida;
+        } else {
+            return "";
+        }
     }
 
     public void desenharEm(MapView mapa) {
+        desenharLinha(mapa);
+        desenharMarcador(mapa);
+    }
+
+    private void desenharMarcador(MapView mapa) {
+        if (getMarcador() == null)
+            setMarcador(new MyMarker(mapa));
+        else
+            removerMarcador(mapa);
+
+        mapa.getOverlays().add(getMarcador());
+    }
+
+    private void desenharLinha(MapView mapa) {
         mapa.getOverlays().add(this.linha);
-
-        if (this.texto == null)
-            this.texto = new Marcador(mapa);
-        this.definirTexto();
-
-        // Usar texto ao invés de ícone
-        Marcador.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
-        this.texto.setIcon(null);
-
-        mapa.getOverlays().add(this.texto);
     }
 
     public void removerDe(MapView mapa) {
+        removerLinha(mapa);
+        removerMarcador(mapa);
+    }
+
+    private void removerMarcador(MapView mapa) {
+        mapa.getOverlays().remove(getMarcador());
+    }
+
+    private void removerLinha(MapView mapa) {
         mapa.getOverlays().remove(this.linha);
-        mapa.getOverlays().remove(this.texto);
     }
 
     public String toString() {
@@ -154,28 +178,11 @@ public class Distancia {
         this.linha.setElemento(elemento);
     }
 
-    public MyPolygon getLinha() {
+    public MyPolyline getLinha() {
         return linha;
     }
 
-    public void setLinha(MyPolygon linha) {
+    public void setLinha(MyPolyline linha) {
         this.linha = linha;
     }
-
-    public Marker getTexto() {
-        return texto;
-    }
-
-    public void setTexto(Marker texto) {
-        this.texto = texto;
-    }
-
-    public double getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(double distancia) {
-        this.distancia = distancia;
-    }
-
 }

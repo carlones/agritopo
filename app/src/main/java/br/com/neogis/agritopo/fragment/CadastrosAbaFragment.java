@@ -15,10 +15,7 @@ import java.util.List;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.activity.CadastrosListarActivity;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
-import br.com.neogis.agritopo.model.Area;
-import br.com.neogis.agritopo.model.Distancia;
 
 public class CadastrosAbaFragment extends Fragment {
 
@@ -77,25 +74,7 @@ public class CadastrosAbaFragment extends Fragment {
             holder.mItem = mValues.get(position);
             holder.tituloView.setText(holder.mItem.getTitulo());
             holder.tipoElementoView.setText(holder.mItem.getTipoElemento().getNome());
-
-            String extra = "";
-            switch(holder.mItem.getClasse().getNome()) {
-                case "Ponto":
-                    extra = Utils.getFormattedLocationInDegree(holder.mItem.getGeometriaMyGeoPoint());
-                    break;
-                case "Area":
-                    Area area = new Area(holder.mItem);
-                    area.calcularArea();
-                    extra = area.descricaoArea();
-                    break;
-                case "Distancia":
-                    Distancia d = new Distancia(holder.mItem);
-                    d.calcularDistancia();
-                    extra = d.descricaoDistancia();
-                    break;
-            }
-            holder.extraView.setText(extra);
-
+            holder.extraView.setText(Elemento.getInformacaoExtra(holder.mItem));
             holder.itemView.setBackgroundColor(getResources().getColor(isSelected(holder) ? R.color.item_marcado : R.color.item_desmarcado));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {

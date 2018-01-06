@@ -23,6 +23,16 @@
         android:textIsSelectable="true"
         android:textSize="24sp" />
 
+    <EditText
+        android:id="@+id/elementoInformacao"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        android:textSize="24sp" />
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
@@ -54,4 +64,41 @@
         android:padding="16dp"
         android:textIsSelectable="true"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data Criação"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/elementoDataCriacao"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:inputType="datetime"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data Modificação"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/elementoDataModificacao"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:inputType="datetime"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        android:textSize="24sp" />
+
 </LinearLayout>

@@ -23,11 +23,10 @@ import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.fragment.CadastrosAbaFragment;
 
 import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
 
 public class CadastrosListarActivity extends AppCompatActivity {
-
-    public static final String ARG_CLASSEID = "ClasseIdAba";
     public ArrayList<Integer> idsSelecionados = new ArrayList<>();
     TabLayout abas;
     AbaAdapter abaAdapter;
