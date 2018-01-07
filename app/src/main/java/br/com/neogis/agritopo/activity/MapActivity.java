@@ -703,7 +703,7 @@ public class MapActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
-                geoPointList.addItem(new MyOverlayItem(mItem.getTitulo(), mItem.getDescricao(), mItem.getGeometriaMyGeoPoint(), mItem.getElementoid()));
+                geoPointList.addItem(new MyOverlayItem(mItem));
                 map.invalidate();
             }
         }
@@ -822,7 +822,7 @@ public class MapActivity extends AppCompatActivity
         List<Elemento> pontos = elementoDao.getAll();
         for (Elemento ponto : pontos) {
             if (ponto.getClasse().getNome().equals("Ponto")) {
-                items.add(new MyOverlayItem(ponto.getTitulo(), ponto.getDescricao(), ponto.getGeometriaMyGeoPoint(), ponto.getElementoid()));
+                items.add(new MyOverlayItem(ponto));
             }
         }
 
@@ -839,7 +839,7 @@ public class MapActivity extends AppCompatActivity
                     public boolean onItemLongPress(int index, MyOverlayItem item) {
                         if ((adicionarAreaHolder == null) && (adicionarDistanciaHolder == null) && (adicionarPontoHolder == null)) {
                             Intent intent = new Intent(mActivity.getBaseContext(), ElementoDetailActivity.class);
-                            intent.putExtra(ARG_ELEMENTOID, item.getElementoId());
+                            intent.putExtra(ARG_ELEMENTOID, item.getElemento().getElementoid());
                             mActivity.startActivityForResult(intent, ALTERAR_ELEMENTO_REQUEST);
                         }
                         return true;

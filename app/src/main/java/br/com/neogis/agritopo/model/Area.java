@@ -62,7 +62,7 @@ public class Area {
 
     public void setMarcador(Marker marcador) {
         this.marcador = marcador;
-        this.marcador.setTitle(this.titulo + "\nÁrea: " + this.getAreaDescricao() + "\nPerímetro: " + this.descricaoPerimetro());
+        this.marcador.setTitle((this.titulo.isEmpty() ? "" : this.titulo + "\n") + "Área: " + this.getAreaDescricao() + "\nPerímetro: " + this.descricaoPerimetro());
         this.marcador.setPosition(this.getCentro());
         this.marcador.setIcon(null);
     }
@@ -190,11 +190,15 @@ public class Area {
     }
 
     private void desenharMarcador(MapView mapa) {
-        if (getMarcador() == null)
-            setMarcador(new MyMarker(mapa));
-        else
+        if (getMarcador() != null) {
             removerMarcador(mapa);
-        mapa.getOverlays().add(getMarcador());
+        }
+        if (ehValida()) {
+            setArea();
+            setPerimetro();
+            setMarcador(new MyMarker(mapa));
+            mapa.getOverlays().add(getMarcador());
+        }
     }
 
     private void desenharPoligono(MapView mapa) {
@@ -259,6 +263,7 @@ public class Area {
 
     public String serializeMyGeoPointList() {
         JSONSerializer serializer = new JSONSerializer();
+        serializer.prettyPrint(true);
         return serializer.serialize(getMyGeoPointList());
     }
 

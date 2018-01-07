@@ -51,8 +51,6 @@ public class AdicionarDistanciaHolder extends Overlay {
         TipoElemento te = ted.get(5);
         this.distancia = new Distancia(new Elemento(te, classe, lista));
         this.activity = activity;
-
-        // Exibir o modal
         this.distancia.desenharEm(this.mapa);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
@@ -69,6 +67,7 @@ public class AdicionarDistanciaHolder extends Overlay {
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
         this.distancia.adicionarPonto(ponto);
+        this.distancia.desenharEm(mapa);
         this.mapa.invalidate();
         return true; // Não propogar evento para demais overlays
     }
@@ -96,12 +95,13 @@ public class AdicionarDistanciaHolder extends Overlay {
 
     public void desfazer() {
         this.distancia.removerUltimoPonto();
+        this.distancia.desenharEm(mapa);
         this.mapa.invalidate();
     }
 
     private void removerModal() {
         this.mapa.getOverlays().remove(this);
-        this.distancia.removerDe(this.mapa);
+        this.distancia.removerDe(mapa);
         this.mapa.invalidate();
     }
 }

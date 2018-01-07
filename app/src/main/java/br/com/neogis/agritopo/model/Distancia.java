@@ -25,17 +25,17 @@ public class Distancia {
     private double distancia; // em metros
 
     public Distancia(Elemento elemento) {
-        this.pontos = new ArrayList<>();
-        this.linha = new MyPolyline(elemento);
-        this.linha.setColor(Color.MAGENTA);
-        this.linha.setWidth(5.0f);
+        pontos = new ArrayList<>();
+        linha = new MyPolyline(elemento);
+        linha.setColor(Color.MAGENTA);
+        linha.setWidth(5.0f);
         setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
         setDistancia();
     }
 
     public void adicionarPonto(GeoPoint ponto) {
-        this.pontos.add(ponto);
-        this.linha.setPoints(this.pontos);
+        pontos.add(ponto);
+        linha.setPoints(this.pontos);
     }
 
     public boolean ehValida() {
@@ -48,7 +48,7 @@ public class Distancia {
 
     public void setMarcador(Marker marcador) {
         this.marcador = marcador;
-        this.marcador.setTitle(getLinha().getElemento().getTitulo() + "\n" + this.getDistanciaDescricao());
+        this.marcador.setTitle((getLinha().getElemento().getTitulo().isEmpty() ? "" : getLinha().getElemento().getTitulo() + "\n") + this.getDistanciaDescricao());
         this.marcador.setPosition(this.getCentro());
         this.marcador.setIcon(null);
     }
@@ -108,12 +108,14 @@ public class Distancia {
     }
 
     private void desenharMarcador(MapView mapa) {
-        if (getMarcador() == null)
-            setMarcador(new MyMarker(mapa));
-        else
+        if (getMarcador() != null) {
             removerMarcador(mapa);
-
-        mapa.getOverlays().add(getMarcador());
+        }
+        if (ehValida()) {
+            setDistancia();
+            setMarcador(new MyMarker(mapa));
+            mapa.getOverlays().add(getMarcador());
+        }
     }
 
     private void desenharLinha(MapView mapa) {
@@ -168,6 +170,7 @@ public class Distancia {
 
     public String serializeMyGeoPointList() {
         JSONSerializer serializer = new JSONSerializer();
+        serializer.prettyPrint(true);
         return serializer.serialize(getMyGeoPointList());
     }
 

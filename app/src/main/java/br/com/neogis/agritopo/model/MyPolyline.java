@@ -13,6 +13,8 @@ public class MyPolyline extends Polyline {
 
     public MyPolyline(Elemento elemento) {
         this.elemento = elemento;
+        this.setTitle(elemento.getTitulo());
+        this.setSubDescription(elemento.getTipoElemento().getNome());
     }
 
     public Elemento getElemento() {

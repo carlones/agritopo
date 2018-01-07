@@ -41,6 +41,8 @@ public class MyGeoPoint extends GeoPoint {
 
     public String toString() {
         JSONSerializer serializer = new JSONSerializer();
+
+        serializer.prettyPrint(true);
         return serializer.serialize(this);
     }
 }

@@ -52,9 +52,7 @@ public class AdicionarAreaHolder extends Overlay {
         TipoElementoDao ted = new TipoElementoDaoImpl(activity.getBaseContext());
         TipoElemento te = ted.get(3);
         this.area = new Area(new Elemento(te, classe, lista));
-
-        // Exibir o modal
-        this.mapa.getOverlays().add(this.area.getPoligono());
+        this.area.desenharEm(mapa);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
@@ -72,6 +70,7 @@ public class AdicionarAreaHolder extends Overlay {
 
         GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
         this.area.adicionarPonto(ponto);
+        this.area.desenharEm(mapa);
         this.mapa.invalidate();
 
         return true; // Não propogar evento para demais overlays
@@ -102,12 +101,13 @@ public class AdicionarAreaHolder extends Overlay {
 
     public void desfazer() {
         this.area.removerUltimoPonto();
+        this.area.desenharEm(mapa);
         this.mapa.invalidate();
     }
 
     private void removerModal() {
         this.mapa.getOverlays().remove(this);
-        this.mapa.getOverlays().remove(this.area.getPoligono());
+        this.area.removerDe(mapa);
         this.mapa.invalidate();
     }
 }

@@ -1,5 +1,7 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
+import com.google.gson.Gson;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +43,7 @@ public class Elemento {
     public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {
         this(tipoElemento, classe, titulo, descricao, "");
         JSONSerializer serializer = new JSONSerializer();
+        serializer.prettyPrint(true);
         setGeometria(serializer.serialize(geometria));
     }
 
@@ -82,6 +85,8 @@ public class Elemento {
     }
 
     public String getGeometria() {
+        Gson gson = new Gson();
+
         return geometria;
     }
 

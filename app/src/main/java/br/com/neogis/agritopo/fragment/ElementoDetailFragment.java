@@ -45,6 +45,7 @@ public class ElementoDetailFragment extends Fragment {
     private EditText elementoInformacao;
     private EditText elementoDataCriacao;
     private EditText elementoDataModificacao;
+    private EditText elementoMetadados;
 
     public ElementoDetailFragment() {
     }
@@ -82,6 +83,7 @@ public class ElementoDetailFragment extends Fragment {
         elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
         elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
         elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
+        elementoMetadados = (EditText) rootView.findViewById(R.id.elementoMetadados);
 
         TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(rootView.getContext());
         List<TipoElemento> listaTipoElemento = tipoElementoDao.getAll();
@@ -110,6 +112,8 @@ public class ElementoDetailFragment extends Fragment {
             elementoDataModificacao.setText(mItem.getModified_at().toString());
             elementoInformacao.setKeyListener(null);
             elementoInformacao.setText(Elemento.getInformacaoExtra(mItem));
+            elementoMetadados.setKeyListener(null);
+            elementoMetadados.setText(mItem.getGeometria());
         }
 
         return rootView;
