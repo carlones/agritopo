@@ -9,6 +9,7 @@ import org.osmdroid.views.overlay.Marker;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.Utils;
@@ -184,5 +185,16 @@ public class Distancia {
 
     public void setLinha(MyPolyline linha) {
         this.linha = linha;
+    }
+
+    public void removerUltimoPonto() {
+        GeoPoint geoPoint = null;
+        for (Iterator<GeoPoint> iter = pontos.iterator(); iter.hasNext(); ) {
+            geoPoint = iter.next();
+        }
+        if (geoPoint != null) {
+            pontos.remove(geoPoint);
+            linha.setPoints(this.pontos);
+        }
     }
 }

@@ -94,6 +94,11 @@ public class AdicionarDistanciaHolder extends Overlay {
         this.removerModal();
     }
 
+    public void desfazer() {
+        this.distancia.removerUltimoPonto();
+        this.mapa.invalidate();
+    }
+
     private void removerModal() {
         this.mapa.getOverlays().remove(this);
         this.distancia.removerDe(this.mapa);

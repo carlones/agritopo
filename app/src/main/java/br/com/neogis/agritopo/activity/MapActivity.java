@@ -129,7 +129,7 @@ public class MapActivity extends AppCompatActivity
     private FloatingActionMenu famNovo;
     private Context mContext;
     private Activity mActivity;
-    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar;
+    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar, fabDesfazer;
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
     private boolean exibirPontos;
@@ -150,7 +150,7 @@ public class MapActivity extends AppCompatActivity
         if (savedInstanceState != null)
             onRestoreInstanceState(savedInstanceState);
 
-        setContentView(R.layout.activity_principal);
+        setContentView(R.layout.activity_map);
 
         layoutTelaPrincipal = (ConstraintLayout) findViewById(R.id.content_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -203,6 +203,7 @@ public class MapActivity extends AppCompatActivity
         fabRotacao = (FloatingActionButton) findViewById(R.id.action_rotacao);
         fabConcluido = (FloatingActionButton) findViewById(R.id.action_concluido);
         fabCancelar = (FloatingActionButton) findViewById(R.id.action_cancelar);
+        fabDesfazer = (FloatingActionButton) findViewById(R.id.action_desfazer);
 
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -224,6 +225,7 @@ public class MapActivity extends AppCompatActivity
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
                     fabCancelar.setVisibility(View.VISIBLE);
+                    fabDesfazer.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -235,6 +237,7 @@ public class MapActivity extends AppCompatActivity
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
                     fabCancelar.setVisibility(View.VISIBLE);
+                    fabDesfazer.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -422,6 +425,7 @@ public class MapActivity extends AppCompatActivity
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
                 fabConcluido.setVisibility(View.INVISIBLE);
+                fabDesfazer.setVisibility(View.INVISIBLE);
                 famNovo.setVisibility(View.VISIBLE);
                 map.invalidate();
             }
@@ -438,7 +442,19 @@ public class MapActivity extends AppCompatActivity
                 }
                 fabCancelar.setVisibility(View.INVISIBLE);
                 fabConcluido.setVisibility(View.INVISIBLE);
+                fabDesfazer.setVisibility(View.INVISIBLE);
                 famNovo.setVisibility(View.VISIBLE);
+                map.invalidate();
+            }
+        });
+        fabDesfazer.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (adicionarAreaHolder != null) {
+                    adicionarAreaHolder.desfazer();
+                }
+                if (adicionarDistanciaHolder != null) {
+                    adicionarDistanciaHolder.desfazer();
+                }
                 map.invalidate();
             }
         });

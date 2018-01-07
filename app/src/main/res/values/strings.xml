@@ -551,4 +551,5 @@
     <string name="arquivo_tipo_kml">Formato KML</string>
     <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
     <string name="title_activity_arvore_camadas">ArvoreCamadasActivity</string>
+    <string name="action_desfazer">Desfazer</string>
 </resources>

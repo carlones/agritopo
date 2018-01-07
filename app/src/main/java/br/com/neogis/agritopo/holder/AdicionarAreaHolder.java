@@ -100,6 +100,11 @@ public class AdicionarAreaHolder extends Overlay {
         this.removerModal();
     }
 
+    public void desfazer() {
+        this.area.removerUltimoPonto();
+        this.mapa.invalidate();
+    }
+
     private void removerModal() {
         this.mapa.getOverlays().remove(this);
         this.mapa.getOverlays().remove(this.area.getPoligono());

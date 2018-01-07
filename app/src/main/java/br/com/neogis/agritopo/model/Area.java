@@ -9,6 +9,7 @@ import org.osmdroid.views.overlay.Marker;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
@@ -259,5 +260,16 @@ public class Area {
     public String serializeMyGeoPointList() {
         JSONSerializer serializer = new JSONSerializer();
         return serializer.serialize(getMyGeoPointList());
+    }
+
+    public void removerUltimoPonto() {
+        GeoPoint geoPoint = null;
+        for (Iterator<GeoPoint> iter = pontos.iterator(); iter.hasNext(); ) {
+            geoPoint = iter.next();
+        }
+        if (geoPoint != null) {
+            pontos.remove(geoPoint);
+            poligono.setPoints(this.pontos);
+        }
     }
 }

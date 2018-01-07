@@ -7,7 +7,7 @@
 
     <include layout="@layout/toolbar_principal" />
 
-    <include layout="@layout/content_principal" />
+    <include layout="@layout/content_map" />
 
     <include
         layout="@layout/material_design_floating_layers_menu"

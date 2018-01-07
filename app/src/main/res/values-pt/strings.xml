@@ -57,4 +57,5 @@
     <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
     <string name="title_activity_exportar_kml">Exportar Arquivo</string>
     <string name="title_activity_main">Principal</string>
+    <string name="action_desfazer">Desfazer</string>
 </resources>
