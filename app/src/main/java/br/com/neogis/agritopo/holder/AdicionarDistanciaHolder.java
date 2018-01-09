@@ -67,6 +67,7 @@ public class AdicionarDistanciaHolder extends Overlay {
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
         this.distancia.adicionarPonto(ponto);
+        this.distancia.removerDe(mapa);
         this.distancia.desenharEm(mapa);
         this.mapa.invalidate();
         return true; // Não propogar evento para demais overlays
