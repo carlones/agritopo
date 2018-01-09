@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import org.apache.commons.io.FilenameUtils;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFeature;
@@ -55,6 +56,7 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
@@ -66,11 +68,15 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipFile;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.Utils;
@@ -96,6 +102,7 @@ import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_EXPORTAR_NOME_ARQUIVO;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_EXPORTAR_TIPO_ARQUIVO;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.dao.Constantes.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
 import static br.com.neogis.agritopo.dao.Constantes.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
@@ -105,7 +112,8 @@ import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_MENU_CADASTROS_REQUEST;
-import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_KML_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
@@ -578,9 +586,12 @@ public class MapActivity extends AppCompatActivity
             Intent intent = new Intent(this, SingleFragmentActivity.class);
             intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
             startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
-        } else if (id == R.id.nav_exportacao) {
+        } else if (id == R.id.nav_exportar) {
             Intent intent = new Intent(this, ExportarActivity.class);
-            startActivityForResult(intent, PEGAR_NOME_ARQUIVO_KML_REQUEST);
+            startActivityForResult(intent, PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST);
+        } else if (id == R.id.nav_importar) {
+            Intent intent = new Intent(this, ImportarActivity.class);
+            startActivityForResult(intent, PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST);
         } else if (id == R.id.nav_configuracao) {
             Intent intent = new Intent(this, ConfiguracaoActivity.class);
             startActivity(intent);
@@ -708,38 +719,81 @@ public class MapActivity extends AppCompatActivity
             }
         }
         if (requestCode == PEGAR_MENU_CADASTROS_REQUEST) {
-            // pode ter alterado algum elemento, então temos que redesenhar os Elementos
             carregarPontos();
             carregarAreas();
             carregarDistancias();
             map.invalidate();
         }
-        if (requestCode == PEGAR_NOME_ARQUIVO_KML_REQUEST) {
+        if (requestCode == PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST) {
             if (resultCode == RESULT_OK) {
-                //TODO: Alterar a descrição dos elementos overlay para conter o mesmo que no cadastro!
-                String nomeArquivo = (data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO) == "" ? "exportacao" : data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO));
-                String tipoArquivo = data.getExtras().getString(ARG_EXPORTAR_TIPO_ARQUIVO);
-                nomeArquivo += "." + tipoArquivo;
-                File arquivo = new File(caminhoPastaMapas + nomeArquivo);
-                KmlDocument kmlDocument = new KmlDocument();
-                for (Overlay overlay : map.getOverlays()) {
-                    kmlDocument.mKmlRoot.addOverlay(overlay, kmlDocument);
-                }
-                if (tipoArquivo.equals("kml")) {
-                    if (kmlDocument.saveAsKML(arquivo))
+                try {
+                    //TODO: Alterar a descrição dos elementos overlay para conter o mesmo que no cadastro!
+                    String nomeArquivo = (data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO) == "" ? "exportacao" : data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO));
+                    String tipoArquivo = data.getExtras().getString(ARG_EXPORTAR_TIPO_ARQUIVO);
+                    nomeArquivo += "." + tipoArquivo;
+                    if (exportarArquivoMapa(nomeArquivo, tipoArquivo))
                         Utils.toast(mContext, "Arquivo \"" + nomeArquivo + "\" gerado com sucesso!");
                     else
-                        Utils.toast(mContext, "Ocorreu erro ao gerar o arquivo.");
+                        Utils.toast(mContext, "Ocorreu erro ao exportar o arquivo.");
+                } catch (Exception e) {
+                    Utils.toast(mContext, "Ocorreu erro ao importar o arquivo:\r\n" + e.getMessage());
                 }
-                if (tipoArquivo.equals("geojson")) {
-                    if (kmlDocument.saveAsGeoJSON(arquivo))
-                        Utils.toast(mContext, "Arquivo \"" + nomeArquivo + "\" gerado com sucesso!");
+            }
+        }
+        if (requestCode == PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    //TODO: Alterar a descrição dos elementos overlay para conter o mesmo que no cadastro!
+                    String nomeArquivo = (data.getExtras().getString(ARG_IMPORTAR_NOME_ARQUIVO) == "" ? "importacao.kmz" : data.getExtras().getString(ARG_IMPORTAR_NOME_ARQUIVO));
+                    String tipoArquivo = FilenameUtils.getExtension(nomeArquivo);
+
+                    if (importarArquivoMapa(nomeArquivo, tipoArquivo))
+                        Utils.toast(mContext, "Arquivo \"" + nomeArquivo + "\" importado com sucesso!");
                     else
-                        Utils.toast(mContext, "Ocorreu erro ao gerar o arquivo.");
+                        Utils.toast(mContext, "Ocorreu erro ao importar o arquivo.");
+                } catch (Exception e) {
+                    Utils.toast(mContext, "Ocorreu erro ao importar o arquivo:\r\n" + e.getMessage());
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private boolean exportarArquivoMapa(String nomeArquivo, String tipoArquivo) {
+        boolean resultado = false;
+        File arquivo = new File(caminhoPastaMapas + nomeArquivo);
+        KmlDocument kmlDocument = new KmlDocument();
+        for (Overlay overlay : map.getOverlays()) {
+            kmlDocument.mKmlRoot.addOverlay(overlay, kmlDocument);
+        }
+        if (tipoArquivo.equals("kml")) {
+            resultado = kmlDocument.saveAsKML(arquivo);
+        }
+        if (tipoArquivo.equals("geojson")) {
+            resultado = kmlDocument.saveAsGeoJSON(arquivo);
+        }
+        return resultado;
+    }
+
+    private boolean importarArquivoMapa(String nomeArquivo, String tipoArquivo) throws IOException {
+        boolean resultado = false;
+        File arquivo = new File(caminhoPastaMapas + nomeArquivo);
+        KmlDocument kmlDocument = new KmlDocument();
+
+        if (tipoArquivo.equals("kml"))
+            resultado = kmlDocument.parseKMLFile(arquivo);
+        else if (tipoArquivo.equals("kmz")) {
+            BufferedInputStream stream = new BufferedInputStream(new FileInputStream(arquivo));
+            ZipFile zipFile = new ZipFile(arquivo);
+            resultado = kmlDocument.parseKMLStream(stream, zipFile);
+        } else if (tipoArquivo.equals("geojson"))
+            resultado = kmlDocument.parseGeoJSON(arquivo);
+
+        FolderOverlay kmlOverlay = (FolderOverlay) kmlDocument.mKmlRoot.buildOverlay(map, null, null, kmlDocument);
+        map.getOverlays().add(kmlOverlay);
+
+        map.invalidate();
+        return resultado;
     }
 
     @Override

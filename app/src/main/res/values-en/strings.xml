@@ -23,13 +23,12 @@
     <string name="menu_mapas">Maps</string>
     <string name="title_activity_settings">Settings</string>
     <string name="menu_configuracao">Settings</string>
-    <string name="menu_exportacao">Export</string>
     <string name="title_activity_configuracao">Settings</string>
     <string name="cbx_pontos_de_interesse">Points</string>
     <string name="cbx_geometrias">Areas</string>
     <string name="action_rotacao">Rotation</string>
     <string name="action_concluido">Done</string>
-    <string name="action_cancelar">Cancelar</string>
+    <string name="action_cancelar">Cancel</string>
     <string name="title_info">Info</string>
     <string name="text_titulo">Title</string>
     <string name="text_descricao">Description</string>
@@ -50,12 +49,14 @@
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="pref_title_system_sync_settings">System sync settings</string>
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="arquivo_nome">Nome do Arquivo</string>
-    <string name="arquivo_informacao">O mesmo será salvo na pasta \"agritopo\" de seu dispositivo</string>
-    <string name="arquivo_tipo_kml">Formato KML</string>
-    <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
+    <string name="arquivo_nome">File name</string>
+    <string name="arquivo_tipo_kml">KML Format</string>
+    <string name="arquivo_tipo_geojson">GeoJSON Format</string>
     <string name="title_activity_exportar_kml">Export File</string>
     <string name="title_activity_main">Main</string>
     <string name="title_cadastros_listar">Records</string>
-    <string name="action_desfazer">Desfazer</string>
+    <string name="action_desfazer">Undo</string>
+    <string name="menu_importar">Import</string>
+    <string name="menu_exportar">Export</string>
+    <string name="arquivo_informacao">Sempre na pasta \"agritopo\" de seu dispositivo</string>
 </resources>

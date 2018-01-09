@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.com.neogis.agritopo.activity.ExportarActivity"
-    tools:showIn="@layout/activity_exportar">
+    tools:context="br.com.neogis.agritopo.activity.ImportarActivity"
+    tools:showIn="@layout/activity_importar">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -24,7 +24,7 @@
         android:text="@string/arquivo_informacao" />
 
     <EditText
-        android:id="@+id/edtArquivoExportar"
+        android:id="@+id/edtArquivoImportar"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,27 +36,5 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
         tools:layout_editor_absoluteY="86dp" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupTipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checkedButton="@+id/rdbKml">
-
-        <RadioButton
-            android:id="@+id/rdbKml"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/arquivo_tipo_kml" />
-
-        <RadioButton
-            android:id="@+id/rdbGeoJson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/arquivo_tipo_geojson" />
-    </RadioGroup>
-
 
 </LinearLayout>

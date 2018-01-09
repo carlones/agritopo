@@ -8,35 +8,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 
 import br.com.neogis.agritopo.R;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_EXPORTAR_NOME_ARQUIVO;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_EXPORTAR_TIPO_ARQUIVO;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
 
-public class ExportarActivity extends AppCompatActivity {
+public class ImportarActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exportar);
+        setContentView(R.layout.activity_importar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        final EditText edtArquivoExportar = (EditText) findViewById(R.id.edtArquivoExportar);
-        final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupTipo);
+        final EditText edtArquivoImportar = (EditText) findViewById(R.id.edtArquivoImportar);
         FloatingActionButton btnSalvarArquivo = (FloatingActionButton) findViewById(R.id.btnSalvarArquivo);
         btnSalvarArquivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra(ARG_EXPORTAR_NOME_ARQUIVO, edtArquivoExportar.getText().toString());
-                if (radioGroup.getCheckedRadioButtonId() == R.id.rdbKml) {
-                    intent.putExtra(ARG_EXPORTAR_TIPO_ARQUIVO, "kml");
-                }
-                if (radioGroup.getCheckedRadioButtonId() == R.id.rdbGeoJson) {
-                    intent.putExtra(ARG_EXPORTAR_TIPO_ARQUIVO, "geojson");
-                }
+                intent.putExtra(ARG_IMPORTAR_NOME_ARQUIVO, edtArquivoImportar.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
                 onBackPressed();
@@ -44,7 +36,7 @@ public class ExportarActivity extends AppCompatActivity {
         });
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Exportar Arquivo");
+        actionBar.setTitle("Importar Arquivo");
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }

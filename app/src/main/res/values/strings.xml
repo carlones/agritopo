@@ -95,7 +95,6 @@
     <string name="action_gps">GPS</string>
     <string name="menu_cadastros">Cadastros</string>
     <string name="menu_mapas">Mapas</string>
-    <string name="menu_exportacao">Exportação</string>
     <string name="menu_configuracao">Configurações</string>
     <string name="cbx_pontos_de_interesse">Pontos</string>
     <string name="cbx_geometrias">Áreas</string>
@@ -547,9 +546,12 @@
     <string name="title_activity_main">Principal</string>
     <string name="title_activity_exportar_kml">Exportar Arquivo</string>
     <string name="arquivo_nome">Nome do Arquivo</string>
-    <string name="arquivo_informacao">O mesmo será salvo na pasta \"agritopo\" de seu dispositivo</string>
+    <string name="arquivo_informacao">Sempre na pasta \"agritopo\" de seu dispositivo</string>
     <string name="arquivo_tipo_kml">Formato KML</string>
     <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
     <string name="title_activity_arvore_camadas">ArvoreCamadasActivity</string>
     <string name="action_desfazer">Desfazer</string>
+    <string name="menu_importar">Importar</string>
+    <string name="menu_exportar">Exportar</string>
+    <string name="title_activity_importar">ImportarActivity</string>
 </resources>

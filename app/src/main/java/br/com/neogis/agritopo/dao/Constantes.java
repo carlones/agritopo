@@ -13,7 +13,8 @@ public final class Constantes {
     public static final int PEGAR_ELEMENTO_PONTO_REQUEST = 5000;
     public static final int PEGAR_MAPA_MODO_REQUEST = 6000;
     public static final int PEGAR_MENU_CADASTROS_REQUEST = 7000;
-    public static final int PEGAR_NOME_ARQUIVO_KML_REQUEST = 8000;
+    public static final int PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST = 8000;
+    public static final int PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST = 8500;
     public static final int ALTERAR_ELEMENTO_REQUEST = 9000;
 
     public static final int ONLINE = 1;
@@ -31,6 +32,7 @@ public final class Constantes {
     public static final String ARG_POSICAO_LISTA = "posicao_lista";
     public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";
     public static final String ARG_EXPORTAR_TIPO_ARQUIVO = "exportar_tipo_arquivo";
+    public static final String ARG_IMPORTAR_NOME_ARQUIVO = "importar_nome_arquivo";
 
     public static final int CLASSE_AREA_ID = 2;
     public static final int CLASSE_DISTANCIA_ID = 3;
