@@ -25,6 +25,7 @@ import br.com.neogis.agritopo.fragment.CadastrosAbaFragment;
 import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTO_CENTRALIZAR;
 
 public class CadastrosListarActivity extends AppCompatActivity {
     public ArrayList<Integer> idsSelecionados = new ArrayList<>();
@@ -67,12 +68,11 @@ public class CadastrosListarActivity extends AppCompatActivity {
     }
 
     public void removerElementosSelecionados(MenuItem item) {
-        if( idsSelecionados.isEmpty() ) return;
+        if (idsSelecionados.isEmpty()) return;
 
         String mensagemAlerta = idsSelecionados.size() == 1
                 ? "Remover esse item?"
-                : "Remover " + Integer.toString(idsSelecionados.size()) + " itens?"
-                ;
+                : "Remover " + Integer.toString(idsSelecionados.size()) + " itens?";
         AlertDialog confirmacao = new AlertDialog.Builder(this)
                 .setMessage(mensagemAlerta)
                 .setIcon(android.R.drawable.ic_menu_delete)
@@ -84,7 +84,7 @@ public class CadastrosListarActivity extends AppCompatActivity {
                 .setPositiveButton("Remover", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         ElementoDao dao = new ElementoDaoImpl(getBaseContext());
-                        for(Integer id: idsSelecionados) {
+                        for (Integer id : idsSelecionados) {
                             Elemento e = dao.get(id);
                             dao.delete(e);
                         }
@@ -111,10 +111,12 @@ public class CadastrosListarActivity extends AppCompatActivity {
         idsSelecionados.add(elemento.getElementoid());
         invalidateOptionsMenu(); // exibir ícone remover
     }
+
     public void onElementoDesmarcado(Elemento elemento) {
         idsSelecionados.remove(Integer.valueOf(elemento.getElementoid()));
         invalidateOptionsMenu(); // ocultar ícone remover
     }
+
     public void onElementoClicado(Elemento elemento) {
         Intent intent = new Intent(getBaseContext(), ElementoDetailActivity.class);
         intent.putExtra(ARG_ELEMENTOID, elemento.getElementoid());
@@ -123,16 +125,18 @@ public class CadastrosListarActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if( resultCode == RESULT_OK )
-        {
-            if (requestCode == ALTERAR_ELEMENTO_REQUEST)
-            {
-                int elementoId = data.getIntExtra(ARG_ELEMENTOID, -1);
-                if( elementoId > -1 )
-                {
-                    // Reconstruir conteúdo abas
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ALTERAR_ELEMENTO_REQUEST) {
+                if (data.getIntExtra(ARG_ELEMENTOID, -1) > -1) {
                     carregarElementos();
                     abaAdapter.resetarAbas();
+                }
+                if (data.getIntExtra(ARG_ELEMENTO_CENTRALIZAR, 0) == 1) {
+                    Intent intent = new Intent();
+                    intent.putExtra(ARG_ELEMENTOID, data.getIntExtra(ARG_ELEMENTOID, -1));
+                    intent.putExtra(ARG_ELEMENTO_CENTRALIZAR, data.getIntExtra(ARG_ELEMENTO_CENTRALIZAR, 0));
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         }
@@ -144,7 +148,7 @@ public class CadastrosListarActivity extends AppCompatActivity {
     class AbaAdapter extends FragmentPagerAdapter {
 
         private final List<CadastrosAbaFragment> mFragmentList = new ArrayList<>();
-        private String[] classePorPosicao = { "Tudo", "Ponto", "Area", "Distancia" };
+        private String[] classePorPosicao = {"Tudo", "Ponto", "Area", "Distancia"};
 
         private AbaAdapter(FragmentManager manager) {
             super(manager);
@@ -160,7 +164,9 @@ public class CadastrosListarActivity extends AppCompatActivity {
         }
 
         @Override
-        public Fragment getItem(int position) { return mFragmentList.get(position); }
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
         @Override
         public int getCount() {
@@ -179,7 +185,7 @@ public class CadastrosListarActivity extends AppCompatActivity {
         }
 
         private void setarConteudoAbas() {
-            for(CadastrosAbaFragment f: mFragmentList) {
+            for (CadastrosAbaFragment f : mFragmentList) {
                 f.elementosDaAba.clear();
                 for (Elemento e : elementos) {
                     if (f.classe.equals("Tudo") || e.getClasse().getNome().equals(f.classe))
@@ -187,15 +193,15 @@ public class CadastrosListarActivity extends AppCompatActivity {
                 }
             }
             // Após remover um elemento o título não é recriado automaticamente
-            if( abas != null ) {
-                for(int i=0; i < abas.getTabCount(); i++) {
+            if (abas != null) {
+                for (int i = 0; i < abas.getTabCount(); i++) {
                     abas.getTabAt(i).setText(getPageTitle(i));
                 }
             }
         }
 
         private void redesenharAbas() {
-            for(CadastrosAbaFragment f: mFragmentList) {
+            for (CadastrosAbaFragment f : mFragmentList) {
                 f.redesenhar();
             }
         }

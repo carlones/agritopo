@@ -1,6 +1,8 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
-import com.google.gson.Gson;
+import android.support.annotation.NonNull;
+
+import org.osmdroid.util.GeoPoint;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,17 +16,13 @@ import br.com.neogis.agritopo.model.MyGeoPoint;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
-import static br.com.neogis.agritopo.dao.Constantes.CLASSE_AREA_ID;
-import static br.com.neogis.agritopo.dao.Constantes.CLASSE_DISTANCIA_ID;
-import static br.com.neogis.agritopo.dao.Constantes.CLASSE_PONTO_ID;
-
 public class Elemento {
 
     private int elementoid;
 
-    private TipoElemento tipoElemento;
-
     private Classe classe;
+
+    private TipoElemento tipoElemento;
 
     private String titulo;
 
@@ -68,15 +66,15 @@ public class Elemento {
 
     public static String getInformacaoExtra(Elemento elemento) {
         String extra = "";
-        switch (elemento.getClasse().getClasseid()) {
-            case CLASSE_PONTO_ID:
+        switch (elemento.getClasse().getClasseEnum()) {
+            case PONTO:
                 extra = Utils.getFormattedLocationInDegree(elemento.getGeometriaMyGeoPoint());
                 break;
-            case CLASSE_AREA_ID:
+            case AREA:
                 Area area = new Area(elemento);
                 extra = area.getAreaDescricao();
                 break;
-            case CLASSE_DISTANCIA_ID:
+            case DISTANCIA:
                 Distancia d = new Distancia(elemento);
                 extra = d.getDistanciaDescricao();
                 break;
@@ -85,13 +83,48 @@ public class Elemento {
     }
 
     public String getGeometria() {
-        Gson gson = new Gson();
-
         return geometria;
     }
 
     public void setGeometria(String geometria) {
         this.geometria = geometria;
+    }
+
+    public GeoPoint getPontoCentral() {
+        switch (classe.getClasseEnum()) {
+            case PONTO:
+                return getGeometriaMyGeoPoint();
+            case AREA:
+                return getPontoCentralArea();
+            case DISTANCIA:
+                return getPontoCentralDistancia();
+            default:
+                return null;
+        }
+    }
+
+    private GeoPoint getPontoCentralDistancia() {
+        List<MyGeoPoint> list = getGeometriaListMyGeoPoint();
+        return getPontoCentralLista(list);
+    }
+
+    private GeoPoint getPontoCentralArea() {
+        List<MyGeoPoint> list = getGeometriaListMyGeoPoint();
+        return getPontoCentralLista(list);
+    }
+
+    @NonNull
+    private GeoPoint getPontoCentralLista(List<MyGeoPoint> list) {
+        double centroLat = 0.0;
+        double centroLon = 0.0;
+        for (GeoPoint ponto : list) {
+            centroLat += ponto.getLatitude();
+            centroLon += ponto.getLongitude();
+        }
+        centroLat = centroLat / list.size();
+        centroLon = centroLon / list.size();
+        GeoPoint centro = new GeoPoint(centroLat, centroLon);
+        return centro;
     }
 
     public MyGeoPoint getGeometriaMyGeoPoint() {

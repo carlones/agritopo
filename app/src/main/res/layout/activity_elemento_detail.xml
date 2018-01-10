@@ -42,7 +42,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/botaoSalvar"
+        android:id="@+id/btnElementoSalvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
@@ -50,5 +50,15 @@
         app:layout_anchor="@+id/elemento_detail_container"
         app:layout_anchorGravity="top|end"
         app:srcCompat="@drawable/ic_done_white_24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnElementoFocar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@+id/elemento_detail_container"
+        app:layout_anchorGravity="top|center_horizontal"
+        app:srcCompat="@drawable/ic_location_on_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
