@@ -143,6 +143,18 @@ public class CadastrosListarActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList("idsSelecionados", idsSelecionados);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        idsSelecionados = savedInstanceState.getIntegerArrayList("idsSelecionados");
+    }
+
     // Fornece o Fragmento da aba
     //
     class AbaAdapter extends FragmentPagerAdapter {
