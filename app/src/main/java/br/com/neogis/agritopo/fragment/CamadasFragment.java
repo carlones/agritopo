@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.holder.CamadaHolder;
 import br.com.neogis.agritopo.holder.IconTreeItemHolder;
 import br.com.neogis.agritopo.holder.ProfileHolder;
 import br.com.neogis.agritopo.holder.SelectableHeaderHolder;
 import br.com.neogis.agritopo.holder.SelectableItemHolder;
+import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.model.TreeNode;
 import br.com.neogis.agritopo.view.AndroidTreeView;
 
@@ -22,7 +24,7 @@ import br.com.neogis.agritopo.view.AndroidTreeView;
 
 public class CamadasFragment extends Fragment {
     private AndroidTreeView tView;
-    private boolean selectionModeEnabled = false;
+    private boolean selectionModeEnabled = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,26 +77,16 @@ public class CamadasFragment extends Fragment {
 
         TreeNode root = TreeNode.root();
 
-        TreeNode s1 = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_sd_storage, "Storage1")).setViewHolder(new ProfileHolder(getActivity()));
-        TreeNode s2 = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_sd_storage, "Storage2")).setViewHolder(new ProfileHolder(getActivity()));
-        s1.setSelectable(false);
-        s2.setSelectable(false);
-
-        TreeNode folder1 = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_folder, "Folder 1")).setViewHolder(new SelectableHeaderHolder(getActivity()));
-        TreeNode folder2 = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_folder, "Folder 2")).setViewHolder(new SelectableHeaderHolder(getActivity()));
-        TreeNode folder3 = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_folder, "Folder 3")).setViewHolder(new SelectableHeaderHolder(getActivity()));
-
-        fillFolder(folder1);
-        fillFolder(folder2);
-        fillFolder(folder3);
-
-        s1.addChildren(folder1, folder2);
-        s2.addChildren(folder3);
-
-        root.addChildren(s1, s2);
+        CamadaHolder camadaHolder = CamadaHolder.getInstance();
+        for(ArvoreCamada arvore: camadaHolder.camadas) {
+            TreeNode s = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_sd_storage, arvore.nome)).setViewHolder(new ProfileHolder(getActivity()));
+            montarArvore(arvore, s);
+            root.addChild(s);
+        }
 
         tView = new AndroidTreeView(getActivity(), root);
         tView.setDefaultAnimation(true);
+        tView.setSelectionModeEnabled(selectionModeEnabled);
         containerView.addView(tView.getView());
 
         if (savedInstanceState != null) {
@@ -106,17 +98,37 @@ public class CamadasFragment extends Fragment {
         return rootView;
     }
 
-    private void fillFolder(TreeNode folder) {
-        TreeNode file1 = new TreeNode("File1").setViewHolder(new SelectableItemHolder(getActivity()));
-        TreeNode file2 = new TreeNode("File2").setViewHolder(new SelectableItemHolder(getActivity()));
-        TreeNode file3 = new TreeNode("File3").setViewHolder(new SelectableItemHolder(getActivity()));
-        folder.addChildren(file1, file2, file3);
+    private void montarArvore(ArvoreCamada arvore, TreeNode parentNode) {
+        for (ArvoreCamada filho: arvore.filhos) {
+            if( filho.ehPasta() ) {
+                TreeNode folderNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_folder, filho.nome)).setViewHolder(new SelectableHeaderHolder(getActivity()));
+                folderNode.setSelected(filho.selecionado);
+                folderNode.arvoreCamada = filho;
+                parentNode.addChild(folderNode);
+                montarArvore(filho, folderNode);
+            }
+            else {
+                TreeNode fileNode = new TreeNode(filho.nome).setViewHolder(new SelectableItemHolder(getActivity()));
+                fileNode.setSelected(filho.selecionado);
+                fileNode.arvoreCamada = filho;
+                parentNode.addChild(fileNode);
+            }
+        }
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("tState", tView.getSaveState());
+    }
+
+    public void identificarSelecionados() {
+        CamadaHolder.getInstance().limparSelecionados();
+        for(TreeNode tn: tView.getSelected()) {
+            if( tn.arvoreCamada != null)
+                tn.arvoreCamada.selecionado = true;
+        }
     }
 }
 

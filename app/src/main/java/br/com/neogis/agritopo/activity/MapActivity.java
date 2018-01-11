@@ -40,8 +40,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.apache.commons.io.FilenameUtils;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlDocument;
-import org.osmdroid.bonuspack.kml.KmlFeature;
-import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
@@ -87,6 +85,7 @@ import br.com.neogis.agritopo.fragment.CamadasFragment;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
 import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
 import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
+import br.com.neogis.agritopo.holder.CamadaHolder;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MapaTiles;
@@ -112,6 +111,7 @@ import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_MENU_CADASTROS_REQUEST;
+import static br.com.neogis.agritopo.dao.Constantes.PEGAR_MENU_CAMADAS_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST;
 
@@ -126,6 +126,7 @@ public class MapActivity extends AppCompatActivity
     MyItemizedOverlayWithFocus<MyOverlayItem> geoPointList;
     List<Area> areaList;
     List<Distancia> distanciaList;
+    CamadaHolder camadaHolder;
     private MyLocationNewOverlay mMyLocationNewOverlay;
     private CompassOverlay mCompassOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
@@ -186,11 +187,12 @@ public class MapActivity extends AppCompatActivity
         areaList = new ArrayList<Area>();
         exibirDistancias = true;
         distanciaList = new ArrayList<Distancia>();
+        camadaHolder = CamadaHolder.getInstance();
 
         inicializarMapas(getIntent().getIntExtra(ARG_MAPA_MODO, OFFLINE) == OFFLINE);
         inicializarBotoes();
 
-        //lerPastasDoKML();
+        carregarCamadas();
     }
 
     private boolean criarDiretorio(String diretorio) {
@@ -585,7 +587,7 @@ public class MapActivity extends AppCompatActivity
             Class<?> clazz = CamadasFragment.class;
             Intent intent = new Intent(this, SingleFragmentActivity.class);
             intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
-            startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
+            startActivityForResult(intent, PEGAR_MENU_CAMADAS_REQUEST);
         } else if (id == R.id.nav_exportar) {
             Intent intent = new Intent(this, ExportarActivity.class);
             startActivityForResult(intent, PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST);
@@ -722,6 +724,10 @@ public class MapActivity extends AppCompatActivity
             carregarPontos();
             carregarAreas();
             carregarDistancias();
+            map.invalidate();
+        }
+        if (requestCode == PEGAR_MENU_CAMADAS_REQUEST) {
+            CamadaHolder.getInstance().exibirCamadasSelecionadasNoMapa(map);
             map.invalidate();
         }
         if (requestCode == PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST) {
@@ -973,30 +979,25 @@ public class MapActivity extends AppCompatActivity
             coordenadasIniciais = new GeoPoint(lat, lon);
     }
 
-    // https://github.com/MKergall/osmbonuspack/issues/266
-    private void lerPastasDoKML() {
-        File arquivoKml = new File(caminhoPastaMapas + "KML_Samples_sem_icones.kml");
-        KmlDocument kmlDocument = new KmlDocument();
-        if (!kmlDocument.parseKMLFile(arquivoKml))
-            Utils.info("Erro durante parse do arquivo KML");
-        else
-            Utils.info("parse do arquivo KML ok");
+    private void carregarCamadas() {
+        File pasta_camadas = new File(caminhoPastaMapas);
+        FilenameFilter filtro = new FilenameFilter() {
+            String[] extensoesValidas = {"kml"};
 
-        listarPastas(kmlDocument.mKmlRoot, 0);
-    }
-
-    // Achei um bug: a pasta "Screen Overlays" vem como "Dynamic Positioning: Right of screen" (linha 333):
-    // parece que por não reconhecer a tag <ScreenOverlay> acabou pegando o último <name>.
-    // Vamos ver o arquivo que o Angelo manda, se isso será um problema.
-    //
-    private void listarPastas(KmlFolder pasta, int nivel) {
-        for (KmlFeature f : pasta.mItems) {
-            if (f.getClass() == KmlFolder.class) {
-                Utils.info(String.format("%" + (nivel * 4 + 1) + "s", "") + f.mName);
-                listarPastas((KmlFolder) f, nivel + 1);
+            @Override
+            public boolean accept(File dir, String name) {
+                String extensao = name.substring(name.lastIndexOf(".") + 1);
+                extensao = extensao.toLowerCase();
+                return Arrays.asList(extensoesValidas).contains(extensao);
+            }
+        };
+        File[] listaArquivosCamadas = pasta_camadas.listFiles(filtro);
+        camadaHolder.limparCamadas();
+        if (listaArquivosCamadas != null) {
+            for (File arquivo : listaArquivosCamadas) {
+                camadaHolder.adicionarArquivo(arquivo, map);
             }
         }
-
     }
 
     //0. Using the Marker and Polyline overlays - advanced options

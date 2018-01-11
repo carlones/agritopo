@@ -16,6 +16,7 @@ public final class Constantes {
     public static final int PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST = 8000;
     public static final int PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST = 8500;
     public static final int ALTERAR_ELEMENTO_REQUEST = 9000;
+    public static final int PEGAR_MENU_CAMADAS_REQUEST = 10000;
 
     public static final int ONLINE = 1;
     public static final int OFFLINE = 0;

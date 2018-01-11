@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.fragment.CamadasFragment;
 
 import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST;
 
@@ -15,6 +16,7 @@ import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_
 
 public class SingleFragmentActivity extends AppCompatActivity {
     public final static String FRAGMENT_PARAM = "fragment";
+    private CamadasFragment f;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -23,11 +25,9 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         Class<?> fragmentClass = (Class<?>) b.get(FRAGMENT_PARAM);
-        if (bundle == null) {
-            Fragment f = Fragment.instantiate(this, fragmentClass.getName());
-            f.setArguments(b);
-            getFragmentManager().beginTransaction().replace(R.id.fragment, f, fragmentClass.getName()).commit();
-        }
+        f = (CamadasFragment) Fragment.instantiate(this, CamadasFragment.class.getName());
+        f.setArguments(b);
+        getFragmentManager().beginTransaction().replace(R.id.fragment, f, fragmentClass.getName()).commit();
     }
 
     @Override
@@ -37,5 +37,11 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        f.identificarSelecionados();
+        super.onBackPressed();
     }
 }

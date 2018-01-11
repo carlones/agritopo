@@ -29,6 +29,7 @@ public class TreeNode {
     private TreeNodeLongClickListener mLongClickListener;
     private Object mValue;
     private boolean mExpanded;
+    public ArvoreCamada arvoreCamada;
 
     public TreeNode(Object value) {
         children = new ArrayList<>();
