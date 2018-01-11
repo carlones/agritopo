@@ -726,7 +726,7 @@ public class MapActivity extends AppCompatActivity
             carregarPontos();
             carregarAreas();
             carregarDistancias();
-            if (data.getExtras().getInt(ARG_ELEMENTO_CENTRALIZAR, 0) == 1) {
+            if( data != null && data.getExtras().getInt(ARG_ELEMENTO_CENTRALIZAR, 0) == 1 ) {
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID, 0));
                 map.getController().setCenter(mItem.getPontoCentral());
