@@ -20,6 +20,7 @@ import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
 
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTO_CENTRALIZAR;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_POSICAO_LISTA;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
@@ -52,8 +53,8 @@ public class ElementoDetailActivity extends AppCompatActivity {
         geometria = getIntent().getStringExtra(ARG_GEOMETRIA);
         posicao_lista = getIntent().getIntExtra(ARG_POSICAO_LISTA, -1);
 
-        FloatingActionButton botaoSalvar = (FloatingActionButton) findViewById(R.id.botaoSalvar);
-        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton btnElementoSalvar = (FloatingActionButton) findViewById(R.id.btnElementoSalvar);
+        btnElementoSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gravarElemento();
@@ -63,9 +64,22 @@ public class ElementoDetailActivity extends AppCompatActivity {
                 setResult(RESULT_OK, intent);
                 finish();
                 onBackPressed();
+            }
+        });
+        FloatingActionButton btnElementoFocar = (FloatingActionButton) findViewById(R.id.btnElementoFocar);
+        btnElementoFocar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra(ARG_ELEMENTOID, elementoId);
+                intent.putExtra(ARG_ELEMENTO_CENTRALIZAR, 1);
+                setResult(RESULT_OK, intent);
+                finish();
+                onBackPressed();
                 //Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+        btnElementoFocar.setVisibility((elementoId == 0 ? View.INVISIBLE : View.VISIBLE));
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();

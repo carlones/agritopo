@@ -78,6 +78,7 @@ import java.util.zip.ZipFile;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.dao.tabelas.ClasseEnum;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
@@ -99,6 +100,7 @@ import static android.view.View.VISIBLE;
 import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTO_CENTRALIZAR;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_EXPORTAR_NOME_ARQUIVO;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_EXPORTAR_TIPO_ARQUIVO;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
@@ -724,6 +726,11 @@ public class MapActivity extends AppCompatActivity
             carregarPontos();
             carregarAreas();
             carregarDistancias();
+            if (data.getExtras().getInt(ARG_ELEMENTO_CENTRALIZAR, 0) == 1) {
+                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID, 0));
+                map.getController().setCenter(mItem.getPontoCentral());
+            }
             map.invalidate();
         }
         if (requestCode == PEGAR_MENU_CAMADAS_REQUEST) {
@@ -881,7 +888,7 @@ public class MapActivity extends AppCompatActivity
         ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
         List<Elemento> pontos = elementoDao.getAll();
         for (Elemento ponto : pontos) {
-            if (ponto.getClasse().getNome().equals("Ponto")) {
+            if (ponto.getClasse().getClasseEnum() == ClasseEnum.PONTO) {
                 items.add(new MyOverlayItem(ponto));
             }
         }
@@ -919,7 +926,7 @@ public class MapActivity extends AppCompatActivity
         }
         areaList.clear();
         for (Elemento e : elementos) {
-            if (e.getClasse().getNome().equals("Area")) {
+            if (e.getClasse().getClasseEnum() == ClasseEnum.AREA) {
                 Area a = new Area(e);
                 a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 a.setTitulo(e.getTitulo());
@@ -938,7 +945,7 @@ public class MapActivity extends AppCompatActivity
         }
         distanciaList.clear();
         for (Elemento e : elementos) {
-            if (e.getClasse().getNome().equals("Distancia")) {
+            if (e.getClasse().getClasseEnum() == ClasseEnum.DISTANCIA) {
                 Distancia d = new Distancia(e);
                 d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 distanciaList.add(d);

@@ -34,4 +34,15 @@ public class Classe {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public ClasseEnum getClasseEnum() {
+        ClasseEnum classeEnum = ClasseEnum.PONTO;
+        for (ClasseEnum e : ClasseEnum.values()) {
+            if (e.getValor() == classeid) {
+                classeEnum = e;
+                break;
+            }
+        }
+        return classeEnum;
+    }
 }
