@@ -147,8 +147,15 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 "\n" +
                 "\n");
 
-        db.execSQL("INSERT INTO classe (classeid, nome) VALUES(1, 'Ponto'), (2, 'Área'), (3, 'Distância')");
-        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (1, 'Coleta de solo'), (2, 'Vertente'), (3, 'Terreno'), (4, 'Açude'), (5, 'Distância')");
+        // Android 4.0 não entende múltiplos VALUES numúnico INSERT
+        db.execSQL("INSERT INTO classe (classeid, nome) VALUES (1, 'Ponto')");
+        db.execSQL("INSERT INTO classe (classeid, nome) VALUES (2, 'Área')");
+        db.execSQL("INSERT INTO classe (classeid, nome) VALUES (3, 'Distância')");
+        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (1, 'Coleta de solo')");
+        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (2, 'Vertente')");
+        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (3, 'Terreno')");
+        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (4, 'Açude')");
+        db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (5, 'Distância')");
         db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('classe', 3)");
         db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 5)");
     }
