@@ -657,7 +657,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     public void carregarMapaDeArquivo(MapView map, File arquivo) {
-        MapaTiles am = new MapaTiles(arquivo);
+        MapaTiles am = new MapaTiles(arquivo, mMyLocationNewOverlay.getMyLocation(), 0, 21);
 
         SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
         XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
