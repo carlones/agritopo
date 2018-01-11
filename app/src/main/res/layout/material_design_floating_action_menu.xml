@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:src="@drawable/ic_done_white_24dp"
         android:visibility="invisible"
         fab:fab_label="@string/action_concluido" />
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/action_concluido"
+        android:layout_toLeftOf="@+id/action_concluido"
         android:src="@drawable/ic_close_white_24dp"
         android:visibility="invisible"
         fab:fab_label="@string/action_cancelar" />
@@ -30,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/action_cancelar"
+        android:layout_toLeftOf="@+id/action_cancelar"
         android:src="@drawable/ic_undo_white_24dp"
         android:visibility="invisible"
         fab:fab_label="@string/action_desfazer" />
@@ -40,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
