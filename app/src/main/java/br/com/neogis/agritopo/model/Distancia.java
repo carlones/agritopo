@@ -112,7 +112,6 @@ public class Distancia {
             removerMarcador(mapa);
         }
         if (ehValida()) {
-            setDistancia();
             setMarcador(new MyMarker(mapa));
             mapa.getOverlays().add(getMarcador());
         }

@@ -692,8 +692,6 @@ public class MapActivity extends AppCompatActivity
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
                 Area area = new Area(mItem);
-                area.setTitulo(mItem.getTitulo());
-                area.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
                 areaList.add(area);
                 if (exibirAreas) {
                     area.desenharEm(map);
@@ -706,7 +704,6 @@ public class MapActivity extends AppCompatActivity
                 ElementoDao elementoDao = new ElementoDaoImpl(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
                 Distancia distancia = new Distancia(mItem);
-                distancia.setMyGeoPointList(mItem.getGeometriaListMyGeoPoint());
                 distanciaList.add(distancia);
                 if (exibirDistancias) {
                     distancia.desenharEm(map);
@@ -928,8 +925,6 @@ public class MapActivity extends AppCompatActivity
         for (Elemento e : elementos) {
             if (e.getClasse().getClasseEnum() == ClasseEnum.AREA) {
                 Area a = new Area(e);
-                a.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
-                a.setTitulo(e.getTitulo());
                 areaList.add(a);
                 if (exibirAreas)
                     a.desenharEm(map);
@@ -947,7 +942,6 @@ public class MapActivity extends AppCompatActivity
         for (Elemento e : elementos) {
             if (e.getClasse().getClasseEnum() == ClasseEnum.DISTANCIA) {
                 Distancia d = new Distancia(e);
-                d.setMyGeoPointList(e.getGeometriaListMyGeoPoint());
                 distanciaList.add(d);
                 if (exibirDistancias)
                     d.desenharEm(map);

@@ -190,15 +190,19 @@ public class Area {
     }
 
     private void desenharMarcador(MapView mapa) {
-        if (getMarcador() != null) {
-            removerMarcador(mapa);
-        }
-        if (ehValida()) {
-            setArea();
-            setPerimetro();
+        if (getMarcador() == null) {
             setMarcador(new MyMarker(mapa));
-            mapa.getOverlays().add(getMarcador());
         }
+        mapa.getOverlays().add(getMarcador());
+//        if (getMarcador() != null) {
+//            removerMarcador(mapa);
+//        }
+//        if (ehValida()) {
+//            setArea();
+//            setPerimetro();
+//            setMarcador(new MyMarker(mapa));
+//            mapa.getOverlays().add(getMarcador());
+//        }
     }
 
     private void desenharPoligono(MapView mapa) {
@@ -249,8 +253,6 @@ public class Area {
         for (MyGeoPoint ponto : lista) {
             adicionarPonto(ponto);
         }
-        calcularArea();
-        calcularPerimetro();
     }
 
     public String getTitulo() {
