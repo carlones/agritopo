@@ -50,7 +50,9 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
                 "  ,created_at\n" +
                 "  ,modified_at\n" +
                 "FROM elemento", new String[]{});
-        return getListaObjetos(cursor);
+        List<Elemento> objetos = getListaObjetos(cursor);
+        fecharConexao();
+        return objetos;
     }
 
     public List<Elemento> getAll(String orderBy) {
@@ -69,7 +71,9 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
             sql += " ORDER BY " + orderBy;
         }
         Cursor cursor = db.rawQuery(sql, new String[]{});
-        return getListaObjetos(cursor);
+        List<Elemento> objetos = getListaObjetos(cursor);
+        fecharConexao();
+        return objetos;
     }
 
     @Override
@@ -86,7 +90,9 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
                         "  ,modified_at\n" +
                         "FROM elemento WHERE classeid = ?"
                 , new String[]{Integer.toString(classeid)});
-        return getListaObjetos(cursor);
+        List<Elemento> objetos = getListaObjetos(cursor);
+        fecharConexao();
+        return objetos;
     }
 
     @Override
