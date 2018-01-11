@@ -19,8 +19,8 @@ public class MyMarker extends Marker {
 
     protected int mTextLabelBackgroundColor = Color.WHITE;
     protected int mTextLabelForegroundColor = Color.BLACK;
-    protected int mTextLabelFontSize = 16;
-    protected double mTextLabelOpacity = 0.50;
+    protected int mTextLabelFontSize = 22;
+    protected double mTextLabelOpacity = 0.80;
 
     public MyMarker(MapView mapView) {
         super(mapView);
@@ -64,7 +64,7 @@ public class MyMarker extends Marker {
             String[] lines = getTitle().split("\n");
             int height = (int) (baseline + p.descent() + 0.5f) * lines.length;
             for (String line : lines) {
-                int line_width = (int) (p.measureText(line) + 0.5f);
+                int line_width = (int) (p.measureText(line) + 5.5f);
                 if (line_width > width)
                     width = line_width;
             }
