@@ -148,17 +148,16 @@ public class CadastrosListarActivity extends AppCompatActivity {
     class AbaAdapter extends FragmentPagerAdapter {
 
         private final List<CadastrosAbaFragment> mFragmentList = new ArrayList<>();
-        private String[] classePorPosicao = {"Tudo", "Ponto", "Area", "Distancia"};
 
         private AbaAdapter(FragmentManager manager) {
             super(manager);
-            int posicao = 0;
+            int classeId = 0;
             for (String titulo : titulosAbas) {
                 CadastrosAbaFragment f = new CadastrosAbaFragment();
                 f.titulo = titulo;
-                f.classe = classePorPosicao[posicao];
+                f.classeId = classeId;
                 mFragmentList.add(f);
-                posicao++;
+                classeId++;
             }
             setarConteudoAbas();
         }
@@ -188,7 +187,7 @@ public class CadastrosListarActivity extends AppCompatActivity {
             for (CadastrosAbaFragment f : mFragmentList) {
                 f.elementosDaAba.clear();
                 for (Elemento e : elementos) {
-                    if (f.classe.equals("Tudo") || e.getClasse().getNome().equals(f.classe))
+                    if (f.classeId == 0 || f.classeId == e.getClasse().getClasseid())
                         f.elementosDaAba.add(e);
                 }
             }
