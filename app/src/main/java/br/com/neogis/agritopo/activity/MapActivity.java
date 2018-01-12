@@ -657,7 +657,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     public void carregarMapaDeArquivo(MapView map, File arquivo) {
-        MapaTiles am = new MapaTiles(arquivo, mMyLocationNewOverlay.getMyLocation(), 0, 21);
+        MapaTiles am = new MapaTiles(arquivo, mMyLocationNewOverlay.getMyLocation(), 10, 21);
 
         SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
         XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
@@ -674,7 +674,8 @@ public class MapActivity extends AppCompatActivity
         // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
         if (coordenadasIniciais == null)
             coordenadasIniciais = am.pontoCentral;
-        mapController.setCenter(coordenadasIniciais);
+        if (coordenadasIniciais != null)
+            mapController.setCenter(coordenadasIniciais);
     }
 
     void setInitialViewOn(BoundingBox bb) {

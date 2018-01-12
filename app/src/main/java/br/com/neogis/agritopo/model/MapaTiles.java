@@ -41,7 +41,7 @@ public class MapaTiles {
             cursor.close();
             db_mapa.close();
 
-            pontoCentral = new GeoPoint(lat, lon);
+            this.pontoCentral = new GeoPoint(lat, lon);
         } catch (Exception e) {
             this.zoomMin = zoomMin;
             this.zoomMax = zoomMax;
