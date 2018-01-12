@@ -70,6 +70,8 @@ public class AdicionarAreaHolder extends Overlay {
 
         GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
         this.area.adicionarPonto(ponto);
+        this.area.setArea();
+        this.area.setPerimetro();
         this.area.removerDe(mapa);
         this.area.desenharEm(mapa);
         this.mapa.invalidate();
