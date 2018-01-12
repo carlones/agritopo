@@ -104,7 +104,6 @@ public class AdicionarAreaHolder extends Overlay {
 
     public void desfazer() {
         this.area.removerUltimoPonto();
-        this.area.desenharEm(mapa);
         this.mapa.invalidate();
     }
 
