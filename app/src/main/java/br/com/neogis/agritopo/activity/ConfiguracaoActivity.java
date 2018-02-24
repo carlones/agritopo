@@ -94,6 +94,13 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
         }
     };
 
+    @Override
+    public void onPause() {
+        //Recarega as configurações ao sair das configurações
+        br.com.neogis.agritopo.singleton.Configuration.getInstance().LoadConfiguration(this);
+        super.onPause();
+    }
+
     /**
      * Helper method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
@@ -164,11 +171,8 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             case PREFERENCE_DIALOG_COLOR_ID:
                 ((ColorPickerDialogFragment.ColorPickerDialogListener)preferenceFragment)
                         .onColorSelected(dialogId, color);
-
                 break;
         }
-
-
     }
 
     @Override
@@ -190,6 +194,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
+                || MappingPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
@@ -225,7 +230,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             setHasOptionsMenu(true);
             preferenceFragment = this;
 
-            ColorPreference pref = (ColorPreference) findPreference(getResources().getString(R.string.color_cursor));
+            ColorPreference pref = (ColorPreference) findPreference(getResources().getString(R.string.pref_key_color_cursor));
             pref.setOnShowDialogListener(new ColorPreference.OnShowDialogListener() {
 
                 @Override
@@ -243,7 +248,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             switch (dialogId) {
                 case PREFERENCE_DIALOG_COLOR_ID:
                     //salva a cor selecionada
-                    ColorPreference pref = (ColorPreference) findPreference(getResources().getString(R.string.color_cursor));
+                    ColorPreference pref = (ColorPreference) findPreference(getResources().getString(R.string.pref_key_color_cursor));
                     pref.saveValue(color);
                     break;
             }

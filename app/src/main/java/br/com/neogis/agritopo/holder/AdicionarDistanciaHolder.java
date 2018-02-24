@@ -24,6 +24,7 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MyGeoPoint;
+import br.com.neogis.agritopo.singleton.Configuration;
 
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
@@ -51,7 +52,7 @@ public class AdicionarDistanciaHolder extends Overlay {
         TipoElemento te = ted.get(5);
         this.distancia = new Distancia(new Elemento(te, classe, lista));
         this.activity = activity;
-        this.distancia.desenharEm(this.mapa);
+        this.distancia.desenharEm(this.mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
@@ -69,7 +70,7 @@ public class AdicionarDistanciaHolder extends Overlay {
         this.distancia.adicionarPonto(ponto);
         this.distancia.setDistancia();
         this.distancia.removerDe(mapa);
-        this.distancia.desenharEm(mapa);
+        this.distancia.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
         this.mapa.invalidate();
         return true; // Não propogar evento para demais overlays
     }
@@ -97,7 +98,7 @@ public class AdicionarDistanciaHolder extends Overlay {
 
     public void desfazer() {
         this.distancia.removerUltimoPonto();
-        this.distancia.desenharEm(mapa);
+        this.distancia.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
         this.mapa.invalidate();
     }
 

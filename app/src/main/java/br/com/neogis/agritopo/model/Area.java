@@ -184,9 +184,10 @@ public class Area {
         }
     }
 
-    public void desenharEm(MapView mapa) {
+    public void desenharEm(MapView mapa, boolean desenharMarcador) {
         desenharPoligono(mapa);
-        desenharMarcador(mapa);
+        if(desenharMarcador)
+            desenharMarcador(mapa);
     }
 
     private void desenharMarcador(MapView mapa) {

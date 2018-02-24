@@ -102,9 +102,10 @@ public class Distancia {
         }
     }
 
-    public void desenharEm(MapView mapa) {
+    public void desenharEm(MapView mapa, boolean desenharMarcador) {
         desenharLinha(mapa);
-        desenharMarcador(mapa);
+        if(desenharMarcador)
+            desenharMarcador(mapa);
     }
 
     private void desenharMarcador(MapView mapa) {

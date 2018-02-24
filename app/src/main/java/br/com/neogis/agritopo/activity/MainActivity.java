@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.singleton.Configuration;
 
 import static br.com.neogis.agritopo.dao.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.dao.Constantes.OFFLINE;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Configuration.getInstance().LoadConfiguration(this);
 
         Intent intent = new Intent(getBaseContext(), MapActivity.class);
         intent.putExtra(ARG_MAPA_MODO, OFFLINE);

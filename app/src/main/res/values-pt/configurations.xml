@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_default_display_name" translatable="false">John Smith</string>
+    <string name="pref_description_social_recommendations" translatable="false">Recomendações</string>
+    <string name="pref_header_data_sync" translatable="false">Dados &amp; sincronização</string>
+    <string name="pref_header_general" translatable="false">Geral</string>
+    <string name="pref_header_notifications" translatable="false">Notificações</string>
+    <string name="pref_ringtone_silent" translatable="false">Silenciar</string>
+    <string name="pref_title_add_friends_to_messages" translatable="false">Adicionar amigos às mensagens</string>
+    <string name="pref_title_display_name" translatable="false">Nome de exibição</string>
+    <string name="pref_title_new_message_notifications" translatable="false">Notificação de novas mensagens</string>
+    <string name="pref_title_ringtone" translatable="false">Ringtone</string>
+    <string name="pref_title_social_recommendations" translatable="false">Habilitar recomendações sociais</string>
+    <string name="pref_title_sync_frequency" translatable="false">Frequência de sincronia</string>
+    <string name="pref_title_system_sync_settings" translatable="false">Configurações do sistema de sincronia</string>
+    <string name="pref_title_vibrate" translatable="false">Vibrar</string>
+
+
+    <string name="pref_title_color_cursor">Cor da Mira</string>
+    <string name="pref_summary_color_cursor">Define a cor da mira ao cadastrar pontos, distâncias e áreas.</string>
+
+    <string name="pref_title_exibir_area_mapeamento">Exibir área/distância</string>
+    <string name="pref_summary_exibir_area_mapeamento">Exibe a área/distância durante o mapeamento de elementos.</string>
+</resources>

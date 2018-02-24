@@ -321,7 +321,7 @@ public class MapActivity extends AppCompatActivity
                         List<Overlay> overlays = map.getOverlays();
                         for (Area area : areaList) {
                             if (isChecked)
-                                area.desenharEm(map);
+                                area.desenharEm(map, true);
                             else
                                 area.removerDe(map);
                         }
@@ -339,7 +339,7 @@ public class MapActivity extends AppCompatActivity
                         List<Overlay> overlays = map.getOverlays();
                         for (Distancia distancia : distanciaList) {
                             if (isChecked)
-                                distancia.desenharEm(map);
+                                distancia.desenharEm(map, true);
                             else
                                 distancia.removerDe(map);
                         }
@@ -699,7 +699,7 @@ public class MapActivity extends AppCompatActivity
                 Area area = new Area(mItem);
                 areaList.add(area);
                 if (exibirAreas) {
-                    area.desenharEm(map);
+                    area.desenharEm(map, true);
                     map.invalidate();
                 }
             }
@@ -711,7 +711,7 @@ public class MapActivity extends AppCompatActivity
                 Distancia distancia = new Distancia(mItem);
                 distanciaList.add(distancia);
                 if (exibirDistancias) {
-                    distancia.desenharEm(map);
+                    distancia.desenharEm(map, true);
                     map.invalidate();
                 }
             }
@@ -967,7 +967,7 @@ public class MapActivity extends AppCompatActivity
                 Area a = new Area(e);
                 areaList.add(a);
                 if (exibirAreas)
-                    a.desenharEm(map);
+                    a.desenharEm(map, true);
             }
         }
     }
@@ -984,7 +984,7 @@ public class MapActivity extends AppCompatActivity
                 Distancia d = new Distancia(e);
                 distanciaList.add(d);
                 if (exibirDistancias)
-                    d.desenharEm(map);
+                    d.desenharEm(map, true);
             }
         }
 
