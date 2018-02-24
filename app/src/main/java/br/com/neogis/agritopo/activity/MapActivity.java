@@ -40,6 +40,10 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.apache.commons.io.FilenameUtils;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.KmlPoint;
+import org.osmdroid.bonuspack.kml.KmlPolygon;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
@@ -790,7 +794,6 @@ public class MapActivity extends AppCompatActivity
         boolean resultado = false;
         File arquivo = new File(caminhoPastaMapas + nomeArquivo);
         KmlDocument kmlDocument = new KmlDocument();
-
         if (tipoArquivo.equals("kml"))
             resultado = kmlDocument.parseKMLFile(arquivo);
         else if (tipoArquivo.equals("kmz")) {
@@ -799,6 +802,42 @@ public class MapActivity extends AppCompatActivity
             resultado = kmlDocument.parseKMLStream(stream, zipFile);
         } else if (tipoArquivo.equals("geojson"))
             resultado = kmlDocument.parseGeoJSON(arquivo);
+
+        //TODO validar possivel solução, e criar serviço para alocar as regras de negocio
+        /*
+        //Percore os elementos lidos no arquivo, de tras para frente, para permitir apagar os pontos
+        for(int i = kmlDocument.mKmlRoot.mItems.size()-1; i >= 0;i--)
+        {
+            KmlFeature feature = kmlDocument.mKmlRoot.mItems.get(i);
+            //Verifica se é um placemark
+            if(!(feature instanceof KmlPlacemark))
+                continue;
+            //verifica se é um ponto, que é oque não queremos importar duplicado
+            KmlPlacemark point = (KmlPlacemark)feature;
+            if(!(point.mGeometry instanceof KmlPoint))
+                continue;
+
+            //quando encontra um ponto, busca pelos polygonos, e valida se o ponto esta dentro de algum deles
+            for (KmlFeature feature1 : kmlDocument.mKmlRoot.mItems) {
+                //valida se é um placemark
+                if(!(feature1 instanceof KmlPlacemark))
+                    continue;
+
+                //valida se é um poligono
+                KmlPlacemark polygon = (KmlPlacemark)feature1;
+                if(!(polygon.mGeometry instanceof KmlPolygon))
+                    continue;
+
+                //e por fim, verifica se o ponto esta dentro do poligono encontrado
+                if (polygon.mGeometry.getBoundingBox().contains(((KmlPoint)point.mGeometry).getPosition())) {
+                    //se o ponto esta dentro do poligono, então remove o ponto, e muda a descrição do poligono, para ficar com a descrição do ponto
+                    feature1.mName = feature.mName;
+                    kmlDocument.mKmlRoot.mItems.remove(i);
+                    break;
+                }
+            }
+        }
+        */
 
         FolderOverlay kmlOverlay = (FolderOverlay) kmlDocument.mKmlRoot.buildOverlay(map, null, null, kmlDocument);
         map.getOverlays().add(kmlOverlay);
