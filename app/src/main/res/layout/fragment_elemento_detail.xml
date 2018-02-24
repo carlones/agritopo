@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:padding="16dp"
-        android:textIsSelectable="true"
         android:textSize="24sp" />
 
     <EditText
@@ -30,7 +29,6 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:padding="16dp"
-        android:textIsSelectable="true"
         android:textSize="24sp" />
 
     <TextView
@@ -62,7 +60,6 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:padding="16dp"
-        android:textIsSelectable="true"
         android:textSize="24sp" />
 
     <TextView
@@ -80,7 +77,6 @@
         android:enabled="false"
         android:inputType="datetime"
         android:padding="16dp"
-        android:textIsSelectable="true"
         android:textSize="24sp" />
 
     <TextView
@@ -98,7 +94,6 @@
         android:enabled="false"
         android:inputType="datetime"
         android:padding="16dp"
-        android:textIsSelectable="true"
         android:textSize="24sp" />
 
     <TextView
@@ -115,7 +110,6 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:padding="16dp"
-        android:textIsSelectable="true"
         android:textSize="18sp" />
 
 </LinearLayout>
