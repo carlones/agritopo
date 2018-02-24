@@ -16,6 +16,7 @@ public final class Configuration {
 
     public int CorDoCursor;
     public boolean ExibirAreaDistanciaDuranteMapeamento;
+    public boolean UsarMiraDuranteMapeamento;
 
     public Configuration(){
 
@@ -34,5 +35,6 @@ public final class Configuration {
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){
         CorDoCursor = prefs.getInt(context.getResources().getString(R.string.pref_key_color_cursor), Color.YELLOW);
         ExibirAreaDistanciaDuranteMapeamento = prefs.getBoolean(context.getResources().getString(R.string.pref_key_exibir_area_mapeamento), true);
+        UsarMiraDuranteMapeamento = prefs.getBoolean(context.getResources().getString(R.string.pref_key_utilizar_cursor_mapeamento), true);
     }
 }

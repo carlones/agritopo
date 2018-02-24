@@ -236,7 +236,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
                 @Override
                 public void onShowColorPickerDialog(String title, int currentColor) {
                     ColorPickerDialogFragment dialog = ColorPickerDialogFragment
-                            .newInstance(PREFERENCE_DIALOG_COLOR_ID, "Color Picker", null, currentColor, false);
+                            .newInstance(PREFERENCE_DIALOG_COLOR_ID, "Selecione a cor", null, currentColor, false);
 
                     dialog.show(getFragmentManager(), "pre_dialog");
                 }

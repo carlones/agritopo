@@ -12,4 +12,10 @@
         android:title="@string/pref_title_exibir_area_mapeamento"
         android:summary="@string/pref_summary_exibir_area_mapeamento" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_utilizar_cursor_mapeamento"
+        android:title="@string/pref_title_utilizar_cursor_mapeamento"
+        android:summary="@string/pref_summary_utilizar_cursor_mapeamento" />
+
 </PreferenceScreen>

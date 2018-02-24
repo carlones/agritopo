@@ -15,4 +15,8 @@
     <string name="pref_key_exibir_area_mapeamento">exibir_area_mapeamento</string>
     <string name="pref_title_exibir_area_mapeamento">Exibir área/distância</string>
     <string name="pref_summary_exibir_area_mapeamento">Exibe a área/distância durante o mapeamento de elementos.</string>
+
+    <string name="pref_key_utilizar_cursor_mapeamento">utilizar_cursor_mapeamento</string>
+    <string name="pref_title_utilizar_cursor_mapeamento">Utilizar Mira</string>
+    <string name="pref_summary_utilizar_cursor_mapeamento">Utilizar a mira durante o mapeamento de pontos, distâncias e áreas.</string>
 </resources>

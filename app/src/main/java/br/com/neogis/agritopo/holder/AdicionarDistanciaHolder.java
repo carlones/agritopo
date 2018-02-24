@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -60,14 +61,14 @@ public class AdicionarDistanciaHolder extends Overlay {
     // Desenha a mira no meio do mapa
     @Override
     public void draw(Canvas c, MapView osmv, boolean shadow) {
-        Utils.desenharMira(c, activity);
+        if(Configuration.getInstance().UsarMiraDuranteMapeamento)
+            Utils.desenharMira(c, activity);
     }
 
     // Exibir o Ponto quando der um toque na tela
     //
-    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        GeoPoint ponto = new GeoPoint(this.mapa.getMapCenter().getLatitude(), this.mapa.getMapCenter().getLongitude());
-        this.distancia.adicionarPonto(ponto);
+    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {;
+        this.distancia.adicionarPonto((GeoPoint) obterPonto(event, mapView));
         this.distancia.setDistancia();
         this.distancia.removerDe(mapa);
         this.distancia.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
@@ -106,5 +107,14 @@ public class AdicionarDistanciaHolder extends Overlay {
         this.mapa.getOverlays().remove(this);
         this.distancia.removerDe(mapa);
         this.mapa.invalidate();
+    }
+
+    private IGeoPoint obterPonto(final MotionEvent event, final MapView mapView){
+        IGeoPoint ponto;
+        if(Configuration.getInstance().UsarMiraDuranteMapeamento)
+            ponto = mapView.getMapCenter();
+        else
+            ponto = mapView.getProjection().fromPixels((int)event.getX(), (int)event.getY());
+        return ponto;
     }
 }
