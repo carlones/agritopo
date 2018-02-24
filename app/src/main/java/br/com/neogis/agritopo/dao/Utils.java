@@ -1,17 +1,22 @@
 package br.com.neogis.agritopo.dao;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
+
+import br.com.neogis.agritopo.R;
 
 import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
 
@@ -49,13 +54,14 @@ public final class Utils {
         return size;
     }
 
-    public static void desenharMira(Canvas c) {
+    public static void desenharMira(Canvas c, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         int tamanhoCruz = 100;
         float diametroCirculo = 60.0f;
         float espessuraLinha = 6.0f;
 
         Paint paint = new Paint();
-        paint.setColor(Color.YELLOW);
+        paint.setColor(prefs.getInt(context.getResources().getString(R.string.color_cursor), Color.YELLOW));
         paint.setStrokeWidth(espessuraLinha);
         paint.setStyle(Paint.Style.STROKE);
         int centroX = c.getWidth() / 2;

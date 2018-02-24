@@ -60,7 +60,7 @@ public class AdicionarAreaHolder extends Overlay {
     // Desenha a mira no meio do mapa
     @Override
     public void draw(Canvas c, MapView osmv, boolean shadow) {
-        Utils.desenharMira(c);
+        Utils.desenharMira(c, activity);
     }
 
     // Exibir o Ponto quando der um toque na tela

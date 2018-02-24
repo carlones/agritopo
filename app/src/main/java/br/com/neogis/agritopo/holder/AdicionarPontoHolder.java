@@ -36,7 +36,7 @@ public class AdicionarPontoHolder extends Overlay {
     // Desenha a mira no meio do mapa
     @Override
     public void draw(Canvas c, MapView osmv, boolean shadow) {
-        Utils.desenharMira(c);
+        Utils.desenharMira(c, activity);
     }
 
     // Exibir o Ponto quando der um toque na tela
@@ -52,6 +52,6 @@ public class AdicionarPontoHolder extends Overlay {
         activity.startActivityForResult(intent, PEGAR_ELEMENTO_PONTO_REQUEST);
 
         mapView.invalidate();
-        return true; // Não propogar evento para demais overlays
+        return true; // Não propagar evento para demais overlays
     }
 }

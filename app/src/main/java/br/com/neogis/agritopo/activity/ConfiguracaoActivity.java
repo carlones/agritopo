@@ -20,6 +20,9 @@ import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment;
+import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
+
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
@@ -35,11 +38,14 @@ import br.com.neogis.agritopo.R;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class ConfiguracaoActivity extends AppCompatPreferenceActivity {
+public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements ColorPickerDialogFragment.ColorPickerDialogListener {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
+    private static final int PREFERENCE_DIALOG_COLOR_ID = 1;
+    private static PreferenceFragment preferenceFragment = null;
+
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
@@ -152,6 +158,31 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        switch(dialogId) {
+            case PREFERENCE_DIALOG_COLOR_ID:
+                ((ColorPickerDialogFragment.ColorPickerDialogListener)preferenceFragment)
+                        .onColorSelected(dialogId, color);
+
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+
+        switch(dialogId) {
+            case PREFERENCE_DIALOG_COLOR_ID:
+                ((ColorPickerDialogFragment.ColorPickerDialogListener)preferenceFragment)
+                        .onDialogDismissed(dialogId);
+
+                break;
+        }
+    }
+
     /**
      * This method stops fragment injection in malicious applications.
      * Make sure to deny any unknown fragments here.
@@ -174,7 +205,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
-
+            preferenceFragment = this;
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -182,15 +213,45 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
         }
+    }
+
+    //https://github.com/danielnilsson9/color-picker-view <- Origem do Color Picker
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class MappingPreferenceFragment extends PreferenceFragment implements ColorPickerDialogFragment.ColorPickerDialogListener {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_mapping);
+            setHasOptionsMenu(true);
+            preferenceFragment = this;
+
+            ColorPreference pref = (ColorPreference) findPreference(getResources().getString(R.string.color_cursor));
+            pref.setOnShowDialogListener(new ColorPreference.OnShowDialogListener() {
+
+                @Override
+                public void onShowColorPickerDialog(String title, int currentColor) {
+                    ColorPickerDialogFragment dialog = ColorPickerDialogFragment
+                            .newInstance(PREFERENCE_DIALOG_COLOR_ID, "Color Picker", null, currentColor, false);
+
+                    dialog.show(getFragmentManager(), "pre_dialog");
+                }
+            });
+        }
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), ConfiguracaoActivity.class));
-                return true;
+        public void onColorSelected(int dialogId, int color) {
+            switch (dialogId) {
+                case PREFERENCE_DIALOG_COLOR_ID:
+                    //salva a cor selecionada
+                    ColorPreference pref = (ColorPreference) findPreference(getResources().getString(R.string.color_cursor));
+                    pref.saveValue(color);
+                    break;
             }
-            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onDialogDismissed(int dialogId) {
+            // Nothing to do.
         }
     }
 
@@ -205,22 +266,12 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
-
+            preferenceFragment = this;
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), ConfiguracaoActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -235,7 +286,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_data_sync);
             setHasOptionsMenu(true);
-
+            preferenceFragment = this;
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design

@@ -1,0 +1,9 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.github.danielnilsson9.colorpickerview.preference.ColorPreference
+        android:defaultValue="0xFFFFFF00"
+        android:key="@string/color_cursor"
+        android:summary="Define a cor da mira ao cadastrar pontos, distâncias e áreas."
+        android:title="Cor da Mira" />
+
+</PreferenceScreen>
