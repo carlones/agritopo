@@ -2,13 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //vectorDrawables.useSupportLibrary = true
         //vectorDrawables.useSupportLibrary = true
@@ -36,7 +37,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'org.osmdroid:osmdroid-android:5.6.5@aar'
-    compile 'org.osmdroid:osmdroid-third-party:5.6.5@aar'
+
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
