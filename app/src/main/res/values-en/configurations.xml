@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pref_title_group_general_general">General</string>
+    <string name="pref_title_group_general_directory">Directories</string>
+
     <string name="pref_default_display_name">John Smith</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact</string>
     <string name="pref_header_data_sync">Data &amp; sync</string>
@@ -14,6 +17,9 @@
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="pref_title_system_sync_settings">System sync settings</string>
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="pref_title_diretorio_exportar_arquivos">Export Directory</string>
+    <string name="pref_summary_diretorio_exportar_arquivos">Directory for exporting files</string>
 
     <string name="pref_title_color_cursor">Crosshair color</string>
     <string name="pref_summary_color_cursor">Defines the color of the crosshair by registering points, distances and areas.</string>
