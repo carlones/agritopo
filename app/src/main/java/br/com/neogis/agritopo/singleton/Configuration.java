@@ -8,10 +8,6 @@ import android.preference.PreferenceManager;
 
 import br.com.neogis.agritopo.R;
 
-/**
- * Created by marci on 24/02/2018.
- */
-
 public final class Configuration {
     private static final Configuration INSTANCE = new Configuration();
 
@@ -31,11 +27,13 @@ public final class Configuration {
     public void LoadConfiguration(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
+        LoadGeneralConfiguration(context, prefs);
         LoadMappingConfiguration(context, prefs);
     }
 
     private void LoadGeneralConfiguration(Context context, SharedPreferences prefs){
-        DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos), Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo/");
+        DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos),
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
     }
 
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){

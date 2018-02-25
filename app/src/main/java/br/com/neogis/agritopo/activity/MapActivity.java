@@ -776,7 +776,8 @@ public class MapActivity extends AppCompatActivity
 
     private boolean exportarArquivoMapa(String nomeArquivo, String tipoArquivo) {
         boolean resultado = false;
-        File arquivo = new File(caminhoPastaMapas + nomeArquivo);
+        File arquivo = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioExportacaoArquivos
+                + nomeArquivo);
         KmlDocument kmlDocument = new KmlDocument();
         for (Overlay overlay : map.getOverlays()) {
             kmlDocument.mKmlRoot.addOverlay(overlay, kmlDocument);
