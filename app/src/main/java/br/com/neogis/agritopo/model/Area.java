@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.neogis.agritopo.Utils.UtilMedidas;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
 
-import static br.com.neogis.agritopo.dao.Constantes.KM2_EM_METROS2;
 import static br.com.neogis.agritopo.dao.Constantes.KM_EM_METROS;
 import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
 
@@ -162,8 +162,8 @@ public class Area {
         if (this.ehValida()) {
             DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
             double area = getArea();
-            String unidadeMedida = (area >= KM2_EM_METROS2 ? "Km²" : "m²");
-            area = (area >= KM2_EM_METROS2 ? area / KM2_EM_METROS2 : area);
+            String unidadeMedida = UtilMedidas.ObterDescricaoMedidaArea(area);
+            area = UtilMedidas.CalcularMedidaArea(area);
             Log.i("Agritopo", "Area.getAreaDescricao(): " + df.format(area) + " " + unidadeMedida);
             return df.format(area) + " " + unidadeMedida;
         } else {
@@ -175,9 +175,9 @@ public class Area {
         if (this.ehValida()) {
             DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
             double perimetro = getPerimetro();
-            String unidadeMedida = (perimetro >= KM_EM_METROS ? "Km" : "m");
-            perimetro = (perimetro >= KM_EM_METROS ? perimetro / KM_EM_METROS : perimetro);
-            Log.i("Agritopo", "Area.getAreaDescricao(): " + df.format(perimetro) + " " + unidadeMedida);
+            String unidadeMedida = UtilMedidas.ObterDescricaoMedidaPerimetro(perimetro);
+            perimetro = UtilMedidas.CalcularMedidaPerimetro(perimetro);
+            Log.i("Agritopo", "Area.descricaoPerimetro(): " + df.format(perimetro) + " " + unidadeMedida);
             return df.format(perimetro) + " " + unidadeMedida;
         } else {
             return "";

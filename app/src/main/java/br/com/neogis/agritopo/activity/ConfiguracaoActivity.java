@@ -219,6 +219,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
 
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_measure_area)));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos)));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos)));
 

@@ -2,6 +2,7 @@
 <resources>
     <string name="pref_title_group_general_general">General</string>
     <string name="pref_title_group_general_directory">Directories</string>
+    <string name="pref_title_group_general_measure">Measures</string>
 
     <string name="pref_default_display_name">John Smith</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact</string>
@@ -17,6 +18,9 @@
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="pref_title_system_sync_settings">System sync settings</string>
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="pref_title_measure_area">Measurement for areas</string>
+    <string name="pref_summary_measure_area">Sets the type of measurement used to display areas</string>
 
     <string name="pref_title_diretorio_exportar_arquivos">Export Directory</string>
     <string name="pref_summary_diretorio_exportar_arquivos">Directory for exporting files</string>

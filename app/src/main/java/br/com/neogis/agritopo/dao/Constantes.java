@@ -24,6 +24,7 @@ public final class Constantes {
     public static final double RAIO_DA_TERRA_EM_METROS = 6371000;
     public static final int KM_EM_METROS = 1000;
     public static final int KM2_EM_METROS2 = 1000000;
+    public static final int HECTARE_EM_METROS2 = 10000;
 
     public static final String ARG_MAPA_MODO = "mapa_modo";
     public static final String ARG_ELEMENTOID = "elementoid";

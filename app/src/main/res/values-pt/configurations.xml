@@ -2,6 +2,7 @@
 <resources>
     <string name="pref_title_group_general_general">Geral</string>
     <string name="pref_title_group_general_directory">Diretórios</string>
+    <string name="pref_title_group_general_measure">Medidas</string>
 
     <string name="pref_default_display_name" translatable="false">John Smith</string>
     <string name="pref_description_social_recommendations" translatable="false">Recomendações</string>

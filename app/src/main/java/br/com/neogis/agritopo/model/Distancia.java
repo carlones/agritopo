@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.neogis.agritopo.Utils.UtilMedidas;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
@@ -93,8 +94,8 @@ public class Distancia {
         if (this.ehValida()) {
             DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
             double distancia = getDistancia();
-            String unidadeMedida = (distancia >= KM_EM_METROS ? "Km" : "m");
-            distancia = (distancia >= KM_EM_METROS ? distancia / KM_EM_METROS : distancia);
+            String unidadeMedida = UtilMedidas.ObterDescricaoMedidaPerimetro(distancia);
+            distancia = UtilMedidas.CalcularMedidaPerimetro(distancia);
             Log.i("Agritopo", "Distancia.getDistanciaDescricao(): " + df.format(distancia) + " " + unidadeMedida);
             return df.format(distancia) + " " + unidadeMedida;
         } else {
