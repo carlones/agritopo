@@ -21,6 +21,9 @@
     <string name="pref_title_diretorio_exportar_arquivos">Diretório de Exportação</string>
     <string name="pref_summary_diretorio_exportar_arquivos">Diretório para exportação de arquivos</string>
 
+    <string name="pref_title_diretorio_leitura_arquivos">Diretório de Leitura</string>
+    <string name="pref_summary_diretorio_leitura_arquivos">Diretório onde será realizada a leitura de arquivos</string>
+
     <string name="pref_title_color_cursor">Cor da Mira</string>
     <string name="pref_summary_color_cursor">Define a cor da mira ao cadastrar pontos, distâncias e áreas.</string>
 

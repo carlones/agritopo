@@ -138,7 +138,6 @@ public class MapActivity extends AppCompatActivity
     private RotationGestureOverlay mRotationGestureOverlay;
     private MapView map;
     //Outros
-    private String caminhoPastaMapas = Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo/";
     private File[] listaArquivosMapas;
     //Interface
     private FloatingActionMenu famNovo;
@@ -634,7 +633,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     public void buscarMapasDoImovel() {
-        File pasta_mapas = new File(caminhoPastaMapas);
+        File pasta_mapas = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioLeituraArquivos);
         FilenameFilter filtro = new FilenameFilter() {
             String[] extensoesValidas = {"mbtiles"};
 
@@ -793,7 +792,7 @@ public class MapActivity extends AppCompatActivity
 
     private boolean importarArquivoMapa(String nomeArquivo, String tipoArquivo) throws IOException {
         boolean resultado = false;
-        File arquivo = new File(caminhoPastaMapas + nomeArquivo);
+        File arquivo = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioLeituraArquivos + nomeArquivo);
         KmlDocument kmlDocument = new KmlDocument();
         if (tipoArquivo.equals("kml"))
             resultado = kmlDocument.parseKMLFile(arquivo);
@@ -1022,7 +1021,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarCamadas() {
-        File pasta_camadas = new File(caminhoPastaMapas);
+        File pasta_camadas = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioLeituraArquivos);
         FilenameFilter filtro = new FilenameFilter() {
             String[] extensoesValidas = {"kml"};
 

@@ -21,6 +21,9 @@
     <string name="pref_title_diretorio_exportar_arquivos">Export Directory</string>
     <string name="pref_summary_diretorio_exportar_arquivos">Directory for exporting files</string>
 
+    <string name="pref_title_diretorio_leitura_arquivos">Import Directory</string>
+    <string name="pref_summary_diretorio_leitura_arquivos">Directory for importing files</string>
+
     <string name="pref_title_color_cursor">Crosshair color</string>
     <string name="pref_summary_color_cursor">Defines the color of the crosshair by registering points, distances and areas.</string>
 

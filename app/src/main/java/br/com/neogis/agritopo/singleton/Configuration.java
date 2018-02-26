@@ -15,6 +15,7 @@ public final class Configuration {
     public boolean ExibirAreaDistanciaDuranteMapeamento;
     public boolean UsarMiraDuranteMapeamento;
     public String DiretorioExportacaoArquivos;
+    public String DiretorioLeituraArquivos;
 
     public Configuration(){
 
@@ -33,6 +34,8 @@ public final class Configuration {
 
     private void LoadGeneralConfiguration(Context context, SharedPreferences prefs){
         DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos),
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
+        DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
     }
 

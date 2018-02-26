@@ -56,5 +56,18 @@
             app:selection_type="dir_select"
             app:extensions=""/>
 
+        <com.github.angads25.filepicker.view.FilePickerPreference
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:key="@string/pref_key_diretorio_leitura_arquivos"
+            android:title="@string/pref_title_diretorio_leitura_arquivos"
+            android:summary="@string/pref_summary_diretorio_leitura_arquivos"
+            android:defaultValue="/sdcard:/mnt"
+            app:title_text="Selecione o diretório"
+            app:error_dir="/mnt"
+            app:root_dir="/sdcard"
+            app:selection_mode="single_mode"
+            app:selection_type="dir_select"
+            app:extensions=""/>
+
     </PreferenceCategory>
 </PreferenceScreen>

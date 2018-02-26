@@ -220,15 +220,20 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos)));
+            bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos)));
 
             Preference seletorDiretorio = (Preference) findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos));
+            seletorDiretorio.setOnPreferenceChangeListener(this);
+
+            seletorDiretorio = (Preference) findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos));
             seletorDiretorio.setOnPreferenceChangeListener(this);
         }
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object o)
         {
-            if(preference.getKey().equals(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos)))
+            if(preference.getKey().equals(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos)) ||
+                    preference.getKey().equals(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos)))
             {
                 String value=(String)o;
                 String diretorios[]=value.split(":");
