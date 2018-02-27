@@ -223,11 +223,12 @@ public class MapActivity extends AppCompatActivity
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (adicionarPontoHolder == null) {
-                    adicionarPontoHolder = new AdicionarPontoHolder(mActivity);
+                    adicionarPontoHolder = new AdicionarPontoHolder(map, mActivity);
                     map.getOverlays().add(adicionarPontoHolder);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
+                    fabCancelar.setVisibility(View.VISIBLE);
                 }
                 map.invalidate();
             }
@@ -426,8 +427,7 @@ public class MapActivity extends AppCompatActivity
         fabConcluido.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (adicionarPontoHolder != null) {
-                    List<Overlay> overlays = map.getOverlays();
-                    overlays.remove(adicionarPontoHolder);
+                    adicionarPontoHolder.finalizar();
                     adicionarPontoHolder = null;
                 }
                 if (adicionarAreaHolder != null) {
@@ -447,6 +447,10 @@ public class MapActivity extends AppCompatActivity
         });
         fabCancelar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (adicionarPontoHolder != null) {
+                    adicionarPontoHolder.cancelar();
+                    adicionarPontoHolder = null;
+                }
                 if (adicionarAreaHolder != null) {
                     adicionarAreaHolder.cancelar();
                     adicionarAreaHolder = null;

@@ -2,6 +2,7 @@ package br.com.neogis.agritopo.model;
 
 import android.location.Location;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 import flexjson.JSONSerializer;
@@ -37,6 +38,10 @@ public class MyGeoPoint extends GeoPoint {
 
     public MyGeoPoint(GeoPoint aGeopoint) {
         super(aGeopoint);
+    }
+
+    public MyGeoPoint(IGeoPoint aGeopoint) {
+        super(aGeopoint.getLatitude(), aGeopoint.getLongitude());
     }
 
     public String toString() {

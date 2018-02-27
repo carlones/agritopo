@@ -9,11 +9,17 @@ import android.view.MotionEvent;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.ArrayList;
 
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.model.MyGeoPoint;
+import br.com.neogis.agritopo.model.Ponto;
 import br.com.neogis.agritopo.singleton.Configuration;
 
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
@@ -29,9 +35,14 @@ import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST
 
 public class AdicionarPontoHolder extends Overlay {
 
+    private MapView mapa;
     private Activity activity;
+    ItemizedOverlayWithFocus<OverlayItem> overlay;
+    MyGeoPoint geoPoint;
 
-    public AdicionarPontoHolder(Activity activity) {
+    public AdicionarPontoHolder(MapView mapa, Activity activity) {
+
+        this.mapa = mapa;
         this.activity = activity;
     }
 
@@ -45,17 +56,58 @@ public class AdicionarPontoHolder extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         Log.d("Agritopo", "AdicionarPontoHolder: registrando Ponto");
-        MyGeoPoint ponto = new MyGeoPoint((GeoPoint) obterPonto(event, mapView));
+        if(overlay != null)
+        {
+            mapa.getOverlays().remove(overlay);
+        }
+        geoPoint = new MyGeoPoint(obterPonto(event, mapView));
+        overlay = criarOverlay(geoPoint);
+        mapa.getOverlays().add(overlay);
+        mapa.invalidate();
 
-        Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
-        intent.putExtra(ARG_ELEMENTOID, 0);
-        intent.putExtra(ARG_TIPOELEMENTOID, 1);
-        intent.putExtra(ARG_CLASSEID, 1);
-        intent.putExtra(ARG_GEOMETRIA, ponto.toString());
-        activity.startActivityForResult(intent, PEGAR_ELEMENTO_PONTO_REQUEST);
-
-        mapView.invalidate();
         return true; // Não propagar evento para demais overlays
+    }
+
+    public void finalizar() {
+        this.removerModal();
+        if (overlay != null) {
+            Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
+            intent.putExtra(ARG_ELEMENTOID, 0);
+            intent.putExtra(ARG_TIPOELEMENTOID, 1);
+            intent.putExtra(ARG_CLASSEID, 1);
+            intent.putExtra(ARG_GEOMETRIA, geoPoint.toString());
+            activity.startActivityForResult(intent, PEGAR_ELEMENTO_PONTO_REQUEST);
+        }
+    }
+
+    public void cancelar() {
+        Log.i("Agritopo", "Cancelando Distância");
+        this.removerModal();
+    }
+
+    private void removerModal() {
+        if(overlay != null)
+            this.mapa.getOverlays().remove(overlay);
+        this.mapa.getOverlays().remove(this);
+        this.mapa.invalidate();
+    }
+
+    private ItemizedOverlayWithFocus<OverlayItem> criarOverlay(IGeoPoint ponto){
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        items.add(new OverlayItem("", "", ponto));
+
+        return new ItemizedOverlayWithFocus<OverlayItem>(activity ,items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        //do something
+                        return true;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return false;
+                    }
+                });
     }
 
     private IGeoPoint obterPonto(final MotionEvent event, final MapView mapView){
