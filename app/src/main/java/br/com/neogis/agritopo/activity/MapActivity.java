@@ -796,7 +796,7 @@ public class MapActivity extends AppCompatActivity
 
     private boolean importarArquivoMapa(String nomeArquivo, String tipoArquivo) throws IOException {
         boolean resultado = false;
-        File arquivo = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioLeituraArquivos + nomeArquivo);
+        File arquivo = new File(nomeArquivo);
         KmlDocument kmlDocument = new KmlDocument();
         if (tipoArquivo.equals("kml"))
             resultado = kmlDocument.parseKMLFile(arquivo);
