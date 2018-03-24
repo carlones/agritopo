@@ -40,10 +40,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.apache.commons.io.FilenameUtils;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlDocument;
-import org.osmdroid.bonuspack.kml.KmlFeature;
-import org.osmdroid.bonuspack.kml.KmlPlacemark;
-import org.osmdroid.bonuspack.kml.KmlPoint;
-import org.osmdroid.bonuspack.kml.KmlPolygon;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
@@ -152,6 +148,7 @@ public class MapActivity extends AppCompatActivity
 
     private GeoPoint coordenadasIniciais;
     private int zoomInicial = 0;
+    private int idMapa = -2;
 
     private IMapController mapController;
 
@@ -517,7 +514,9 @@ public class MapActivity extends AppCompatActivity
         Configuration.getInstance().setDebugMode(true);
 
         if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0) && (modoOffline)) {
-            carregarMapaDeArquivo(map, listaArquivosMapas[0]);
+            if (idMapa == -2)
+                idMapa = 0;
+            carregarMapaDeArquivo(map, listaArquivosMapas[idMapa]);
         } else {
             map.setUseDataConnection(true);
             map.setTileSource(TileSourceFactory.MAPNIK);
@@ -576,6 +575,7 @@ public class MapActivity extends AppCompatActivity
             if (listaArquivosMapas != null) {
                 Log.d("Agritopo", "Mapa selecionado: " + listaArquivosMapas[id].toString());
                 carregarMapaDeArquivo(map, listaArquivosMapas[id]);
+                idMapa = id;
             }
         }
         map.invalidate();
@@ -675,12 +675,11 @@ public class MapActivity extends AppCompatActivity
 
         IMapController mapController = map.getController();
         if (zoomInicial == 0)
-            zoomInicial = 15;
+            zoomInicial = am.zoomMin;
         mapController.setZoom(zoomInicial);
 
         // não usar animateTo(), senão demora meio ano para voltar onde estava quando gira o dispositivo
-        if (coordenadasIniciais == null)
-            coordenadasIniciais = am.pontoCentral;
+        coordenadasIniciais = am.pontoCentral;
         if (coordenadasIniciais != null)
             mapController.setCenter(coordenadasIniciais);
     }
@@ -1007,17 +1006,17 @@ public class MapActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
         if (map != null) {
             outState.putInt("zoomInicial", map.getZoomLevel());
-            outState.putDouble("latitudeAtual", map.getMapCenter().getLatitude());
-            outState.putDouble("longitudeAtual", map.getMapCenter().getLongitude());
+            outState.putInt("idMapa", idMapa);
+            outState.putDouble("latitudeAtual", coordenadasIniciais.getLatitude());
+            outState.putDouble("longitudeAtual", coordenadasIniciais.getLongitude());
         }
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         zoomInicial = savedInstanceState.getInt("zoomInicial", 0);
-
+        idMapa = savedInstanceState.getInt("idMapa", 0);
         double lat = savedInstanceState.getDouble("latitudeAtual", 0.0);
         double lon = savedInstanceState.getDouble("longitudeAtual", 0.0);
         if (lat != 0.0 && lon != 0.0)
