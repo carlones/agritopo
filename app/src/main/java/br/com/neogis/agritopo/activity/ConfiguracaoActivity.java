@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -21,13 +20,10 @@ import android.preference.RingtonePreference;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment;
 import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
 
-import java.io.File;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
@@ -99,13 +95,6 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
         }
     };
 
-    @Override
-    public void onPause() {
-        //Recarega as configurações ao sair das configurações
-        br.com.neogis.agritopo.singleton.Configuration.getInstance().LoadConfiguration(this);
-        super.onPause();
-    }
-
     /**
      * Helper method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
@@ -134,6 +123,13 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
+    }
+
+    @Override
+    public void onPause() {
+        //Recarega as configurações ao sair das configurações
+        br.com.neogis.agritopo.singleton.Configuration.getInstance().LoadConfiguration(this);
+        super.onPause();
     }
 
     @Override
@@ -217,8 +213,8 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             setHasOptionsMenu(true);
             preferenceFragment = this;
 
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            //bindPreferenceSummaryToValue(findPreference("example_text"));
+            //bindPreferenceSummaryToValue(findPreference("example_list"));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_measure_area)));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos)));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos)));

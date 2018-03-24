@@ -37,8 +37,6 @@ public class MapaTiles {
             cursor = db_mapa.rawQuery("SELECT value FROM metadata WHERE name = 'bounds'", null);
             cursor.moveToFirst();
             String comma_separated_bounds = cursor.getString(0);
-            // TESTE   -52.6200367289128, -27.2365439279134, -52.6126988756003, -27.22719027818526
-            // VEDERTI -52.71901601171034,-27.09696458299671,-52.70286643123167,-27.08320044921776
             String[] bounds_parts = comma_separated_bounds.split(",");
             double lat = (Double.parseDouble(bounds_parts[1]) + Double.parseDouble(bounds_parts[3])) / 2.0;
             double lon = (Double.parseDouble(bounds_parts[0]) + Double.parseDouble(bounds_parts[2])) / 2.0;
