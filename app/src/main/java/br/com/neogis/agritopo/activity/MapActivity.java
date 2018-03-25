@@ -525,6 +525,7 @@ public class MapActivity extends AppCompatActivity
                 IMapController mapController = map.getController();
                 mapController.setZoom(15);
                 mapController.animateTo(mMyLocationNewOverlay.getMyLocation());
+                coordenadasIniciais = mMyLocationNewOverlay.getMyLocation();
             }
         }
     }
