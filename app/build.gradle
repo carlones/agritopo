@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
-        minSdkVersion 19
+        minSdkVersion 15 // Tablet do Angelo é versão 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
