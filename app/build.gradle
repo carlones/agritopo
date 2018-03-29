@@ -5,13 +5,11 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
-        minSdkVersion 15
+        minSdkVersion 15 // Tablet do Angelo é versão 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //vectorDrawables.useSupportLibrary = true
-        //vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
