@@ -11,6 +11,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    lintOptions {
+        disable 'MissingTranslation'
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -43,6 +46,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.github.danielnilsson9:color-picker-view:1.4.0@aar'
     compile 'com.github.angads25:filepicker:1.1.1'
+    compile 'com.github.jayschwa:AndroidSliderPreference:v1.0.1'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
     testCompile 'junit:junit:4.12'
