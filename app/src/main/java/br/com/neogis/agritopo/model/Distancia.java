@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.neogis.agritopo.Utils.UtilMedidas;
+import br.com.neogis.agritopo.utils.UtilMedidas;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import flexjson.JSONSerializer;
