@@ -55,7 +55,7 @@ public class ImportarActivity extends AppCompatActivity {
             properties.root = new File(Configuration.getInstance().DiretorioLeituraArquivos);
             properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
             properties.offset = new File(DialogConfigs.DEFAULT_DIR);
-            properties.extensions = new String[] {"kml","geojson"};
+            properties.extensions = new String[] {"kml","kmz","geojson"};
 
             FilePickerDialog dialog = new FilePickerDialog(ImportarActivity.this,properties);
             dialog.setTitle("Selecione o arquivo");
