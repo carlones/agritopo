@@ -8,8 +8,8 @@
         android:id="@+id/tv_vazio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:height="66dp" />
 
@@ -35,7 +35,7 @@
         fab:fab_label="@string/action_gps"
         fab:fab_size="normal" />
 
-    <com.github.clans.fab.FloatingActionButton
+    <!--<com.github.clans.fab.FloatingActionButton
         android:id="@+id/action_rotacao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,5 +44,5 @@
         android:layout_below="@+id/action_layer"
         android:src="@drawable/ic_rotation_blocked_white_24dp"
         fab:fab_label="@string/action_rotacao"
-        fab:fab_size="normal" />
+        fab:fab_size="normal" />-->
 </RelativeLayout>

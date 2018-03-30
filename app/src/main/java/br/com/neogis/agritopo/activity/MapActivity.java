@@ -212,7 +212,7 @@ public class MapActivity extends AppCompatActivity
         fabNovaDistancia = (FloatingActionButton) findViewById(R.id.action_nova_distancia);
         fabGPS = (FloatingActionButton) findViewById(R.id.action_gps);
         fabCamadas = (FloatingActionButton) findViewById(R.id.action_layer);
-        fabRotacao = (FloatingActionButton) findViewById(R.id.action_rotacao);
+        //fabRotacao = (FloatingActionButton) findViewById(R.id.action_rotacao);
         fabConcluido = (FloatingActionButton) findViewById(R.id.action_concluido);
         fabCancelar = (FloatingActionButton) findViewById(R.id.action_cancelar);
         fabDesfazer = (FloatingActionButton) findViewById(R.id.action_desfazer);
@@ -410,7 +410,7 @@ public class MapActivity extends AppCompatActivity
                 popupLayers.showAtLocation(layoutTelaPrincipal, Gravity.CENTER, 0, 0);
             }
         });
-        fabRotacao.setOnClickListener(new View.OnClickListener() {
+        /*fabRotacao.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (mRotationGestureOverlay.isEnabled()) {
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_rotation_blocked_white_24dp);
@@ -420,7 +420,7 @@ public class MapActivity extends AppCompatActivity
                     mRotationGestureOverlay.setEnabled(true);
                 }
             }
-        });
+        });*/
         fabConcluido.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (adicionarPontoHolder != null) {
