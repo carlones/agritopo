@@ -72,28 +72,15 @@ public final class Utils {
     }
 
     public static String getFormattedLocationInDegree(GeoPoint point) {
-        double latitude = point.getLatitude();
-        double longitude = point.getLongitude();
+        String latitude = getFormattedLatitudeInDegree(point.getLatitude());
+        String longitude = getFormattedLongitudeInDegree(point.getLongitude());
+        return latitude + " " + longitude;
+    }
+
+    public static String getFormattedLongitudeInDegree(double longitude) {
         StringBuilder builder = new StringBuilder();
-
-        String letter = latitude < 0 ? " S" : " N";
-
-        String latitudeDegrees = Location.convert(Math.abs(latitude), Location.FORMAT_SECONDS);
-        String[] latitudeSplit = latitudeDegrees.split(":");
-        builder.append(latitudeSplit[0]);
-        builder.append("°");
-        builder.append(String.format("%02d", Integer.parseInt(latitudeSplit[1])));
-        builder.append("'");
-        String[] seconds = latitudeSplit[2].split(",");
-        builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
-//        builder.append(".");
-//        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));
-        builder.append("\"");
-        builder.append(letter);
-
-        builder.append(" ");
-
-        letter = longitude < 0 ? " W" : " E";
+        String letter = longitude < 0 ? " W" : " E";
+        String[] seconds;
 
         String longitudeDegrees = Location.convert(Math.abs(longitude), Location.FORMAT_SECONDS);
         String[] longitudeSplit = longitudeDegrees.split(":");
@@ -102,6 +89,27 @@ public final class Utils {
         builder.append(String.format("%02d", Integer.parseInt(longitudeSplit[1])));
         builder.append("'");
         seconds = longitudeSplit[2].split(",");
+        builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
+//        builder.append(".");
+//        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));
+        builder.append("\"");
+        builder.append(letter);
+
+        return builder.toString();
+    }
+
+    public static String getFormattedLatitudeInDegree(double latitude) {
+        StringBuilder builder = new StringBuilder();
+        String letter = latitude < 0 ? " S" : " N";
+        String[] seconds;
+
+        String latitudeDegrees = Location.convert(Math.abs(latitude), Location.FORMAT_SECONDS);
+        String[] latitudeSplit = latitudeDegrees.split(":");
+        builder.append(latitudeSplit[0]);
+        builder.append("°");
+        builder.append(String.format("%02d", Integer.parseInt(latitudeSplit[1])));
+        builder.append("'");
+        seconds = latitudeSplit[2].split(",");
         builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
 //        builder.append(".");
 //        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));

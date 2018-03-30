@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
@@ -88,6 +90,7 @@ import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
 import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
 import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
 import br.com.neogis.agritopo.holder.CamadaHolder;
+import br.com.neogis.agritopo.holder.MeuLocalHolder;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.model.Distancia;
@@ -128,6 +131,7 @@ public class MapActivity extends AppCompatActivity
     AdicionarAreaHolder adicionarAreaHolder;
     AdicionarPontoHolder adicionarPontoHolder;
     AdicionarDistanciaHolder adicionarDistanciaHolder;
+    MeuLocalHolder meuLocalHolder;
     MyItemizedOverlayWithFocus<MyOverlayItem> geoPointList;
     List<Area> areaList;
     List<Distancia> distanciaList;
@@ -265,12 +269,19 @@ public class MapActivity extends AppCompatActivity
                     mMyLocationNewOverlay.disableMyLocation();
                     mMyLocationNewOverlay.disableFollowLocation();
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_gps_not_fixed_white_24dp);
+                    if (meuLocalHolder != null) {
+                        meuLocalHolder.finalizar();
+                        meuLocalHolder = null;
+                    }
                 } else {
                     mMyLocationNewOverlay.enableMyLocation();
                     mMyLocationNewOverlay.enableFollowLocation();
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_gps_fixed_white_24dp);
                     if (mMyLocationNewOverlay.getMyLocation() != null)
                         (map.getController()).setCenter(mMyLocationNewOverlay.getMyLocation());
+                    if (meuLocalHolder == null) {
+                        meuLocalHolder = new MeuLocalHolder(map, mMyLocationNewOverlay);
+                    }
                 }
             }
         });
@@ -515,7 +526,7 @@ public class MapActivity extends AppCompatActivity
         carregarPontos();
         carregarAreas();
         carregarDistancias();
-        Configuration.getInstance().setDebugMode(true);
+        Configuration.getInstance().setDebugMode(false);
 
         if (mapFileController.ContainsMaps() && modoOffline) {
             if(mapFileController.IsOnline())
@@ -673,8 +684,10 @@ public class MapActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
-            if (mMyLocationNewOverlay.getMyLocation() != null)
+            if (mMyLocationNewOverlay.getMyLocation() != null) {
                 mapController.setCenter(mMyLocationNewOverlay.getMyLocation());
+
+            }
         }
     }
 
