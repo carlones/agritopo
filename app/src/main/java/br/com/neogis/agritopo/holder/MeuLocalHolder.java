@@ -9,23 +9,24 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import br.com.neogis.agritopo.dao.Utils;
-import br.com.neogis.agritopo.dao.tabelas.Mapa;
+import br.com.neogis.agritopo.singleton.Configuration;
 
 /**
  * Created by carlo on 30/03/2018.
  */
 
 public class MeuLocalHolder extends Overlay {
+    private final float[] mMatrixValues = new float[9];
+    protected Paint mPaint = new Paint();
     private MapView mapa;
     private MyLocationNewOverlay mMyLocationNewOverlay;
-    protected Paint mPaint = new Paint();
-    private final float[] mMatrixValues = new float[9];
     private Matrix mMatrix = new Matrix();
 
     public MeuLocalHolder(MapView m, MyLocationNewOverlay l) {
         mapa = m;
         mMyLocationNewOverlay = l;
         mPaint.setFilterBitmap(true);
+        mPaint.setColor(Configuration.getInstance().CorDoCursor);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
