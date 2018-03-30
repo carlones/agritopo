@@ -16,8 +16,8 @@
     <string name="action_layer_curvas_nivel">Level Curves</string>
     <string name="action_layer_geometry">Geometries</string>
     <string name="action_carregarmapas">Load Maps</string>
-    <string name="action_layer">Layer</string>
-    <string name="action_layers">Layers</string>
+    <string name="action_layer">KML</string>
+    <string name="action_layers">KML</string>
     <string name="action_gps">GPS</string>
     <string name="menu_cadastros">Register</string>
     <string name="menu_mapas">Maps</string>
