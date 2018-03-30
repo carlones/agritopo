@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo.Utils;
+package br.com.neogis.agritopo.utils;
 
 import br.com.neogis.agritopo.singleton.Configuration;
 

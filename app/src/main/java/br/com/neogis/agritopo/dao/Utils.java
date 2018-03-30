@@ -57,11 +57,11 @@ public final class Utils {
     public static void desenharMira(Canvas c, Context context) {
         int tamanhoCruz = 100;
         float diametroCirculo = 60.0f;
-        float espessuraLinha = 6.0f;
+        //float espessuraLinha = 6.0f;
 
         Paint paint = new Paint();
         paint.setColor(Configuration.getInstance().CorDoCursor);
-        paint.setStrokeWidth(espessuraLinha);
+        paint.setStrokeWidth(Configuration.getInstance().EspessuraMiraMapeamento);
         paint.setStyle(Paint.Style.STROKE);
         int centroX = c.getWidth() / 2;
         int centroY = c.getHeight() / 2;

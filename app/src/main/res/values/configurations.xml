@@ -4,6 +4,9 @@
     <string name="pref_title_group_general_directory">Diretórios</string>
     <string name="pref_title_group_general_measure">Medidas</string>
 
+    <string name="pref_title_group_mapping_crosshair">Mira</string>
+    <string name="pref_title_group_mapping_information">Informação</string>
+
     <string name="pref_title_system_sync_settings">Configurações do sistema de sincronia</string>
     <string name="pref_header_notifications">Notificações</string>
     <string name="pref_title_new_message_notifications">Notificação de novas mensagens</string>
@@ -12,15 +15,15 @@
     <string name="pref_title_vibrate">Vibrar</string>
 
     <!-- Example General settings -->
-    <string name="pref_header_general" translatable="false">Geral</string>
+    <string name="pref_header_general">Geral</string>
 
-    <string name="pref_title_social_recommendations" translatable="false">Habilitar recomendações sociais</string>
-    <string name="pref_description_social_recommendations" translatable="false">Recomendações</string>
+    <string name="pref_title_social_recommendations">Habilitar recomendações sociais</string>
+    <string name="pref_description_social_recommendations">Recomendações</string>
 
-    <string name="pref_title_display_name" translatable="false">Nome de exibição</string>
-    <string name="pref_default_display_name" translatable="false">John Smith</string>
+    <string name="pref_title_display_name">Nome de exibição</string>
+    <string name="pref_default_display_name">John Smith</string>
 
-    <string name="pref_title_add_friends_to_messages" translatable="false">Adicionar amigos às mensagens</string>
+    <string name="pref_title_add_friends_to_messages">Adicionar amigos às mensagens</string>
     <string-array name="pref_example_list_titles">
         <item>Always</item>
         <item>When possible</item>
@@ -33,9 +36,9 @@
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync" translatable="false">Dados &amp; sincronização</string>
+    <string name="pref_header_data_sync">Dados &amp; sincronização</string>
 
-    <string name="pref_title_sync_frequency" translatable="false">Frequência de sincronia</string>
+    <string name="pref_title_sync_frequency">Frequência de sincronia</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutos</item>
         <item>30 minutos</item>
@@ -85,4 +88,9 @@
     <string name="pref_key_utilizar_cursor_mapeamento">utilizar_cursor_mapeamento</string>
     <string name="pref_title_utilizar_cursor_mapeamento">Utilizar Mira</string>
     <string name="pref_summary_utilizar_cursor_mapeamento">Utilizar a mira durante o mapeamento de pontos, distâncias e áreas.</string>
+
+    <string name="pref_key_espessura_mira_mapeamento">espessura_mira_mapeamento</string>
+    <string name="pref_title_espessura_mira_mapeamento">Espessura da mira</string>
+    <string name="pref_summary_espessura_mira_mapeamento">Espessura da mira durante o mapeamento.</string>
+    <string name="pref_dialogmessage_espessura_mira_mapeamento">Espessura da mira durante o mapeamento.</string>
 </resources>

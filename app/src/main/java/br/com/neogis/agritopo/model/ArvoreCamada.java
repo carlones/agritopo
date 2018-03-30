@@ -10,6 +10,7 @@ public class ArvoreCamada {
     public static int PASTA = 1;
     public static int GEOMETRIA = 2;
 
+    public int indice;
     public String nome;
     private int tipo;
     public boolean selecionado;
@@ -27,7 +28,20 @@ public class ArvoreCamada {
         filhos.add(filho);
     }
 
+    public Boolean TemAlgumItemSelecionado(){
+        if(selecionado)
+            return true;
+
+        for(ArvoreCamada filho : filhos)
+            if(filho.TemAlgumItemSelecionado())
+                return true;
+
+        return  false;
+    }
+
     public boolean ehPasta() {
         return tipo == PASTA;
     }
+
+
 }
