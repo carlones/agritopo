@@ -50,6 +50,6 @@ public class MapFile {
         // remover extensão
         int pos_ponto_extensao = name.lastIndexOf(".");
         if (pos_ponto_extensao > 0)
-            name = name.substring(0, pos_ponto_extensao);
+            this.name = name.substring(0, pos_ponto_extensao);
     }
 }

@@ -33,7 +33,11 @@ public class CamadaHolder {
             Utils.info("Erro durante parse do arquivo KML");
         }
         else {
-            ArvoreCamada raiz = new ArvoreCamada(arquivo.getName(), ArvoreCamada.RAIZ);
+            String nome = arquivo.getName();
+            int pos_ponto_extensao = nome.lastIndexOf(".");
+            if (pos_ponto_extensao > 0)
+                nome = nome.substring(0, pos_ponto_extensao);
+            ArvoreCamada raiz = new ArvoreCamada(nome, ArvoreCamada.RAIZ);
             mapearConteudoKML(kmlDocument.mKmlRoot, raiz, map, kmlDocument);
             raiz.indice = camadas.size();
             camadas.add(raiz);
