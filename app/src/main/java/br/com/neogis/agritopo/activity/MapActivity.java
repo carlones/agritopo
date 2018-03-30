@@ -1,6 +1,7 @@
 package br.com.neogis.agritopo.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,7 +20,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,10 +70,8 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipFile;
 
@@ -99,6 +97,7 @@ import br.com.neogis.agritopo.model.MyItemizedIconOverlay;
 import br.com.neogis.agritopo.model.MyItemizedOverlayWithFocus;
 import br.com.neogis.agritopo.model.MyMarker;
 import br.com.neogis.agritopo.model.MyOverlayItem;
+import br.com.neogis.agritopo.runnable.CamadasLoader;
 
 import static android.view.View.VISIBLE;
 import static br.com.neogis.agritopo.dao.Constantes.ALTERAR_ELEMENTO_REQUEST;
@@ -1064,24 +1063,27 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarCamadas() {
-        File pasta_camadas = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioLeituraArquivos);
-        FilenameFilter filtro = new FilenameFilter() {
-            String[] extensoesValidas = {"kml"};
+        showProgressDialog(
+                getApplicationContext(),
+                new CamadasLoader(map),
+                "Carregando arquivos KML...");
+    }
 
+    private void showProgressDialog(final Context context, final Runnable runnable, String text) {
+        final ProgressDialog ringProgressDialog = new ProgressDialog(this);
+        ringProgressDialog.setIndeterminate(true);
+        ringProgressDialog.setMessage(text);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.show();
+        Thread th = new Thread(new Runnable() {
             @Override
-            public boolean accept(File dir, String name) {
-                String extensao = name.substring(name.lastIndexOf(".") + 1);
-                extensao = extensao.toLowerCase();
-                return Arrays.asList(extensoesValidas).contains(extensao);
+            public void run() {
+                runnable.run();
+                ringProgressDialog.dismiss();
             }
-        };
-        File[] listaArquivosCamadas = pasta_camadas.listFiles(filtro);
-        camadaHolder.limparCamadas();
-        if (listaArquivosCamadas != null) {
-            for (File arquivo : listaArquivosCamadas) {
-                camadaHolder.adicionarArquivo(arquivo, map);
-            }
-        }
+        });
+        th.setPriority(Thread.MAX_PRIORITY);
+        th.start();
     }
 
     //0. Using the Marker and Polyline overlays - advanced options
