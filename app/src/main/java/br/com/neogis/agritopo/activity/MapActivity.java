@@ -31,6 +31,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -77,6 +78,8 @@ import java.util.List;
 import java.util.zip.ZipFile;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.controller.MapFile;
+import br.com.neogis.agritopo.controller.MapFileController;
 import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.ClasseEnum;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
@@ -134,7 +137,7 @@ public class MapActivity extends AppCompatActivity
     private RotationGestureOverlay mRotationGestureOverlay;
     private MapView map;
     //Outros
-    private File[] listaArquivosMapas;
+    private MapFileController mapFileController;
     //Interface
     private FloatingActionMenu famNovo;
     private Context mContext;
@@ -148,7 +151,6 @@ public class MapActivity extends AppCompatActivity
 
     private GeoPoint coordenadasIniciais;
     private int zoomInicial = 0;
-    private int idMapa = -2;
 
     private IMapController mapController;
 
@@ -156,10 +158,6 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Restaurar posição no mapa, nível do zoom, e outros
-        if (savedInstanceState != null)
-            onRestoreInstanceState(savedInstanceState);
 
         setContentView(R.layout.activity_map);
 
@@ -178,6 +176,13 @@ public class MapActivity extends AppCompatActivity
 
         criarDiretorio("agritopo");
         criarDiretorio("OsmDroid");
+
+        mapFileController = new MapFileController();
+        mapFileController.LoadMaps();
+
+        // Restaurar posição no mapa, nível do zoom, e outros
+        if (savedInstanceState != null)
+            onRestoreInstanceState(savedInstanceState);
 
         MyMarker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
 
@@ -479,7 +484,6 @@ public class MapActivity extends AppCompatActivity
     public void inicializarMapas(boolean modoOffline) {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        buscarMapasDoImovel();
 
         Configuration.getInstance().setMapViewHardwareAccelerated(true);
         map = (MapView) findViewById(R.id.map);
@@ -513,11 +517,13 @@ public class MapActivity extends AppCompatActivity
         carregarDistancias();
         Configuration.getInstance().setDebugMode(true);
 
-        if ((listaArquivosMapas != null) && (listaArquivosMapas.length > 0) && (modoOffline)) {
-            if (idMapa == -2)
-                idMapa = 0;
-            carregarMapaDeArquivo(map, listaArquivosMapas[idMapa]);
+        if (mapFileController.ContainsMaps() && modoOffline) {
+            if(mapFileController.IsOnline())
+                mapFileController.SetSelectedMap(1);
+
+            carregarMapaDeArquivo(map, mapFileController.GetMapFileSelected());
         } else {
+            mapFileController.SetOnline();
             map.setUseDataConnection(true);
             map.setTileSource(TileSourceFactory.MAPNIK);
             map.getController().setZoom(10);
@@ -542,46 +548,92 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.principal, menu);
-        carregarMapasNoMenu(menu);
-        return true;
-    }
-
-    public boolean carregarMapasNoMenu(Menu menu) {
-        menu.add(0, -1, 0, "Online (OpenStreetMaps)");
-        if (listaArquivosMapas != null) {
-            for (int i = 0; i < listaArquivosMapas.length; i++) {
-                String nomeMenu = listaArquivosMapas[i].getName();
-
-                // remover extensão
-                int pos_ponto_extensao = nomeMenu.lastIndexOf(".");
-                if (pos_ponto_extensao > 0)
-                    nomeMenu = nomeMenu.substring(0, pos_ponto_extensao);
-
-                menu.add(0, i, 0, nomeMenu);
-            }
-        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == -1) {
-            carregarMapaOnline();
-        } else {
-            if (listaArquivosMapas != null) {
-                Log.d("Agritopo", "Mapa selecionado: " + listaArquivosMapas[id].toString());
-                carregarMapaDeArquivo(map, listaArquivosMapas[id]);
-                idMapa = id;
-            }
-        }
-        map.invalidate();
+        if(item.getItemId() == R.id.action_menu_kml)
+            onOptionMenuKMLSelected(item);
+        else if(item.getItemId() == R.id.action_menu_raster)
+            onOptionMenuRasterSelected(item);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onOptionMenuKMLSelected(MenuItem item){
+        final View menuItemView = findViewById(R.id.action_menu_kml);
+        PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+        popupMenu.inflate(R.menu.principal_kml);
+        popupMenu.getMenu().add(0, Menu.NONE, 0, "teste1").setCheckable(true);
+        popupMenu.getMenu().add(0, Menu.NONE, 0, "teste2").setCheckable(true);
+        popupMenu.getMenu().add(0, Menu.NONE, 0, "teste3").setCheckable(true);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                item.setChecked(!item.isChecked());
+
+                // Do other stuff
+
+                // Keep the popup menu open
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(menuItemView);
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return false;
+                    }
+                });
+                return false;
+            }
+        });
+
+        popupMenu.show();
+    }
+
+    public void onOptionMenuRasterSelected(MenuItem item){
+        final View menuItemView = findViewById(R.id.action_menu_raster);
+        PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+        popupMenu.inflate(R.menu.principal_raster);
+
+        if (mapFileController.ContainsMaps()) {
+            for (MapFile mapFile : mapFileController.Maps) {
+                popupMenu.getMenu()
+                        .add(0, mapFile.getIndex(), 0, mapFile.getName())
+                        .setCheckable(true)
+                        .setChecked(mapFile.getSelected());
+            }
+        }
+
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                item.setChecked(!item.isChecked());
+
+                int id = item.getItemId();
+
+                if (id == 0) {
+                    carregarMapaOnline();
+                } else {
+                    carregarMapaDeArquivo(map, mapFileController.GetMapFile(id));
+                }
+                map.invalidate();
+
+                return true;
+            }
+        });
+
+        popupMenu.show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -637,25 +689,6 @@ public class MapActivity extends AppCompatActivity
 
     }
 
-    public void buscarMapasDoImovel() {
-        File pasta_mapas = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioLeituraArquivos);
-        FilenameFilter filtro = new FilenameFilter() {
-            String[] extensoesValidas = {"mbtiles"};
-
-            @Override
-            public boolean accept(File dir, String name) {
-                String extensao = name.substring(name.lastIndexOf(".") + 1);
-                extensao = extensao.toLowerCase();
-                Log.d("Agritopo", "extensao: " + extensao);
-                return Arrays.asList(extensoesValidas).contains(extensao);
-            }
-        };
-        listaArquivosMapas = pasta_mapas.listFiles(filtro);
-        if (listaArquivosMapas != null)
-            for (File arquivo : listaArquivosMapas)
-                Log.d("Agritopo", "Arquivo mapa: " + arquivo.toString());
-    }
-
     public void carregarMapaOnline() {
         Intent intent = new Intent();
         intent.putExtra(ARG_MAPA_MODO, ONLINE);
@@ -664,12 +697,13 @@ public class MapActivity extends AppCompatActivity
         onBackPressed();
     }
 
-    public void carregarMapaDeArquivo(MapView map, File arquivo) {
-        MapaTiles am = new MapaTiles(arquivo, mMyLocationNewOverlay.getMyLocation(), 10, 21);
+    public void carregarMapaDeArquivo(MapView map, MapFile mapFile) {
+        mapFileController.SetSelectedMap(mapFile);
+        MapaTiles am = new MapaTiles(mapFile.getFile(), mMyLocationNewOverlay.getMyLocation(), 10, 21);
 
         SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);
         XYTileSource mbtilesRender = new XYTileSource("mbtiles", am.zoomMin, am.zoomMax, 256, am.formatoImagem, new String[]{});
-        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(arquivo)};
+        IArchiveFile[] files = {MBTilesFileArchive.getDatabaseFileArchive(mapFile.getFile())};
         MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, mbtilesRender, files);
         MapTileProviderArray mProvider = new MapTileProviderArray(mbtilesRender, null, new MapTileModuleProviderBase[]{moduleProvider});
         map.setTileProvider(mProvider);
@@ -1007,7 +1041,7 @@ public class MapActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
         if (map != null) {
             outState.putInt("zoomInicial", map.getZoomLevel());
-            outState.putInt("idMapa", idMapa);
+            outState.putInt("idMapa", mapFileController.GetMapFileSelected().getIndex());
             outState.putDouble("latitudeAtual", coordenadasIniciais.getLatitude());
             outState.putDouble("longitudeAtual", coordenadasIniciais.getLongitude());
         }
@@ -1017,7 +1051,7 @@ public class MapActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         zoomInicial = savedInstanceState.getInt("zoomInicial", 0);
-        idMapa = savedInstanceState.getInt("idMapa", 0);
+        mapFileController.SetSelectedMap(savedInstanceState.getInt("idMapa", 0));
         double lat = savedInstanceState.getDouble("latitudeAtual", 0.0);
         double lon = savedInstanceState.getDouble("longitudeAtual", 0.0);
         if (lat != 0.0 && lon != 0.0)
