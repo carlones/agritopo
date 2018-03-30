@@ -62,6 +62,9 @@ public class MapFileController {
     }
 
     public void SetSelectedMap(int index){
+        if(index >= Maps.size())
+            return;
+
         selected = index;
         ChangeSelected();
     }

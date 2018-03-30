@@ -35,6 +35,7 @@ public class CamadaHolder {
         else {
             ArvoreCamada raiz = new ArvoreCamada(arquivo.getName(), ArvoreCamada.RAIZ);
             mapearConteudoKML(kmlDocument.mKmlRoot, raiz, map, kmlDocument);
+            raiz.indice = camadas.size();
             camadas.add(raiz);
         }
     }
@@ -57,14 +58,14 @@ public class CamadaHolder {
 
     public void limparSelecionados() {
         for(ArvoreCamada ac: camadas) {
-            desmarcarSelecaoArvore(ac);
+            marcarDesmarcarSelecaoArvore(ac, false);
         }
     }
 
-    private void desmarcarSelecaoArvore(ArvoreCamada nodo) {
-        nodo.selecionado = false;
+    public void marcarDesmarcarSelecaoArvore(ArvoreCamada nodo, Boolean selecionado) {
+        nodo.selecionado = selecionado;
         for(ArvoreCamada filho: nodo.filhos) {
-            desmarcarSelecaoArvore(filho);
+            marcarDesmarcarSelecaoArvore(filho, selecionado);
         }
     }
 
@@ -72,6 +73,10 @@ public class CamadaHolder {
         for(ArvoreCamada ac: camadas) {
             alternarExibicaoCamada(ac, map);
         }
+    }
+
+    public void exibirCamadasSelecionadasNoMapa(ArvoreCamada camada, MapView map) {
+        alternarExibicaoCamada(camada, map);
     }
 
     private void alternarExibicaoCamada(ArvoreCamada nodo, MapView map) {

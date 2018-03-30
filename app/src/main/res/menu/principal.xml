@@ -13,6 +13,6 @@
     <item
         android:id="@+id/action_menu_raster"
         android:title="Mapas"
-        android:icon="@drawable/ic_satellite_white_24dp"
+        android:icon="@drawable/ic_map_white_24dp"
         app:showAsAction="always"/>
 </menu>

@@ -91,6 +91,7 @@ import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
 import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
 import br.com.neogis.agritopo.holder.CamadaHolder;
 import br.com.neogis.agritopo.model.Area;
+import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MapaTiles;
 import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
@@ -566,9 +567,11 @@ public class MapActivity extends AppCompatActivity
         final View menuItemView = findViewById(R.id.action_menu_kml);
         PopupMenu popupMenu = new PopupMenu(this, menuItemView);
         popupMenu.inflate(R.menu.principal_kml);
-        popupMenu.getMenu().add(0, Menu.NONE, 0, "teste1").setCheckable(true);
-        popupMenu.getMenu().add(0, Menu.NONE, 0, "teste2").setCheckable(true);
-        popupMenu.getMenu().add(0, Menu.NONE, 0, "teste3").setCheckable(true);
+        for(ArvoreCamada camada : camadaHolder.camadas) {
+            popupMenu.getMenu().add(0, camada.indice, 0, camada.nome)
+                    .setCheckable(true)
+                    .setChecked(camada.TemAlgumItemSelecionado());
+        }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -576,7 +579,9 @@ public class MapActivity extends AppCompatActivity
 
                 item.setChecked(!item.isChecked());
 
-                // Do other stuff
+                ArvoreCamada camada = camadaHolder.camadas.get(item.getItemId());
+                camadaHolder.marcarDesmarcarSelecaoArvore(camada, item.isChecked());
+                camadaHolder.exibirCamadasSelecionadasNoMapa(camada, map);
 
                 // Keep the popup menu open
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
