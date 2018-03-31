@@ -1,6 +1,7 @@
 package br.com.neogis.agritopo.holder;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
@@ -9,7 +10,6 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import br.com.neogis.agritopo.dao.Utils;
-import br.com.neogis.agritopo.singleton.Configuration;
 
 /**
  * Created by carlo on 30/03/2018.
@@ -26,7 +26,12 @@ public class MeuLocalHolder extends Overlay {
         mapa = m;
         mMyLocationNewOverlay = l;
         mPaint.setFilterBitmap(true);
-        mPaint.setColor(Configuration.getInstance().CorDoCursor);
+        mPaint.clearShadowLayer();
+        mPaint.setTextSize(14);
+        mPaint.setFakeBoldText(true);
+        mPaint.setAntiAlias(true);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setShadowLayer(1.5f, -2, 2, Color.BLACK);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
@@ -43,8 +48,8 @@ public class MeuLocalHolder extends Overlay {
         final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20) / mMatrixValues[Matrix.MSCALE_X];
         final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90) / mMatrixValues[Matrix.MSCALE_Y];
         c.drawText("Pos: " + Utils.getFormattedLatitudeInDegree(mMyLocationNewOverlay.getLastFix().getLatitude()) + " " + Utils.getFormattedLongitudeInDegree(mMyLocationNewOverlay.getLastFix().getLongitude()), tx, ty + 5, mPaint);
-        c.drawText("Alt: " + Math.round(mMyLocationNewOverlay.getLastFix().getAltitude()) + "m", tx, ty + 20, mPaint);
-        c.drawText("Acc: " + mMyLocationNewOverlay.getLastFix().getAccuracy() + "m", tx, ty + 35, mPaint);
+        c.drawText("Alt: " + Math.round(mMyLocationNewOverlay.getLastFix().getAltitude()) + " m", tx, ty + 20, mPaint);
+        c.drawText("Acc: " + mMyLocationNewOverlay.getLastFix().getAccuracy() + " m", tx, ty + 35, mPaint);
         c.drawText("Vel: " + mMyLocationNewOverlay.getLastFix().getSpeed() + " Km/h", tx, ty + 50, mPaint);
     }
 

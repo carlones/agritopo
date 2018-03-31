@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
@@ -499,7 +497,7 @@ public class MapActivity extends AppCompatActivity
         Configuration.getInstance().setMapViewHardwareAccelerated(true);
         map = (MapView) findViewById(R.id.map);
 
-        map.setBuiltInZoomControls(true);
+        map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         map.setTilesScaledToDpi(true);
 
@@ -805,7 +803,7 @@ public class MapActivity extends AppCompatActivity
                     else
                         Utils.toast(mContext, "Ocorreu erro ao exportar o arquivo.");
                 } catch (Exception e) {
-                    Utils.toast(mContext, "Ocorreu erro ao importar o arquivo:\r\n" + e.getMessage());
+                    Utils.toast(mContext, "Ocorreu erro ao exportar o arquivo:\r\n" + e.getMessage());
                 }
             }
         }

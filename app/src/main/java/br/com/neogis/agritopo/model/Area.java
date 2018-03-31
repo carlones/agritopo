@@ -12,11 +12,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.neogis.agritopo.utils.UtilMedidas;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.utils.UtilMedidas;
 import flexjson.JSONSerializer;
 
-import static br.com.neogis.agritopo.dao.Constantes.KM_EM_METROS;
 import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
 
 public class Area {
