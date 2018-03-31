@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Classe;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
@@ -26,12 +25,13 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.singleton.Configuration;
+import br.com.neogis.agritopo.utils.Utils;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 
 /**
  * Created by Wagner on 23/09/2017.

@@ -20,7 +20,7 @@ import java.io.File;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.singleton.Configuration;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
 
 public class ImportarActivity extends AppCompatActivity {
 

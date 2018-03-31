@@ -9,7 +9,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import br.com.neogis.agritopo.dao.Utils;
+import br.com.neogis.agritopo.utils.Utils;
 
 /**
  * Created by carlo on 30/03/2018.

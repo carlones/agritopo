@@ -16,7 +16,7 @@ import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.utils.UtilMedidas;
 import flexjson.JSONSerializer;
 
-import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
+import static br.com.neogis.agritopo.utils.Constantes.RAIO_DA_TERRA_EM_METROS;
 
 public class Area {
     // Overlay que exibe os pontos no mapa

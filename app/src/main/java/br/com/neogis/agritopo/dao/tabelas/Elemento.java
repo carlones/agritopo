@@ -9,10 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MyGeoPoint;
+import br.com.neogis.agritopo.utils.Utils;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
