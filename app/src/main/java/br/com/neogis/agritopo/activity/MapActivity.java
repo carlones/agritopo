@@ -1153,4 +1153,10 @@ public class MapActivity extends AppCompatActivity
             }
         }
     }
+
+    @Override
+    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if( map != null ) map.invalidate();
+    }
 }
