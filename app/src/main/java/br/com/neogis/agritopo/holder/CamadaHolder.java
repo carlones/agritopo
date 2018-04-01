@@ -9,22 +9,22 @@ import org.osmdroid.views.MapView;
 import java.io.File;
 import java.util.ArrayList;
 
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.model.ArvoreCamada;
+import br.com.neogis.agritopo.utils.Utils;
 
 public class CamadaHolder {
     static private CamadaHolder _instance;
 
     public ArrayList<ArvoreCamada> camadas;
 
+    private CamadaHolder() {
+        camadas = new ArrayList<>();
+    }
+
     static public CamadaHolder getInstance() {
         if( _instance == null )
             _instance = new CamadaHolder();
         return _instance;
-    }
-
-    private CamadaHolder() {
-        camadas = new ArrayList<>();
     }
 
     public void adicionarArquivo(File arquivo, MapView map) {

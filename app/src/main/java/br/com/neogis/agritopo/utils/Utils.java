@@ -1,13 +1,10 @@
-package br.com.neogis.agritopo.dao;
+package br.com.neogis.agritopo.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -15,10 +12,7 @@ import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 
-import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.singleton.Configuration;
-
-import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
 
 /**
  * Created by carlo on 14/10/2017.
@@ -127,6 +121,6 @@ public final class Utils {
                 Math.cos(Math.toRadians(p1.getLatitude())) * Math.cos(Math.toRadians(p2.getLatitude())) *
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return RAIO_DA_TERRA_EM_METROS * c; // Distance in m
+        return Constantes.RAIO_DA_TERRA_EM_METROS * c; // Distance in m
     }
 }

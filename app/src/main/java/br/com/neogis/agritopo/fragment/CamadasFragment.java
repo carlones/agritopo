@@ -32,14 +32,14 @@ public class CamadasFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_selectable_nodes, null, false);
         ViewGroup containerView = (ViewGroup) rootView.findViewById(R.id.container);
 
-        View selectionModeButton = rootView.findViewById(R.id.btn_toggleSelection);
+        /*View selectionModeButton = rootView.findViewById(R.id.btn_toggleSelection);
         selectionModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionModeEnabled = !selectionModeEnabled;
                 tView.setSelectionModeEnabled(selectionModeEnabled);
             }
-        });
+        });*/
 
         View selectAllBtn = rootView.findViewById(R.id.btn_selectAll);
         selectAllBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class CamadasFragment extends Fragment {
             }
         });
 
-        View check = rootView.findViewById(R.id.btn_checkSelection);
+        /*View check = rootView.findViewById(R.id.btn_checkSelection);
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,7 @@ public class CamadasFragment extends Fragment {
                     Toast.makeText(getActivity(), tView.getSelected().size() + " selected", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
         TreeNode root = TreeNode.root();
 

@@ -8,9 +8,9 @@ import android.support.v7.widget.Toolbar;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.singleton.Configuration;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_MAPA_MODO;
-import static br.com.neogis.agritopo.dao.Constantes.OFFLINE;
-import static br.com.neogis.agritopo.dao.Constantes.PEGAR_MAPA_MODO_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_MODO;
+import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
 
 public class MainActivity extends AppCompatActivity {
 

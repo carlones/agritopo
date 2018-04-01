@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
@@ -17,16 +16,15 @@ import org.osmdroid.views.overlay.OverlayItem;
 import java.util.ArrayList;
 
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.model.MyGeoPoint;
-import br.com.neogis.agritopo.model.Ponto;
 import br.com.neogis.agritopo.singleton.Configuration;
+import br.com.neogis.agritopo.utils.Utils;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
 
 
 /**
@@ -35,10 +33,10 @@ import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST
 
 public class AdicionarPontoHolder extends Overlay {
 
-    private MapView mapa;
-    private Activity activity;
     ItemizedOverlayWithFocus<OverlayItem> overlay;
     MyGeoPoint geoPoint;
+    private MapView mapa;
+    private Activity activity;
 
     public AdicionarPontoHolder(MapView mapa, Activity activity) {
 

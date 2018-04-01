@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo.dao;
+package br.com.neogis.agritopo.utils;
 
 /**
  * Created by carlo on 03/01/2018.

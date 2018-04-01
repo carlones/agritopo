@@ -2,8 +2,6 @@ package br.com.neogis.agritopo.utils;
 
 import br.com.neogis.agritopo.singleton.Configuration;
 
-import br.com.neogis.agritopo.dao.Constantes;
-
 /**
  * Created by marci on 26/02/2018.
  */
