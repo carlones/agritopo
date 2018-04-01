@@ -300,16 +300,13 @@ public class MapActivity extends AppCompatActivity
                 View customView = inflater.inflate(R.layout.popup_layer, null);
                 popupLayers = new PopupWindow(
                         customView,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
                 );
-                if (Build.VERSION.SDK_INT >= 21) {
-                    popupLayers.setElevation(5.0f);
-                }
+
                 // Get a reference for the custom view close button
                 ImageButton btnPopupLayerFechar = (ImageButton) customView.findViewById(R.id.btnPopupLayerFechar);
                 ImageButton btnPopupLayerFecharTop = (ImageButton) customView.findViewById(R.id.btnPopupLayerFecharTop);
-                ImageButton btnPopupLayerFecharBottom = (ImageButton) customView.findViewById(R.id.btnPopupLayerFecharBottom);
                 ImageButton btnElementoArea = (ImageButton) customView.findViewById(R.id.btnElementoArea);
                 ImageButton btnElementoDistancia = (ImageButton) customView.findViewById(R.id.btnElementoDistancia);
                 ImageButton btnElementoPonto = (ImageButton) customView.findViewById(R.id.btnElementoPonto);
@@ -332,11 +329,11 @@ public class MapActivity extends AppCompatActivity
                                 ponto.removerDe(map);
                         }
                         map.invalidate();
-                        if (isChecked) {
+                        /*if (isChecked) {
                             Utils.toast(getBaseContext(), "Pontos de Interesse: Ativado");
                         } else {
                             Utils.toast(getBaseContext(), "Pontos de Interesse: Desativado");
-                        }
+                        }*/
                     }
                 });
                 cbxAreas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -350,11 +347,11 @@ public class MapActivity extends AppCompatActivity
                                 area.removerDe(map);
                         }
                         map.invalidate();
-                        if (isChecked) {
+                        /*if (isChecked) {
                             Utils.toast(getBaseContext(), "Áreas: Ativado");
                         } else {
                             Utils.toast(getBaseContext(), "Áreas: Desativado");
-                        }
+                        }*/
                     }
                 });
                 cbxDistancias.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -368,11 +365,11 @@ public class MapActivity extends AppCompatActivity
                                 distancia.removerDe(map);
                         }
                         map.invalidate();
-                        if (isChecked) {
+                        /*if (isChecked) {
                             Utils.toast(getBaseContext(), "Distâncias: Ativado");
                         } else {
                             Utils.toast(getBaseContext(), "Distâncias: Desativado");
-                        }
+                        }*/
                     }
                 });
                 btnPopupLayerFechar.setOnClickListener(new View.OnClickListener() {
@@ -382,12 +379,6 @@ public class MapActivity extends AppCompatActivity
                     }
                 });
                 btnPopupLayerFecharTop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupLayers.dismiss();
-                    }
-                });
-                btnPopupLayerFecharBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         popupLayers.dismiss();
@@ -434,7 +425,7 @@ public class MapActivity extends AppCompatActivity
                         x : the popup's x location offset
                         y : the popup's y location offset
                 */
-                popupLayers.showAtLocation(layoutTelaPrincipal, Gravity.CENTER, 0, 0);
+                popupLayers.showAtLocation(layoutTelaPrincipal, Gravity.FILL, 0, 0);
             }
         });
         /*fabRotacao.setOnClickListener(new View.OnClickListener() {
@@ -1232,5 +1223,11 @@ public class MapActivity extends AppCompatActivity
                 mSelectedPoi.fetchThumbnailOnThread(imageView);
             }
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if( map != null ) map.invalidate();
     }
 }

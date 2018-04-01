@@ -77,4 +77,33 @@
         <item name="textAllCaps">false</item>
     </style>
 
+
+    <style name="PopupLayer_Linha">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <!-- centralizar checkbox e botão verticalmente -->
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="PopupLayer_Checkbox">
+        <item name="android:checked">true</item>
+        <item name="android:textColor">@android:color/background_light</item>
+        <item name="android:textSize">24sp</item>
+        <!-- colocar padding no checkbox ao invés da linha, para aumentar a área do clique -->
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="PopupLayer_Botao">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:src">@drawable/ic_info_white_24dp</item>
+        <item name="android:layout_marginLeft">40dp</item>
+
+        <!-- imagem grande para facilitar clique -->
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
 </resources>
