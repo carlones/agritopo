@@ -14,7 +14,6 @@ public class MyPolygon extends Polygon {
     public MyPolygon(Elemento elemento) {
         this.elemento = elemento;
         this.setTitle(elemento.getTitulo());
-        this.setSubDescription(elemento.getTipoElemento().getNome());
     }
 
     public Elemento getElemento() {

@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.holder.CamadaHolder;
 import br.com.neogis.agritopo.holder.IconTreeItemHolder;
 import br.com.neogis.agritopo.holder.ProfileHolder;
 import br.com.neogis.agritopo.holder.SelectableHeaderHolder;
 import br.com.neogis.agritopo.holder.SelectableItemHolder;
 import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.model.TreeNode;
+import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.view.AndroidTreeView;
 
 /**

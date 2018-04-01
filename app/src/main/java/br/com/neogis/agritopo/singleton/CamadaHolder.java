@@ -1,4 +1,6 @@
-package br.com.neogis.agritopo.holder;
+package br.com.neogis.agritopo.singleton;
+
+import android.support.annotation.NonNull;
 
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFeature;
@@ -22,26 +24,42 @@ public class CamadaHolder {
     }
 
     static public CamadaHolder getInstance() {
-        if( _instance == null )
+        if (_instance == null)
             _instance = new CamadaHolder();
         return _instance;
+    }
+
+    public boolean arquivoExiste(File arquivo) {
+        boolean resultado = false;
+        String nome = getFileName(arquivo);
+        for (ArvoreCamada camada : camadas) {
+            if (camada.nome.equals(nome)) {
+                resultado = true;
+                break;
+            }
+        }
+        return resultado;
     }
 
     public void adicionarArquivo(File arquivo, MapView map) {
         KmlDocument kmlDocument = new KmlDocument();
         if (!kmlDocument.parseKMLFile(arquivo)) {
             Utils.info("Erro durante parse do arquivo KML");
-        }
-        else {
-            String nome = arquivo.getName();
-            int pos_ponto_extensao = nome.lastIndexOf(".");
-            if (pos_ponto_extensao > 0)
-                nome = nome.substring(0, pos_ponto_extensao);
-            ArvoreCamada raiz = new ArvoreCamada(nome, ArvoreCamada.RAIZ);
+        } else {
+            ArvoreCamada raiz = new ArvoreCamada(getFileName(arquivo), ArvoreCamada.RAIZ);
             mapearConteudoKML(kmlDocument.mKmlRoot, raiz, map, kmlDocument);
             raiz.indice = camadas.size();
             camadas.add(raiz);
         }
+    }
+
+    @NonNull
+    private String getFileName(File arquivo) {
+        String nome = arquivo.getName();
+        int pos_ponto_extensao = nome.lastIndexOf(".");
+        if (pos_ponto_extensao > 0)
+            nome = nome.substring(0, pos_ponto_extensao);
+        return nome;
     }
 
     private void mapearConteudoKML(KmlFolder pasta, ArvoreCamada pai, MapView map, KmlDocument kmlDocument) {
@@ -50,8 +68,7 @@ public class CamadaHolder {
                 ArvoreCamada ac = new ArvoreCamada(f.mName, ArvoreCamada.PASTA);
                 pai.adicionarFilho(ac);
                 mapearConteudoKML((KmlFolder) f, ac, map, kmlDocument);
-            }
-            else if (f.getClass() == KmlPlacemark.class) {
+            } else if (f.getClass() == KmlPlacemark.class) {
                 ArvoreCamada ac = new ArvoreCamada(f.mName, ArvoreCamada.GEOMETRIA);
                 ac.overlay = f.buildOverlay(map, null, null, kmlDocument);
                 pai.adicionarFilho(ac);
@@ -61,20 +78,20 @@ public class CamadaHolder {
     }
 
     public void limparSelecionados() {
-        for(ArvoreCamada ac: camadas) {
+        for (ArvoreCamada ac : camadas) {
             marcarDesmarcarSelecaoArvore(ac, false);
         }
     }
 
     public void marcarDesmarcarSelecaoArvore(ArvoreCamada nodo, Boolean selecionado) {
         nodo.selecionado = selecionado;
-        for(ArvoreCamada filho: nodo.filhos) {
+        for (ArvoreCamada filho : nodo.filhos) {
             marcarDesmarcarSelecaoArvore(filho, selecionado);
         }
     }
 
     public void exibirCamadasSelecionadasNoMapa(MapView map) {
-        for(ArvoreCamada ac: camadas) {
+        for (ArvoreCamada ac : camadas) {
             alternarExibicaoCamada(ac, map);
         }
     }
@@ -84,17 +101,16 @@ public class CamadaHolder {
     }
 
     private void alternarExibicaoCamada(ArvoreCamada nodo, MapView map) {
-        if( nodo.overlay != null ) {
-            if( nodo.selecionado ) {
-                if( !map.getOverlays().contains(nodo.overlay) )
+        if (nodo.overlay != null) {
+            if (nodo.selecionado) {
+                if (!map.getOverlays().contains(nodo.overlay))
                     map.getOverlays().add(nodo.overlay);
-           }
-            else {
-                if( map.getOverlays().contains(nodo.overlay) )
+            } else {
+                if (map.getOverlays().contains(nodo.overlay))
                     map.getOverlays().remove(nodo.overlay);
             }
         }
-        for(ArvoreCamada filho: nodo.filhos) {
+        for (ArvoreCamada filho : nodo.filhos) {
             alternarExibicaoCamada(filho, map);
         }
     }

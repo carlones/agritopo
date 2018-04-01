@@ -54,7 +54,7 @@ public class AdicionarAreaHolder extends Overlay {
         TipoElementoDao ted = new TipoElementoDaoImpl(activity.getBaseContext());
         TipoElemento te = ted.get(3);
         this.area = new Area(new Elemento(te, classe, lista));
-        this.area.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.area.desenharEm(mapa);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
@@ -75,7 +75,7 @@ public class AdicionarAreaHolder extends Overlay {
         this.area.setArea();
         this.area.setPerimetro();
         this.area.removerDe(mapa);
-        this.area.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.area.desenharEm(mapa);
         this.mapa.invalidate();
 
         return true; // Não propogar evento para demais overlays

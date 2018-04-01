@@ -53,7 +53,7 @@ public class AdicionarDistanciaHolder extends Overlay {
         TipoElemento te = ted.get(5);
         this.distancia = new Distancia(new Elemento(te, classe, lista));
         this.activity = activity;
-        this.distancia.desenharEm(this.mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.distancia.desenharEm(this.mapa);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
@@ -71,7 +71,7 @@ public class AdicionarDistanciaHolder extends Overlay {
         this.distancia.adicionarPonto((GeoPoint) obterPonto(event, mapView));
         this.distancia.setDistancia();
         this.distancia.removerDe(mapa);
-        this.distancia.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.distancia.desenharEm(mapa);//Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
         this.mapa.invalidate();
         return true; // Não propogar evento para demais overlays
     }
@@ -99,7 +99,7 @@ public class AdicionarDistanciaHolder extends Overlay {
 
     public void desfazer() {
         this.distancia.removerUltimoPonto();
-        this.distancia.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.distancia.desenharEm(mapa);
         this.mapa.invalidate();
     }
 

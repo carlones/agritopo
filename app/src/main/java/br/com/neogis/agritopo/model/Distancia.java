@@ -5,7 +5,7 @@ import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ import flexjson.JSONSerializer;
 
 public class Distancia {
     private MyPolyline linha;
-    private Marker marcador;
     private List<GeoPoint> pontos;
     private double distancia; // em metros
 
@@ -39,17 +38,6 @@ public class Distancia {
 
     public boolean ehValida() {
         return this.pontos.size() > 1;
-    }
-
-    public Marker getMarcador() {
-        return marcador;
-    }
-
-    public void setMarcador(Marker marcador) {
-        this.marcador = marcador;
-        this.marcador.setTitle((getLinha().getElemento().getTitulo().isEmpty() ? "" : getLinha().getElemento().getTitulo() + "\n") + this.getDistanciaDescricao());
-        this.marcador.setPosition(this.getCentro());
-        this.marcador.setIcon(null);
     }
 
     public List<GeoPoint> getPontos() {
@@ -101,33 +89,21 @@ public class Distancia {
         }
     }
 
-    public void desenharEm(MapView mapa, boolean desenharMarcador) {
+    public void desenharEm(MapView mapa) {
         desenharLinha(mapa);
-        if(desenharMarcador)
-            desenharMarcador(mapa);
-    }
-
-    private void desenharMarcador(MapView mapa) {
-        if (getMarcador() != null) {
-            removerMarcador(mapa);
-        }
-        if (ehValida()) {
-            setMarcador(new MyMarker(mapa));
-            mapa.getOverlays().add(getMarcador());
-        }
     }
 
     private void desenharLinha(MapView mapa) {
+        linha.setTitle(getElemento().getTitulo());
+        linha.setSnippet("<b>" + getElemento().getTipoElemento().getNome() + "</b>" +
+                (getElemento().getDescricao().isEmpty() ? "" : "<br>" + getElemento().getDescricao()) +
+                "<br>" + getDistanciaDescricao());
+        linha.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapa));
         mapa.getOverlays().add(this.linha);
     }
 
     public void removerDe(MapView mapa) {
         removerLinha(mapa);
-        removerMarcador(mapa);
-    }
-
-    private void removerMarcador(MapView mapa) {
-        mapa.getOverlays().remove(getMarcador());
     }
 
     private void removerLinha(MapView mapa) {

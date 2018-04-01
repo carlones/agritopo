@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 
-import br.com.neogis.agritopo.holder.CamadaHolder;
+import br.com.neogis.agritopo.singleton.CamadaHolder;
 
 /**
  * Created by marci on 30/03/2018.
@@ -32,10 +32,11 @@ public class CamadasLoader implements Runnable {
             }
         };
         File[] listaArquivosCamadas = pasta_camadas.listFiles(filtro);
-        CamadaHolder.getInstance().limparCamadas();
+        //CamadaHolder.getInstance().limparCamadas();
         if (listaArquivosCamadas != null) {
             for (File arquivo : listaArquivosCamadas) {
-                CamadaHolder.getInstance().adicionarArquivo(arquivo, mapView);
+                if (!CamadaHolder.getInstance().arquivoExiste(arquivo))
+                    CamadaHolder.getInstance().adicionarArquivo(arquivo, mapView);
             }
         }
     }
