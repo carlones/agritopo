@@ -93,4 +93,9 @@
     <string name="pref_title_espessura_mira_mapeamento">Espessura da mira</string>
     <string name="pref_summary_espessura_mira_mapeamento">Espessura da mira durante o mapeamento.</string>
     <string name="pref_dialogmessage_espessura_mira_mapeamento">Espessura da mira durante o mapeamento.</string>
+
+    <string name="pref_key_seletor_proximidade">seletor_proximidade</string>
+    <string name="pref_title_seletor_proximidade">Proximidade</string>
+    <string name="pref_summary_seletor_proximidade">Ao manter pressionado, considerar os elementos mais próximos, maior o número, maior atingimento</string>
+    <string name="pref_dialogmessage_seletor_proximidade">Considerar os elementos mais próximos ao pressionar na tela.</string>
 </resources>

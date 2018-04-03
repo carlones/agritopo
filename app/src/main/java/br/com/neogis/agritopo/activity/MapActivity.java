@@ -1003,12 +1003,12 @@ public class MapActivity extends AppCompatActivity
     }
 
     void onLongPressMenuSelected(GeoPoint point) {
-        double proximidade = 100;
         final MyGeoPoint ponto = new MyGeoPoint(point);
 
-        PopupMenu popupMenu = new PopupMenu(MapActivity.this, findViewById(R.id.content_principal));
+        final View menuItemView = findViewById(R.id.action_recentralizar);
+        PopupMenu popupMenu = new PopupMenu(this, menuItemView);
         popupMenu.inflate(R.menu.principal_mapa);
-        for (Elemento elemento : listarElementosProximos(point, proximidade)) {
+        for (Elemento elemento : listarElementosProximos(point, br.com.neogis.agritopo.singleton.Configuration.getInstance().ProximidadeElementos)) {
             String texto = elemento.getClasse().getNome() + " / " + elemento.getTipoElemento().getNome() + " / " + elemento.getTitulo();
             popupMenu.getMenu().add(0, elemento.getElementoid(), 0, texto);
         }
@@ -1159,6 +1159,12 @@ public class MapActivity extends AppCompatActivity
         th.start();
     }
 
+    @Override
+    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (map != null) map.invalidate();
+    }
+
     //0. Using the Marker and Polyline overlays - advanced options
     class OnMarkerDragListenerDrawer implements Marker.OnMarkerDragListener {
         ArrayList<GeoPoint> mTrace;
@@ -1223,11 +1229,5 @@ public class MapActivity extends AppCompatActivity
                 mSelectedPoi.fetchThumbnailOnThread(imageView);
             }
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if( map != null ) map.invalidate();
     }
 }
