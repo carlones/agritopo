@@ -13,6 +13,7 @@
             android:summary="@string/pref_summary_color_cursor"
             android:title="@string/pref_title_color_cursor" />
 
+        <!--suppress AndroidDomInspection -->
         <net.jayschwa.android.preference.SliderPreference
             android:defaultValue="0.5"
             android:dialogMessage="@string/pref_dialogmessage_espessura_mira_mapeamento"
@@ -29,6 +30,7 @@
             android:summary="@string/pref_summary_exibir_area_mapeamento"
             android:title="@string/pref_title_exibir_area_mapeamento" />
 
+        <!--suppress AndroidDomInspection -->
         <net.jayschwa.android.preference.SliderPreference
             android:defaultValue="0.5"
             android:dialogMessage="@string/pref_dialogmessage_seletor_proximidade"
