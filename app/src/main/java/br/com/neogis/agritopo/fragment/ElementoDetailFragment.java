@@ -2,15 +2,32 @@ package br.com.neogis.agritopo.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +43,7 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
+import static android.app.Activity.RESULT_OK;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
 import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
@@ -45,7 +63,9 @@ public class ElementoDetailFragment extends Fragment {
     private EditText elementoInformacao;
     private EditText elementoDataCriacao;
     private EditText elementoDataModificacao;
-    private EditText elementoMetadados;
+    private LinearLayout elementoListaImagens;
+    private ImageView imageTirarFoto;
+    private ImageView imageAdicionarImagem;
 
     public ElementoDetailFragment() {
     }
@@ -83,7 +103,9 @@ public class ElementoDetailFragment extends Fragment {
         elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
         elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
         elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
-        elementoMetadados = (EditText) rootView.findViewById(R.id.elementoMetadados);
+        elementoListaImagens = (LinearLayout) rootView.findViewById(R.id.elementoListaImagens);
+        imageTirarFoto = (ImageView) rootView.findViewById(R.id.elemento_botao_tirar_foto);
+        imageAdicionarImagem = (ImageView) rootView.findViewById(R.id.elemento_botao_adicionar_foto);
 
         TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(rootView.getContext());
         List<TipoElemento> listaTipoElemento = tipoElementoDao.getAll();
@@ -112,11 +134,79 @@ public class ElementoDetailFragment extends Fragment {
             elementoDataModificacao.setText(mItem.getModified_at().toString());
             elementoInformacao.setKeyListener(null);
             elementoInformacao.setText(Elemento.getInformacaoExtra(mItem));
-            elementoMetadados.setKeyListener(null);
-            elementoMetadados.setText(mItem.getGeometria());
         }
 
+        imageTirarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, 0);
+            }
+        });
+
+        imageAdicionarImagem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto , 1);
+            }
+        });
+
         return rootView;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        if(resultCode == RESULT_OK){
+            adicionarImagem(imageReturnedIntent.getData());
+        }
+    }
+
+    private void adicionarImagem(Uri uri){
+        Bitmap preview_bitmap = decodeFile(uri);
+        ImageView image = new ImageView(getActivity().getBaseContext());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        image.setLayoutParams(params);
+        image.setImageBitmap(preview_bitmap);
+        image.setPadding(2,2,2,2);
+        elementoListaImagens.addView(image);
+    }
+
+    private Bitmap decodeFile(Uri selectedImage) {
+        // Decode image size
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        try {
+            InputStream fis = getActivity().getBaseContext().getContentResolver().openInputStream(selectedImage);
+            BitmapFactory.decodeStream(fis, null, options);
+            fis.close();
+
+            // The new size we want to scale to
+            final int REQUIRED_SIZE=160;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while(options.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    options.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            // Decode with inSampleSize
+            options = new BitmapFactory.Options();
+            options.inSampleSize = scale;
+            fis = getActivity().getBaseContext().getContentResolver().openInputStream(selectedImage);
+            Bitmap result = BitmapFactory.decodeStream(fis, null, options);
+            fis.close();
+
+            return result;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getTitulo() {
