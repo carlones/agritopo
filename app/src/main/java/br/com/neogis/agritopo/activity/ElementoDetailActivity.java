@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,12 +21,12 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.fragment.ElementoDetailFragment;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTO_CENTRALIZAR;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_POSICAO_LISTA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTO_CENTRALIZAR;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_POSICAO_LISTA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 
 /**
  * An activity representing a single Elemento detail screen. This

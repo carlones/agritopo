@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.holder.CamadaHolder;
 import br.com.neogis.agritopo.holder.IconTreeItemHolder;
 import br.com.neogis.agritopo.holder.ProfileHolder;
 import br.com.neogis.agritopo.holder.SelectableHeaderHolder;
 import br.com.neogis.agritopo.holder.SelectableItemHolder;
 import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.model.TreeNode;
+import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.view.AndroidTreeView;
 
 /**
@@ -32,14 +32,14 @@ public class CamadasFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_selectable_nodes, null, false);
         ViewGroup containerView = (ViewGroup) rootView.findViewById(R.id.container);
 
-        View selectionModeButton = rootView.findViewById(R.id.btn_toggleSelection);
+        /*View selectionModeButton = rootView.findViewById(R.id.btn_toggleSelection);
         selectionModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionModeEnabled = !selectionModeEnabled;
                 tView.setSelectionModeEnabled(selectionModeEnabled);
             }
-        });
+        });*/
 
         View selectAllBtn = rootView.findViewById(R.id.btn_selectAll);
         selectAllBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class CamadasFragment extends Fragment {
             }
         });
 
-        View check = rootView.findViewById(R.id.btn_checkSelection);
+        /*View check = rootView.findViewById(R.id.btn_checkSelection);
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,7 @@ public class CamadasFragment extends Fragment {
                     Toast.makeText(getActivity(), tView.getSelected().size() + " selected", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
         TreeNode root = TreeNode.root();
 

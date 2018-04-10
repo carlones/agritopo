@@ -18,6 +18,7 @@ import br.com.neogis.agritopo.model.TreeNode;
 public class SelectableHeaderHolder extends TreeNode.BaseNodeViewHolder<IconTreeItemHolder.IconTreeItem> {
     private TextView tvValue;
     private PrintView arrowView;
+    private PrintView iconView;
     private CheckBox nodeSelector;
 
     public SelectableHeaderHolder(Context context) {
@@ -31,14 +32,35 @@ public class SelectableHeaderHolder extends TreeNode.BaseNodeViewHolder<IconTree
 
         tvValue = (TextView) view.findViewById(R.id.node_value);
         tvValue.setText(value.text);
+        tvValue.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                nodeSelector.setChecked(!nodeSelector.isChecked());
+                return true;
+            }
+        });
 
-        final PrintView iconView = (PrintView) view.findViewById(R.id.icon);
+        iconView = (PrintView) view.findViewById(R.id.icon);
         iconView.setIconText(context.getResources().getString(value.icon));
+        iconView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                nodeSelector.setChecked(!nodeSelector.isChecked());
+                return true;
+            }
+        });
 
         arrowView = (PrintView) view.findViewById(R.id.arrow_icon);
         if (node.isLeaf()) {
             arrowView.setVisibility(View.GONE);
         }
+        iconView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                nodeSelector.setChecked(!nodeSelector.isChecked());
+                return true;
+            }
+        });
 
         nodeSelector = (CheckBox) view.findViewById(R.id.node_selector);
         nodeSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

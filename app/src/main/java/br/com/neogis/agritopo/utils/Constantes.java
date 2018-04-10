@@ -1,4 +1,4 @@
-package br.com.neogis.agritopo.dao;
+package br.com.neogis.agritopo.utils;
 
 /**
  * Created by carlo on 03/01/2018.
@@ -26,9 +26,13 @@ public final class Constantes {
     public static final int KM2_EM_METROS2 = 1000000;
     public static final int HECTARE_EM_METROS2 = 10000;
 
+    public static final String ARG_MAPA_ID = "mapa_id";
     public static final String ARG_MAPA_MODO = "mapa_modo";
-    public static final String ARG_ELEMENTO_CENTRALIZAR = "focar_elemento";
+    public static final String ARG_MAPA_ZOOMINICIAL = "mapa_zoom_inicial";
+    public static final String ARG_MAPA_LATITUDEATUAL = "mapa_latitude_atual";
+    public static final String ARG_MAPA_LONGITUDEATUAL = "mapa_longitude_atual";
     public static final String ARG_ELEMENTOID = "elementoid";
+    public static final String ARG_ELEMENTO_CENTRALIZAR = "focar_elemento";
     public static final String ARG_CLASSEID = "classeid";
     public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
     public static final String ARG_GEOMETRIA = "geometria";

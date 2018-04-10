@@ -4,15 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_recentralizar"
+        android:icon="@drawable/ic_navigation_white_24dp"
+        android:title="Recentralizar"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_menu_kml"
-        android:title="KMLs"
         android:icon="@drawable/ic_layers_white_24dp"
+        android:title="KMLs"
         app:showAsAction="always"
         />
 
     <item
         android:id="@+id/action_menu_raster"
-        android:title="Mapas"
         android:icon="@drawable/ic_map_white_24dp"
+        android:title="Mapas"
         app:showAsAction="always"/>
 </menu>

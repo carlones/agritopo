@@ -1,85 +1,55 @@
 package br.com.neogis.agritopo.model;
 
-import org.osmdroid.util.GeoPoint;
+import android.support.v4.content.res.ResourcesCompat;
+
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
+
+import br.com.neogis.agritopo.dao.tabelas.Elemento;
 
 /**
  * Created by Vera on 17/10/2017.
  */
 
 public class Ponto {
+    private Elemento elemento;
+    private MyMarker ponto;
 
-    private int id;
-    private String titulo;
-    private String descricao;
-    private GeoPoint coordenadas;
-
-    public Ponto(GeoPoint coordenadas) {
-        this.coordenadas = coordenadas;
+    public Ponto(Elemento e) {
+        elemento = e;
     }
 
-    public Ponto(String titulo, String descricao, GeoPoint coordenadas) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.coordenadas = coordenadas;
+    public Elemento getElemento() {
+        return ponto.getElemento();
     }
 
-    public int getId() {
-        return id;
+    public MyMarker getPonto() {
+        return ponto;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPonto(MyMarker ponto) {
+        this.ponto = ponto;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public void desenharEm(MapView mapa) {
+        desenharPonto(mapa);
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void removerDe(MapView mapa) {
+        removerPonto(mapa);
     }
 
-    public String getDescricao() {
-        return descricao;
+    private void removerPonto(MapView mapa) {
+        ponto.remove(mapa);
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public GeoPoint getCoordenadas() {
-        return coordenadas;
-    }
-
-    public void setCoordenadas(GeoPoint coordenadas) {
-        this.coordenadas = coordenadas;
-    }
-
-    public double getLatitude() {
-        return coordenadas.getLatitude();
-    }
-
-    public void setLatitude(double latitude) {
-        coordenadas.setLatitude(latitude);
-    }
-
-    public double getLongitude() {
-        return coordenadas.getLongitude();
-    }
-
-    public void setLongitude(double longitude) {
-        coordenadas.setLongitude(longitude);
-    }
-
-    public double getAltitude() {
-        return coordenadas.getAltitude();
-    }
-
-    public void setAltitude(double altitude) {
-        coordenadas.setAltitude(altitude);
-    }
-
-    public String toString() {
-        return "Ponto id " + Integer.toString(id) + ", geopoint " + coordenadas.toString();
+    private void desenharPonto(MapView mapa) {
+        ponto = new MyMarker(mapa, elemento);
+        ponto.setTitle(elemento.getTitulo());
+        ponto.setSnippet("<b>" + elemento.getTipoElemento().getNome() + "</b>" + (elemento.getDescricao().isEmpty() ? "" : "<br>" + elemento.getDescricao()));
+        ponto.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapa));
+        ponto.setIcon(ResourcesCompat.getDrawable(mapa.getResources(), org.osmdroid.bonuspack.R.drawable.marker_default, null));
+        ponto.setPosition(elemento.getGeometriaMyGeoPoint());
+        mapa.getOverlays().add(ponto);
     }
 }

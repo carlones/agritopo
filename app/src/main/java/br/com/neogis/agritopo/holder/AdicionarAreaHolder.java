@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
-import br.com.neogis.agritopo.dao.Utils;
 import br.com.neogis.agritopo.dao.tabelas.Classe;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
@@ -26,12 +25,13 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.singleton.Configuration;
+import br.com.neogis.agritopo.utils.Utils;
 
-import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 
 /**
  * Created by Wagner on 23/09/2017.
@@ -54,7 +54,7 @@ public class AdicionarAreaHolder extends Overlay {
         TipoElementoDao ted = new TipoElementoDaoImpl(activity.getBaseContext());
         TipoElemento te = ted.get(3);
         this.area = new Area(new Elemento(te, classe, lista));
-        this.area.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.area.desenharEm(mapa);
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
@@ -75,7 +75,7 @@ public class AdicionarAreaHolder extends Overlay {
         this.area.setArea();
         this.area.setPerimetro();
         this.area.removerDe(mapa);
-        this.area.desenharEm(mapa, Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
+        this.area.desenharEm(mapa);
         this.mapa.invalidate();
 
         return true; // Não propogar evento para demais overlays

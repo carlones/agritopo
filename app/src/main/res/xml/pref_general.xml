@@ -56,6 +56,7 @@
             /!-->
 
         <!-- https://github.com/Angads25/android-filepicker -->
+        <!--suppress AndroidDomInspection -->
         <com.github.angads25.filepicker.view.FilePickerPreference
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:defaultValue="/sdcard:/mnt"
@@ -69,6 +70,7 @@
             app:selection_type="dir_select"
             app:title_text="Selecione o diretório" />
 
+        <!--suppress AndroidDomInspection -->
         <com.github.angads25.filepicker.view.FilePickerPreference
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:defaultValue="/sdcard:/mnt"

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.fragment.CamadasFragment;
 
-import static br.com.neogis.agritopo.dao.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST;
 
 /**
  * Created by carlo on 30/12/2017.

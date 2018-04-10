@@ -16,6 +16,7 @@ public final class Configuration {
     public boolean ExibirAreaDistanciaDuranteMapeamento;
     public boolean UsarMiraDuranteMapeamento;
     public float EspessuraMiraMapeamento;
+    public float ProximidadeElementos;
 
     //Geral
     public TipoMedidaArea MedidaUtilizadaEmAreas;
@@ -50,6 +51,7 @@ public final class Configuration {
         ExibirAreaDistanciaDuranteMapeamento = prefs.getBoolean(context.getResources().getString(R.string.pref_key_exibir_area_mapeamento), true);
         UsarMiraDuranteMapeamento = prefs.getBoolean(context.getResources().getString(R.string.pref_key_utilizar_cursor_mapeamento), true);
         EspessuraMiraMapeamento = 2 + (8 * prefs.getFloat(context.getResources().getString(R.string.pref_key_espessura_mira_mapeamento), 0.5f));
+        ProximidadeElementos = 100 * prefs.getFloat(context.getResources().getString(R.string.pref_key_seletor_proximidade), 0.5f);
     }
 
     public enum TipoMedidaArea {

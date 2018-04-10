@@ -13,8 +13,8 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static br.com.neogis.agritopo.dao.Constantes.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
-import static br.com.neogis.agritopo.dao.Constantes.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
+import static br.com.neogis.agritopo.utils.Constantes.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
+import static br.com.neogis.agritopo.utils.Constantes.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
 
 /**
  * Created by carlo on 03/01/2018.

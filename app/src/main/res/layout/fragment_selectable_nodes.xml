@@ -11,20 +11,11 @@
         android:background="#ff0099cc">
 
         <Button
-            android:id="@+id/btn_toggleSelection"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Marcar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
-            android:textColorLink="@android:color/white" />
-
-        <Button
             android:id="@+id/btn_selectAll"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+ Todos"
+            android:text="Marcar Todos"
             android:textAppearance="@style/TextAppearance.AppCompat.Menu"
             android:textColorLink="@android:color/white" />
 
@@ -33,16 +24,7 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="- Todos"
-            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
-            android:textColorLink="@android:color/white" />
-
-        <Button
-            android:id="@+id/btn_checkSelection"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pegar seleção"
+            android:text="Desmarcar Todos"
             android:textAppearance="@style/TextAppearance.AppCompat.Menu"
             android:textColorLink="@android:color/white" />
 

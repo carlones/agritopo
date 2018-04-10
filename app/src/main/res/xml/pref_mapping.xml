@@ -4,21 +4,22 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/pref_key_utilizar_cursor_mapeamento"
-            android:title="@string/pref_title_utilizar_cursor_mapeamento"
-            android:summary="@string/pref_summary_utilizar_cursor_mapeamento" />
+            android:summary="@string/pref_summary_utilizar_cursor_mapeamento"
+            android:title="@string/pref_title_utilizar_cursor_mapeamento" />
 
         <com.github.danielnilsson9.colorpickerview.preference.ColorPreference
             android:defaultValue="0xFFFFFF00"
             android:key="@string/pref_key_color_cursor"
-            android:title="@string/pref_title_color_cursor"
-            android:summary="@string/pref_summary_color_cursor" />
+            android:summary="@string/pref_summary_color_cursor"
+            android:title="@string/pref_title_color_cursor" />
 
+        <!--suppress AndroidDomInspection -->
         <net.jayschwa.android.preference.SliderPreference
-            android:key="@string/pref_key_espessura_mira_mapeamento"
-            android:title="@string/pref_title_espessura_mira_mapeamento"
-            android:summary="@string/pref_summary_espessura_mira_mapeamento"
+            android:defaultValue="0.5"
             android:dialogMessage="@string/pref_dialogmessage_espessura_mira_mapeamento"
-            android:defaultValue="0.5" />
+            android:key="@string/pref_key_espessura_mira_mapeamento"
+            android:summary="@string/pref_summary_espessura_mira_mapeamento"
+            android:title="@string/pref_title_espessura_mira_mapeamento" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -26,8 +27,16 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/pref_key_exibir_area_mapeamento"
-            android:title="@string/pref_title_exibir_area_mapeamento"
-            android:summary="@string/pref_summary_exibir_area_mapeamento" />
+            android:summary="@string/pref_summary_exibir_area_mapeamento"
+            android:title="@string/pref_title_exibir_area_mapeamento" />
+
+        <!--suppress AndroidDomInspection -->
+        <net.jayschwa.android.preference.SliderPreference
+            android:defaultValue="0.5"
+            android:dialogMessage="@string/pref_dialogmessage_seletor_proximidade"
+            android:key="@string/pref_key_seletor_proximidade"
+            android:summary="@string/pref_summary_seletor_proximidade"
+            android:title="@string/pref_title_seletor_proximidade" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.neogis.agritopo.R;
@@ -15,6 +16,7 @@ import br.com.neogis.agritopo.model.TreeNode;
  */
 public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
     private TextView tvValue;
+    private LinearLayout picture_wrapper;
     private CheckBox nodeSelector;
 
     public SelectableItemHolder(Context context) {
@@ -26,10 +28,6 @@ public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.layout_selectable_item, null, false);
 
-        tvValue = (TextView) view.findViewById(R.id.node_value);
-        tvValue.setText(value);
-
-
         nodeSelector = (CheckBox) view.findViewById(R.id.node_selector);
         nodeSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -38,6 +36,23 @@ public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
             }
         });
         nodeSelector.setChecked(node.isSelected());
+
+        picture_wrapper = (LinearLayout) view.findViewById(R.id.picture_wrapper);
+        picture_wrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nodeSelector.setChecked(!nodeSelector.isChecked());
+            }
+        });
+
+        tvValue = (TextView) view.findViewById(R.id.node_value);
+        tvValue.setText(value);
+        tvValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nodeSelector.setChecked(!nodeSelector.isChecked());
+            }
+        });
 
         if (node.isLastChild()) {
             view.findViewById(R.id.bot_line).setVisibility(View.INVISIBLE);

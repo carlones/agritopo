@@ -5,28 +5,25 @@ import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.neogis.agritopo.utils.UtilMedidas;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.utils.UtilMedidas;
 import flexjson.JSONSerializer;
 
-import static br.com.neogis.agritopo.dao.Constantes.KM_EM_METROS;
-import static br.com.neogis.agritopo.dao.Constantes.RAIO_DA_TERRA_EM_METROS;
+import static br.com.neogis.agritopo.utils.Constantes.RAIO_DA_TERRA_EM_METROS;
 
 public class Area {
     // Overlay que exibe os pontos no mapa
     private MyPolygon poligono;
-    private Marker marcador;
     private List<GeoPoint> pontos;
     private double area; // m²
     private double perimetro; // m
-    private String titulo = "";
 
     public Area(Elemento elemento) {
         this.pontos = new ArrayList<>();
@@ -35,7 +32,6 @@ public class Area {
         this.poligono.setStrokeColor(Color.MAGENTA);
         this.poligono.setStrokeWidth(4.0f);
         setMyGeoPointList(elemento.getGeometriaListMyGeoPoint());
-        setTitulo(elemento.getTitulo());
         setArea();
         setPerimetro();
     }
@@ -54,17 +50,6 @@ public class Area {
 
     public void setPoligono(MyPolygon poligono) {
         this.poligono = poligono;
-    }
-
-    public Marker getMarcador() {
-        return marcador;
-    }
-
-    public void setMarcador(Marker marcador) {
-        this.marcador = marcador;
-        this.marcador.setTitle((this.titulo.isEmpty() ? "" : this.titulo + "\n") + "Área: " + this.getAreaDescricao() + "\nPerímetro: " + this.descricaoPerimetro());
-        this.marcador.setPosition(this.getCentro());
-        this.marcador.setIcon(null);
     }
 
     public void adicionarPonto(GeoPoint ponto) {
@@ -184,35 +169,22 @@ public class Area {
         }
     }
 
-    public void desenharEm(MapView mapa, boolean desenharMarcador) {
+    public void desenharEm(MapView mapa) {
         desenharPoligono(mapa);
-        if(desenharMarcador)
-            desenharMarcador(mapa);
-    }
-
-    private void desenharMarcador(MapView mapa) {
-        if (getMarcador() != null) {
-            removerMarcador(mapa);
-        }
-        if (ehValida()) {
-            setArea();
-            setPerimetro();
-            setMarcador(new MyMarker(mapa));
-            mapa.getOverlays().add(getMarcador());
-        }
     }
 
     private void desenharPoligono(MapView mapa) {
+        poligono.setTitle(getElemento().getTitulo());
+        poligono.setSnippet("<b>" + getElemento().getTipoElemento().getNome() + "</b>" +
+                (getElemento().getDescricao().isEmpty() ? "" : "<br>" + this.getElemento().getDescricao()) +
+                "<br>Área: " + this.getAreaDescricao() +
+                "<br>Perímetro: " + this.descricaoPerimetro());
+        poligono.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapa));
         mapa.getOverlays().add(this.poligono);
     }
 
     public void removerDe(MapView mapa) {
         removerPoligono(mapa);
-        removerMarcador(mapa);
-    }
-
-    private void removerMarcador(MapView mapa) {
-        mapa.getOverlays().remove(getMarcador());
     }
 
     private void removerPoligono(MapView mapa) {
@@ -250,14 +222,6 @@ public class Area {
         for (MyGeoPoint ponto : lista) {
             adicionarPonto(ponto);
         }
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String serializeMyGeoPointList() {
