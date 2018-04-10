@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "neogis_agritopo.db";
-    private static final int VERSAO = 4;
+    private static final int VERSAO = 5;
 
     public BancoDeDadosSQLite(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
@@ -58,11 +58,8 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 " id_atual INT\n" +
                 ");\n");
         db.execSQL("CREATE TABLE imagem (\n" +
-                " imagemid INT NOT NULL PRIMARY KEY,\n" +
-                " elementoid INT NOT NULL,\n" +
-                " arquivo BLOB,\n" +
-                "\n" +
-                " FOREIGN KEY (elementoid) REFERENCES elemento (elementoid)\n" +
+                " id INT NOT NULL PRIMARY KEY,\n" +
+                " arquivo VARCHAR(200)\n" +
                 ");\n");
         db.execSQL("CREATE TABLE tipoelemento (\n" +
                 " tipoelementoid INT NOT NULL PRIMARY KEY,\n" +
@@ -99,6 +96,11 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 "\n" +
                 " FOREIGN KEY (classeid) REFERENCES classe (classeid),\n" +
                 " FOREIGN KEY (tipoelementoid) REFERENCES tipoelemento (tipoelementoid)\n" +
+                ");\n");
+        db.execSQL("CREATE TABLE elementoimagem (\n" +
+                " id INT NOT NULL PRIMARY KEY,\n" +
+                " elementoid INT NOT NULL,\n" +
+                " imagemid INT NOT NULL\n" +
                 ");\n");
         db.execSQL("CREATE TABLE elementocampodinamico (\n" +
                 " campodinamicoid INT NOT NULL,\n" +

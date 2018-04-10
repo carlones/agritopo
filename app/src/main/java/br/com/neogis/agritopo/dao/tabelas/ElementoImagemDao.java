@@ -9,6 +9,8 @@ import java.util.List;
 public interface ElementoImagemDao {
     public List<ElementoImagem> getAll();
 
+    public List<ElementoImagem> getByElemento(int id);
+
     public ElementoImagem get(int id);
 
     public void insert(ElementoImagem obj);

@@ -11,7 +11,7 @@ public interface ImagemDao {
 
     public Imagem get(int id);
 
-    public void insert(Imagem obj);
+    public int insert(Imagem obj);
 
     public void update(Imagem obj);
 

@@ -6,21 +6,24 @@ package br.com.neogis.agritopo.dao.tabelas;
 
 public class ElementoImagem {
 
-    private Elemento elemento;
+    private int id;
+
+    private int idElemento;
 
     private Imagem imagem;
 
-    public ElementoImagem(Elemento elemento, Imagem imagem) {
-        this.elemento = elemento;
+    public ElementoImagem(int id, int idElemento, Imagem imagem) {
+        this.setId(id);
+        this.idElemento = idElemento;
         this.imagem = imagem;
     }
 
-    public Elemento getElemento() {
-        return elemento;
+    public int getIdElemento() {
+        return idElemento;
     }
 
-    public void setElemento(Elemento elemento) {
-        this.elemento = elemento;
+    public void setIdElemento(int elemento) {
+        this.idElemento = elemento;
     }
 
     public Imagem getImagem() {
@@ -29,5 +32,13 @@ public class ElementoImagem {
 
     public void setImagem(Imagem imagem) {
         this.imagem = imagem;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

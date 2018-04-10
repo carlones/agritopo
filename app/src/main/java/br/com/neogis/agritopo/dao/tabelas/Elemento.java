@@ -6,6 +6,7 @@ import org.osmdroid.util.GeoPoint;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,6 +34,8 @@ public class Elemento {
     private String created_at;
 
     private String modified_at;
+
+    private List<ElementoImagem> images;
 
     public Elemento(TipoElemento tipoElemento, Classe classe, Object geometria) {
         this(tipoElemento, classe, "", "", geometria);
@@ -62,6 +65,7 @@ public class Elemento {
         this.geometria = geometria;
         this.created_at = dateFormat.format(cal.getTime());
         this.modified_at = dateFormat.format(cal.getTime());
+        this.images = new ArrayList<ElementoImagem>();
     }
 
     public static String getInformacaoExtra(Elemento elemento) {
@@ -204,4 +208,25 @@ public class Elemento {
         this.modified_at = dateFormat.format(cal.getTime());
     }
 
+    public void addImage(String path){
+        for(ElementoImagem imagem : images)
+            if(imagem.getImagem().getArquivo() == path)
+                return;
+
+
+        images.add(new ElementoImagem(
+                0,
+                elementoid,
+                new Imagem(
+                        0,
+                        path
+                )
+        ));
+    }
+
+    public List<ElementoImagem> getImages(){
+        return images;
+    }
+
+    public void setImages(List<ElementoImagem> images){ this.images = images; }
 }

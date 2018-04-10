@@ -13,6 +13,8 @@ public interface ElementoDao {
 
     public Elemento get(int id);
 
+    public void save(Elemento obj);
+
     public void insert(Elemento obj);
 
     public void update(Elemento obj);

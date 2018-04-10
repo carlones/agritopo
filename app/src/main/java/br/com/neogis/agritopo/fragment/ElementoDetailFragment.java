@@ -2,18 +2,13 @@ package br.com.neogis.agritopo.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +17,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +31,7 @@ import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.ElementoImagem;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
@@ -66,6 +59,7 @@ public class ElementoDetailFragment extends Fragment {
     private LinearLayout elementoListaImagens;
     private ImageView imageTirarFoto;
     private ImageView imageAdicionarImagem;
+    private static ArrayList<String> images;
 
     public ElementoDetailFragment() {
     }
@@ -73,10 +67,13 @@ public class ElementoDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ElementoDao elementoDao = new ElementoDaoImpl(getActivity().getBaseContext());
         int elementoId = getArguments().getInt(ARG_ELEMENTOID);
         if (elementoId != 0) {
-            ElementoDao elementoDao = new ElementoDaoImpl(getActivity().getBaseContext());
             mItem = elementoDao.get(elementoId);
+            if(images.size() == 0 && mItem.getImages().size() > 0)
+                for (ElementoImagem elementoImagem : mItem.getImages())
+                    images.add(elementoImagem.getImagem().getArquivo());
         } else {
             ClasseDao classeDao = new ClasseDaoImpl(getActivity().getBaseContext());
             Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
@@ -134,6 +131,10 @@ public class ElementoDetailFragment extends Fragment {
             elementoDataModificacao.setText(mItem.getModified_at().toString());
             elementoInformacao.setKeyListener(null);
             elementoInformacao.setText(Elemento.getInformacaoExtra(mItem));
+
+            for(String image : images){
+                adicionarImagem(Uri.parse(image));
+            }
         }
 
         imageTirarFoto.setOnClickListener(new View.OnClickListener() {
@@ -162,17 +163,46 @@ public class ElementoDetailFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         if(resultCode == RESULT_OK){
-            adicionarImagem(imageReturnedIntent.getData());
+            Uri uri = imageReturnedIntent.getData();
+            adicionarImagem(uri);
+            images.add(uri.toString());
         }
     }
 
-    private void adicionarImagem(Uri uri){
+    private void adicionarImagem(final Uri uri){
         Bitmap preview_bitmap = decodeFile(uri);
         ImageView image = new ImageView(getActivity().getBaseContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         image.setLayoutParams(params);
         image.setImageBitmap(preview_bitmap);
         image.setPadding(2,2,2,2);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(uri, "image/*");
+                startActivity(intent);
+            }
+        });
+
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                v.setVisibility(View.GONE);
+                for(String img : images)
+                    if(img == uri.toString())
+                    {
+                        images.remove(img);
+                        return true;
+                    }
+                return true;
+            }
+        });
+
         elementoListaImagens.addView(image);
     }
 
@@ -223,5 +253,16 @@ public class ElementoDetailFragment extends Fragment {
 
     public Elemento getElemento() {
         return mItem;
+    }
+
+    public ArrayList<String> getImagesPaths() {
+        return images;
+    }
+
+    public void setImagesPaths(ArrayList<String> imageList){
+        if(imageList == null)
+            return;
+
+        images = imageList;
     }
 }

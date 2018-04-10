@@ -4,22 +4,11 @@ public class Imagem {
 
     private int imagemid;
 
-    private Elemento elemento;
+    private String arquivo;
 
-    private byte[] arquivo;
-
-    public Imagem(int imagemid, Elemento elemento, byte[] arquivo) {
+    public Imagem(int imagemid, String arquivo) {
         this.imagemid = imagemid;
-        this.elemento = elemento;
         this.arquivo = arquivo;
-    }
-
-    public Elemento getElemento() {
-        return elemento;
-    }
-
-    public void setElemento(Elemento elemento) {
-        this.elemento = elemento;
     }
 
     public int getImagemid() {
@@ -30,11 +19,11 @@ public class Imagem {
         this.imagemid = imagemid;
     }
 
-    public byte[] getArquivo() {
+    public String getArquivo() {
         return arquivo;
     }
 
-    public void setArquivo(byte[] arquivo) {
+    public void setArquivo(String arquivo) {
         this.arquivo = arquivo;
     }
 

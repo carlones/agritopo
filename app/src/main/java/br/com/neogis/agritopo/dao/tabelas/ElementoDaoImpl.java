@@ -20,10 +20,10 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
 
     private List<Elemento> getListaObjetos(Cursor cursor) {
         List<Elemento> l = new ArrayList<>();
+        TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(context);
+        ClasseDao classeDao = new ClasseDaoImpl(context);
         while (cursor.moveToNext()) {
-            TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(context);
-            ClasseDao classeDao = new ClasseDaoImpl(context);
-            l.add(new Elemento(
+            Elemento elemento = new Elemento(
                     cursor.getInt(cursor.getColumnIndex("elementoid")),
                     tipoElementoDao.get(cursor.getInt(cursor.getColumnIndex("tipoelementoid"))),
                     classeDao.get(cursor.getInt(cursor.getColumnIndex("classeid"))),
@@ -32,7 +32,11 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
                     cursor.getString(cursor.getColumnIndex("geometria")),
                     cursor.getString(cursor.getColumnIndex("created_at")),
                     cursor.getString(cursor.getColumnIndex("modified_at"))
-            ));
+            );
+            elemento.setImages(
+                    new ElementoImagemDaoImpl(context).getByElemento(elemento.getElementoid())
+            );
+            l.add(elemento);
         }
         return l;
     }
@@ -118,6 +122,14 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
     }
 
     @Override
+    public void save(Elemento obj) {
+        if(obj.getElementoid() == 0)
+            insert(obj);
+        else
+            update(obj);
+    }
+
+    @Override
     public void insert(Elemento obj) {
         abrirGravacao();
         obj.setElementoid(getId("elemento"));
@@ -133,6 +145,8 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         if (db.insert("elemento", null, cv) == -1) {
             new Exception("Erro ao inserir elemento");
         }
+        else
+            SalvarImagens(obj);
         fecharConexao();
     }
 
@@ -150,6 +164,8 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         if (db.update("elemento", cv, "elementoid = ?", new String[]{(Integer.toString(obj.getElementoid()))}) != 1) {
             new Exception("Erro ao atualizar elemento");
         }
+        else
+            SalvarImagens(obj);
         fecharConexao();
     }
 
@@ -158,7 +174,40 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         abrirGravacao();
         if (db.delete("elemento", "elementoid = ?", new String[]{(Integer.toString(obj.getElementoid()))}) != 1) {
             new Exception("Erro ao excluir elemento");
-        }
+        }else
+
         fecharConexao();
+    }
+
+    private void SalvarImagens(Elemento obj){
+        ExcluirImagens(obj);
+        ImagemDao imagemDao = new ImagemDaoImpl(context);
+        ElementoImagemDao elementoImagemDao = new ElementoImagemDaoImpl(context);
+        for(ElementoImagem elementoImagem : obj.getImages()){
+            if(elementoImagem.getImagem().getImagemid() == 0)
+            {
+                int id = imagemDao.insert(elementoImagem.getImagem());
+                elementoImagem.getImagem().setImagemid(id);
+            }
+            else
+                imagemDao.update(elementoImagem.getImagem());
+
+            if(elementoImagem.getId() == 0) {
+                elementoImagem.setIdElemento(obj.getElementoid());
+                elementoImagemDao.insert(elementoImagem);
+            }
+            else
+                elementoImagemDao.update(elementoImagem);
+
+        }
+    }
+
+    private void ExcluirImagens(Elemento obj){
+        ImagemDao imagemDao = new ImagemDaoImpl(context);
+        ElementoImagemDao elementoImagemDao = new ElementoImagemDaoImpl(context);
+        for(ElementoImagem elementoImagem : elementoImagemDao.getByElemento(obj.getElementoid())){
+            imagemDao.delete(elementoImagem.getImagem());
+            elementoImagemDao.delete(elementoImagem);
+        }
     }
 }

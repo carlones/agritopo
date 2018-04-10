@@ -27,8 +27,8 @@ public final class Constantes {
     public static final int HECTARE_EM_METROS2 = 10000;
 
     public static final String ARG_MAPA_MODO = "mapa_modo";
-    public static final String ARG_ELEMENTOID = "elementoid";
     public static final String ARG_ELEMENTO_CENTRALIZAR = "focar_elemento";
+    public static final String ARG_ELEMENTOID = "elementoid";
     public static final String ARG_CLASSEID = "classeid";
     public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
     public static final String ARG_GEOMETRIA = "geometria";

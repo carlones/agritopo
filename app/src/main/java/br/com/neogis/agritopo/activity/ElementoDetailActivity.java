@@ -1,6 +1,7 @@
 package br.com.neogis.agritopo.activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
@@ -9,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.util.ArrayList;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
@@ -40,6 +43,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
     private String geometria;
     private int posicao_lista;
     private Elemento mItem;
+    private String tagFragmento = "tag_fragmento_elemento";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +111,9 @@ public class ElementoDetailActivity extends AppCompatActivity {
             arguments.putString(ARG_GEOMETRIA, geometria);
             fragment = new ElementoDetailFragment();
             fragment.setArguments(arguments);
+            fragment.setImagesPaths(new ArrayList<String>());
             getFragmentManager().beginTransaction()
-                    .add(R.id.elemento_detail_container, fragment)
+                    .add(R.id.elemento_detail_container, fragment, tagFragmento)
                     .commit();
         }
     }
@@ -124,6 +129,9 @@ public class ElementoDetailActivity extends AppCompatActivity {
     }
 
     public void gravarElemento() {
+        if(fragment == null)
+            fragment = (ElementoDetailFragment) getFragmentManager().findFragmentByTag(tagFragmento);
+
         String titulo = fragment.getTitulo();
         String descricao = fragment.getDescricao();
         String nomeTipoElemento = fragment.getNomeTipoElemento();
@@ -137,6 +145,10 @@ public class ElementoDetailActivity extends AppCompatActivity {
         mItem.setTitulo(titulo);
         mItem.setDescricao(descricao);
         mItem.setTipoElemento(tipoElemento);
+
+        mItem.getImages().clear();
+        for(String image : fragment.getImagesPaths())
+            mItem.addImage(image);
 
         ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
         if (elementoId != 0) {
