@@ -17,7 +17,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -37,10 +36,10 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
 import static android.app.Activity.RESULT_OK;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 
 /**
  * A fragment representing a single Elemento detail screen.
@@ -49,6 +48,7 @@ import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
  * on handsets.
  */
 public class ElementoDetailFragment extends Fragment {
+    private static ArrayList<String> images;
     private Elemento mItem;
     private EditText elementoTitulo;
     private AutoCompleteTextView elementoTipoElemento;
@@ -59,7 +59,6 @@ public class ElementoDetailFragment extends Fragment {
     private LinearLayout elementoListaImagens;
     private ImageView imageTirarFoto;
     private ImageView imageAdicionarImagem;
-    private static ArrayList<String> images;
 
     public ElementoDetailFragment() {
     }
