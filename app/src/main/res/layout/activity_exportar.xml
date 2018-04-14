@@ -52,6 +52,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/content_exportar_conteiner"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@drawable/ic_done_white_24dp" />
+        app:srcCompat="@drawable/ic_done_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
 </android.support.design.widget.CoordinatorLayout>
