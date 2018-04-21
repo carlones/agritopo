@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "neogis_agritopo.db";
-    private static final int VERSAO = 5;
+    private static final int VERSAO = 6;
 
     public BancoDeDadosSQLite(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
@@ -148,16 +148,28 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 ");\n" +
                 "\n" +
                 "\n");
+        db.execSQL("CREATE TABLE chaveserial (\n" +
+                " id INT NOT NULL PRIMARY KEY,\n" +
+                " chave VARCHAR(8) NOT NULL,\n" +
+                " dataexpiracao LONG NOT NULL,\n" +
+                " usuarioid int NOT NULL,\n" +
+                " tipo int NOT NULL,\n" +
+                "\n" +
+                " FOREIGN KEY (usuarioid) REFERENCES usuario (usuarioid)\n" +
+                ");" +
+                "\n");
 
         // Android 4.0 não entende múltiplos VALUES numúnico INSERT
         db.execSQL("INSERT INTO classe (classeid, nome) VALUES (1, 'Ponto')");
         db.execSQL("INSERT INTO classe (classeid, nome) VALUES (2, 'Área')");
         db.execSQL("INSERT INTO classe (classeid, nome) VALUES (3, 'Distância')");
+
         db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (1, 'Coleta de solo')");
         db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (2, 'Vertente')");
         db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (3, 'Terreno')");
         db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (4, 'Açude')");
         db.execSQL("INSERT INTO tipoelemento (tipoelementoid, nome) VALUES (5, 'Distância')");
+
         db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('classe', 3)");
         db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 5)");
     }
@@ -166,23 +178,20 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("Agritopo", "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
         if (newVersion > oldVersion) {
-            db.execSQL("DROP TABLE campodinamico");
-            db.execSQL("DROP TABLE campodinamicovalores");
-            db.execSQL("DROP TABLE classe");
-            db.execSQL("DROP TABLE configuracao");
-            db.execSQL("DROP TABLE elemento");
-            db.execSQL("DROP TABLE elementocampodinamico");
-            db.execSQL("DROP TABLE geradorid");
-            db.execSQL("DROP TABLE imagem");
-            db.execSQL("DROP TABLE imovel");
-            db.execSQL("DROP TABLE imovelelemento");
-            db.execSQL("DROP TABLE imovelmapa");
-            db.execSQL("DROP TABLE imovelusuario");
-            db.execSQL("DROP TABLE mapa");
-            db.execSQL("DROP TABLE tipoelemento");
-            db.execSQL("DROP TABLE usuario");
-            onCreate(db);
-            Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de 2 para 3");
+            if(oldVersion <= 5){
+                db.execSQL("CREATE TABLE chaveserial (\n" +
+                        " id INT NOT NULL PRIMARY KEY,\n" +
+                        " chave VARCHAR(8) NOT NULL,\n" +
+                        " dataexpiracao LONG NOT NULL,\n" +
+                        " usuarioid int NOT NULL,\n" +
+                        " tipo int NOT NULL,\n" +
+                        "\n" +
+                        " FOREIGN KEY (usuarioid) REFERENCES usuario (usuarioid)\n" +
+                        ");" +
+                        "\n");
+            }
+
+            Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de 5 para 6");
         }
     }
 }
