@@ -38,6 +38,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -106,6 +107,7 @@ import br.com.neogis.agritopo.utils.AsyncResponse;
 import br.com.neogis.agritopo.utils.Utils;
 
 import static android.view.View.VISIBLE;
+import static android.view.View.inflate;
 import static br.com.neogis.agritopo.utils.Constantes.ALTERAR_ELEMENTO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
@@ -1169,11 +1171,15 @@ public class MapActivity extends AppCompatActivity
         //
         boolean kmlHabilitado = !camadaHolder.carregando;
         MenuItem item = menu.findItem(R.id.action_menu_kml);
-        Drawable icone = item.getIcon();
-        if (!kmlHabilitado)
-            icone.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        if (!kmlHabilitado) {
+            ProgressBar pb = new ProgressBar(getApplicationContext());
+            pb.setScaleX(0.5f); // deixar com tamanho parecido dos outros botões
+            pb.setScaleY(0.5f);
+            Drawable drawable = pb.getIndeterminateDrawable().mutate();
+            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+            item.setActionView(pb);
+        }
         item.setEnabled(kmlHabilitado);
-        item.setIcon(icone);
 
         return true;
     }
