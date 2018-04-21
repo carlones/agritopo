@@ -6,6 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
@@ -99,6 +102,7 @@ import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 import br.com.neogis.agritopo.model.Ponto;
 import br.com.neogis.agritopo.runnable.CamadasLoader;
 import br.com.neogis.agritopo.singleton.CamadaHolder;
+import br.com.neogis.agritopo.utils.AsyncResponse;
 import br.com.neogis.agritopo.utils.Utils;
 
 import static android.view.View.VISIBLE;
@@ -610,7 +614,6 @@ public class MapActivity extends AppCompatActivity
                 return false;
             }
         });
-
         popupMenu.show();
     }
 
@@ -1145,28 +1148,37 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarCamadas() {
-        showProgressDialog(
-                getApplicationContext(),
-                new CamadasLoader(map),
-                "Carregando arquivos KML...");
-    }
-
-    private void showProgressDialog(final Context context, final Runnable runnable, String text) {
-        final ProgressDialog ringProgressDialog = new ProgressDialog(this);
-        ringProgressDialog.setIndeterminate(true);
-        ringProgressDialog.setMessage(text);
-        ringProgressDialog.setCancelable(false);
-        ringProgressDialog.show();
-        Thread th = new Thread(new Runnable() {
+        new CamadasLoader(map).carregar(new AsyncResponse() {
             @Override
-            public void run() {
-                runnable.run();
-                ringProgressDialog.dismiss();
+            public void processFinish() {
+                invalidateOptionsMenu();
+
+                // rehabilitar KML no menu lateral
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                Menu menuNav=navigationView.getMenu();
+                MenuItem nav_item2 = menuNav.findItem(R.id.nav_camadas);
+                nav_item2.setEnabled(true);
             }
         });
-        th.setPriority(Thread.MAX_PRIORITY);
-        th.start();
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        // deixar botão KML do menu desabilitado enquanto o carregamento não terminar
+        //
+        boolean kmlHabilitado = !camadaHolder.carregando;
+        MenuItem item = menu.findItem(R.id.action_menu_kml);
+        Drawable icone = item.getIcon();
+        if (!kmlHabilitado)
+            icone.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        item.setEnabled(kmlHabilitado);
+        item.setIcon(icone);
+
+        return true;
+    }
+
+
 
     @Override
     public void onConfigurationChanged(android.content.res.Configuration newConfig) {

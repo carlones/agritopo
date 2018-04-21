@@ -18,6 +18,7 @@ public class CamadaHolder {
     static private CamadaHolder _instance;
 
     public ArrayList<ArvoreCamada> camadas;
+    public boolean carregando = true;
 
     private CamadaHolder() {
         camadas = new ArrayList<>();
