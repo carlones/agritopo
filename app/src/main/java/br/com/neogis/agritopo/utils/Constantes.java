@@ -17,6 +17,7 @@ public final class Constantes {
     public static final int PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST = 8500;
     public static final int ALTERAR_ELEMENTO_REQUEST = 9000;
     public static final int PEGAR_MENU_CAMADAS_REQUEST = 10000;
+    public static final int PEGAR_SERIAL_KEY = 11000;
 
     public static final int ONLINE = 1;
     public static final int OFFLINE = 0;
@@ -40,6 +41,8 @@ public final class Constantes {
     public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";
     public static final String ARG_EXPORTAR_TIPO_ARQUIVO = "exportar_tipo_arquivo";
     public static final String ARG_IMPORTAR_NOME_ARQUIVO = "importar_nome_arquivo";
+    //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://www.neogis.com.br";
+    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "httpS://localhost:";
 
     public static final int CLASSE_AREA_ID = 2;
     public static final int CLASSE_DISTANCIA_ID = 3;

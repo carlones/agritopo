@@ -24,13 +24,13 @@ import java.util.List;
  */
 
 /**
- * Layout container for a view hierarchy that can be scrolled by the user,
+ * Layout container for a view hierarchy that can be scrolled by the userView,
  * allowing it to be larger than the physical display.  A TwoDScrollView
  * is a {@link FrameLayout}, meaning you should place one child in it
  * containing the entire contents to scroll; this child may itself be a layout
  * manager with a complex hierarchy of objects.  A child that is often used
  * is a {@link LinearLayout} in a vertical orientation, presenting a vertical
- * array of top-level items that the user can scroll through.
+ * array of top-level items that the userView can scroll through.
  * <p/>
  * <p>The {@link TextView} class also
  * takes care of its own scrolling, so does not require a TwoDScrollView, but
@@ -71,9 +71,9 @@ public class TwoDScrollView extends FrameLayout {
     private View mChildToScrollTo = null;
 
     /**
-     * True if the user is currently dragging this TwoDScrollView around. This is
+     * True if the userView is currently dragging this TwoDScrollView around. This is
      * not the same as 'is being flinged', which can be checked by
-     * mScroller.isFinished() (flinging begins when the user lifts his finger).
+     * mScroller.isFinished() (flinging begins when the userView lifts his finger).
      */
     private boolean mIsBeingDragged = false;
 
@@ -297,7 +297,7 @@ public class TwoDScrollView extends FrameLayout {
    * If we return true, onMotionEvent will be called and we do the actual
    * scrolling there.
    *
-   * Shortcut the most recurring case: the user is in the dragging
+   * Shortcut the most recurring case: the userView is in the dragging
    * state and he is moving his finger.  We want to intercept this
    * motion.
    */
@@ -315,7 +315,7 @@ public class TwoDScrollView extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
        /*
        * mIsBeingDragged == false, otherwise the shortcut would have caught it. Check
-       * whether the user has moved far enough from his original down touch.
+       * whether the userView has moved far enough from his original down touch.
        */
        /*
        * Locally do absolute value. mLastMotionY is set to the y value
@@ -334,7 +334,7 @@ public class TwoDScrollView extends FrameLayout {
                 mLastMotionX = x;
 
        /*
-       * If being flinged and user touches the screen, initiate drag;
+       * If being flinged and userView touches the screen, initiate drag;
        * otherwise don't.  mScroller.isFinished should be false when
        * being flinged.
        */
@@ -380,7 +380,7 @@ public class TwoDScrollView extends FrameLayout {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
        /*
-       * If being flinged and user touches, stop the fling. isFinished
+       * If being flinged and userView touches, stop the fling. isFinished
        * will be false if being flinged.
        */
                 if (!mScroller.isFinished()) {

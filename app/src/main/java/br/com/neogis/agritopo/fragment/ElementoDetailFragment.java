@@ -37,10 +37,10 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 
 import static android.app.Activity.RESULT_OK;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_CLASSEID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_ELEMENTOID;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_GEOMETRIA;
-import static br.com.neogis.agritopo.dao.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 
 /**
  * A fragment representing a single Elemento detail screen.

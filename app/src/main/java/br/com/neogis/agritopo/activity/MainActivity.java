@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.singleton.Configuration;
@@ -13,8 +14,9 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LATITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LONGITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ZOOMINICIAL;
-import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,13 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         Configuration.getInstance().LoadConfiguration(this);
 
-        Intent intent = new Intent(getBaseContext(), MapActivity.class);
-        intent.putExtra(ARG_MAPA_ID, 0);
-        intent.putExtra(ARG_MAPA_LATITUDEATUAL, 0.0);
-        intent.putExtra(ARG_MAPA_LONGITUDEATUAL, 0.0);
-        intent.putExtra(ARG_MAPA_ZOOMINICIAL, 0);
-        intent.putExtra(ARG_MAPA_MODO, OFFLINE);
-        startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
+        Intent intent = new Intent(getBaseContext(), SerialKeyActivity.class);
+        startActivityForResult(intent, PEGAR_SERIAL_KEY);
     }
 
     @Override
@@ -51,6 +48,24 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_CANCELED) {
                 finish();
             }
+        }else if(requestCode == PEGAR_SERIAL_KEY){
+            if (resultCode == RESULT_OK)
+                startMapActivity();
+            if(resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Chave inválida.", Toast.LENGTH_LONG).show();
+                finish();
+            }
         }
+
+    }
+
+    private void startMapActivity(){
+        Intent intent = new Intent(getBaseContext(), MapActivity.class);
+        intent.putExtra(ARG_MAPA_ID, 0);
+        intent.putExtra(ARG_MAPA_LATITUDEATUAL, 0.0);
+        intent.putExtra(ARG_MAPA_LONGITUDEATUAL, 0.0);
+        intent.putExtra(ARG_MAPA_ZOOMINICIAL, 0);
+        intent.putExtra(ARG_MAPA_MODO, OFFLINE);
+        startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
     }
 }
