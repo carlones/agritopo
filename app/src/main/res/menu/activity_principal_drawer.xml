@@ -8,6 +8,7 @@
             android:title="@string/menu_cadastros" />
         <item
             android:id="@+id/nav_camadas"
+            android:enabled="false"
             android:icon="@drawable/ic_layers_black_24dp"
             android:title="@string/action_layers" />
         <item

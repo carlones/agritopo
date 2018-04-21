@@ -52,7 +52,8 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/content_importar_conteiner"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@drawable/ic_done_white_24dp" />
+        app:srcCompat="@drawable/ic_done_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnSelecionarArquivo"
@@ -62,6 +63,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/content_importar_conteiner"
         app:layout_anchorGravity="top|center_horizontal"
-        app:srcCompat="@drawable/ic_insert_drive_file_white_24dp" />
+        app:srcCompat="@drawable/ic_insert_drive_file_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
 </android.support.design.widget.CoordinatorLayout>
