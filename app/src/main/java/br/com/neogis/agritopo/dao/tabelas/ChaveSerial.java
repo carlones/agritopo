@@ -13,6 +13,8 @@ public class ChaveSerial {
     private int usuarioId;
     private ChaveSerialTipo tipo;
 
+    public ChaveSerial(){}
+
     public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, ChaveSerialTipo tipo){
         this.serialId = serialId;
         this.chave = chave;

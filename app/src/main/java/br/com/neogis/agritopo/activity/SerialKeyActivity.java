@@ -39,7 +39,7 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle("Ativação");
+        setTitle("Agritopo(Ativação)");
 
         serialEdit = (EditText) findViewById(R.id.serial_key_edit);
         emailEdit = (EditText) findViewById(R.id.serial_email_edit);
@@ -62,6 +62,7 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
         showProgressDialog(
                 getApplicationContext(),
                 new SerialKeyValidate(
+                        getApplicationContext(),
                         serial,
                         email,
                         telephonyManager.getDeviceId(),

@@ -11,5 +11,5 @@ public class SerialKeyView {
     public String key;
     public Date expiration;
     public String deviceId;
-    public UserView userView;
+    public UserView user;
 }

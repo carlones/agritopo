@@ -64,6 +64,10 @@
         <activity
             android:name=".activity.SerialKeyActivity"
             android:label="@string/title_activity_serial_key"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SerialKeyTrialActivity"
+            android:label="@string/title_activity_serial_key_trial"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
