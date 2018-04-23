@@ -36,6 +36,16 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static Date getDateWithOutTime(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     public static Date getCurrentDateTime(){
         return Calendar.getInstance().getTime();
     }

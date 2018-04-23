@@ -17,7 +17,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ import br.com.neogis.agritopo.dao.tabelas.ElementoImagem;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
+import br.com.neogis.agritopo.singleton.Configuration;
+import br.com.neogis.agritopo.utils.DateUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
@@ -48,7 +52,10 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
  * on handsets.
  */
 public class ElementoDetailFragment extends Fragment {
-    private static ArrayList<String> images;
+    private static final int REQUEST_IMAGE_MEDIA = 1;
+    private static final int REQUEST_TAKE_PICTURE = 2;
+    private ArrayList<String> images;
+    private Uri caminhoFoto;
     private Elemento mItem;
     private EditText elementoTitulo;
     private AutoCompleteTextView elementoTipoElemento;
@@ -66,6 +73,9 @@ public class ElementoDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null)
+            images = savedInstanceState.getStringArrayList("imagens");
+
         ElementoDao elementoDao = new ElementoDaoImpl(getActivity().getBaseContext());
         int elementoId = getArguments().getInt(ARG_ELEMENTOID);
         if (elementoId != 0) {
@@ -140,8 +150,13 @@ public class ElementoDetailFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
+                caminhoFoto = Uri.fromFile(new File(
+                        Configuration.getInstance().DiretorioFotos + File.separator +
+                                Long.toString(DateUtils.getCurrentDateTime().getTime()) + ".jpg")
+                );
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePicture, 0);
+                takePicture.putExtra(MediaStore.EXTRA_OUTPUT, caminhoFoto);
+                startActivityForResult(takePicture, REQUEST_TAKE_PICTURE);
             }
         });
 
@@ -151,20 +166,49 @@ public class ElementoDetailFragment extends Fragment {
             {
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto , 1);
+                startActivityForResult(pickPhoto , REQUEST_IMAGE_MEDIA);
             }
         });
 
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            caminhoFoto = savedInstanceState.getParcelable("caminhoFoto");
+            images = savedInstanceState.getStringArrayList("imagens");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable("caminhoFoto", caminhoFoto);
+        outState.putStringArrayList("imagens", images);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        if(resultCode == RESULT_OK){
-            Uri uri = imageReturnedIntent.getData();
-            adicionarImagem(uri);
-            images.add(uri.toString());
+        switch (requestCode) {
+            case REQUEST_IMAGE_MEDIA:{
+                if(resultCode == RESULT_OK){
+                    Uri uri = imageReturnedIntent.getData();
+                    adicionarImagem(uri);
+                    images.add(uri.toString());
+                }
+                break;
+            }
+            case REQUEST_TAKE_PICTURE:{
+                if(resultCode == RESULT_OK){
+                    adicionarImagem(caminhoFoto);
+                    images.add(caminhoFoto.toString());
+                }
+                break;
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package br.com.neogis.agritopo.runnable;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -34,9 +35,11 @@ public class SerialKeyValidate implements Runnable {
     private String deviceId;
     private OnSerialValidate validate;
     private Context context;
+    private Activity activity;
 
-    public SerialKeyValidate(Context context, String serialKey, String email, String deviceId, OnSerialValidate validate){
+    public SerialKeyValidate(Context context, String serialKey, String email, String deviceId, OnSerialValidate validate, Activity activity){
         this.context = context;
+        this.activity = activity;
         this.serialKey = serialKey;
         this.email = email;
         this.deviceId = deviceId;
@@ -56,7 +59,7 @@ public class SerialKeyValidate implements Runnable {
             if(serial == null || serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
                 validate.onFail();
             else {
-                new SerialKeyService(context).saveSerialKey(serial);
+                new SerialKeyService(context, activity).saveSerialKey(serial);
                 validate.onSucess();
             }
 

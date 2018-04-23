@@ -41,7 +41,7 @@ public class SerialKeyTrialActivity extends AppCompatActivity {
             }
         });
 
-        SerialKeyService service = new SerialKeyService(getApplicationContext());
+        SerialKeyService service = new SerialKeyService(getApplicationContext(), this);
 
         TextView textTempo = (TextView) findViewById(R.id.serial_key_free_text_tempo);
         textTempo.setText("Você tem " + service.getFreeTimeDays() + " dias gratuitos restantes");

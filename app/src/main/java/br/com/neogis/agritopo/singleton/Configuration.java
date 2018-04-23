@@ -6,11 +6,16 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.io.File;
+
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.utils.NetworkUtils;
 
 public final class Configuration {
-    private static final Configuration INSTANCE = new Configuration();
-
+    private static Configuration INSTANCE = null;
+    private static Context applicationContext;
     //Mapeamento
     public int CorDoCursor;
     public boolean ExibirAreaDistanciaDuranteMapeamento;
@@ -22,20 +27,28 @@ public final class Configuration {
     public TipoMedidaArea MedidaUtilizadaEmAreas;
     public String DiretorioExportacaoArquivos;
     public String DiretorioLeituraArquivos;
+    public String DiretorioFotos;
 
     public Configuration(){
 
     }
 
     public static Configuration getInstance(){
+        if(INSTANCE == null) {
+            INSTANCE = new Configuration();
+            if(applicationContext != null)
+                INSTANCE.LoadConfiguration(applicationContext);
+        }
+
         return INSTANCE;
     }
 
     public void LoadConfiguration(Context context){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        applicationContext = context.getApplicationContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 
-        LoadGeneralConfiguration(context, prefs);
-        LoadMappingConfiguration(context, prefs);
+        LoadGeneralConfiguration(applicationContext, prefs);
+        LoadMappingConfiguration(applicationContext, prefs);
     }
 
     private void LoadGeneralConfiguration(Context context, SharedPreferences prefs){
@@ -44,6 +57,7 @@ public final class Configuration {
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
         DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
+        DiretorioFotos = DiretorioLeituraArquivos + File.separator + "Media" + File.separator + "Fotos" + File.separator;
     }
 
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){

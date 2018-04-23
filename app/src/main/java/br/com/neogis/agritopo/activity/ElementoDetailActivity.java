@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -114,7 +115,17 @@ public class ElementoDetailActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.elemento_detail_container, fragment, tagFragmento)
                     .commit();
+        }else
+        {
+            fragment = (ElementoDetailFragment) getFragmentManager().getFragment(savedInstanceState, tagFragmento);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        getFragmentManager().putFragment(outState, tagFragmento, fragment);
     }
 
     @Override

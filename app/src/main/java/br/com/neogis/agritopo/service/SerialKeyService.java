@@ -1,6 +1,8 @@
 package br.com.neogis.agritopo.service;
 
+import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 
 import java.util.Date;
 
@@ -8,6 +10,7 @@ import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Usuario;
 import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
+import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 import br.com.neogis.agritopo.parse.views.SerialKeyView;
 import br.com.neogis.agritopo.utils.DateUtils;
 
@@ -17,17 +20,19 @@ import br.com.neogis.agritopo.utils.DateUtils;
 
 public class SerialKeyService {
     private Context contexto;
+    private Activity activity;
     private ChaveSerialDaoImpl chaveSerialDao;
     private UsuarioDaoImpl usuarioDao;
 
-    public SerialKeyService(Context contexto){
+    public SerialKeyService(Context contexto, Activity activity){
         this.contexto = contexto;
+        this.activity = activity;
         chaveSerialDao = new ChaveSerialDaoImpl(contexto);
         usuarioDao = new UsuarioDaoImpl(contexto);
     }
 
     public boolean containsValidSerialKey(){
-        Date currentDate = DateUtils.getCurrentDate();
+        Date currentDate = getCurrentDate();
         ChaveSerial serial = chaveSerialDao.getValid(currentDate.getTime());
         if(serial == null)
             return false;
@@ -44,7 +49,7 @@ public class SerialKeyService {
         if(serial == null){
             serial = insertSerialTrial();
         }
-        return DateUtils.getDaysBetween(DateUtils.getCurrentDate(), serial.getDataexpiracao());
+        return DateUtils.getDaysBetween(getCurrentDate(), serial.getDataexpiracao());
     }
 
     public void saveSerialKey(SerialKeyView serial){
@@ -68,7 +73,7 @@ public class SerialKeyService {
         ChaveSerial serial = new ChaveSerial(
                 0,
                 "trial",
-                DateUtils.addDays(DateUtils.getCurrentDate(), 7),
+                DateUtils.addDays(getCurrentDate(), 7),
                 usuario.getUsuarioid(),
                 ChaveSerial.ChaveSerialTipo.Gratuito
                 );
@@ -83,6 +88,14 @@ public class SerialKeyService {
             new UsuarioDaoImpl(contexto).insert(usuario);
         }
         return usuario;
+    }
+
+    private Date getCurrentDate(){
+        Location location = new MyGpsMyLocationProvider(contexto, activity).getLastKnownLocation();
+        if(location != null)
+            return DateUtils.getDateWithOutTime(new Date(location.getTime()));
+        else
+            return DateUtils.getCurrentDate();
     }
 
 }

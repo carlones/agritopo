@@ -1,10 +1,17 @@
 package br.com.neogis.agritopo.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
+
+import java.io.File;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.service.SerialKeyService;
@@ -21,6 +28,7 @@ import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY_TRIAL;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private SerialKeyService serialKeyService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Configuration.getInstance().LoadConfiguration(this);
-        serialKeyService = new SerialKeyService(getApplicationContext());
+        Configuration.getInstance().LoadConfiguration(getApplicationContext());
+
+        createRootDirectory();
+
+        serialKeyService = new SerialKeyService(getApplicationContext(), this);
 
         if(serialKeyService.containsValidSerialKey())
             startMapActivity();
@@ -93,5 +104,55 @@ public class MainActivity extends AppCompatActivity {
     private void startTrialSerialActivity(){
         Intent intent = new Intent(getBaseContext(), SerialKeyTrialActivity.class);
         startActivityForResult(intent, PEGAR_SERIAL_KEY_TRIAL);
+    }
+
+    private void createRootDirectory(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_EXTERNAL_STORAGE);
+        }
+
+        File diretorioFotos = new File(Configuration.getInstance().DiretorioFotos);
+        diretorioFotos.mkdirs();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    createRootDirectory();
+                }
+                else                {
+                    boolean should = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if(should)
+                    {
+                        new android.app.AlertDialog.Builder(this)
+                                .setTitle("Permissão Negada")
+                                .setMessage("Sem Esta permissão você terá problemas ao utilizar o aplicativo.")
+                                .setPositiveButton("Tentar Novamente.", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        createRootDirectory();
+                                    }
+                                })
+                                .setNegativeButton("Sair", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).show();
+                    }
+                    else                    {
+                        finish();
+                    }
+                }
+                break;
+            }
+        }
     }
 }

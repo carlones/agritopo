@@ -66,6 +66,7 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
                         serial,
                         email,
                         telephonyManager.getDeviceId(),
+                        this,
                         this),
                 "Processando Ativação...");
 
@@ -115,6 +116,7 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
         }
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
     {
         switch (requestCode) {
