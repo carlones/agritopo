@@ -30,7 +30,7 @@
         <Button
             android:id="@+id/serial_key_free_button_continuar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:padding="20dp"
@@ -50,7 +50,7 @@
         <Button
             android:id="@+id/serial_key_free_button_ativar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:text="Ativar"
