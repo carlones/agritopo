@@ -86,6 +86,7 @@ public class AdicionarAreaHolder extends Overlay {
     public void finalizar() {
         this.removerModal();
         if (area.ehValida()) {
+            criarUltimaAresta();
             Log.d("Agritopo", "Nova área é válida, adicionando à lista");
             Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
             intent.putExtra(ARG_ELEMENTOID, 0);
@@ -96,6 +97,10 @@ public class AdicionarAreaHolder extends Overlay {
         } else {
             Log.d("Agritopo", "Nova área é inválida, descartando");
         }
+    }
+
+    private void criarUltimaAresta() {
+        area.adicionarPonto(area.getPontos().get(0));
     }
 
     // Termina o modal, ignorando e descartando a seleção feita pelo usuário
