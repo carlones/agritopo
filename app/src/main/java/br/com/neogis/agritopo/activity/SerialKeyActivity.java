@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.runnable.CamadasLoader;
 import br.com.neogis.agritopo.runnable.SerialKeyValidate;
+import br.com.neogis.agritopo.utils.Utils;
 
 
 public class SerialKeyActivity extends AppCompatActivity implements SerialKeyValidate.OnSerialValidate {
@@ -58,18 +60,43 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
+        String deviceId = getDeviceId();
         showProgressDialog(
                 getApplicationContext(),
                 new SerialKeyValidate(
                         getApplicationContext(),
                         serial,
                         email,
-                        telephonyManager.getDeviceId(),
+                        deviceId,
                         this,
                         this),
                 "Processando Ativação...");
 
+    }
+
+    private String getDeviceId() {
+
+        // IMEI para GSM, MEID/ESN para CDMA. Nem todos os aparelhos possuem chip de telefonia
+        String deviceId = telephonyManager.getDeviceId();
+        if( !deviceId.equals("null") ) {
+            Utils.info("Telephony:" + deviceId);
+            return "Telephony:" + deviceId;
+        }
+
+        // Alguns aparelhos deixam valores sem nexo nesse campo (tablet do Carlos)
+        String serial = android.os.Build.SERIAL;
+        if( !serial.equals("null") && !serial.equals("0123456789ABCDEF")) {
+            Utils.info("AndroidSerial:" + serial);
+            return "AndroidSerial:" + serial;
+        }
+
+        // Evitando endereço MAC: se o wifi não estiver ativo, o endereço não será retornado
+        // https://stackoverflow.com/questions/11705906/programmatically-getting-the-mac-of-an-android-device
+
+        // Muda a cada formatação
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        Utils.info("Secure android id: " + androidId);
+        return "SecureAndroidId:" + androidId;
     }
 
     private void showProgressDialog(final Context context, final Runnable runnable, String text) {
