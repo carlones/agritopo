@@ -2,7 +2,6 @@ package br.com.neogis.agritopo.singleton;
 
 import android.support.annotation.NonNull;
 
-import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
@@ -11,6 +10,7 @@ import org.osmdroid.views.MapView;
 import java.io.File;
 import java.util.ArrayList;
 
+import br.com.neogis.agritopo.kml.MyKmlDocument;
 import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.utils.Utils;
 
@@ -43,7 +43,7 @@ public class CamadaHolder {
     }
 
     public void adicionarArquivo(File arquivo, MapView map) {
-        KmlDocument kmlDocument = new KmlDocument();
+        MyKmlDocument kmlDocument = new MyKmlDocument();
         if (!kmlDocument.parseKMLFile(arquivo)) {
             Utils.info("Erro durante parse do arquivo KML");
         } else {
@@ -63,7 +63,7 @@ public class CamadaHolder {
         return nome;
     }
 
-    private void mapearConteudoKML(KmlFolder pasta, ArvoreCamada pai, MapView map, KmlDocument kmlDocument) {
+    private void mapearConteudoKML(KmlFolder pasta, ArvoreCamada pai, MapView map, MyKmlDocument kmlDocument) {
         for (KmlFeature f : pasta.mItems) {
             if (f.getClass() == KmlFolder.class) {
                 ArvoreCamada ac = new ArvoreCamada(f.mName, ArvoreCamada.PASTA);
