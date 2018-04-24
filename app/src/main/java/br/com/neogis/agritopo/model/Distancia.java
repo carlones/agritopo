@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.kml.MyBasicInfoWindow;
 import br.com.neogis.agritopo.utils.UtilMedidas;
 import br.com.neogis.agritopo.utils.Utils;
 import flexjson.JSONSerializer;
@@ -98,7 +100,7 @@ public class Distancia {
         linha.setSnippet("<b>" + getElemento().getTipoElemento().getNome() + "</b>" +
                 (getElemento().getDescricao().isEmpty() ? "" : "<br>" + getElemento().getDescricao()) +
                 "<br>" + getDistanciaDescricao());
-        linha.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapa));
+        linha.setInfoWindow(new MyBasicInfoWindow(R.layout.bonuspack_bubble, mapa));
         mapa.getOverlays().add(this.linha);
     }
 

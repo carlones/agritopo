@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.kml.MyBasicInfoWindow;
 import br.com.neogis.agritopo.utils.UtilMedidas;
 import flexjson.JSONSerializer;
 
@@ -179,7 +181,7 @@ public class Area {
                 (getElemento().getDescricao().isEmpty() ? "" : "<br>" + this.getElemento().getDescricao()) +
                 "<br>Área: " + this.getAreaDescricao() +
                 "<br>Perímetro: " + this.descricaoPerimetro());
-        poligono.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapa));
+        poligono.setInfoWindow(new MyBasicInfoWindow(R.layout.bonuspack_bubble, mapa));
         mapa.getOverlays().add(this.poligono);
     }
 

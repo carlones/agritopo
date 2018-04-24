@@ -12,7 +12,6 @@ import org.osmdroid.bonuspack.kml.KmlGroundOverlay;
 import org.osmdroid.bonuspack.kml.KmlLineString;
 import org.osmdroid.bonuspack.kml.KmlMultiGeometry;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
-import org.osmdroid.bonuspack.kml.KmlPoint;
 import org.osmdroid.bonuspack.kml.LineStyle;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.kml.StyleMap;
@@ -143,7 +142,7 @@ public class MyKmlDocument extends KmlDocument {
                 mKmlCurrentFeature.mId = attributes.getValue("id");
                 mKmlFeatureStack.add(mKmlCurrentFeature); //push on Feature stack
             } else if (localName.equals("Point")){
-                mKmlCurrentGeometry = new KmlPoint();
+                mKmlCurrentGeometry = new MyKmlPoint();
                 mKmlGeometryStack.add(mKmlCurrentGeometry); //push on Geometry stack
             } else if (localName.equals("LineString")){
                 mKmlCurrentGeometry = new KmlLineString();

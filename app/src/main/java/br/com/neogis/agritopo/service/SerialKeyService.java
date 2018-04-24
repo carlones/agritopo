@@ -91,11 +91,16 @@ public class SerialKeyService {
     }
 
     private Date getCurrentDate(){
-        Location location = new MyGpsMyLocationProvider(contexto, activity).getLastKnownLocation();
-        if(location != null)
-            return DateUtils.getDateWithOutTime(new Date(location.getTime()));
-        else
-            return DateUtils.getCurrentDate();
+        MyGpsMyLocationProvider gps = new MyGpsMyLocationProvider(contexto, activity);
+        try {
+            Location location = gps.getLastKnownLocation();
+            if (location != null)
+                return DateUtils.getDateWithOutTime(new Date(location.getTime()));
+            else
+                return DateUtils.getCurrentDate();
+        }finally {
+            gps.stopLocationProvider();
+        }
     }
 
 }
