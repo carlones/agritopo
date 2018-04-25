@@ -145,7 +145,7 @@ public class MyKmlDocument extends KmlDocument {
                 mKmlCurrentGeometry = new MyKmlPoint();
                 mKmlGeometryStack.add(mKmlCurrentGeometry); //push on Geometry stack
             } else if (localName.equals("LineString")){
-                mKmlCurrentGeometry = new KmlLineString();
+                mKmlCurrentGeometry = new MyKmlLineString();
                 mKmlGeometryStack.add(mKmlCurrentGeometry);
             } else if (localName.equals("Polygon")){
                 mKmlCurrentGeometry = new MyKmlPolygon();
