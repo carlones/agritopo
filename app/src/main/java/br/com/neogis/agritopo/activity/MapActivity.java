@@ -2,7 +2,6 @@ package br.com.neogis.agritopo.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,15 +29,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -47,7 +42,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.apache.commons.io.FilenameUtils;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlDocument;
-import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
@@ -71,7 +65,6 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
-import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.BufferedInputStream;
@@ -106,8 +99,6 @@ import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.utils.AsyncResponse;
 import br.com.neogis.agritopo.utils.Utils;
 
-import static android.view.View.VISIBLE;
-import static android.view.View.inflate;
 import static br.com.neogis.agritopo.utils.Constantes.ALTERAR_ELEMENTO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
@@ -142,7 +133,7 @@ public class MapActivity extends AppCompatActivity
     private AdicionarPontoHolder adicionarPontoHolder;
     private AdicionarDistanciaHolder adicionarDistanciaHolder;
     private MeuLocalHolder meuLocalHolder;
-    //private MyItemizedOverlayWithFocus<MyOverlayItem> geoPointList;
+
     private List<Area> areaList;
     private List<Distancia> distanciaList;
     private List<Ponto> pontoList;
@@ -1162,6 +1153,9 @@ public class MapActivity extends AppCompatActivity
                 Menu menuNav=navigationView.getMenu();
                 MenuItem nav_item2 = menuNav.findItem(R.id.nav_camadas);
                 nav_item2.setEnabled(true);
+
+                for(ArvoreCamada camada : camadaHolder.camadas)
+                    camadaHolder.exibirCamadasSelecionadasNoMapa(camada, map);
             }
         });
     }
@@ -1192,6 +1186,21 @@ public class MapActivity extends AppCompatActivity
     public void onConfigurationChanged(android.content.res.Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (map != null) map.invalidate();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        RemoverTodosOverlays();
+        super.onDestroy();
+    }
+
+    private void RemoverTodosOverlays(){
+        if(map == null)
+            return;
+
+        for(int i = map.getOverlays().size() - 1;i >= 0;i--)
+            map.getOverlays().remove(i);
     }
 
     //0. Using the Marker and Polyline overlays - advanced options

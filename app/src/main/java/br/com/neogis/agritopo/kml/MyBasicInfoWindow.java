@@ -80,4 +80,8 @@ public class MyBasicInfoWindow extends InfoWindow implements BetterLinkMovementM
         close();
         return true;
     }
+
+    public void setMap(MapView mapView){
+        this.mMapView = mapView;
+    }
 }

@@ -10,6 +10,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.model.MyMarker;
 
 /**
  * Created by marci on 24/04/2018.
@@ -18,7 +19,7 @@ import br.com.neogis.agritopo.R;
 public class MyKmlPoint extends KmlPoint {
     @Override
     public Overlay buildOverlay(MapView map, Style defaultStyle, KmlFeature.Styler styler, KmlPlacemark kmlPlacemark, KmlDocument kmlDocument) {
-        Marker marker = new Marker(map);
+        Marker marker = new MyMarker(map);
         marker.setTitle(kmlPlacemark.mName);
         marker.setSnippet(kmlPlacemark.mDescription);
         marker.setInfoWindow(new MyBasicInfoWindow(R.layout.bonuspack_bubble, map));
