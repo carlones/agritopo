@@ -3,12 +3,15 @@ package br.com.neogis.agritopo.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.neogis.agritopo.BuildConfig;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.activity.ElementoDetailActivity;
 import br.com.neogis.agritopo.dao.tabelas.Classe;
@@ -150,11 +154,18 @@ public class ElementoDetailFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                caminhoFoto = Uri.fromFile(new File(
+                caminhoFoto = FileProvider.getUriForFile(getActivity().getBaseContext(),
+                        BuildConfig.APPLICATION_ID + ".utils.MyFileProvider",
+                        new File(
                         Configuration.getInstance().DiretorioFotos + File.separator +
                                 Long.toString(DateUtils.getCurrentDateTime().getTime()) + ".jpg")
                 );
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                List<ResolveInfo> resolvedIntentActivities = getActivity().getBaseContext().getPackageManager().queryIntentActivities(takePicture, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+                    String packageName = resolvedIntentInfo.activityInfo.packageName;
+                    getActivity().getBaseContext().grantUriPermission(packageName, caminhoFoto, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
                 takePicture.putExtra(MediaStore.EXTRA_OUTPUT, caminhoFoto);
                 startActivityForResult(takePicture, REQUEST_TAKE_PICTURE);
             }

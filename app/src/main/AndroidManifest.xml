@@ -70,6 +70,16 @@
             android:name=".activity.SerialKeyTrialActivity"
             android:label="@string/title_activity_serial_key_trial"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <provider
+            android:name=".utils.MyFileProvider"
+            android:authorities="${applicationId}.utils.MyFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>
