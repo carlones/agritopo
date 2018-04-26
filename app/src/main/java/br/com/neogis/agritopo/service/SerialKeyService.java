@@ -73,7 +73,7 @@ public class SerialKeyService {
         ChaveSerial serial = new ChaveSerial(
                 0,
                 "trial",
-                DateUtils.addDays(getCurrentDate(), 7),
+                DateUtils.addDays(getCurrentDate(), 15),
                 usuario.getUsuarioid(),
                 ChaveSerial.ChaveSerialTipo.Gratuito
                 );
