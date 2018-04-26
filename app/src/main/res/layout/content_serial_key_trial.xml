@@ -2,61 +2,69 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="br.com.neogis.agritopo.activity.SerialKeyTrialActivity"
     tools:showIn="@layout/activity_serial_key_trial">
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:padding="5dp"
         android:gravity="center"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/serial_key_free_text_tempo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="368dp"
+            android:layout_height="495dp"
+            android:padding="5dp"
             android:gravity="center"
-            android:padding="20dp"
-            android:textSize="25dp"
-            android:text="Você tem 0 dias gratuitos restantes" />
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-        <Button
-            android:id="@+id/serial_key_free_button_continuar"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:padding="20dp"
-            android:text="Continuar"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/serial_key_free_text_tempo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="25dp"
+                android:text="Você tem 0 dias gratuitos restantes" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="80dp"
-            android:background="@android:color/black" />
+            <Button
+                android:id="@+id/serial_key_free_button_continuar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:padding="20dp"
+                android:text="Continuar"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/serial_key_free_button_ativar"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:text="Ativar"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@android:color/black" />
 
+            <Button
+                android:id="@+id/serial_key_free_button_ativar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="Ativar"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
