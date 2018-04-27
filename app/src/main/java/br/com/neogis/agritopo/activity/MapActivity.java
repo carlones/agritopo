@@ -40,6 +40,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.apache.commons.io.FilenameUtils;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.config.Configuration;
@@ -155,9 +156,9 @@ public class MapActivity extends AppCompatActivity
     private boolean exibirAreas;
     private boolean exibirDistancias;
 
-    private GeoPoint coordenadasIniciais;
+    private IGeoPoint coordenadasIniciais;
     private int zoomInicial = 0;
-    private GeoPoint mapaPontoCentral;
+    private IGeoPoint mapaPontoCentral;
 
     private IMapController mapController;
 
@@ -707,6 +708,8 @@ public class MapActivity extends AppCompatActivity
         map.setTileSource(TileSourceFactory.MAPNIK);
         if (mMyLocationNewOverlay.getMyLocation() != null)
             mapaPontoCentral = mMyLocationNewOverlay.getMyLocation();
+        else
+            mapaPontoCentral = map.getMapCenter();
         coordenadasIniciais = (coordenadasIniciais == null ? mapaPontoCentral : coordenadasIniciais);
         mapaPontoCentral = coordenadasIniciais;
         mapController = map.getController();
