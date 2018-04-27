@@ -1151,7 +1151,7 @@ public class MapActivity extends AppCompatActivity
             public void processFinish() {
                 invalidateOptionsMenu();
 
-                // rehabilitar KML no menu lateral
+                // Reabilitar KML no menu lateral
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 Menu menuNav=navigationView.getMenu();
                 MenuItem nav_item2 = menuNav.findItem(R.id.nav_camadas);
@@ -1182,8 +1182,6 @@ public class MapActivity extends AppCompatActivity
 
         return true;
     }
-
-
 
     @Override
     public void onConfigurationChanged(android.content.res.Configuration newConfig) {

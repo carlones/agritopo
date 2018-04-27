@@ -22,9 +22,9 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LATITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LONGITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ZOOMINICIAL;
-import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
-import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY_TRIAL;
 
 public class MainActivity extends AppCompatActivity {
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 if(serialKeyService.containsValidSerialKey())
                     startMapActivity();
             if(resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Necessária ativação.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "A ativação é necessária.", Toast.LENGTH_LONG).show();
                 finish();
             }
         }else if(requestCode == PEGAR_SERIAL_KEY_TRIAL)
@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
                     {
                         new android.app.AlertDialog.Builder(this)
                                 .setTitle("Permissão Negada")
-                                .setMessage("Sem Esta permissão você terá problemas ao utilizar o aplicativo.")
-                                .setPositiveButton("Tentar Novamente.", new DialogInterface.OnClickListener() {
+                                .setMessage("Sem esta permissão você terá problemas ao utilizar o aplicativo.")
+                                .setPositiveButton("Tentar novamente.", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         createRootDirectory();
                                     }
