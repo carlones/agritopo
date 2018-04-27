@@ -78,14 +78,14 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
 
         // IMEI para GSM, MEID/ESN para CDMA. Nem todos os aparelhos possuem chip de telefonia
         String deviceId = telephonyManager.getDeviceId();
-        if( !deviceId.equals("null") ) {
+        if( deviceId != null ) {
             Utils.info("Telephony:" + deviceId);
             return "Telephony:" + deviceId;
         }
 
         // Alguns aparelhos deixam valores sem nexo nesse campo (tablet do Carlos)
         String serial = android.os.Build.SERIAL;
-        if( !serial.equals("null") && !serial.equals("0123456789ABCDEF")) {
+        if( serial != null && !serial.equals("0123456789ABCDEF")) {
             Utils.info("AndroidSerial:" + serial);
             return "AndroidSerial:" + serial;
         }
@@ -125,7 +125,9 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
     @Override
     public void onFail() {
         setResult(RESULT_CANCELED);
-        finish();
+        // Não finalizar para que volte na mesma tela com os dados já preenchidos,
+        // assim o cliente pode fazer nova tentativa (corrigir serial, conectar na Web, ...)
+        //finish();
     }
 
     private void getTelephonyManager(){
