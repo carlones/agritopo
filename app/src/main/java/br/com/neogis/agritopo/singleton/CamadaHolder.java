@@ -99,6 +99,7 @@ public class CamadaHolder {
 
     public void exibirCamadasSelecionadasNoMapa(ArvoreCamada camada, MapView map) {
         alternarExibicaoCamada(camada, map);
+        map.invalidate();
     }
 
     private void alternarExibicaoCamada(ArvoreCamada nodo, MapView map) {

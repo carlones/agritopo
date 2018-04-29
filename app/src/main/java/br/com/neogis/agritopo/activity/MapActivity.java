@@ -46,6 +46,7 @@ import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.modules.IArchiveFile;
 import org.osmdroid.tileprovider.modules.MBTilesFileArchive;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
@@ -641,7 +642,8 @@ public class MapActivity extends AppCompatActivity
                 coordenadasIniciais = (GeoPoint) map.getMapCenter();
                 zoomInicial = map.getZoomLevel();
                 if (id == 0) {
-                    recarregarAppComMapaOnline();
+//                    recarregarAppComMapaOnline();
+                    carregarMapaOnline();
                 } else {
                     carregarMapaDeArquivo(mapFileController.GetMapFile(id));
                 }
@@ -712,6 +714,7 @@ public class MapActivity extends AppCompatActivity
         mapFileController.SetOnline();
         map.setUseDataConnection(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setTileProvider(new MapTileProviderBasic(getBaseContext()));
         if (mMyLocationNewOverlay.getMyLocation() != null)
             mapaPontoCentral = mMyLocationNewOverlay.getMyLocation();
         else
