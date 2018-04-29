@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

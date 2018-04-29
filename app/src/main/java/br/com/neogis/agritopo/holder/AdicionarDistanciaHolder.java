@@ -23,6 +23,7 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Distancia;
+import br.com.neogis.agritopo.model.InfoBox;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.Utils;
@@ -33,19 +34,17 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 
-/**
- * Created by Wagner on 23/09/2017.
- */
-
 public class AdicionarDistanciaHolder extends Overlay {
 
     private MapView mapa;
     private Distancia distancia;
     private Activity activity;
+    private InfoBox infoBox;
 
-    public AdicionarDistanciaHolder(MapView mapa, Activity activity) {
+    public AdicionarDistanciaHolder(MapView mapa, Activity activity, InfoBox infoBox) {
         Log.i("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
+        this.infoBox = infoBox;
         List<MyGeoPoint> lista = new ArrayList<>();
         ClasseDao classeDao = new ClasseDaoImpl(activity.getBaseContext());
         Classe classe = classeDao.get(3);
@@ -67,12 +66,13 @@ public class AdicionarDistanciaHolder extends Overlay {
 
     // Exibir o Ponto quando der um toque na tela
     //
-    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {;
+    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         this.distancia.adicionarPonto((GeoPoint) obterPonto(event, mapView));
         this.distancia.setDistancia();
         this.distancia.removerDe(mapa);
         this.distancia.desenharEm(mapa);//Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
         this.mapa.invalidate();
+        this.atualizarInfoBox();
         return true; // Não propogar evento para demais overlays
     }
 
@@ -100,12 +100,16 @@ public class AdicionarDistanciaHolder extends Overlay {
     public void desfazer() {
         this.distancia.removerUltimoPonto();
         this.distancia.desenharEm(mapa);
+        this.distancia.setDistancia();
+        this.atualizarInfoBox();
         this.mapa.invalidate();
     }
 
     private void removerModal() {
         this.mapa.getOverlays().remove(this);
         this.distancia.removerDe(mapa);
+        if( this.infoBox != null )
+            this.infoBox.hide();
         this.mapa.invalidate();
     }
 
@@ -116,5 +120,16 @@ public class AdicionarDistanciaHolder extends Overlay {
         else
             ponto = mapView.getProjection().fromPixels((int)event.getX(), (int)event.getY());
         return ponto;
+    }
+
+    private void atualizarInfoBox() {
+        if( this.infoBox == null ) return;
+        if( this.distancia.ehValida() ) {
+            this.infoBox.setText("Dist.: " + this.distancia.getDistanciaDescricao());
+            this.infoBox.show();
+        }
+        else {
+            this.infoBox.hide();
+        }
     }
 }

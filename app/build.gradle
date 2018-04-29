@@ -5,7 +5,7 @@ android {
         AgritopoKey {
             keyAlias 'AgritopoKey'
             keyPassword '88029421'
-            storeFile file('D:/Workspace/Agritopo1/AgritopoKey.jks')
+            //storeFile file('D:/Workspace/Agritopo1/AgritopoKey.jks')
             storePassword '88029421'
         }
     }

@@ -23,6 +23,7 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.model.Area;
+import br.com.neogis.agritopo.model.InfoBox;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.Utils;
@@ -33,20 +34,18 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 
-/**
- * Created by Wagner on 23/09/2017.
- */
-
 public class AdicionarAreaHolder extends Overlay {
 
     private MapView mapa;
     private Area area;
     private Activity activity;
+    private InfoBox infoBox;
 
-    public AdicionarAreaHolder(MapView mapa, Activity activity) {
+    public AdicionarAreaHolder(MapView mapa, Activity activity, InfoBox infoBox) {
         Log.d("Agritopo", "AdicionarAreaHolder: iniciando classe");
         this.mapa = mapa;
         this.activity = activity;
+        this.infoBox = infoBox;
 
         List<MyGeoPoint> lista = new ArrayList<>();
         ClasseDao classeDao = new ClasseDaoImpl(activity.getBaseContext());
@@ -77,6 +76,7 @@ public class AdicionarAreaHolder extends Overlay {
         this.area.removerDe(mapa);
         this.area.desenharEm(mapa);
         this.mapa.invalidate();
+        this.atualizarInfoBox();
 
         return true; // Não propogar evento para demais overlays
     }
@@ -111,6 +111,9 @@ public class AdicionarAreaHolder extends Overlay {
 
     public void desfazer() {
         this.area.removerUltimoPonto();
+        this.area.setArea();
+        this.area.setPerimetro();
+        this.atualizarInfoBox();
         this.mapa.invalidate();
     }
 
@@ -118,6 +121,8 @@ public class AdicionarAreaHolder extends Overlay {
         this.mapa.getOverlays().remove(this);
         this.area.removerDe(mapa);
         this.mapa.invalidate();
+        if( this.infoBox != null )
+            this.infoBox.hide();
     }
 
     private IGeoPoint obterPonto(final MotionEvent event, final MapView mapView){
@@ -127,5 +132,16 @@ public class AdicionarAreaHolder extends Overlay {
         else
             ponto = mapView.getProjection().fromPixels((int)event.getX(), (int)event.getY());
         return ponto;
+    }
+
+    private void atualizarInfoBox() {
+        if( this.infoBox == null ) return;
+        if( this.area.ehValida() ) {
+            this.infoBox.setText("Área: " + this.area.getAreaDescricao() + "\nPerím.: " + this.area.descricaoPerimetro());
+            this.infoBox.show();
+        }
+        else {
+            this.infoBox.hide();
+        }
     }
 }

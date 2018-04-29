@@ -91,6 +91,7 @@ import br.com.neogis.agritopo.holder.MeuLocalHolder;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.ArvoreCamada;
 import br.com.neogis.agritopo.model.Distancia;
+import br.com.neogis.agritopo.model.InfoBox;
 import br.com.neogis.agritopo.model.MapaTiles;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
@@ -162,6 +163,9 @@ public class MapActivity extends AppCompatActivity
 
     private IMapController mapController;
 
+    // Mostra área, perímetro e distância enquando desenha Área e Distância
+    private InfoBox infoBox;
+
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +185,8 @@ public class MapActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        infoBox = new InfoBox((android.widget.TextView) findViewById(R.id.info_box));
 
         br.com.neogis.agritopo.singleton.Configuration.getInstance().LoadConfiguration(getApplicationContext());
 
@@ -257,7 +263,7 @@ public class MapActivity extends AppCompatActivity
         fabNovaArea.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (adicionarAreaHolder == null) {
-                    adicionarAreaHolder = new AdicionarAreaHolder(map, mActivity);
+                    adicionarAreaHolder = new AdicionarAreaHolder(map, mActivity, infoBox);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
@@ -269,7 +275,7 @@ public class MapActivity extends AppCompatActivity
         fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (adicionarDistanciaHolder == null) {
-                    adicionarDistanciaHolder = new AdicionarDistanciaHolder(map, mActivity);
+                    adicionarDistanciaHolder = new AdicionarDistanciaHolder(map, mActivity, infoBox);
                     famNovo.close(false);
                     famNovo.setVisibility(View.INVISIBLE);
                     fabConcluido.setVisibility(View.VISIBLE);
