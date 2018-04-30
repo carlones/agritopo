@@ -7,6 +7,7 @@ android {
             keyPassword '88029421'
             //storeFile file('D:/Workspace/Agritopo1/AgritopoKey.jks')
             storePassword '88029421'
+            storeFile file('./AgritopoKey.jks')
         }
     }
     compileSdkVersion 25
@@ -15,10 +16,10 @@ android {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15 // Tablet do Angelo é versão 15
         targetSdkVersion 25
-        versionName '1.0.1.1'
+        versionName '1.0.1.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.AgritopoKey
-        versionCode 3
+        versionCode 4
     }
     lintOptions {
         disable 'MissingTranslation'
@@ -26,7 +27,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
