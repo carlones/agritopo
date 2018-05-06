@@ -7,7 +7,7 @@ android {
             keyPassword '88029421'
             //storeFile file('D:/Workspace/Agritopo1/AgritopoKey.jks')
             storePassword '88029421'
-            storeFile file('../AgritopoKey.jks')
+            storeFile file('AgritopoKey.jks')
         }
     }
     compileSdkVersion 25
