@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
+    /*signingConfigs {
         AgritopoKey {
             keyAlias 'AgritopoKey'
             keyPassword '88029421'
@@ -9,17 +9,17 @@ android {
             storePassword '88029421'
             storeFile file('AgritopoKey.jks')
         }
-    }
+    }*/
     compileSdkVersion 25
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15 // Tablet do Angelo é versão 15
         targetSdkVersion 25
-        versionName '1.0.1.2'
+        versionName '1.0.2.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.AgritopoKey
-        versionCode 4
+        //signingConfig signingConfigs.AgritopoKey
+        versionCode 5
     }
     lintOptions {
         disable 'MissingTranslation'
