@@ -12,6 +12,7 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.model.InfoBox;
 import br.com.neogis.agritopo.utils.Utils;
 
 /**
@@ -19,52 +20,33 @@ import br.com.neogis.agritopo.utils.Utils;
  */
 
 public class MeuLocalHolder extends Overlay {
-    private final float[] mMatrixValues = new float[9];
-    protected TextPaint mTextPaint = new TextPaint();
     private MapView mapa;
     private MyLocationNewOverlay mMyLocationNewOverlay;
-    private Matrix mMatrix = new Matrix();
+    private InfoBox gpsBox;
 
-    public MeuLocalHolder(MapView m, MyLocationNewOverlay l) {
+    public MeuLocalHolder(MapView m, MyLocationNewOverlay l, InfoBox b) {
         mapa = m;
+        gpsBox = b;
         mMyLocationNewOverlay = l;
-        mTextPaint.setFilterBitmap(true);
-        mTextPaint.clearShadowLayer();
-        int scaledSize = m.getContext().getResources().getDimensionPixelSize(R.dimen.gps_info);
-        mTextPaint.setTextSize(scaledSize);
-        mTextPaint.setFakeBoldText(true);
-        mTextPaint.setAntiAlias(true);
-        mTextPaint.setColor(Color.WHITE);
-        mTextPaint.setShadowLayer(1.5f, -2, 2, Color.BLACK);
+        gpsBox.show();
         this.mapa.getOverlays().add(this);
         this.mapa.invalidate();
     }
 
     public void finalizar() {
+        gpsBox.hide();
         mapa.getOverlays().remove(this);
         mapa.invalidate();
     }
 
-    @Override
     public void draw(Canvas c, MapView osmv, boolean shadow) {
-        String mText = "\r\n\r\n\r\n\r\n" +
+        String mText =
                 "Pos: " + Utils.getFormattedLatitudeInDegree(mMyLocationNewOverlay.getLastFix().getLatitude()) + " " + Utils.getFormattedLongitudeInDegree(mMyLocationNewOverlay.getLastFix().getLongitude()) + "\r\n" +
                 "Alt: " + Math.round(mMyLocationNewOverlay.getLastFix().getAltitude()) + " m\r\n" +
                 "Acc: " + mMyLocationNewOverlay.getLastFix().getAccuracy() + " m\r\n" +
-                "Vel: " + mMyLocationNewOverlay.getLastFix().getSpeed() + " Km/h\r\n";
-
-        StaticLayout mTextLayout = new StaticLayout(mText, mTextPaint, c.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-
-        c.save();
-        c.getMatrix(mMatrix);
-        mMatrix.getValues(mMatrixValues);
-
-        final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20) / mMatrixValues[Matrix.MSCALE_X];
-        final float ty = (-mMatrixValues[Matrix.MTRANS_Y]) / mMatrixValues[Matrix.MSCALE_Y];
-
-        c.translate(tx, ty);
-        mTextLayout.draw(c);
-        c.restore();
+                        "Vel: " + mMyLocationNewOverlay.getLastFix().getSpeed() + " Km/h";
+        this.gpsBox.setText(mText);
+        this.gpsBox.show();
     }
 
     public MyLocationNewOverlay getmMyLocationNewOverlay() {

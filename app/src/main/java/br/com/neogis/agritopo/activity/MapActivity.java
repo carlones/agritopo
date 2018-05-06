@@ -166,6 +166,7 @@ public class MapActivity extends AppCompatActivity
 
     // Mostra área, perímetro e distância enquando desenha Área e Distância
     private InfoBox infoBox;
+    private InfoBox gpsBox;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
@@ -188,6 +189,7 @@ public class MapActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         infoBox = new InfoBox((android.widget.TextView) findViewById(R.id.info_box));
+        gpsBox = new InfoBox((android.widget.TextView) findViewById(R.id.gps_box));
 
         br.com.neogis.agritopo.singleton.Configuration.getInstance().LoadConfiguration(getApplicationContext());
 
@@ -302,7 +304,7 @@ public class MapActivity extends AppCompatActivity
                     if (mMyLocationNewOverlay.getMyLocation() != null)
                         (map.getController()).setCenter(mMyLocationNewOverlay.getMyLocation());
                     if (meuLocalHolder == null) {
-                        meuLocalHolder = new MeuLocalHolder(map, mMyLocationNewOverlay);
+                        meuLocalHolder = new MeuLocalHolder(map, mMyLocationNewOverlay, gpsBox);
                     }
                 }
             }
@@ -639,7 +641,7 @@ public class MapActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 item.setChecked(!item.isChecked());
                 int id = item.getItemId();
-                coordenadasIniciais = (GeoPoint) map.getMapCenter();
+                coordenadasIniciais = map.getMapCenter();
                 zoomInicial = map.getZoomLevel();
                 if (id == 0) {
 //                    recarregarAppComMapaOnline();
@@ -690,7 +692,6 @@ public class MapActivity extends AppCompatActivity
         if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
             if (mMyLocationNewOverlay.getMyLocation() != null) {
                 mapController.setCenter(mMyLocationNewOverlay.getMyLocation());
-
             }
         }
     }
