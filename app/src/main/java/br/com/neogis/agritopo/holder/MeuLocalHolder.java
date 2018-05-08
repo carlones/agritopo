@@ -44,7 +44,7 @@ public class MeuLocalHolder extends Overlay {
                 "Pos: " + Utils.getFormattedLatitudeInDegree(mMyLocationNewOverlay.getLastFix().getLatitude()) + " " + Utils.getFormattedLongitudeInDegree(mMyLocationNewOverlay.getLastFix().getLongitude()) + "\r\n" +
                 "Alt: " + Math.round(mMyLocationNewOverlay.getLastFix().getAltitude()) + " m\r\n" +
                 "Acc: " + mMyLocationNewOverlay.getLastFix().getAccuracy() + " m\r\n" +
-                        "Vel: " + mMyLocationNewOverlay.getLastFix().getSpeed() + " Km/h";
+                        "Vel: " + ((mMyLocationNewOverlay.getLastFix().getSpeed() * 3600) / 1000) + " Km/h";
         this.gpsBox.setText(mText);
         this.gpsBox.show();
     }
