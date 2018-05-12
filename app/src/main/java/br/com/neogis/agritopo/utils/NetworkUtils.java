@@ -5,20 +5,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import br.com.neogis.agritopo.parse.JsonParse;
 
 /**
  * Created by marci on 14/04/2018.
  */
 
 public class NetworkUtils {
-    public static String getJSONFromAPI(String url){
+    public static String getJSONFromAPI(String url) throws Exception {
         String retorno = "";
+        int codigoResposta;
+        String contentType;
+        HttpURLConnection conexao;
         try {
             URL apiEnd = new URL(url);
-            int codigoResposta;
-            HttpURLConnection conexao;
             InputStream is;
 
             conexao = (HttpURLConnection) apiEnd.openConnection();
@@ -27,6 +28,7 @@ public class NetworkUtils {
             conexao.setConnectTimeout(15000);
             conexao.connect();
 
+            contentType = conexao.getContentType();
             codigoResposta = conexao.getResponseCode();
             if(codigoResposta < HttpURLConnection.HTTP_BAD_REQUEST){
                 is = conexao.getInputStream();
@@ -38,12 +40,18 @@ public class NetworkUtils {
             is.close();
             conexao.disconnect();
 
-        } catch (MalformedURLException e) {
+        } catch (Exception e){
             e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
+            throw e;
         }
 
+        if(codigoResposta >= HttpURLConnection.HTTP_BAD_REQUEST) {
+            if( contentType.contains("application/json") ) {
+                RetornoErroServidorJson json = new JsonParse().getParser().fromJson(retorno, RetornoErroServidorJson.class);
+                retorno = json.erro;
+            }
+            throw new RetornoErroServidorException(retorno);
+        }
         return retorno;
     }
 

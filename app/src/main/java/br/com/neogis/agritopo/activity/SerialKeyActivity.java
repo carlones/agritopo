@@ -5,34 +5,32 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.runnable.CamadasLoader;
 import br.com.neogis.agritopo.runnable.SerialKeyValidate;
 import br.com.neogis.agritopo.utils.Utils;
 
 
-public class SerialKeyActivity extends AppCompatActivity implements SerialKeyValidate.OnSerialValidate {
+public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyValidate.OnSerialValidate*/ {
     private EditText serialEdit;
     private EditText emailEdit;
     private TelephonyManager telephonyManager;
+    private ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,26 +55,25 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
     }
 
     private void validateSerialKey(String serial, String email) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
         String deviceId = getDeviceId();
-        showProgressDialog(
-                getApplicationContext(),
-                new SerialKeyValidate(
-                        getApplicationContext(),
-                        serial,
-                        email,
-                        deviceId,
-                        this,
-                        this),
-                "Processando Ativação...");
+        if( deviceId == null )
+            return;
 
+        showProgressDialog();
+        new CarregarEmBackground(
+            serial,
+            email,
+            deviceId,
+            this
+        ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private String getDeviceId() {
 
         // IMEI para GSM, MEID/ESN para CDMA. Nem todos os aparelhos possuem chip de telefonia
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        }
         String deviceId = telephonyManager.getDeviceId();
         if( deviceId != null ) {
             Utils.info("Telephony:" + deviceId);
@@ -99,39 +96,28 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
         return "SecureAndroidId:" + androidId;
     }
 
-    private void showProgressDialog(final Context context, final Runnable runnable, String text) {
-        final ProgressDialog ringProgressDialog = new ProgressDialog(this);
+    private void showProgressDialog() {
+        ringProgressDialog = new ProgressDialog(this);
         ringProgressDialog.setIndeterminate(true);
-        ringProgressDialog.setMessage(text);
+        ringProgressDialog.setMessage("Processando Ativação...");
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runnable.run();
-                ringProgressDialog.dismiss();
-            }
-        });
-        th.setPriority(Thread.MAX_PRIORITY);
-        th.start();
     }
 
-    @Override
-    public void onSucess() {
-        setResult(RESULT_OK);
-        finish();
-    }
-
-    @Override
-    public void onFail() {
-        setResult(RESULT_CANCELED);
-        // Não finalizar para que volte na mesma tela com os dados já preenchidos,
-        // assim o cliente pode fazer nova tentativa (corrigir serial, conectar na Web, ...)
-        //finish();
+    public void mostrarRetorno(String msg_erro) {
+        ringProgressDialog.dismiss();
+        if(msg_erro == null) {
+            Toast.makeText(this, "Licença validada com sucesso!", Toast.LENGTH_LONG).show();
+            setResult(RESULT_OK);
+            finish();
+        }
+        else {
+            Toast.makeText(this, msg_erro, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void getTelephonyManager(){
-        if ((int) Build.VERSION.SDK_INT < 23)
+        if (Build.VERSION.SDK_INT < 23)
             telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         else{
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
@@ -146,7 +132,7 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
     {
         switch (requestCode) {
             case 1: {
@@ -176,6 +162,43 @@ public class SerialKeyActivity extends AppCompatActivity implements SerialKeyVal
                 }
                 break;
             }
+        }
+    }
+
+    private class CarregarEmBackground extends AsyncTask<Void, Void, String>
+    {
+        private String serialKey;
+        private String email;
+        private String deviceId;
+        private SerialKeyActivity activity;
+        private String erro;
+
+        CarregarEmBackground(String serialKey, String email, String deviceId, SerialKeyActivity activity) {
+            this.serialKey = serialKey;
+            this.email = email;
+            this.deviceId = deviceId;
+            this.activity = activity;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                new SerialKeyValidate(
+                        activity.getApplicationContext(),
+                        serialKey,
+                        email,
+                        deviceId,
+                        activity
+                ).run();
+            } catch (Exception e) {
+                erro = e.getMessage();
+            }
+            return erro;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            mostrarRetorno(erro);
         }
     }
 
