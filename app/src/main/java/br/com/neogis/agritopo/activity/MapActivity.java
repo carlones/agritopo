@@ -193,13 +193,6 @@ public class MapActivity extends AppCompatActivity
 
         br.com.neogis.agritopo.singleton.Configuration.getInstance().LoadConfiguration(getApplicationContext());
 
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_WIFI_STATE);
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NETWORK_STATE);
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.INTERNET);
-        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
         criarDiretorio("agritopo");
         criarDiretorio("OsmDroid");
 
