@@ -219,10 +219,10 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos)));
             bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos)));
 
-            Preference seletorDiretorio = (Preference) findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos));
+            Preference seletorDiretorio = findPreference(getResources().getString(R.string.pref_key_diretorio_exportar_arquivos));
             seletorDiretorio.setOnPreferenceChangeListener(this);
 
-            seletorDiretorio = (Preference) findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos));
+            seletorDiretorio = findPreference(getResources().getString(R.string.pref_key_diretorio_leitura_arquivos));
             seletorDiretorio.setOnPreferenceChangeListener(this);
         }
 

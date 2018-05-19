@@ -210,7 +210,7 @@ public class Elemento {
 
     public void addImage(String path){
         for(ElementoImagem imagem : images)
-            if(imagem.getImagem().getArquivo() == path)
+            if (imagem.getImagem().getArquivo().equals(path))
                 return;
 
 

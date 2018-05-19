@@ -817,7 +817,7 @@ public class MapActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 try {
                     //TODO: Alterar a descrição dos elementos overlay para conter o mesmo que no cadastro!
-                    String nomeArquivo = (data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO) == "" ? "exportacao" : data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO));
+                    String nomeArquivo = (data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO).equals("") ? "exportacao" : data.getExtras().getString(ARG_EXPORTAR_NOME_ARQUIVO));
                     String tipoArquivo = data.getExtras().getString(ARG_EXPORTAR_TIPO_ARQUIVO);
                     nomeArquivo += "." + tipoArquivo;
                     if (exportarArquivoMapa(nomeArquivo, tipoArquivo))
@@ -833,7 +833,7 @@ public class MapActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 try {
                     //TODO: Alterar a descrição dos elementos overlay para conter o mesmo que no cadastro!
-                    String nomeArquivo = (data.getExtras().getString(ARG_IMPORTAR_NOME_ARQUIVO) == "" ? "importacao.kmz" : data.getExtras().getString(ARG_IMPORTAR_NOME_ARQUIVO));
+                    String nomeArquivo = (data.getExtras().getString(ARG_IMPORTAR_NOME_ARQUIVO).equals("") ? "importacao.kmz" : data.getExtras().getString(ARG_IMPORTAR_NOME_ARQUIVO));
                     String tipoArquivo = FilenameUtils.getExtension(nomeArquivo);
 
                     if (importarArquivoMapa(nomeArquivo, tipoArquivo))

@@ -119,7 +119,7 @@ public class MyKmlDocument extends KmlDocument {
         }
 
         public void startElement(String uri, String localName, String name,
-                                 Attributes attributes) throws SAXException {
+                                 Attributes attributes) {
             if (localName.equals("Document")){
                 mKmlCurrentFeature = mKmlRoot; //If there is a Document, it will be the root.
                 mKmlCurrentFeature.mId = attributes.getValue("id");
@@ -181,13 +181,12 @@ public class MyKmlDocument extends KmlDocument {
             mStringBuilder.setLength(0);
         }
 
-        public @Override void characters(char[] ch, int start, int length)
-                throws SAXException {
+        public @Override
+        void characters(char[] ch, int start, int length) {
             mStringBuilder.append(ch, start, length);
         }
 
-        public void endElement(String uri, String localName, String name)
-                throws SAXException {
+        public void endElement(String uri, String localName, String name) {
             if (localName.equals("Document")){
                 //Document is the root, nothing to do.
             } else if (localName.equals("Folder") || localName.equals("Placemark")

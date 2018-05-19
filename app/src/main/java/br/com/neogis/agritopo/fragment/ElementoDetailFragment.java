@@ -1,7 +1,9 @@
 package br.com.neogis.agritopo.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -20,7 +22,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.InputStream;
@@ -42,6 +43,7 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.DateUtils;
+import br.com.neogis.agritopo.utils.Utils;
 
 import static android.app.Activity.RESULT_OK;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
@@ -58,7 +60,8 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 public class ElementoDetailFragment extends Fragment {
     private static final int REQUEST_IMAGE_MEDIA = 1;
     private static final int REQUEST_TAKE_PICTURE = 2;
-    private ArrayList<String> images;
+    private ArrayList<String> listaImagens;
+    private ArrayList<String> listaImagensExcluir;
     private Uri caminhoFoto;
     private Elemento mItem;
     private EditText elementoTitulo;
@@ -70,6 +73,7 @@ public class ElementoDetailFragment extends Fragment {
     private LinearLayout elementoListaImagens;
     private ImageView imageTirarFoto;
     private ImageView imageAdicionarImagem;
+    private AlertDialog alerta;
 
     public ElementoDetailFragment() {
     }
@@ -77,16 +81,19 @@ public class ElementoDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null)
-            images = savedInstanceState.getStringArrayList("imagens");
+        if (savedInstanceState != null) {
+            listaImagens = savedInstanceState.getStringArrayList("imagens");
+            listaImagensExcluir = savedInstanceState.getStringArrayList("imagensExcluir");
+        }
 
         ElementoDao elementoDao = new ElementoDaoImpl(getActivity().getBaseContext());
         int elementoId = getArguments().getInt(ARG_ELEMENTOID);
         if (elementoId != 0) {
             mItem = elementoDao.get(elementoId);
-            if(images.size() == 0 && mItem.getImages().size() > 0)
-                for (ElementoImagem elementoImagem : mItem.getImages())
-                    images.add(elementoImagem.getImagem().getArquivo());
+            if (listaImagens.size() == 0 && mItem.getImages().size() > 0)
+                for (ElementoImagem elementoImagem : mItem.getImages()) {
+                    listaImagens.add(elementoImagem.getImagem().getArquivo());
+                }
         } else {
             ClasseDao classeDao = new ClasseDaoImpl(getActivity().getBaseContext());
             Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
@@ -140,12 +147,12 @@ public class ElementoDetailFragment extends Fragment {
             elementoTitulo.setText(mItem.getTitulo());
             elementoTipoElemento.setText(mItem.getTipoElemento().getNome());
             elementoDescricao.setText(mItem.getDescricao());
-            elementoDataCriacao.setText(mItem.getCreated_at().toString());
-            elementoDataModificacao.setText(mItem.getModified_at().toString());
+            elementoDataCriacao.setText(mItem.getCreated_at());
+            elementoDataModificacao.setText(mItem.getModified_at());
             elementoInformacao.setKeyListener(null);
             elementoInformacao.setText(Elemento.getInformacaoExtra(mItem));
 
-            for(String image : images){
+            for (String image : listaImagens) {
                 adicionarImagem(Uri.parse(image));
             }
         }
@@ -189,7 +196,8 @@ public class ElementoDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             caminhoFoto = savedInstanceState.getParcelable("caminhoFoto");
-            images = savedInstanceState.getStringArrayList("imagens");
+            listaImagens = savedInstanceState.getStringArrayList("imagens");
+            listaImagensExcluir = savedInstanceState.getStringArrayList("imagensExcluir");
         }
     }
 
@@ -198,7 +206,8 @@ public class ElementoDetailFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable("caminhoFoto", caminhoFoto);
-        outState.putStringArrayList("imagens", images);
+        outState.putStringArrayList("imagens", listaImagens);
+        outState.putStringArrayList("imagensExcluir", listaImagensExcluir);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -209,14 +218,14 @@ public class ElementoDetailFragment extends Fragment {
                 if(resultCode == RESULT_OK){
                     Uri uri = imageReturnedIntent.getData();
                     adicionarImagem(uri);
-                    images.add(uri.toString());
+                    listaImagens.add(uri.toString());
                 }
                 break;
             }
             case REQUEST_TAKE_PICTURE:{
                 if(resultCode == RESULT_OK){
                     adicionarImagem(caminhoFoto);
-                    images.add(caminhoFoto.toString());
+                    listaImagens.add(caminhoFoto.toString());
                 }
                 break;
             }
@@ -243,16 +252,28 @@ public class ElementoDetailFragment extends Fragment {
         });
 
         image.setOnLongClickListener(new View.OnLongClickListener() {
-
             @Override
-            public boolean onLongClick(View v) {
-                v.setVisibility(View.GONE);
-                for(String img : images)
-                    if(img == uri.toString())
-                    {
-                        images.remove(img);
-                        return true;
+            public boolean onLongClick(final View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Alerta");
+                builder.setMessage("Tem certeza que deseja excluir?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        v.setVisibility(View.GONE);
+                        for (String img : listaImagens)
+                            if (img.equals(uri.toString())) {
+                                listaImagensExcluir.add(img);
+                                listaImagens.remove(img);
+                                break;
+                            }
                     }
+                });
+                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                });
+                alerta = builder.create();
+                alerta.show();
                 return true;
             }
         });
@@ -309,14 +330,22 @@ public class ElementoDetailFragment extends Fragment {
         return mItem;
     }
 
-    public ArrayList<String> getImagesPaths() {
-        return images;
+    public ArrayList<String> getListaImagens() {
+        return listaImagens;
     }
 
-    public void setImagesPaths(ArrayList<String> imageList){
+    public void setListaImagens(ArrayList<String> imageList) {
         if(imageList == null)
             return;
 
-        images = imageList;
+        listaImagens = imageList;
+    }
+
+    public ArrayList<String> getListaImagensExcluir() {
+        return listaImagensExcluir;
+    }
+
+    public void setListaImagensExcluir(ArrayList<String> listaImagensExcluir) {
+        this.listaImagensExcluir = listaImagensExcluir;
     }
 }

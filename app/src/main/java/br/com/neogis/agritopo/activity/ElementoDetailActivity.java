@@ -1,16 +1,16 @@
 package br.com.neogis.agritopo.activity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import br.com.neogis.agritopo.R;
@@ -63,6 +63,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 gravarElemento();
+                excluirImagens();
                 Intent intent = new Intent();
                 intent.putExtra(ARG_ELEMENTOID, mItem.getElementoid());
                 intent.putExtra(ARG_POSICAO_LISTA, posicao_lista);
@@ -111,13 +112,21 @@ public class ElementoDetailActivity extends AppCompatActivity {
             arguments.putString(ARG_GEOMETRIA, geometria);
             fragment = new ElementoDetailFragment();
             fragment.setArguments(arguments);
-            fragment.setImagesPaths(new ArrayList<String>());
+            fragment.setListaImagens(new ArrayList<String>());
+            fragment.setListaImagensExcluir(new ArrayList<String>());
             getFragmentManager().beginTransaction()
                     .add(R.id.elemento_detail_container, fragment, tagFragmento)
                     .commit();
-        }else
-        {
+        } else {
             fragment = (ElementoDetailFragment) getFragmentManager().getFragment(savedInstanceState, tagFragmento);
+        }
+    }
+
+    private void excluirImagens() {
+        for (String image : fragment.getListaImagensExcluir()) {
+            File arquivoImagem = new File(Uri.parse(image).getPath());
+            if (arquivoImagem.exists())
+                arquivoImagem.delete();
         }
     }
 
@@ -139,7 +148,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
     }
 
     public void gravarElemento() {
-        if(fragment == null)
+        if (fragment == null)
             fragment = (ElementoDetailFragment) getFragmentManager().findFragmentByTag(tagFragmento);
 
         String titulo = fragment.getTitulo();
@@ -157,7 +166,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
         mItem.setTipoElemento(tipoElemento);
 
         mItem.getImages().clear();
-        for(String image : fragment.getImagesPaths())
+        for (String image : fragment.getListaImagens())
             mItem.addImage(image);
 
         ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
