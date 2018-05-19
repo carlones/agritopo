@@ -10,7 +10,6 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
@@ -27,21 +26,17 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
 
 
-/**
- * Created by Wagner on 23/09/2017.
- */
+public class AdicionarPontoHolder extends AdicionarElementoHolder {
 
-public class AdicionarPontoHolder extends Overlay {
-
-    ItemizedOverlayWithFocus<OverlayItem> overlay;
-    MyGeoPoint geoPoint;
+    private ItemizedOverlayWithFocus<OverlayItem> overlay;
+    private MyGeoPoint geoPoint;
     private MapView mapa;
     private Activity activity;
 
     public AdicionarPontoHolder(MapView mapa, Activity activity) {
-
         this.mapa = mapa;
         this.activity = activity;
+        this.mapa.getOverlays().add(this);
     }
 
     // Desenha a mira no meio do mapa
@@ -91,10 +86,10 @@ public class AdicionarPontoHolder extends Overlay {
     }
 
     private ItemizedOverlayWithFocus<OverlayItem> criarOverlay(IGeoPoint ponto){
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        ArrayList<OverlayItem> items = new ArrayList<>();
         items.add(new OverlayItem("", "", ponto));
 
-        return new ItemizedOverlayWithFocus<OverlayItem>(activity ,items,
+        return new ItemizedOverlayWithFocus<>(activity ,items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     @Override
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {

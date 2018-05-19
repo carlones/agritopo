@@ -19,7 +19,7 @@
         android:paddingLeft="10sp"
         android:paddingRight="10sp"
         android:paddingTop="6sp"
-        android:text="Mensagens GPS"
+        android:text="Inicializando GPS"
         android:textColor="#ffffff"
         android:textSize="16sp"
         android:visibility="invisible" />

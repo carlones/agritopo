@@ -1,6 +1,5 @@
 package br.com.neogis.agritopo.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -87,6 +86,7 @@ import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.fragment.CamadasFragment;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
 import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
+import br.com.neogis.agritopo.holder.AdicionarElementoHolder;
 import br.com.neogis.agritopo.holder.AdicionarPontoHolder;
 import br.com.neogis.agritopo.holder.MeuLocalHolder;
 import br.com.neogis.agritopo.model.Area;
@@ -100,6 +100,7 @@ import br.com.neogis.agritopo.model.Ponto;
 import br.com.neogis.agritopo.runnable.CamadasLoader;
 import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.utils.AsyncResponse;
+import br.com.neogis.agritopo.utils.IGPSListener;
 import br.com.neogis.agritopo.utils.Utils;
 
 import static br.com.neogis.agritopo.utils.Constantes.ALTERAR_ELEMENTO_REQUEST;
@@ -129,12 +130,10 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_NOME_ARQUIVO_EXPORTA
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST;
 
 public class MapActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LocationListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IGPSListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
 
     private BoundingBox mInitialBoundingBox = null;
-    private AdicionarAreaHolder adicionarAreaHolder;
-    private AdicionarPontoHolder adicionarPontoHolder;
-    private AdicionarDistanciaHolder adicionarDistanciaHolder;
+    private AdicionarElementoHolder modalAtivo;
     private MeuLocalHolder meuLocalHolder;
 
     private List<Area> areaList;
@@ -151,7 +150,7 @@ public class MapActivity extends AppCompatActivity
     private FloatingActionMenu famNovo;
     private Context mContext;
     private Activity mActivity;
-    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar, fabDesfazer;
+    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar, fabDesfazer, fabSeguirGPS;
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
     private boolean exibirPontos;
@@ -242,42 +241,27 @@ public class MapActivity extends AppCompatActivity
         fabConcluido = (FloatingActionButton) findViewById(R.id.action_concluido);
         fabCancelar = (FloatingActionButton) findViewById(R.id.action_cancelar);
         fabDesfazer = (FloatingActionButton) findViewById(R.id.action_desfazer);
+        fabSeguirGPS = (FloatingActionButton) findViewById(R.id.action_seguir_gps);
 
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (adicionarPontoHolder == null) {
-                    adicionarPontoHolder = new AdicionarPontoHolder(map, mActivity);
-                    map.getOverlays().add(adicionarPontoHolder);
-                    famNovo.close(false);
-                    famNovo.setVisibility(View.INVISIBLE);
-                    fabConcluido.setVisibility(View.VISIBLE);
-                    fabCancelar.setVisibility(View.VISIBLE);
-                }
-                map.invalidate();
+                if (modalAtivo != null) return;
+                modalAtivo = new AdicionarPontoHolder(map, mActivity);
+                mostrarBotoesModal();
             }
         });
         fabNovaArea.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (adicionarAreaHolder == null) {
-                    adicionarAreaHolder = new AdicionarAreaHolder(map, mActivity, infoBox);
-                    famNovo.close(false);
-                    famNovo.setVisibility(View.INVISIBLE);
-                    fabConcluido.setVisibility(View.VISIBLE);
-                    fabCancelar.setVisibility(View.VISIBLE);
-                    fabDesfazer.setVisibility(View.VISIBLE);
-                }
+                if (modalAtivo != null) return;
+                modalAtivo = new AdicionarAreaHolder(map, mActivity, infoBox);
+                mostrarBotoesModal();
             }
         });
         fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (adicionarDistanciaHolder == null) {
-                    adicionarDistanciaHolder = new AdicionarDistanciaHolder(map, mActivity, infoBox);
-                    famNovo.close(false);
-                    famNovo.setVisibility(View.INVISIBLE);
-                    fabConcluido.setVisibility(View.VISIBLE);
-                    fabCancelar.setVisibility(View.VISIBLE);
-                    fabDesfazer.setVisibility(View.VISIBLE);
-                }
+                if (modalAtivo != null) return;
+                modalAtivo = new AdicionarDistanciaHolder(map, mActivity, infoBox);
+                mostrarBotoesModal();
             }
         });
         fabGPS.setOnClickListener(new View.OnClickListener() {
@@ -291,7 +275,8 @@ public class MapActivity extends AppCompatActivity
                         meuLocalHolder = null;
                     }
                 } else {
-                    mMyLocationNewOverlay.enableMyLocation();
+                    if( !mMyLocationNewOverlay.isMyLocationEnabled() ) // evitar stop/start do locationProvider só para centrar o mapa
+                        mMyLocationNewOverlay.enableMyLocation();
                     mMyLocationNewOverlay.enableFollowLocation();
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_gps_fixed_white_24dp);
                     if (mMyLocationNewOverlay.getMyLocation() != null)
@@ -332,7 +317,6 @@ public class MapActivity extends AppCompatActivity
                 cbxPontos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         exibirPontos = isChecked;
-                        List<Overlay> overlays = map.getOverlays();
                         for (Ponto ponto : pontoList) {
                             if (isChecked)
                                 ponto.desenharEm(map);
@@ -340,17 +324,11 @@ public class MapActivity extends AppCompatActivity
                                 ponto.removerDe(map);
                         }
                         map.invalidate();
-                        /*if (isChecked) {
-                            Utils.toast(getBaseContext(), "Pontos de Interesse: Ativado");
-                        } else {
-                            Utils.toast(getBaseContext(), "Pontos de Interesse: Desativado");
-                        }*/
                     }
                 });
                 cbxAreas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         exibirAreas = isChecked;
-                        List<Overlay> overlays = map.getOverlays();
                         for (Area area : areaList) {
                             if (isChecked)
                                 area.desenharEm(map);
@@ -358,17 +336,11 @@ public class MapActivity extends AppCompatActivity
                                 area.removerDe(map);
                         }
                         map.invalidate();
-                        /*if (isChecked) {
-                            Utils.toast(getBaseContext(), "Áreas: Ativado");
-                        } else {
-                            Utils.toast(getBaseContext(), "Áreas: Desativado");
-                        }*/
                     }
                 });
                 cbxDistancias.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         exibirDistancias = isChecked;
-                        List<Overlay> overlays = map.getOverlays();
                         for (Distancia distancia : distanciaList) {
                             if (isChecked)
                                 distancia.desenharEm(map);
@@ -376,11 +348,6 @@ public class MapActivity extends AppCompatActivity
                                 distancia.removerDe(map);
                         }
                         map.invalidate();
-                        /*if (isChecked) {
-                            Utils.toast(getBaseContext(), "Distâncias: Ativado");
-                        } else {
-                            Utils.toast(getBaseContext(), "Distâncias: Desativado");
-                        }*/
                     }
                 });
                 btnPopupLayerFechar.setOnClickListener(new View.OnClickListener() {
@@ -452,57 +419,65 @@ public class MapActivity extends AppCompatActivity
         });*/
         fabConcluido.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (adicionarPontoHolder != null) {
-                    adicionarPontoHolder.finalizar();
-                    adicionarPontoHolder = null;
-                }
-                if (adicionarAreaHolder != null) {
-                    adicionarAreaHolder.finalizar();
-                    adicionarAreaHolder = null;
-                }
-                if (adicionarDistanciaHolder != null) {
-                    adicionarDistanciaHolder.finalizar();
-                    adicionarDistanciaHolder = null;
-                }
-                fabCancelar.setVisibility(View.INVISIBLE);
-                fabConcluido.setVisibility(View.INVISIBLE);
-                fabDesfazer.setVisibility(View.INVISIBLE);
-                famNovo.setVisibility(View.VISIBLE);
-                map.invalidate();
+                modalAtivo.finalizar();
+                modalAtivo = null;
+                ocultarBotoesModal();
             }
         });
         fabCancelar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (adicionarPontoHolder != null) {
-                    adicionarPontoHolder.cancelar();
-                    adicionarPontoHolder = null;
-                }
-                if (adicionarAreaHolder != null) {
-                    adicionarAreaHolder.cancelar();
-                    adicionarAreaHolder = null;
-                }
-                if (adicionarDistanciaHolder != null) {
-                    adicionarDistanciaHolder.cancelar();
-                    adicionarDistanciaHolder = null;
-                }
-                fabCancelar.setVisibility(View.INVISIBLE);
-                fabConcluido.setVisibility(View.INVISIBLE);
-                fabDesfazer.setVisibility(View.INVISIBLE);
-                famNovo.setVisibility(View.VISIBLE);
-                map.invalidate();
+                modalAtivo.cancelar();
+                modalAtivo = null;
+                ocultarBotoesModal();
             }
         });
         fabDesfazer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (adicionarAreaHolder != null) {
-                    adicionarAreaHolder.desfazer();
-                }
-                if (adicionarDistanciaHolder != null) {
-                    adicionarDistanciaHolder.desfazer();
-                }
+                modalAtivo.desfazer();
                 map.invalidate();
             }
         });
+        fabSeguirGPS.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if ( modalAtivo.seguindoGPS() ) {
+                    modalAtivo.pararSeguirGPS();
+                }
+                else {
+                    modalAtivo.seguirGPS();
+                    if (!mMyLocationNewOverlay.isFollowLocationEnabled()) {
+                        fabGPS.callOnClick();
+                    }
+                }
+                setarIconeBotaoSeguirGPS();
+            }
+        });
+    }
+
+    private void setarIconeBotaoSeguirGPS() {
+        fabSeguirGPS.setImageResource(modalAtivo.seguindoGPS() ? android.R.drawable.ic_media_pause : R.drawable.ic_near_me_white_24dp);
+    }
+
+    private void ocultarBotoesModal() {
+        fabCancelar.setVisibility(View.INVISIBLE);
+        fabConcluido.setVisibility(View.INVISIBLE);
+        fabDesfazer.setVisibility(View.INVISIBLE);
+        fabSeguirGPS.setVisibility(View.INVISIBLE);
+        famNovo.setVisibility(View.VISIBLE);
+        map.invalidate();
+    }
+
+    private void mostrarBotoesModal() {
+        famNovo.close(false);
+        famNovo.setVisibility(View.INVISIBLE);
+        fabConcluido.setVisibility(View.VISIBLE);
+        fabCancelar.setVisibility(View.VISIBLE);
+        if( modalAtivo.aceitaDesfazer ) {
+            fabDesfazer.setVisibility(View.VISIBLE);
+        }
+        if( modalAtivo.aceitaSeguirGps ) {
+            setarIconeBotaoSeguirGPS();
+            fabSeguirGPS.setVisibility(View.VISIBLE);
+        }
     }
 
     public void inicializarMapas(boolean modoOffline) {
@@ -532,7 +507,7 @@ public class MapActivity extends AppCompatActivity
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
         map.getOverlays().add(0, mapEventsOverlay);
 
-        mMyLocationNewOverlay = new MyLocationNewOverlay(new MyGpsMyLocationProvider(ctx, this), map);
+        mMyLocationNewOverlay = new MyLocationNewOverlay(new MyGpsMyLocationProvider(ctx, this, this), map);
         mMyLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(mMyLocationNewOverlay);
 
@@ -682,26 +657,22 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
-            if (mMyLocationNewOverlay.getMyLocation() != null) {
-                mapController.setCenter(mMyLocationNewOverlay.getMyLocation());
+        if (mMyLocationNewOverlay.isMyLocationEnabled()) {
+            if( modalAtivo != null && modalAtivo.aceitaSeguirGps && modalAtivo.seguindoGPS() ) {
+                modalAtivo.registrarPontoGPS(location);
             }
         }
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+    public void startLocationProvider() {}
 
     @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+    public void stopLocationProvider() {
+        if( modalAtivo != null && modalAtivo.aceitaSeguirGps && modalAtivo.seguindoGPS() ) {
+            modalAtivo.pararSeguirGPS();
+            setarIconeBotaoSeguirGPS();
+        }
     }
 
     private void carregarMapaOnline() {
@@ -984,7 +955,7 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean longPressHelper(GeoPoint p) {
-        if ((adicionarAreaHolder == null) && (adicionarDistanciaHolder == null) && (adicionarPontoHolder == null)) {
+        if( modalAtivo == null ) {
             onLongPressMenuSelected(p);
         }
         return true;

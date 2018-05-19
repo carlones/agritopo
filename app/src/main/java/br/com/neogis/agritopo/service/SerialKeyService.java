@@ -91,7 +91,7 @@ public class SerialKeyService {
     }
 
     private Date getCurrentDate(){
-        MyGpsMyLocationProvider gps = new MyGpsMyLocationProvider(contexto, activity);
+        MyGpsMyLocationProvider gps = new MyGpsMyLocationProvider(contexto, activity, null);
         try {
             Location location = gps.getLastKnownLocation();
             if (location != null)
