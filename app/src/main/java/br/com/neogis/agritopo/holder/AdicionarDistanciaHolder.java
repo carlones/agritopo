@@ -3,13 +3,13 @@ package br.com.neogis.agritopo.holder;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.location.Location;
 import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Overlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 
-public class AdicionarDistanciaHolder extends Overlay {
+public class AdicionarDistanciaHolder extends AdicionarElementoHolder {
 
     private MapView mapa;
     private Distancia distancia;
@@ -42,7 +42,9 @@ public class AdicionarDistanciaHolder extends Overlay {
     private InfoBox infoBox;
 
     public AdicionarDistanciaHolder(MapView mapa, Activity activity, InfoBox infoBox) {
-        Log.i("Agritopo", "AdicionarAreaHolder: iniciando classe");
+        this.aceitaSeguirGps = true;
+        this.aceitaDesfazer = true;
+
         this.mapa = mapa;
         this.infoBox = infoBox;
         List<MyGeoPoint> lista = new ArrayList<>();
@@ -67,13 +69,23 @@ public class AdicionarDistanciaHolder extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     //
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        this.distancia.adicionarPonto((GeoPoint) obterPonto(event, mapView));
+        if( !seguindoGPS() ) // provavelmente tocou na tela apenas para mantê-la ativa
+            adicionarPonto((GeoPoint) obterPonto(event, mapView));
+        return true; // Não propogar evento para demais overlays
+    }
+
+    public void registrarPontoGPS(Location location) {
+        GeoPoint gp = new GeoPoint(location.getLatitude(), location.getLongitude());
+        adicionarPonto(gp);
+    }
+
+    private void adicionarPonto(GeoPoint ponto) {
+        this.distancia.adicionarPonto(ponto);
         this.distancia.setDistancia();
         this.distancia.removerDe(mapa);
         this.distancia.desenharEm(mapa);//Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento);
         this.mapa.invalidate();
         this.atualizarInfoBox();
-        return true; // Não propogar evento para demais overlays
     }
 
     // Termina o modal e devolve a área (que pode estar incompleta)
@@ -99,6 +111,7 @@ public class AdicionarDistanciaHolder extends Overlay {
 
     public void desfazer() {
         this.distancia.removerUltimoPonto();
+        this.distancia.removerDe(mapa);
         this.distancia.desenharEm(mapa);
         this.distancia.setDistancia();
         this.atualizarInfoBox();

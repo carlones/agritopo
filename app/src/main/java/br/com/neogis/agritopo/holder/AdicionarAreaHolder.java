@@ -3,13 +3,13 @@ package br.com.neogis.agritopo.holder;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.location.Location;
 import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Overlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 
-public class AdicionarAreaHolder extends Overlay {
+public class AdicionarAreaHolder extends AdicionarElementoHolder {
 
     private MapView mapa;
     private Area area;
@@ -42,7 +42,9 @@ public class AdicionarAreaHolder extends Overlay {
     private InfoBox infoBox;
 
     public AdicionarAreaHolder(MapView mapa, Activity activity, InfoBox infoBox) {
-        Log.d("Agritopo", "AdicionarAreaHolder: iniciando classe");
+        this.aceitaSeguirGps = true;
+        this.aceitaDesfazer = true;
+
         this.mapa = mapa;
         this.activity = activity;
         this.infoBox = infoBox;
@@ -68,17 +70,24 @@ public class AdicionarAreaHolder extends Overlay {
     // Exibir o Ponto quando der um toque na tela
     //
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        Log.d("Agritopo", "AdicionarAreaHolder: Ponto registrado");
+        if( !seguindoGPS() ) // provavelmente tocou na tela apenas para mantê-la ativa
+            this.adicionarPonto((GeoPoint) obterPonto(event, mapView));
+        return true; // Não propogar evento para demais overlays
+    }
 
-        this.area.adicionarPonto((GeoPoint) obterPonto(event, mapView));
+    public void registrarPontoGPS(Location location) {
+        GeoPoint gp = new GeoPoint(location.getLatitude(), location.getLongitude());
+        adicionarPonto(gp);
+    }
+
+    private void adicionarPonto(GeoPoint gp) {
+        this.area.adicionarPonto(gp);
         this.area.setArea();
         this.area.setPerimetro();
         this.area.removerDe(mapa);
         this.area.desenharEm(mapa);
         this.mapa.invalidate();
         this.atualizarInfoBox();
-
-        return true; // Não propogar evento para demais overlays
     }
 
     // Termina o modal e devolve a área (que pode estar incompleta)

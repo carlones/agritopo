@@ -1,11 +1,7 @@
 package br.com.neogis.agritopo.holder;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
+import android.location.Location;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -40,11 +36,15 @@ public class MeuLocalHolder extends Overlay {
     }
 
     public void draw(Canvas c, MapView osmv, boolean shadow) {
+        Location location = mMyLocationNewOverlay.getLastFix();
+        if( location == null ) // se ainda não inicializou o GPS, não hevrá último ponto
+            return;
+
         String mText =
-                "Pos: " + Utils.getFormattedLatitudeInDegree(mMyLocationNewOverlay.getLastFix().getLatitude()) + " " + Utils.getFormattedLongitudeInDegree(mMyLocationNewOverlay.getLastFix().getLongitude()) + "\r\n" +
-                "Alt: " + Math.round(mMyLocationNewOverlay.getLastFix().getAltitude()) + " m\r\n" +
-                "Acc: " + mMyLocationNewOverlay.getLastFix().getAccuracy() + " m\r\n" +
-                        "Vel: " + ((mMyLocationNewOverlay.getLastFix().getSpeed() * 3600) / 1000) + " Km/h";
+                "Pos: " + Utils.getFormattedLatitudeInDegree(location.getLatitude()) + " " + Utils.getFormattedLongitudeInDegree(location.getLongitude()) + "\r\n" +
+                "Alt: " + Math.round(location.getAltitude()) + " m\r\n" +
+                "Acc: " + location.getAccuracy() + " m\r\n" +
+                        "Vel: " + ((location.getSpeed() * 3600) / 1000) + " Km/h";
         this.gpsBox.setText(mText);
         this.gpsBox.show();
     }
