@@ -110,6 +110,7 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTO_CENTRALIZAR;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_EXPORTAR_NOME_ARQUIVO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_EXPORTAR_TIPO_ARQUIVO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GPS_POSICAO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LATITUDEATUAL;
@@ -368,6 +369,7 @@ public class MapActivity extends AppCompatActivity
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 2);
+                        intent.putExtra(ARG_GPS_POSICAO, (new MyGeoPoint(map.getMapCenter())).toString());
                         startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
                     }
                 });
@@ -377,6 +379,7 @@ public class MapActivity extends AppCompatActivity
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 3);
+                        intent.putExtra(ARG_GPS_POSICAO, (new MyGeoPoint(map.getMapCenter())).toString());
                         startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
                     }
                 });
@@ -386,6 +389,7 @@ public class MapActivity extends AppCompatActivity
                         popupLayers.dismiss();
                         Intent intent = new Intent(getBaseContext(), CadastrosListarActivity.class);
                         intent.putExtra(ARG_CLASSEID, 1);
+                        intent.putExtra(ARG_GPS_POSICAO, (new MyGeoPoint(map.getMapCenter())).toString());
                         startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
                     }
                 });
@@ -633,6 +637,7 @@ public class MapActivity extends AppCompatActivity
 
         if (id == R.id.nav_cadastros) {
             Intent intent = new Intent(this, CadastrosListarActivity.class);
+            intent.putExtra(ARG_GPS_POSICAO, (new MyGeoPoint(map.getMapCenter())).toString());
             startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
         } else if (id == R.id.nav_camadas) {
             Class<?> clazz = CamadasFragment.class;

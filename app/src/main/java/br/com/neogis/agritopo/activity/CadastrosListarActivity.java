@@ -1,8 +1,10 @@
 package br.com.neogis.agritopo.activity;
 
+import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,25 +15,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.fragment.CadastrosAbaFragment;
+import br.com.neogis.agritopo.model.MyGeoPoint;
 
 import static br.com.neogis.agritopo.utils.Constantes.ALTERAR_ELEMENTO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTOID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_ELEMENTO_CENTRALIZAR;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_GPS_POSICAO;
 
 public class CadastrosListarActivity extends AppCompatActivity {
     public ArrayList<Integer> idsSelecionados = new ArrayList<>();
     TabLayout abas;
     AbaAdapter abaAdapter;
     ViewPager viewPager;
+    MyGeoPoint posicaoAtual;
     List<Elemento> elementos;
     private String[] titulosAbas = {"Tudo", "Pontos", "Áreas", "Distâncias"};
 
@@ -41,6 +53,9 @@ public class CadastrosListarActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_cadastros_listar);
 
+        int abrirNaAba = getIntent().getIntExtra(ARG_CLASSEID, 0);
+        posicaoAtual = new MyGeoPoint(getIntent().getStringExtra(ARG_GPS_POSICAO));
+
         carregarElementos();
         viewPager = (ViewPager) findViewById(R.id.pager);
         abaAdapter = new AbaAdapter(getSupportFragmentManager());
@@ -48,7 +63,6 @@ public class CadastrosListarActivity extends AppCompatActivity {
         abas = (TabLayout) findViewById(R.id.tabs);
         abas.setupWithViewPager(viewPager);
 
-        int abrirNaAba = getIntent().getIntExtra(ARG_CLASSEID, 0);
         viewPager.setCurrentItem(abrirNaAba);
     }
 
@@ -198,6 +212,12 @@ public class CadastrosListarActivity extends AppCompatActivity {
         private void setarConteudoAbas() {
             for (CadastrosAbaFragment f : mFragmentList) {
                 f.elementosDaAba.clear();
+                Collections.sort(elementos, new Comparator<Elemento>() {
+                    @Override
+                    public int compare(Elemento elemento2, Elemento elemento1) {
+                        return elemento2.getPontoCentral().distanceTo(posicaoAtual) - elemento1.getPontoCentral().distanceTo(posicaoAtual);
+                    }
+                });
                 for (Elemento e : elementos) {
                     if (f.classeId == 0 || f.classeId == e.getClasse().getClasseid())
                         f.elementosDaAba.add(e);

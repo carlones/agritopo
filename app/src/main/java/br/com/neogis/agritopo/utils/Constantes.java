@@ -37,6 +37,7 @@ public final class Constantes {
     public static final String ARG_ELEMENTO_CENTRALIZAR = "focar_elemento";
     public static final String ARG_CLASSEID = "classeid";
     public static final String ARG_TIPOELEMENTOID = "tipoelementoid";
+    public static final String ARG_GPS_POSICAO = "gps_posicao";
     public static final String ARG_GEOMETRIA = "geometria";
     public static final String ARG_POSICAO_LISTA = "posicao_lista";
     public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";

@@ -1,5 +1,6 @@
 package br.com.neogis.agritopo.activity;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import br.com.neogis.agritopo.R;
@@ -63,7 +66,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 gravarElemento();
-                excluirImagens();
+                //excluirImagens();
                 Intent intent = new Intent();
                 intent.putExtra(ARG_ELEMENTOID, mItem.getElementoid());
                 intent.putExtra(ARG_POSICAO_LISTA, posicao_lista);
@@ -124,9 +127,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
 
     private void excluirImagens() {
         for (String image : fragment.getListaImagensExcluir()) {
-            File arquivoImagem = new File(Uri.parse(image).getPath());
-            if (arquivoImagem.exists())
-                arquivoImagem.delete();
+            getContentResolver().delete(Uri.parse(image), null, null);
         }
     }
 
