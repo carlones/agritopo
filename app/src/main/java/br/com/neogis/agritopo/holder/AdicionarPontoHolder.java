@@ -30,8 +30,6 @@ public class AdicionarPontoHolder extends AdicionarElementoHolder {
 
     private ItemizedOverlayWithFocus<OverlayItem> overlay;
     private MyGeoPoint geoPoint;
-    private MapView mapa;
-    private Activity activity;
 
     public AdicionarPontoHolder(MapView mapa, Activity activity) {
         this.mapa = mapa;
@@ -62,6 +60,7 @@ public class AdicionarPontoHolder extends AdicionarElementoHolder {
     }
 
     public void finalizar() {
+        super.finalizar();
         this.removerModal();
         if (overlay != null) {
             Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
@@ -74,7 +73,7 @@ public class AdicionarPontoHolder extends AdicionarElementoHolder {
     }
 
     public void cancelar() {
-        Log.i("Agritopo", "Cancelando Distância");
+        super.cancelar();
         this.removerModal();
     }
 

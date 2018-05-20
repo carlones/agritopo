@@ -36,9 +36,7 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_AREA_REQUES
 
 public class AdicionarAreaHolder extends AdicionarElementoHolder {
 
-    private MapView mapa;
     private Area area;
-    private Activity activity;
     private InfoBox infoBox;
 
     public AdicionarAreaHolder(MapView mapa, Activity activity, InfoBox infoBox) {
@@ -93,6 +91,7 @@ public class AdicionarAreaHolder extends AdicionarElementoHolder {
     // Termina o modal e devolve a área (que pode estar incompleta)
     //
     public void finalizar() {
+        super.finalizar();
         this.removerModal();
         if (area.ehValida()) {
             criarUltimaAresta();
@@ -115,10 +114,12 @@ public class AdicionarAreaHolder extends AdicionarElementoHolder {
     // Termina o modal, ignorando e descartando a seleção feita pelo usuário
     //
     public void cancelar() {
+        super.cancelar();
         this.removerModal();
     }
 
     public void desfazer() {
+        super.desfazer();
         this.area.removerUltimoPonto();
         this.area.setArea();
         this.area.setPerimetro();
@@ -145,9 +146,13 @@ public class AdicionarAreaHolder extends AdicionarElementoHolder {
 
     private void atualizarInfoBox() {
         if( this.infoBox == null ) return;
-        if( this.area.ehValida() ) {
-            this.infoBox.setText("Área: " + this.area.getAreaDescricao() + "\nPerím.: " + this.area.descricaoPerimetro());
-            this.infoBox.show();
+        if( Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento ) {
+            if (this.area.ehValida()) {
+                this.infoBox.setText("Área: " + this.area.getAreaDescricao() + "\nPerím.: " + this.area.descricaoPerimetro());
+                this.infoBox.show();
+            } else {
+                this.infoBox.hide();
+            }
         }
         else {
             this.infoBox.hide();

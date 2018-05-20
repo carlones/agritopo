@@ -48,6 +48,9 @@
     <string name="pref_title_utilizar_cursor_mapeamento">Utilizar Mira</string>
     <string name="pref_summary_utilizar_cursor_mapeamento">Utilizar a mira durante o mapeamento de pontos, distâncias e áreas.</string>
 
+    <string name="pref_title_deixar_tela_ativa_mapeamento_gps">Tela ativa ao seguir GPS</string>
+    <string name="pref_summary_deixar_tela_ativa_mapeamento_gps">Deixar tela ativa quando estiver cadastrando uma área/distância via GPS</string>
+
     <string name="pref_title_espessura_mira_mapeamento">Espessura da mira</string>
     <string name="pref_summary_espessura_mira_mapeamento">Espessura da mira durante o mapeamento.</string>
     <string name="pref_dialogmessage_espessura_mira_mapeamento">Espessura da mira durante o mapeamento.</string>

@@ -36,9 +36,7 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_DISTANCIA_R
 
 public class AdicionarDistanciaHolder extends AdicionarElementoHolder {
 
-    private MapView mapa;
     private Distancia distancia;
-    private Activity activity;
     private InfoBox infoBox;
 
     public AdicionarDistanciaHolder(MapView mapa, Activity activity, InfoBox infoBox) {
@@ -91,6 +89,7 @@ public class AdicionarDistanciaHolder extends AdicionarElementoHolder {
     // Termina o modal e devolve a área (que pode estar incompleta)
     //
     public void finalizar() {
+        super.finalizar();
         this.removerModal();
         if (distancia.ehValida()) {
             Intent intent = new Intent(activity.getBaseContext(), ElementoDetailActivity.class);
@@ -105,11 +104,12 @@ public class AdicionarDistanciaHolder extends AdicionarElementoHolder {
     // Termina o modal, ignorando e descartando a seleção feita pelo usuário
     //
     public void cancelar() {
-        Log.i("Agritopo", "Cancelando Distância");
+        super.cancelar();
         this.removerModal();
     }
 
     public void desfazer() {
+        super.desfazer();
         this.distancia.removerUltimoPonto();
         this.distancia.removerDe(mapa);
         this.distancia.desenharEm(mapa);
@@ -137,9 +137,14 @@ public class AdicionarDistanciaHolder extends AdicionarElementoHolder {
 
     private void atualizarInfoBox() {
         if( this.infoBox == null ) return;
-        if( this.distancia.ehValida() ) {
-            this.infoBox.setText("Dist.: " + this.distancia.getDistanciaDescricao());
-            this.infoBox.show();
+        if( Configuration.getInstance().ExibirAreaDistanciaDuranteMapeamento ) {
+            if( this.distancia.ehValida() ) {
+                this.infoBox.setText("Dist.: " + this.distancia.getDistanciaDescricao());
+                this.infoBox.show();
+            }
+            else {
+                this.infoBox.hide();
+            }
         }
         else {
             this.infoBox.hide();

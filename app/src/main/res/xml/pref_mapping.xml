@@ -30,6 +30,12 @@
             android:summary="@string/pref_summary_exibir_area_mapeamento"
             android:title="@string/pref_title_exibir_area_mapeamento" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_deixar_tela_ativa_mapeamento_gps"
+            android:summary="@string/pref_summary_deixar_tela_ativa_mapeamento_gps"
+            android:title="@string/pref_title_deixar_tela_ativa_mapeamento_gps" />
+
         <!--suppress AndroidDomInspection -->
         <net.jayschwa.android.preference.SliderPreference
             android:defaultValue="0.5"

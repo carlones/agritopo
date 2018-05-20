@@ -16,12 +16,14 @@ import br.com.neogis.agritopo.utils.NetworkUtils;
 public final class Configuration {
     private static Configuration INSTANCE = null;
     private static Context applicationContext;
+
     //Mapeamento
     public int CorDoCursor;
     public boolean ExibirAreaDistanciaDuranteMapeamento;
     public boolean UsarMiraDuranteMapeamento;
     public float EspessuraMiraMapeamento;
     public float ProximidadeElementos;
+    public boolean DeixarTelaAtivaDuranteMapeamentoComGPS;
 
     //Geral
     public TipoMedidaArea MedidaUtilizadaEmAreas;
@@ -61,11 +63,13 @@ public final class Configuration {
     }
 
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){
+        // TODO: não duplicar valores padrão aqui e no xml
         CorDoCursor = prefs.getInt(context.getResources().getString(R.string.pref_key_color_cursor), Color.YELLOW);
         ExibirAreaDistanciaDuranteMapeamento = prefs.getBoolean(context.getResources().getString(R.string.pref_key_exibir_area_mapeamento), true);
         UsarMiraDuranteMapeamento = prefs.getBoolean(context.getResources().getString(R.string.pref_key_utilizar_cursor_mapeamento), true);
         EspessuraMiraMapeamento = 2 + (8 * prefs.getFloat(context.getResources().getString(R.string.pref_key_espessura_mira_mapeamento), 0.5f));
         ProximidadeElementos = 100 * prefs.getFloat(context.getResources().getString(R.string.pref_key_seletor_proximidade), 0.5f);
+        DeixarTelaAtivaDuranteMapeamentoComGPS = prefs.getBoolean(context.getResources().getString(R.string.pref_key_deixar_tela_ativa_mapeamento_gps), true);
     }
 
     public enum TipoMedidaArea {
