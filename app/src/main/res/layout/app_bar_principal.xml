@@ -19,13 +19,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <include
-        layout="@layout/info_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="?android:attr/actionBarSize"
+        android:paddingLeft="5sp">
 
-    <include
-        layout="@layout/gps_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <include
+            layout="@layout/gps_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/info_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
 </android.support.design.widget.CoordinatorLayout>

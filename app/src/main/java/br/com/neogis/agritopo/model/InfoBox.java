@@ -19,6 +19,6 @@ public class InfoBox {
     }
 
     public void hide() {
-        view.setVisibility(android.view.View.INVISIBLE);
+        view.setVisibility(android.view.View.GONE);
     }
 }
