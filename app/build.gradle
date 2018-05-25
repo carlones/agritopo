@@ -15,11 +15,11 @@ android {
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15 // Tablet do Angelo é versão 15
-        targetSdkVersion 25
-        versionName '1.0.2.0'
+        targetSdkVersion 26
+        versionName '1.0.2.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //signingConfig signingConfigs.AgritopoKey
-        versionCode 5
+        versionCode 7
     }
     lintOptions {
         disable 'MissingTranslation'
@@ -29,6 +29,9 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
         }
     }
     productFlavors {
