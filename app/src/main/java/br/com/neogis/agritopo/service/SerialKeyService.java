@@ -81,7 +81,7 @@ public class SerialKeyService {
         return serial;
     }
 
-    private Usuario getUsuario(){
+    public Usuario getUsuario() {
         Usuario usuario = usuarioDao.get(1);
         if(usuario == null) {
             usuario = new Usuario(0, "", "", 0);
@@ -101,6 +101,11 @@ public class SerialKeyService {
         }finally {
             gps.stopLocationProvider();
         }
+    }
+
+    public ChaveSerial getChaveSerial() {
+        Date currentDate = getCurrentDate();
+        return chaveSerialDao.getValid(currentDate.getTime());
     }
 
 }

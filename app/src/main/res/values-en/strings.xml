@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AgriTopo</string>
+    <string name="app_name">Agritopo</string>
     <string name="action_settings">Configuration</string>
     <string name="title_activity_mapa">Map</string>
     <string name="navigation_drawer_open">Open</string>
@@ -11,7 +11,7 @@
     <string name="action_curvas_nivel">Level Curves</string>
     <string name="action_terrenos">Grounds</string>
     <string name="action_geometrias">Geometry</string>
-    <string name="edt_pesquisa">Search maps...</string>
+    <string name="edt_pesquisa">Search maps&#8230;</string>
     <string name="action_layer_poi">Point of Interest</string>
     <string name="action_layer_curvas_nivel">Level Curves</string>
     <string name="action_layer_geometry">Geometries</string>
@@ -44,5 +44,15 @@
     <string name="action_desfazer">Undo</string>
     <string name="menu_importar">Import</string>
     <string name="menu_exportar">Export</string>
-    <string name="arquivo_informacao">Sempre na pasta \"agritopo\" de seu dispositivo</string>
+    <string name="arquivo_informacao">Always in the \"agritopo\" folder</string>
+    <string name="menu_sobre">About</string>
+    <string name="pref_title_seletor_proximidade">Proximity</string>
+    <string name="title_activity_arvore_camadas">Layer tree</string>
+    <string name="title_activity_importar">Import</string>
+    <string name="title_activity_serial_key">Serial key</string>
+    <string name="title_activity_serial_key_trial">Trial serial key</string>
+    <string name="title_activity_sobre">About</string>
+    <string name="pref_title_deixar_tela_ativa_mapeamento_gps">Active screen on follow GPS</string>
+    <string name="pref_summary_seletor_proximidade">On long press, consider nearer elements, higher the number, higher the coverage</string>
+    <string name="pref_summary_deixar_tela_ativa_mapeamento_gps">Active screen on follow GPS</string>
 </resources>

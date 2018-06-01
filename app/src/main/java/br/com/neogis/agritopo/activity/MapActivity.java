@@ -653,6 +653,9 @@ public class MapActivity extends AppCompatActivity
         } else if (id == R.id.nav_configuracao) {
             Intent intent = new Intent(this, ConfiguracaoActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_sobre) {
+            Intent intent = new Intent(this, SobreActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

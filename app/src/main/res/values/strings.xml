@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AgriTopo</string>
+    <string name="app_name">Agritopo</string>
 
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
@@ -13,7 +13,7 @@
     <string name="action_curvas_nivel">Curvas de Nível</string>
     <string name="action_terrenos">Terrenos</string>
     <string name="action_geometrias">Geometrias</string>
-    <string name="edt_pesquisa">Pesquisar mapas...</string>
+    <string name="edt_pesquisa">Pesquisar mapas&#8230;</string>
     <string name="action_layer_poi">Pontos de Interesse</string>
     <string name="action_layer_curvas_nivel">Curvas de Nível</string>
     <string name="action_layer_geometry">Geometrias</string>
@@ -494,11 +494,13 @@
     <string name="arquivo_informacao">Sempre na pasta \"agritopo\" de seu dispositivo</string>
     <string name="arquivo_tipo_kml">Formato KML</string>
     <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
-    <string name="title_activity_arvore_camadas">ArvoreCamadasActivity</string>
+    <string name="title_activity_arvore_camadas">Árvore de camadas</string>
     <string name="action_desfazer">Desfazer</string>
     <string name="menu_importar">Importar</string>
     <string name="menu_exportar">Exportar</string>
-    <string name="title_activity_importar">ImportarActivity</string>
-    <string name="title_activity_serial_key">SerialKeyActivity</string>
-    <string name="title_activity_serial_key_trial">SerialKeyTrialActivity</string>
+    <string name="title_activity_importar">Importar</string>
+    <string name="title_activity_serial_key">Chave serial</string>
+    <string name="title_activity_serial_key_trial">Chave serial trial</string>
+    <string name="title_activity_sobre">Sobre</string>
+    <string name="menu_sobre">Sobre</string>
 </resources>

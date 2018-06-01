@@ -96,7 +96,7 @@
 
     <string name="pref_key_deixar_tela_ativa_mapeamento_gps">deixar_tela_ativa_mapeamento_gps</string>
     <string name="pref_title_deixar_tela_ativa_mapeamento_gps">Tela ativa ao seguir GPS</string>
-    <string name="pref_summary_deixar_tela_ativa_mapeamento_gps">Deixar tela ativa quando estiver cadastrando uma área/distância via GPS</string>
+    <string name="pref_summary_deixar_tela_ativa_mapeamento_gps">Deixar tela ativa quando estiver mapeando via GPS</string>
 
     <string name="pref_key_seletor_proximidade">seletor_proximidade</string>
     <string name="pref_title_seletor_proximidade">Proximidade</string>
