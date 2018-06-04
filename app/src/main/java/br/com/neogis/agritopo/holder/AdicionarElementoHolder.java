@@ -20,6 +20,7 @@ public class AdicionarElementoHolder extends Overlay
     public boolean aceitaDesfazer = false;
 
     private boolean seguindoGps = false;
+    private Location lastLocation = null;
 
     public void seguirGPS() {
         deixarTelaAtiva();
@@ -29,6 +30,7 @@ public class AdicionarElementoHolder extends Overlay
     public void pararSeguirGPS() {
         naoDeixarTelaAtiva();
         seguindoGps = false;
+        lastLocation = null;
     }
     public boolean seguindoGPS() {
         return seguindoGps;
@@ -50,4 +52,17 @@ public class AdicionarElementoHolder extends Overlay
     public void finalizar() { naoDeixarTelaAtiva(); }
     public void cancelar() { naoDeixarTelaAtiva(); }
     public void desfazer() {}
+
+    public void locationChanged(Location location) {
+        if( !seguindoGps ) return;
+
+        boolean ultrapassouDistanciaLimite = lastLocation != null && location.distanceTo(lastLocation) >= 10.0; // metros
+        long timeDiff = lastLocation == null ? 0 : location.getTime() - lastLocation.getTime();
+        boolean ultrapassouTempoLimite = lastLocation != null && timeDiff >= (5 * 1000); // segundos
+
+        if( lastLocation == null || ultrapassouDistanciaLimite || ultrapassouTempoLimite ) {
+            lastLocation = location;
+            registrarPontoGPS(location);
+        }
+    }
 }

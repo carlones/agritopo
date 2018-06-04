@@ -665,10 +665,8 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        if (mMyLocationNewOverlay.isMyLocationEnabled()) {
-            if( modalAtivo != null && modalAtivo.aceitaSeguirGps && modalAtivo.seguindoGPS() ) {
-                modalAtivo.registrarPontoGPS(location);
-            }
+        if (mMyLocationNewOverlay.isMyLocationEnabled() && modalAtivo != null) {
+            modalAtivo.locationChanged(location);
         }
     }
 
