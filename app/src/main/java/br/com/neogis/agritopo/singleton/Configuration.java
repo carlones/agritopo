@@ -6,12 +6,9 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.io.File;
 
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.utils.NetworkUtils;
 
 public final class Configuration {
     private static Configuration INSTANCE = null;
@@ -23,6 +20,8 @@ public final class Configuration {
     public boolean UsarMiraDuranteMapeamento;
     public float EspessuraMiraMapeamento;
     public float ProximidadeElementos;
+    public float SeguirPorTempo;
+    public float SeguirPorDistancia;
     public boolean DeixarTelaAtivaDuranteMapeamentoComGPS;
 
     //Geral
@@ -31,7 +30,7 @@ public final class Configuration {
     public String DiretorioLeituraArquivos;
     public String DiretorioFotos;
 
-    public Configuration(){
+    private Configuration() {
 
     }
 
@@ -70,6 +69,8 @@ public final class Configuration {
         EspessuraMiraMapeamento = 2 + (8 * prefs.getFloat(context.getResources().getString(R.string.pref_key_espessura_mira_mapeamento), 0.5f));
         ProximidadeElementos = 100 * prefs.getFloat(context.getResources().getString(R.string.pref_key_seletor_proximidade), 0.5f);
         DeixarTelaAtivaDuranteMapeamentoComGPS = prefs.getBoolean(context.getResources().getString(R.string.pref_key_deixar_tela_ativa_mapeamento_gps), true);
+        SeguirPorTempo = 10 * prefs.getFloat(context.getResources().getString(R.string.pref_key_seguir_por_tempo), 0.0f);
+        SeguirPorDistancia = 10 * prefs.getFloat(context.getResources().getString(R.string.pref_key_seguir_por_distancia), 0.0f);
     }
 
     public enum TipoMedidaArea {

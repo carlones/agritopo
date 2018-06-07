@@ -6,7 +6,7 @@
     <item
         android:id="@+id/menu_cadastros_acao_remover"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="Remover"
+        android:title="@string/cadastros_remover"
         android:onClick="removerElementosSelecionados"
         app:showAsAction="always" />
 

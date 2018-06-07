@@ -7,17 +7,17 @@ import java.util.List;
  */
 
 public interface ElementoDao {
-    public List<Elemento> getAll();
+    List<Elemento> getAll();
 
-    public List<Elemento> getByClasse(int classeid);
+    List<Elemento> getByClasse(int classeid);
 
-    public Elemento get(int id);
+    Elemento get(int id);
 
-    public void save(Elemento obj);
+    void save(Elemento obj);
 
-    public void insert(Elemento obj);
+    void insert(Elemento obj);
 
-    public void update(Elemento obj);
+    void update(Elemento obj);
 
-    public void delete(Elemento obj);
+    void delete(Elemento obj);
 }

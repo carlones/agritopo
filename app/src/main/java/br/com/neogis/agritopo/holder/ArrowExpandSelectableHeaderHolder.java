@@ -16,7 +16,6 @@ import br.com.neogis.agritopo.model.TreeNode;
  * Created by Bogdan Melnychuk on 2/15/15, modified by Szigeti Peter 2/2/16.
  */
 public class ArrowExpandSelectableHeaderHolder extends TreeNode.BaseNodeViewHolder<IconTreeItemHolder.IconTreeItem> {
-    private TextView tvValue;
     private PrintView arrowView;
     private CheckBox nodeSelector;
 
@@ -29,7 +28,7 @@ public class ArrowExpandSelectableHeaderHolder extends TreeNode.BaseNodeViewHold
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.layout_selectable_header, null, false);
 
-        tvValue = (TextView) view.findViewById(R.id.node_value);
+        TextView tvValue = (TextView) view.findViewById(R.id.node_value);
         tvValue.setText(value.text);
 
         final PrintView iconView = (PrintView) view.findViewById(R.id.icon);

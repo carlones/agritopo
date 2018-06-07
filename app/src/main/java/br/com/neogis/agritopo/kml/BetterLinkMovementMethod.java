@@ -36,13 +36,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
     private LongPressTimer ongoingLongPressTimer;
     private boolean wasLongPressRegistered;
 
-    public interface OnLinkClickListener {
-        /**
-         * @param textView The TextView on which a click was registered.
-         * @param url      The clicked URL.
-         * @return True if this click was handled. False to let Android handle the URL.
-         */
-        boolean onClick(TextView textView, String url);
+    BetterLinkMovementMethod() {
     }
 
     public interface OnLinkLongClickListener {
@@ -57,7 +51,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
     /**
      * Return a new instance of BetterLinkMovementMethod.
      */
-    public static BetterLinkMovementMethod newInstance() {
+    private static BetterLinkMovementMethod newInstance() {
         return new BetterLinkMovementMethod();
     }
 
@@ -67,7 +61,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
      * @param textViews   The TextViews on which a {@link BetterLinkMovementMethod} should be registered.
      * @return The registered {@link BetterLinkMovementMethod} on the TextViews.
      */
-    public static BetterLinkMovementMethod linkify(int linkifyMask, TextView... textViews) {
+    private static BetterLinkMovementMethod linkify(int linkifyMask, TextView... textViews) {
         BetterLinkMovementMethod movementMethod = newInstance();
         for (TextView textView : textViews) {
             addLinks(linkifyMask, movementMethod, textView);
@@ -92,7 +86,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
      *                    {@link Linkify#WEB_URLS} and {@link Linkify#EMAIL_ADDRESSES}.
      * @return The registered {@link BetterLinkMovementMethod} on the TextViews.
      */
-    public static BetterLinkMovementMethod linkify(int linkifyMask, ViewGroup viewGroup) {
+    private static BetterLinkMovementMethod linkify(int linkifyMask, ViewGroup viewGroup) {
         BetterLinkMovementMethod movementMethod = newInstance();
         rAddLinks(linkifyMask, viewGroup, movementMethod);
         return movementMethod;
@@ -115,7 +109,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
      *                    {@link Linkify#WEB_URLS} and {@link Linkify#EMAIL_ADDRESSES}.
      * @return The registered {@link BetterLinkMovementMethod} on the TextViews.
      */
-    public static BetterLinkMovementMethod linkify(int linkifyMask, Activity activity) {
+    private static BetterLinkMovementMethod linkify(int linkifyMask, Activity activity) {
         // Find the layout passed to setContentView().
         ViewGroup activityLayout = ((ViewGroup) ((ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT)).getChildAt(0));
 
@@ -146,7 +140,49 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
         return singleInstance;
     }
 
-    protected BetterLinkMovementMethod() {
+    /**
+     * Determines the touched location inside the TextView's text and returns the ClickableSpan found under it (if any).
+     *
+     * @return The touched ClickableSpan or null.
+     */
+    private ClickableSpan findClickableSpanUnderTouch(TextView textView, Spannable text, MotionEvent event) {
+        // So we need to find the location in text where touch was made, regardless of whether the TextView
+        // has scrollable text. That is, not the entire text is currently visible.
+        int touchX = (int) event.getX();
+        int touchY = (int) event.getY();
+
+        // Ignore padding.
+        touchX -= textView.getTotalPaddingLeft();
+        touchY -= textView.getTotalPaddingTop();
+
+        // Account for scrollable text.
+        touchX += textView.getScrollX();
+        touchY += textView.getScrollY();
+
+        final Layout layout = textView.getLayout();
+        final int touchedLine = layout.getLineForVertical(touchY);
+        final int touchOffset = layout.getOffsetForHorizontal(touchedLine, touchX);
+
+        touchedLineBounds.left = layout.getLineLeft(touchedLine);
+        touchedLineBounds.top = layout.getLineTop(touchedLine);
+        touchedLineBounds.right = layout.getLineWidth(touchedLine) + touchedLineBounds.left;
+        touchedLineBounds.bottom = layout.getLineBottom(touchedLine);
+
+        if (touchedLineBounds.contains(touchX, touchY)) {
+            // Find a ClickableSpan that lies under the touched area.
+            final Object[] spans = text.getSpans(touchOffset, touchOffset, ClickableSpan.class);
+            for (final Object span : spans) {
+                if (span instanceof ClickableSpan) {
+                    return (ClickableSpan) span;
+                }
+            }
+            // No ClickableSpan found under the touched location.
+            return null;
+
+        } else {
+            // Touch lies outside the line's horizontal bounds where no spans should exist.
+            return null;
+        }
     }
 
     /**
@@ -282,54 +318,9 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
     }
 
     /**
-     * Determines the touched location inside the TextView's text and returns the ClickableSpan found under it (if any).
-     *
-     * @return The touched ClickableSpan or null.
-     */
-    protected ClickableSpan findClickableSpanUnderTouch(TextView textView, Spannable text, MotionEvent event) {
-        // So we need to find the location in text where touch was made, regardless of whether the TextView
-        // has scrollable text. That is, not the entire text is currently visible.
-        int touchX = (int) event.getX();
-        int touchY = (int) event.getY();
-
-        // Ignore padding.
-        touchX -= textView.getTotalPaddingLeft();
-        touchY -= textView.getTotalPaddingTop();
-
-        // Account for scrollable text.
-        touchX += textView.getScrollX();
-        touchY += textView.getScrollY();
-
-        final Layout layout = textView.getLayout();
-        final int touchedLine = layout.getLineForVertical(touchY);
-        final int touchOffset = layout.getOffsetForHorizontal(touchedLine, touchX);
-
-        touchedLineBounds.left = layout.getLineLeft(touchedLine);
-        touchedLineBounds.top = layout.getLineTop(touchedLine);
-        touchedLineBounds.right = layout.getLineWidth(touchedLine) + touchedLineBounds.left;
-        touchedLineBounds.bottom = layout.getLineBottom(touchedLine);
-
-        if (touchedLineBounds.contains(touchX, touchY)) {
-            // Find a ClickableSpan that lies under the touched area.
-            final Object[] spans = text.getSpans(touchOffset, touchOffset, ClickableSpan.class);
-            for (final Object span : spans) {
-                if (span instanceof ClickableSpan) {
-                    return (ClickableSpan) span;
-                }
-            }
-            // No ClickableSpan found under the touched location.
-            return null;
-
-        } else {
-            // Touch lies outside the line's horizontal bounds where no spans should exist.
-            return null;
-        }
-    }
-
-    /**
      * Adds a background color span at <var>clickableSpan</var>'s location.
      */
-    protected void highlightUrl(TextView textView, ClickableSpan clickableSpan, Spannable text) {
+    private void highlightUrl(TextView textView, ClickableSpan clickableSpan, Spannable text) {
         if (isUrlHighlighted) {
             return;
         }
@@ -344,7 +335,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
     /**
      * Removes the highlight color under the Url.
      */
-    protected void removeUrlHighlightColor(TextView textView) {
+    private void removeUrlHighlightColor(TextView textView) {
         if (!isUrlHighlighted) {
             return;
         }
@@ -355,7 +346,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
         Selection.removeSelection(text);
     }
 
-    protected void startTimerForRegisteringLongClick(TextView textView, LongPressTimer.OnTimerReachedListener longClickListener) {
+    private void startTimerForRegisteringLongClick(TextView textView, LongPressTimer.OnTimerReachedListener longClickListener) {
         ongoingLongPressTimer = new LongPressTimer();
         ongoingLongPressTimer.setOnTimerReachedListener(longClickListener);
         textView.postDelayed(ongoingLongPressTimer, ViewConfiguration.getLongPressTimeout());
@@ -364,14 +355,14 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
     /**
      * Remove the long-press detection timer.
      */
-    protected void removeLongPressCallback(TextView textView) {
+    private void removeLongPressCallback(TextView textView) {
         if (ongoingLongPressTimer != null) {
             textView.removeCallbacks(ongoingLongPressTimer);
             ongoingLongPressTimer = null;
         }
     }
 
-    protected void dispatchUrlClick(TextView textView, ClickableSpan clickableSpan) {
+    private void dispatchUrlClick(TextView textView, ClickableSpan clickableSpan) {
         ClickableSpanWithText clickableSpanWithText = ClickableSpanWithText.ofSpan(textView, clickableSpan);
         boolean handled = onLinkClickListener != null && onLinkClickListener.onClick(textView, clickableSpanWithText.text());
 
@@ -379,6 +370,15 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
             // Let Android handle this click.
             clickableSpanWithText.span().onClick(textView);
         }
+    }
+
+    interface OnLinkClickListener {
+        /**
+         * @param textView The TextView on which a click was registered.
+         * @param url      The clicked URL.
+         * @return True if this click was handled. False to let Android handle the URL.
+         */
+        boolean onClick(TextView textView, String url);
     }
 
     protected void dispatchUrlLongClick(TextView textView, ClickableSpan clickableSpan) {
@@ -391,11 +391,11 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
         }
     }
 
-    protected static final class LongPressTimer implements Runnable {
+    static final class LongPressTimer implements Runnable {
         private OnTimerReachedListener onTimerReachedListener;
 
-        protected interface OnTimerReachedListener {
-            void onTimerReached();
+        void setOnTimerReachedListener(OnTimerReachedListener listener) {
+            onTimerReachedListener = listener;
         }
 
         @Override
@@ -403,8 +403,8 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
             onTimerReachedListener.onTimerReached();
         }
 
-        public void setOnTimerReachedListener(OnTimerReachedListener listener) {
-            onTimerReachedListener = listener;
+        interface OnTimerReachedListener {
+            void onTimerReached();
         }
     }
 
@@ -415,7 +415,12 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
         private ClickableSpan span;
         private String text;
 
-        protected static ClickableSpanWithText ofSpan(TextView textView, ClickableSpan span) {
+        ClickableSpanWithText(ClickableSpan span, String text) {
+            this.span = span;
+            this.text = text;
+        }
+
+        static ClickableSpanWithText ofSpan(TextView textView, ClickableSpan span) {
             Spanned s = (Spanned) textView.getText();
             String text;
             if (span instanceof URLSpan) {
@@ -428,16 +433,11 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
             return new ClickableSpanWithText(span, text);
         }
 
-        protected ClickableSpanWithText(ClickableSpan span, String text) {
-            this.span = span;
-            this.text = text;
-        }
-
-        protected ClickableSpan span() {
+        ClickableSpan span() {
             return span;
         }
 
-        protected String text() {
+        String text() {
             return text;
         }
     }

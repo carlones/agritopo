@@ -6,14 +6,14 @@ import java.util.List;
  * Created by marci on 21/04/2018.
  */
 
-public interface ChaveSerialDao {
-    public List<ChaveSerial> getAll();
+interface ChaveSerialDao {
+    List<ChaveSerial> getAll();
 
-    public ChaveSerial get(int id);
+    ChaveSerial get(int id);
 
-    public void insert(ChaveSerial obj);
+    void insert(ChaveSerial obj);
 
-    public void update(ChaveSerial obj);
+    void update(ChaveSerial obj);
 
-    public void delete(ChaveSerial obj);
+    void delete(ChaveSerial obj);
 }

@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.utils.AsyncResponse;
-import br.com.neogis.agritopo.utils.Utils;
 
 /**
  * Created by marci on 30/03/2018.

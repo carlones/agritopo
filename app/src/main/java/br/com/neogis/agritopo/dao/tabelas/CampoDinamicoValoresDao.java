@@ -6,14 +6,14 @@ import java.util.List;
  * Created by carlo on 15/10/2017.
  */
 
-public interface CampoDinamicoValoresDao {
-    public List<CampoDinamicoValores> getAll();
+interface CampoDinamicoValoresDao {
+    List<CampoDinamicoValores> getAll();
 
-    public CampoDinamicoValores get(int id);
+    CampoDinamicoValores get(int id);
 
-    public void insert(CampoDinamicoValores obj);
+    void insert(CampoDinamicoValores obj);
 
-    public void update(CampoDinamicoValores obj);
+    void update(CampoDinamicoValores obj);
 
-    public void delete(CampoDinamicoValores obj);
+    void delete(CampoDinamicoValores obj);
 }

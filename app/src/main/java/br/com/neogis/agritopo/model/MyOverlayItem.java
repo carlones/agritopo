@@ -9,7 +9,7 @@ import br.com.neogis.agritopo.dao.tabelas.Elemento;
  * Created by carlo on 03/01/2018.
  */
 
-public class MyOverlayItem extends OverlayItem {
+class MyOverlayItem extends OverlayItem {
     private Elemento elemento;
 
     public MyOverlayItem(String aTitle, String aSnippet, IGeoPoint aGeoPoint) {

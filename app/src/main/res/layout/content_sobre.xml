@@ -29,7 +29,7 @@
                     android:id="@+id/imgNeogis"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:contentDescription="Neogis Consultoria e Sistemas"
+                    android:contentDescription="@string/neogis_consultoria_e_sistemas"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/neogis"
                     tools:layout_editor_absoluteX="0dp"

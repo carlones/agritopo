@@ -7,7 +7,7 @@ import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.kml.MyBasicInfoWindow;
 
 public class MyMarker extends Marker {
-    protected Elemento elemento;
+    private Elemento elemento;
 
     public MyMarker(MapView m) {
         super(m);

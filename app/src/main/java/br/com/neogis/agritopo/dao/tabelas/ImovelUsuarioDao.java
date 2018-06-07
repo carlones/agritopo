@@ -6,14 +6,14 @@ import java.util.List;
  * Created by carlo on 15/10/2017.
  */
 
-public interface ImovelUsuarioDao {
-    public List<ImovelUsuario> getAll();
+interface ImovelUsuarioDao {
+    List<ImovelUsuario> getAll();
 
-    public ImovelUsuario get(int id);
+    ImovelUsuario get(int id);
 
-    public void insert(ImovelUsuario obj);
+    void insert(ImovelUsuario obj);
 
-    public void update(ImovelUsuario obj);
+    void update(ImovelUsuario obj);
 
-    public void delete(ImovelUsuario obj);
+    void delete(ImovelUsuario obj);
 }

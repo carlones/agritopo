@@ -7,13 +7,13 @@ import java.util.List;
  */
 
 public interface ClasseDao {
-    public List<Classe> getAll();
+    List<Classe> getAll();
 
-    public Classe get(int id);
+    Classe get(int id);
 
-    public void insert(Classe obj);
+    void insert(Classe obj);
 
-    public void update(Classe obj);
+    void update(Classe obj);
 
-    public void delete(Classe obj);
+    void delete(Classe obj);
 }

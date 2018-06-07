@@ -2,9 +2,7 @@ package br.com.neogis.agritopo.model;
 
 import android.view.MotionEvent;
 
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Polygon;
 
 import br.com.neogis.agritopo.dao.tabelas.Elemento;

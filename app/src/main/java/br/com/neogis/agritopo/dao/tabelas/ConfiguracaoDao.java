@@ -6,14 +6,14 @@ import java.util.List;
  * Created by carlo on 15/10/2017.
  */
 
-public interface ConfiguracaoDao {
-    public List<Configuracao> getAll();
+interface ConfiguracaoDao {
+    List<Configuracao> getAll();
 
-    public Configuracao get(int id);
+    Configuracao get(int id);
 
-    public void insert(Configuracao obj);
+    void insert(Configuracao obj);
 
-    public void update(Configuracao obj);
+    void update(Configuracao obj);
 
-    public void delete(Configuracao obj);
+    void delete(Configuracao obj);
 }

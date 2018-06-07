@@ -15,8 +15,6 @@ import br.com.neogis.agritopo.model.TreeNode;
  * Created by Bogdan Melnychuk on 2/15/15.
  */
 public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
-    private TextView tvValue;
-    private LinearLayout picture_wrapper;
     private CheckBox nodeSelector;
 
     public SelectableItemHolder(Context context) {
@@ -37,7 +35,7 @@ public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
         });
         nodeSelector.setChecked(node.isSelected());
 
-        picture_wrapper = (LinearLayout) view.findViewById(R.id.picture_wrapper);
+        LinearLayout picture_wrapper = (LinearLayout) view.findViewById(R.id.picture_wrapper);
         picture_wrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +43,7 @@ public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
             }
         });
 
-        tvValue = (TextView) view.findViewById(R.id.node_value);
+        TextView tvValue = (TextView) view.findViewById(R.id.node_value);
         tvValue.setText(value);
         tvValue.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,35 +62,38 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PEGAR_MAPA_MODO_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Intent intent = new Intent(getBaseContext(), MapActivity.class);
-                intent.putExtra(ARG_MAPA_ID, data.getExtras().getInt(ARG_MAPA_ID));
-                intent.putExtra(ARG_MAPA_LATITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LATITUDEATUAL));
-                intent.putExtra(ARG_MAPA_LONGITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LONGITUDEATUAL));
-                intent.putExtra(ARG_MAPA_ZOOMINICIAL, data.getExtras().getInt(ARG_MAPA_ZOOMINICIAL));
-                intent.putExtra(ARG_MAPA_MODO, data.getExtras().getInt(ARG_MAPA_MODO));
-                startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
-            }
-            if (resultCode == RESULT_CANCELED) {
-                finish();
-            }
-        }else if(requestCode == PEGAR_SERIAL_KEY){
-            if (resultCode == RESULT_OK)
-                if(serialKeyService.containsValidSerialKey())
-                    startMapActivity();
-            if(resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "A ativação é necessária.", Toast.LENGTH_LONG).show();
-                finish();
-            }
-        }else if(requestCode == PEGAR_SERIAL_KEY_TRIAL)
-        {
-            if (resultCode == RESULT_OK)
-                if(serialKeyService.containsValidSerialKey() || serialKeyService.containsFreeSerialKey())
-                    startMapActivity();
-            if(resultCode == RESULT_CANCELED) {
-                finish();
-            }
+        switch (requestCode) {
+            case PEGAR_MAPA_MODO_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent(getBaseContext(), MapActivity.class);
+                    intent.putExtra(ARG_MAPA_ID, data.getExtras().getInt(ARG_MAPA_ID));
+                    intent.putExtra(ARG_MAPA_LATITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LATITUDEATUAL));
+                    intent.putExtra(ARG_MAPA_LONGITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LONGITUDEATUAL));
+                    intent.putExtra(ARG_MAPA_ZOOMINICIAL, data.getExtras().getInt(ARG_MAPA_ZOOMINICIAL));
+                    intent.putExtra(ARG_MAPA_MODO, data.getExtras().getInt(ARG_MAPA_MODO));
+                    startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
+                }
+                if (resultCode == RESULT_CANCELED) {
+                    finish();
+                }
+                break;
+            case PEGAR_SERIAL_KEY:
+                if (resultCode == RESULT_OK)
+                    if (serialKeyService.containsValidSerialKey())
+                        startMapActivity();
+                if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "A ativação é necessária.", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            case PEGAR_SERIAL_KEY_TRIAL:
+                if (resultCode == RESULT_OK)
+                    if (serialKeyService.containsValidSerialKey() || serialKeyService.containsFreeSerialKey())
+                        startMapActivity();
+                if (resultCode == RESULT_CANCELED) {
+                    finish();
+                }
+                break;
         }
     }
 

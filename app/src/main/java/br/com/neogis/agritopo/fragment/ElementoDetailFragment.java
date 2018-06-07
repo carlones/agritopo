@@ -43,7 +43,6 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.DateUtils;
-import br.com.neogis.agritopo.utils.Utils;
 
 import static android.app.Activity.RESULT_OK;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
@@ -67,12 +66,7 @@ public class ElementoDetailFragment extends Fragment {
     private EditText elementoTitulo;
     private AutoCompleteTextView elementoTipoElemento;
     private EditText elementoDescricao;
-    private EditText elementoInformacao;
-    private EditText elementoDataCriacao;
-    private EditText elementoDataModificacao;
     private LinearLayout elementoListaImagens;
-    private ImageView imageTirarFoto;
-    private ImageView imageAdicionarImagem;
     private AlertDialog alerta;
 
     public ElementoDetailFragment() {
@@ -117,12 +111,12 @@ public class ElementoDetailFragment extends Fragment {
         elementoTitulo = (EditText) rootView.findViewById(R.id.elementoTitulo);
         elementoTipoElemento = (AutoCompleteTextView) rootView.findViewById(R.id.elementoTipoElemento);
         elementoDescricao = (EditText) rootView.findViewById(R.id.elementoDescricao);
-        elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
-        elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
-        elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
+        EditText elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
+        EditText elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
+        EditText elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
         elementoListaImagens = (LinearLayout) rootView.findViewById(R.id.elementoListaImagens);
-        imageTirarFoto = (ImageView) rootView.findViewById(R.id.elemento_botao_tirar_foto);
-        imageAdicionarImagem = (ImageView) rootView.findViewById(R.id.elemento_botao_adicionar_foto);
+        ImageView imageTirarFoto = (ImageView) rootView.findViewById(R.id.elemento_botao_tirar_foto);
+        ImageView imageAdicionarImagem = (ImageView) rootView.findViewById(R.id.elemento_botao_adicionar_foto);
 
         TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(rootView.getContext());
         List<TipoElemento> listaTipoElemento = tipoElementoDao.getAll();
@@ -130,7 +124,7 @@ public class ElementoDetailFragment extends Fragment {
         for (TipoElemento te : listaTipoElemento) {
             nomesTipoElemento.add(te.getNome());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 rootView.getContext(),
                 android.R.layout.simple_dropdown_item_1line,
                 nomesTipoElemento

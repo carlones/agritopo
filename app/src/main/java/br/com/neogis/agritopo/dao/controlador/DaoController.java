@@ -14,7 +14,7 @@ public class DaoController {
     protected Context context;
     private BancoDeDadosSQLite banco;
 
-    public DaoController(Context context) {
+    protected DaoController(Context context) {
         this.context = context;
         banco = new BancoDeDadosSQLite(context);
     }

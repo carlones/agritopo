@@ -14,7 +14,7 @@ import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
  * Created by carlo on 14/10/2017.
  */
 
-public class ExemploElementoDAO {
+class ExemploElementoDAO {
     private SQLiteDatabase db;
     private BancoDeDadosSQLite banco;
 

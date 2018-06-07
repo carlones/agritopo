@@ -11,56 +11,56 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:padding="5dp"
+        android:padding="5sp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="368dp"
-            android:layout_height="495dp"
-            android:padding="5dp"
+            android:layout_width="368sp"
+            android:layout_height="495sp"
+            android:padding="5sp"
             android:gravity="center"
             android:orientation="vertical"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            tools:layout_editor_absoluteX="8sp"
+            tools:layout_editor_absoluteY="8sp">
 
             <TextView
                 android:id="@+id/serial_key_free_text_tempo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="20dp"
-                android:textSize="25dp"
-                android:text="Você tem 0 dias gratuitos restantes" />
+                android:padding="20sp"
+                android:text="@string/content_serial_key_trial_descricao"
+                android:textSize="25sp" />
 
             <Button
                 android:id="@+id/serial_key_free_button_continuar"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:padding="20dp"
-                android:text="Continuar"
+                android:layout_height="70sp"
+                android:layout_marginLeft="50sp"
+                android:layout_marginRight="50sp"
+                android:padding="20sp"
+                android:text="@string/content_serial_key_trial_continuar"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="80dp"
+                android:layout_height="1sp"
+                android:layout_marginBottom="20sp"
+                android:layout_marginLeft="80sp"
+                android:layout_marginRight="80sp"
+                android:layout_marginTop="20sp"
                 android:background="@android:color/black" />
 
             <Button
                 android:id="@+id/serial_key_free_button_ativar"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:text="Ativar"
+                android:layout_height="70sp"
+                android:layout_marginLeft="50sp"
+                android:layout_marginRight="50sp"
+                android:text="@string/content_serial_key_trial_ativar"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 

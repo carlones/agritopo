@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.location.Location;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;

@@ -1,7 +1,5 @@
 package br.com.neogis.agritopo.controller;
 
-import android.util.Log;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ public class MapFileController {
     private int selected = 0;
 
     public MapFileController(){
-        Maps = new ArrayList<MapFile>();
+        Maps = new ArrayList<>();
     }
 
     public void LoadMaps(){

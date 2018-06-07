@@ -6,19 +6,19 @@
     <item
         android:id="@+id/action_recentralizar"
         android:icon="@drawable/ic_navigation_white_24dp"
-        android:title="Recentralizar"
-        app:showAsAction="always" />
+        android:title="@string/principal_recentralizar"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_menu_kml"
         android:icon="@drawable/ic_layers_white_24dp"
-        android:title="KMLs"
-        app:showAsAction="always"
+        android:title="@string/principal_kmls"
+        app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/action_menu_raster"
         android:icon="@drawable/ic_map_white_24dp"
-        android:title="Mapas"
-        app:showAsAction="always"/>
+        android:title="@string/principal_mapas"
+        app:showAsAction="ifRoom" />
 </menu>

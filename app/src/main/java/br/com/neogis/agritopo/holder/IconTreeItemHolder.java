@@ -14,7 +14,6 @@ import br.com.neogis.agritopo.model.TreeNode;
  * Created by Bogdan Melnychuk on 2/12/15.
  */
 public class IconTreeItemHolder extends TreeNode.BaseNodeViewHolder<IconTreeItemHolder.IconTreeItem> {
-    private TextView tvValue;
     private PrintView arrowView;
 
     public IconTreeItemHolder(Context context) {
@@ -25,7 +24,7 @@ public class IconTreeItemHolder extends TreeNode.BaseNodeViewHolder<IconTreeItem
     public View createNodeView(final TreeNode node, IconTreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.layout_icon_node, null, false);
-        tvValue = (TextView) view.findViewById(R.id.node_value);
+        TextView tvValue = (TextView) view.findViewById(R.id.node_value);
         tvValue.setText(value.text);
 
         final PrintView iconView = (PrintView) view.findViewById(R.id.icon);

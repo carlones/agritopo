@@ -7,15 +7,15 @@ import java.util.List;
  */
 
 public interface TipoElementoDao {
-    public List<TipoElemento> getAll();
+    List<TipoElemento> getAll();
 
-    public TipoElemento get(int id);
+    TipoElemento get(int id);
 
-    public TipoElemento getByNome(String nome);
+    TipoElemento getByNome(String nome);
 
-    public void insert(TipoElemento obj);
+    void insert(TipoElemento obj);
 
-    public void update(TipoElemento obj);
+    void update(TipoElemento obj);
 
-    public void delete(TipoElemento obj);
+    void delete(TipoElemento obj);
 }

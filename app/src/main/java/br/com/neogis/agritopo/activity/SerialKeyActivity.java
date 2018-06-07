@@ -104,7 +104,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         ringProgressDialog.show();
     }
 
-    public void mostrarRetorno(String msg_erro) {
+    private void mostrarRetorno(String msg_erro) {
         ringProgressDialog.dismiss();
         if(msg_erro == null) {
             Toast.makeText(this, "Licença validada com sucesso!", Toast.LENGTH_LONG).show();

@@ -3,7 +3,6 @@ package br.com.neogis.agritopo.model;
 import android.support.v4.content.res.ResourcesCompat;
 
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;

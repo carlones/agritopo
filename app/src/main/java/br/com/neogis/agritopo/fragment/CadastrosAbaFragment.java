@@ -22,7 +22,7 @@ public class CadastrosAbaFragment extends Fragment {
     public String titulo; // na lista de abas
     public int classeId;
     public ArrayList<Elemento> elementosDaAba = new ArrayList<>();
-    public ArrayList<Integer> idsSelecionados = new ArrayList<>();
+    private ArrayList<Integer> idsSelecionados = new ArrayList<>();
 
     private ElementoRecyclerViewAdapter viewAdapter;
 

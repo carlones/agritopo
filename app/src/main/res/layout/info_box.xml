@@ -15,7 +15,7 @@
         android:paddingLeft="10sp"
         android:paddingRight="10sp"
         android:paddingTop="6sp"
-        android:text="Mensagens e avisos aparecem\naqui!!"
+        android:text="@string/info_box_descricao"
         android:textColor="#ffffff"
         android:textSize="16sp"
         android:visibility="gone" />

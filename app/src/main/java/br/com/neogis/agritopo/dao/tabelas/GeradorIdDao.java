@@ -6,14 +6,14 @@ import java.util.List;
  * Created by carlo on 15/10/2017.
  */
 
-public interface GeradorIdDao {
-    public List<GeradorId> getAll();
+interface GeradorIdDao {
+    List<GeradorId> getAll();
 
-    public GeradorId get(int id);
+    GeradorId get(int id);
 
-    public void insert(GeradorId obj);
+    void insert(GeradorId obj);
 
-    public void update(GeradorId obj);
+    void update(GeradorId obj);
 
-    public void delete(GeradorId obj);
+    void delete(GeradorId obj);
 }

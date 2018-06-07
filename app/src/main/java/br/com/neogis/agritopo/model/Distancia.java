@@ -41,7 +41,7 @@ public class Distancia {
         return this.pontos.size() > 1;
     }
 
-    public List<GeoPoint> getPontos() {
+    private List<GeoPoint> getPontos() {
         return this.pontos;
     }
 
@@ -56,7 +56,7 @@ public class Distancia {
         }
     }
 
-    public double getDistancia() {
+    private double getDistancia() {
         return distancia;
     }
 
@@ -115,7 +115,7 @@ public class Distancia {
         return this.pontos.toString();
     }
 
-    public List<MyGeoPoint> getMyGeoPointList() {
+    private List<MyGeoPoint> getMyGeoPointList() {
         List<MyGeoPoint> lista = new ArrayList<>();
         for (GeoPoint ponto : pontos) {
             lista.add(new MyGeoPoint(ponto));
@@ -123,7 +123,7 @@ public class Distancia {
         return lista;
     }
 
-    public void setMyGeoPointList(List<MyGeoPoint> lista) {
+    private void setMyGeoPointList(List<MyGeoPoint> lista) {
         pontos.clear();
         for (MyGeoPoint ponto : lista) {
             adicionarPonto(ponto);
@@ -168,8 +168,8 @@ public class Distancia {
 
     public void removerUltimoPonto() {
         GeoPoint geoPoint = null;
-        for (Iterator<GeoPoint> iter = pontos.iterator(); iter.hasNext(); ) {
-            geoPoint = iter.next();
+        for (GeoPoint ponto : pontos) {
+            geoPoint = ponto;
         }
         if (geoPoint != null) {
             pontos.remove(geoPoint);

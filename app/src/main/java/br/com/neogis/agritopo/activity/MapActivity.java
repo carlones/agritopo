@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +15,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -210,11 +208,11 @@ public class MapActivity extends AppCompatActivity
         mActivity = MapActivity.this;
 
         exibirAreas = true;
-        areaList = new ArrayList<Area>();
+        areaList = new ArrayList<>();
         exibirDistancias = true;
-        distanciaList = new ArrayList<Distancia>();
+        distanciaList = new ArrayList<>();
         exibirPontos = true;
-        pontoList = new ArrayList<Ponto>();
+        pontoList = new ArrayList<>();
         camadaHolder = CamadaHolder.getInstance();
 
         inicializarMapas(getIntent().getIntExtra(ARG_MAPA_MODO, OFFLINE) == OFFLINE);
@@ -231,7 +229,7 @@ public class MapActivity extends AppCompatActivity
         return dir.exists();
     }
 
-    public void inicializarBotoes() {
+    private void inicializarBotoes() {
         famNovo = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         fabNovoPonto = (FloatingActionButton) findViewById(R.id.action_novo_ponto);
         fabNovaArea = (FloatingActionButton) findViewById(R.id.action_nova_area);
@@ -484,7 +482,7 @@ public class MapActivity extends AppCompatActivity
         }
     }
 
-    public void inicializarMapas(boolean modoOffline) {
+    private void inicializarMapas(boolean modoOffline) {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -548,17 +546,22 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_menu_kml)
-            onOptionMenuKMLSelected(item);
-        else if (item.getItemId() == R.id.action_menu_raster)
-            onOptionMenuRasterSelected(item);
-        else if (item.getItemId() == R.id.action_recentralizar)
-            mapController.setCenter(mapaPontoCentral);
+        switch (item.getItemId()) {
+            case R.id.action_menu_kml:
+                onOptionMenuKMLSelected(item);
+                break;
+            case R.id.action_menu_raster:
+                onOptionMenuRasterSelected(item);
+                break;
+            case R.id.action_recentralizar:
+                mapController.setCenter(mapaPontoCentral);
+                break;
+        }
         map.invalidate();
         return super.onOptionsItemSelected(item);
     }
 
-    public void onOptionMenuKMLSelected(MenuItem item) {
+    private void onOptionMenuKMLSelected(MenuItem item) {
         final View menuItemView = findViewById(R.id.action_menu_kml);
         PopupMenu popupMenu = new PopupMenu(this, menuItemView);
         popupMenu.inflate(R.menu.principal_kml);
@@ -594,7 +597,7 @@ public class MapActivity extends AppCompatActivity
         popupMenu.show();
     }
 
-    public void onOptionMenuRasterSelected(MenuItem item) {
+    private void onOptionMenuRasterSelected(MenuItem item) {
         final View menuItemView = findViewById(R.id.action_menu_raster);
         PopupMenu popupMenu = new PopupMenu(this, menuItemView);
         popupMenu.inflate(R.menu.principal_raster);
@@ -635,27 +638,40 @@ public class MapActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_cadastros) {
-            Intent intent = new Intent(this, CadastrosListarActivity.class);
-            intent.putExtra(ARG_GPS_POSICAO, (new MyGeoPoint(map.getMapCenter())).toString());
-            startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
-        } else if (id == R.id.nav_camadas) {
-            Class<?> clazz = CamadasFragment.class;
-            Intent intent = new Intent(this, SingleFragmentActivity.class);
-            intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
-            startActivityForResult(intent, PEGAR_MENU_CAMADAS_REQUEST);
-        } else if (id == R.id.nav_exportar) {
-            Intent intent = new Intent(this, ExportarActivity.class);
-            startActivityForResult(intent, PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST);
-        } else if (id == R.id.nav_importar) {
-            Intent intent = new Intent(this, ImportarActivity.class);
-            startActivityForResult(intent, PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST);
-        } else if (id == R.id.nav_configuracao) {
-            Intent intent = new Intent(this, ConfiguracaoActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_sobre) {
-            Intent intent = new Intent(this, SobreActivity.class);
-            startActivity(intent);
+        switch (id) {
+            case R.id.nav_cadastros: {
+                Intent intent = new Intent(this, CadastrosListarActivity.class);
+                intent.putExtra(ARG_GPS_POSICAO, (new MyGeoPoint(map.getMapCenter())).toString());
+                startActivityForResult(intent, PEGAR_MENU_CADASTROS_REQUEST);
+                break;
+            }
+            case R.id.nav_camadas: {
+                Class<?> clazz = CamadasFragment.class;
+                Intent intent = new Intent(this, SingleFragmentActivity.class);
+                intent.putExtra(SingleFragmentActivity.FRAGMENT_PARAM, clazz);
+                startActivityForResult(intent, PEGAR_MENU_CAMADAS_REQUEST);
+                break;
+            }
+            case R.id.nav_exportar: {
+                Intent intent = new Intent(this, ExportarActivity.class);
+                startActivityForResult(intent, PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST);
+                break;
+            }
+            case R.id.nav_importar: {
+                Intent intent = new Intent(this, ImportarActivity.class);
+                startActivityForResult(intent, PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST);
+                break;
+            }
+            case R.id.nav_configuracao: {
+                Intent intent = new Intent(this, ConfiguracaoActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.nav_sobre: {
+                Intent intent = new Intent(this, SobreActivity.class);
+                startActivity(intent);
+                break;
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -709,7 +725,7 @@ public class MapActivity extends AppCompatActivity
         onBackPressed();
     }
 
-    public void carregarMapaDeArquivo(MapFile mapFile) {
+    private void carregarMapaDeArquivo(MapFile mapFile) {
         mapFileController.SetSelectedMap(mapFile);
         MapaTiles am = new MapaTiles(mapFile.getFile(), mMyLocationNewOverlay.getMyLocation(), 10, 21);
 
@@ -856,14 +872,19 @@ public class MapActivity extends AppCompatActivity
         boolean resultado = false;
         File arquivo = new File(nomeArquivo);
         KmlDocument kmlDocument = new KmlDocument();
-        if (tipoArquivo.equals("kml"))
-            resultado = kmlDocument.parseKMLFile(arquivo);
-        else if (tipoArquivo.equals("kmz")) {
-            BufferedInputStream stream = new BufferedInputStream(new FileInputStream(arquivo));
-            ZipFile zipFile = new ZipFile(arquivo);
-            resultado = kmlDocument.parseKMLStream(stream, zipFile);
-        } else if (tipoArquivo.equals("geojson"))
-            resultado = kmlDocument.parseGeoJSON(arquivo);
+        switch (tipoArquivo) {
+            case "kml":
+                resultado = kmlDocument.parseKMLFile(arquivo);
+                break;
+            case "kmz":
+                BufferedInputStream stream = new BufferedInputStream(new FileInputStream(arquivo));
+                ZipFile zipFile = new ZipFile(arquivo);
+                resultado = kmlDocument.parseKMLStream(stream, zipFile);
+                break;
+            case "geojson":
+                resultado = kmlDocument.parseGeoJSON(arquivo);
+                break;
+        }
 
         //TODO validar possivel solução, e criar serviço para alocar as regras de negocio
         /*
@@ -939,7 +960,6 @@ public class MapActivity extends AppCompatActivity
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
-                return;
             }
             // other 'case' lines to check for other
             // permissions this app might request
@@ -968,7 +988,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private ArrayList<Elemento> listarElementosProximos(GeoPoint p, double proximidade) {
-        ArrayList<Elemento> listElemento = new ArrayList<Elemento>();
+        ArrayList<Elemento> listElemento = new ArrayList<>();
         for (Area a : areaList) {
             GeoPoint centro = a.getCentro();
             if (p.distanceTo(centro) < proximidade) {
@@ -992,7 +1012,7 @@ public class MapActivity extends AppCompatActivity
         return listElemento;
     }
 
-    void onLongPressMenuSelected(GeoPoint point) {
+    private void onLongPressMenuSelected(GeoPoint point) {
         final MyGeoPoint ponto = new MyGeoPoint(point);
 
         final View menuItemView = findViewById(R.id.action_recentralizar);
@@ -1041,7 +1061,7 @@ public class MapActivity extends AppCompatActivity
         popupMenu.show();
     }
 
-    void carregarPontos() {
+    private void carregarPontos() {
         ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
         for (Ponto p : pontoList) {
@@ -1190,7 +1210,7 @@ public class MapActivity extends AppCompatActivity
         Polyline mPolyline;
 
         OnMarkerDragListenerDrawer() {
-            mTrace = new ArrayList<GeoPoint>(100);
+            mTrace = new ArrayList<>(100);
             mPolyline = new Polyline();
             mPolyline.setColor(0xAA0000FF);
             mPolyline.setWidth(2.0f);

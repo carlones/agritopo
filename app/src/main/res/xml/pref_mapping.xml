@@ -29,6 +29,9 @@
             android:key="@string/pref_key_exibir_area_mapeamento"
             android:summary="@string/pref_summary_exibir_area_mapeamento"
             android:title="@string/pref_title_exibir_area_mapeamento" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_title_group_mapping_behavior">
 
         <SwitchPreference
             android:defaultValue="true"
@@ -38,11 +41,26 @@
 
         <!--suppress AndroidDomInspection -->
         <net.jayschwa.android.preference.SliderPreference
-            android:defaultValue="0.5"
+            android:defaultValue="0.0"
             android:dialogMessage="@string/pref_dialogmessage_seletor_proximidade"
             android:key="@string/pref_key_seletor_proximidade"
             android:summary="@string/pref_summary_seletor_proximidade"
             android:title="@string/pref_title_seletor_proximidade" />
-    </PreferenceCategory>
 
+        <!--suppress AndroidDomInspection -->
+        <net.jayschwa.android.preference.SliderPreference
+            android:defaultValue="0.0"
+            android:dialogMessage="@string/pref_dialogmessage_seguir_por_tempo"
+            android:key="@string/pref_key_seguir_por_tempo"
+            android:summary="@string/pref_summary_seguir_por_tempo"
+            android:title="@string/pref_title_seguir_por_tempo" />
+
+        <!--suppress AndroidDomInspection -->
+        <net.jayschwa.android.preference.SliderPreference
+            android:defaultValue="0.0"
+            android:dialogMessage="@string/pref_dialogmessage_seguir_por_distancia"
+            android:key="@string/pref_key_seguir_por_distancia"
+            android:summary="@string/pref_summary_seguir_por_distancia"
+            android:title="@string/pref_title_seguir_por_distancia" />
+    </PreferenceCategory>
 </PreferenceScreen>

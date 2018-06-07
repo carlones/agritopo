@@ -39,7 +39,7 @@ public class GeradorIdDaoImpl extends DaoController implements GeradorIdDao {
         return null;
     }
 
-    public GeradorId get(String id) {
+    private GeradorId get(String id) {
         abrirLeitura();
         Cursor cursor = db.rawQuery("SELECT tabela, id_atual FROM geradorid WHERE tabela = ?", new String[]{id});
         List<GeradorId> l = getListaObjetos(cursor);

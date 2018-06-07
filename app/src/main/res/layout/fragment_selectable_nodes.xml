@@ -15,7 +15,7 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Marcar Todos"
+            android:text="@string/fragment_selectable_nodes_marcar_todos"
             android:textAppearance="@style/TextAppearance.AppCompat.Menu"
             android:textColorLink="@android:color/white" />
 
@@ -24,7 +24,7 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Desmarcar Todos"
+            android:text="@string/fragment_selectable_nodes_desmarcar_todos"
             android:textAppearance="@style/TextAppearance.AppCompat.Menu"
             android:textColorLink="@android:color/white" />
 

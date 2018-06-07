@@ -56,7 +56,7 @@ public class NetworkUtils {
     }
 
     private static String converterInputStreamToString(InputStream is){
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         try{
             BufferedReader br;
             String linha;

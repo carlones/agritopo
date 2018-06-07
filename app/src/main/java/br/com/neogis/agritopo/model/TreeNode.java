@@ -17,7 +17,7 @@ import br.com.neogis.agritopo.view.TreeNodeWrapperView;
  * Created by carlo on 30/12/2017.
  */
 public class TreeNode {
-    public static final String NODES_ID_SEPARATOR = ":";
+    private static final String NODES_ID_SEPARATOR = ":";
     private final List<TreeNode> children;
     private int mId;
     private int mLastId;
@@ -81,7 +81,7 @@ public class TreeNode {
         return Collections.unmodifiableList(children);
     }
 
-    public int size() {
+    private int size() {
         return children.size();
     }
 
@@ -89,7 +89,7 @@ public class TreeNode {
         return mParent;
     }
 
-    public int getId() {
+    private int getId() {
         return mId;
     }
 
@@ -122,7 +122,7 @@ public class TreeNode {
         return mSelectable;
     }
 
-    public void setSelectable(boolean selectable) {
+    private void setSelectable(boolean selectable) {
         mSelectable = selectable;
     }
 
@@ -151,7 +151,7 @@ public class TreeNode {
     }
 
     public boolean isLastChild() {
-        if (!isRoot()) {
+        if (isRoot()) {
             int parentSize = mParent.children.size();
             if (parentSize > 0) {
                 final List<TreeNode> parentChildren = mParent.children;
@@ -192,15 +192,15 @@ public class TreeNode {
     }
 
     public boolean isFirstChild() {
-        if (!isRoot()) {
+        if (isRoot()) {
             List<TreeNode> parentChildren = mParent.children;
             return parentChildren.get(0).mId == mId;
         }
         return false;
     }
 
-    public boolean isRoot() {
-        return mParent == null;
+    private boolean isRoot() {
+        return mParent != null;
     }
 
     public TreeNode getRoot() {
@@ -222,7 +222,7 @@ public class TreeNode {
     public static abstract class BaseNodeViewHolder<E> {
         protected AndroidTreeView tView;
         protected TreeNode mNode;
-        protected int containerStyle;
+        int containerStyle;
         protected Context context;
         private View mView;
 
@@ -250,7 +250,7 @@ public class TreeNode {
             return tView;
         }
 
-        public View getNodeView() {
+        View getNodeView() {
             return createNodeView(mNode, (E) mNode.getValue());
         }
 

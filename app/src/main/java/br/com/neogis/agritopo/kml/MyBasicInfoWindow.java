@@ -1,15 +1,10 @@
 package br.com.neogis.agritopo.kml;
 
-import android.content.Context;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;

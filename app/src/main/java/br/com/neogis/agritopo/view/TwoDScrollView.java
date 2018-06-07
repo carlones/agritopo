@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by carlo on 30/12/2017.
+/*
+  Created by carlo on 30/12/2017.
  */
 
 /**
@@ -38,8 +38,8 @@ import java.util.List;
  * within a larger container.
  */
 public class TwoDScrollView extends FrameLayout {
-    static final int ANIMATED_SCROLL_GAP = 250;
-    static final float MAX_SCROLL_FACTOR = 0.5f;
+    private static final int ANIMATED_SCROLL_GAP = 250;
+    private static final float MAX_SCROLL_FACTOR = 0.5f;
     private final Rect mTempRect = new Rect();
     private long mLastScroll;
     private Scroller mScroller;
@@ -160,11 +160,11 @@ public class TwoDScrollView extends FrameLayout {
      * @return The maximum amount this scroll view will scroll in response to
      * an arrow event.
      */
-    public int getMaxScrollAmountVertical() {
+    private int getMaxScrollAmountVertical() {
         return (int) (MAX_SCROLL_FACTOR * getHeight());
     }
 
-    public int getMaxScrollAmountHorizontal() {
+    private int getMaxScrollAmountHorizontal() {
         return (int) (MAX_SCROLL_FACTOR * getWidth());
     }
 
@@ -219,10 +219,10 @@ public class TwoDScrollView extends FrameLayout {
         if (child != null) {
             int childHeight = child.getHeight();
             int childWidth = child.getWidth();
-            return (getHeight() < childHeight + getPaddingTop() + getPaddingBottom()) ||
-                    (getWidth() < childWidth + getPaddingLeft() + getPaddingRight());
+            return (getHeight() >= childHeight + getPaddingTop() + getPaddingBottom()) &&
+                    (getWidth() >= childWidth + getPaddingLeft() + getPaddingRight());
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -243,9 +243,9 @@ public class TwoDScrollView extends FrameLayout {
      * @param event The key event to execute.
      * @return Return true if the event was handled, else false.
      */
-    public boolean executeKeyEvent(KeyEvent event) {
+    private boolean executeKeyEvent(KeyEvent event) {
         mTempRect.setEmpty();
-        if (!canScroll()) {
+        if (canScroll()) {
             if (isFocused()) {
                 View currentFocused = findFocus();
                 if (currentFocused == this) currentFocused = null;
@@ -305,7 +305,7 @@ public class TwoDScrollView extends FrameLayout {
         if ((action == MotionEvent.ACTION_MOVE) && (mIsBeingDragged)) {
             return true;
         }
-        if (!canScroll()) {
+        if (canScroll()) {
             mIsBeingDragged = false;
             return false;
         }
@@ -364,7 +364,7 @@ public class TwoDScrollView extends FrameLayout {
             return false;
         }
 
-        if (!canScroll()) {
+        if (canScroll()) {
             return false;
         }
 
@@ -573,7 +573,7 @@ public class TwoDScrollView extends FrameLayout {
      *                  {@link android.view.View#FOCUS_DOWN} to go the bottom
      * @return true if the key event is consumed by this method, false otherwise
      */
-    public boolean fullScroll(int direction, boolean horizontal) {
+    private boolean fullScroll(int direction, boolean horizontal) {
         if (!horizontal) {
             boolean down = direction == View.FOCUS_DOWN;
             int height = getHeight();
@@ -658,7 +658,7 @@ public class TwoDScrollView extends FrameLayout {
      *                  pressed
      * @return True if we consumed the event, false otherwise
      */
-    public boolean arrowScroll(int direction, boolean horizontal) {
+    private boolean arrowScroll(int direction, boolean horizontal) {
         View currentFocused = findFocus();
         if (currentFocused == this) currentFocused = null;
         View nextFocused = FocusFinder.getInstance().findNextFocus(this, currentFocused, direction);
@@ -738,7 +738,7 @@ public class TwoDScrollView extends FrameLayout {
      * @param dx the number of pixels to scroll by on the X axis
      * @param dy the number of pixels to scroll by on the Y axis
      */
-    public final void smoothScrollBy(int dx, int dy) {
+    private void smoothScrollBy(int dx, int dy) {
         long duration = AnimationUtils.currentAnimationTimeMillis() - mLastScroll;
         if (duration > ANIMATED_SCROLL_GAP) {
             mScroller.startScroll(getScrollX(), getScrollY(), dx, dy);
@@ -883,7 +883,7 @@ public class TwoDScrollView extends FrameLayout {
      * @param rect The rect.
      * @return The scroll delta.
      */
-    protected int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
+    private int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
         if (getChildCount() == 0) return 0;
         int height = getHeight();
         int screenTop = getScrollY();
@@ -1041,7 +1041,7 @@ public class TwoDScrollView extends FrameLayout {
      *                  numbers mean that the finger/curor is moving down the screen,
      *                  which means we want to scroll towards the top.
      */
-    public void fling(int velocityX, int velocityY) {
+    private void fling(int velocityX, int velocityY) {
         if (getChildCount() > 0) {
             int height = getHeight() - getPaddingBottom() - getPaddingTop();
             int bottom = getChildAt(0).getHeight();

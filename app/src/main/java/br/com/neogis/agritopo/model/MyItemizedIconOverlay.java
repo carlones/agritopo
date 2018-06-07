@@ -11,7 +11,7 @@ import java.util.List;
  * Created by carlo on 03/01/2018.
  */
 
-public class MyItemizedIconOverlay<Item extends MyOverlayItem> extends ItemizedIconOverlay<Item> {
+class MyItemizedIconOverlay<Item extends MyOverlayItem> extends ItemizedIconOverlay<Item> {
     public MyItemizedIconOverlay(List pList, Drawable pDefaultMarker, OnItemGestureListener pOnItemGestureListener, Context pContext) {
         super(pList, pDefaultMarker, pOnItemGestureListener, pContext);
     }

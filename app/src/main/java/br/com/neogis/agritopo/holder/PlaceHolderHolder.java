@@ -44,8 +44,8 @@ public class PlaceHolderHolder extends TreeNode.BaseNodeViewHolder<PlaceHolderHo
     }
 
 
-    public static class PlaceItem {
-        public String name;
+    static class PlaceItem {
+        String name;
 
         public PlaceItem(String name) {
             this.name = name;

@@ -3,7 +3,6 @@ package br.com.neogis.agritopo.dao.tabelas;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.media.Image;
 
 import java.util.ArrayList;
 import java.util.List;

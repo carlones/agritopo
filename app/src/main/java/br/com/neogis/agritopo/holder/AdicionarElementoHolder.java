@@ -12,8 +12,8 @@ import br.com.neogis.agritopo.singleton.Configuration;
 
 public class AdicionarElementoHolder extends Overlay
 {
-    protected MapView mapa;
-    protected Activity activity;
+    MapView mapa;
+    Activity activity;
 
     // Behaviors definidos por cada classe filha; governam que botões mostrar na interface
     public boolean aceitaSeguirGps = false;
@@ -35,7 +35,9 @@ public class AdicionarElementoHolder extends Overlay
     public boolean seguindoGPS() {
         return seguindoGps;
     }
-    public void registrarPontoGPS(Location location) {}
+
+    void registrarPontoGPS(Location location) {
+    }
 
     private void deixarTelaAtiva() {
         if( Configuration.getInstance().DeixarTelaAtivaDuranteMapeamentoComGPS )
@@ -56,9 +58,9 @@ public class AdicionarElementoHolder extends Overlay
     public void locationChanged(Location location) {
         if( !seguindoGps ) return;
 
-        boolean ultrapassouDistanciaLimite = lastLocation != null && location.distanceTo(lastLocation) >= 10.0; // metros
+        boolean ultrapassouDistanciaLimite = lastLocation != null && location.distanceTo(lastLocation) >= Configuration.getInstance().SeguirPorDistancia; // metros
         long timeDiff = lastLocation == null ? 0 : location.getTime() - lastLocation.getTime();
-        boolean ultrapassouTempoLimite = lastLocation != null && timeDiff >= (5 * 1000); // segundos
+        boolean ultrapassouTempoLimite = lastLocation != null && timeDiff >= (Configuration.getInstance().SeguirPorTempo * 1000); // segundos
 
         if( lastLocation == null || ultrapassouDistanciaLimite || ultrapassouTempoLimite ) {
             lastLocation = location;

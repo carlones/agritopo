@@ -11,7 +11,7 @@ import java.util.List;
  * Created by carlo on 03/01/2018.
  */
 
-public class MyItemizedOverlayWithFocus<Item extends MyOverlayItem> extends ItemizedOverlayWithFocus<Item> {
+class MyItemizedOverlayWithFocus<Item extends MyOverlayItem> extends ItemizedOverlayWithFocus<Item> {
     public MyItemizedOverlayWithFocus(Context pContext, List<Item> aList, OnItemGestureListener<Item> aOnItemTapListener) {
         super(pContext, aList, aOnItemTapListener);
     }

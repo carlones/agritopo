@@ -27,7 +27,7 @@ import br.com.neogis.agritopo.model.TreeNode;
 public class AndroidTreeView {
     private static final String NODES_PATH_SEPARATOR = ";";
 
-    protected TreeNode mRoot;
+    private TreeNode mRoot;
     private Context mContext;
     private boolean applyForRoot;
     private int containerStyle = 0;
@@ -111,7 +111,7 @@ public class AndroidTreeView {
         setDefaultContainerStyle(style, false);
     }
 
-    public void setDefaultContainerStyle(int style, boolean applyForRoot) {
+    private void setDefaultContainerStyle(int style, boolean applyForRoot) {
         containerStyle = style;
         this.applyForRoot = applyForRoot;
     }
@@ -148,13 +148,13 @@ public class AndroidTreeView {
         expandNode(mRoot, true);
     }
 
-    public void collapseAll() {
+    private void collapseAll() {
         for (TreeNode n : mRoot.getChildren()) {
             collapseNode(n, true);
         }
     }
 
-    public View getView(int style) {
+    private View getView(int style) {
         final ViewGroup view;
         if (style > 0) {
             ContextThemeWrapper newContext = new ContextThemeWrapper(mContext, style);
@@ -208,7 +208,7 @@ public class AndroidTreeView {
         }
     }
 
-    public void expandNode(TreeNode node) {
+    private void expandNode(TreeNode node) {
         expandNode(node, false);
     }
 

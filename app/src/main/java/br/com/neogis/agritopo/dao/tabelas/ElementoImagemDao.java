@@ -6,16 +6,16 @@ import java.util.List;
  * Created by carlo on 15/10/2017.
  */
 
-public interface ElementoImagemDao {
-    public List<ElementoImagem> getAll();
+interface ElementoImagemDao {
+    List<ElementoImagem> getAll();
 
-    public List<ElementoImagem> getByElemento(int id);
+    List<ElementoImagem> getByElemento(int id);
 
-    public ElementoImagem get(int id);
+    ElementoImagem get(int id);
 
-    public void insert(ElementoImagem obj);
+    void insert(ElementoImagem obj);
 
-    public void update(ElementoImagem obj);
+    void update(ElementoImagem obj);
 
-    public void delete(ElementoImagem obj);
+    void delete(ElementoImagem obj);
 }

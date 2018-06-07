@@ -49,8 +49,8 @@ public class SocialViewHolder extends TreeNode.BaseNodeViewHolder<SocialViewHold
     }
 
 
-    public static class SocialItem {
-        public int icon;
+    static class SocialItem {
+        int icon;
 
         public SocialItem(int icon) {
             this.icon = icon;

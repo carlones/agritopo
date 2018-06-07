@@ -3,20 +3,16 @@ package br.com.neogis.agritopo.activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.View;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.service.SerialKeyService;
 
 public class SobreActivity extends AppCompatActivity {
@@ -37,15 +33,34 @@ public class SobreActivity extends AppCompatActivity {
         }
 
         SerialKeyService serialKeyService = new SerialKeyService(getApplicationContext(), this);
+        ChaveSerial chaveSerial = null;
+        if (serialKeyService.containsValidSerialKey())
+            chaveSerial = serialKeyService.getChaveSerial();
+        else if (serialKeyService.containsFreeSerialKey())
+            chaveSerial = serialKeyService.getChaveSerialTrial();
 
+        String versao = "";
+        String chave = "TRIAL";
+        String data = "";
+        String email = "";
+        if (chaveSerial != null) {
+            chave = chaveSerial.getChave();
+            data = (new SimpleDateFormat("dd/MM/yyyy")).format(chaveSerial.getDataexpiracao());
+        }
+        if (serialKeyService.getUsuario() != null) {
+            email = serialKeyService.getUsuario().getEmail();
+        }
+        if (version != null) {
+            versao = version;
+        }
 
         TextView aboutContent = (TextView) findViewById(R.id.aboutContent);
         aboutContent.setText(Html.fromHtml("<h1>Agritopo</h1>\n" +
-                "<p><b>Versão:</b> " + version.toString() + "</p>\n" +
+                "<p><b>Versão:</b> " + versao + "</p>\n" +
                 //"<p><b>Edição:</b> Imobiliária</p>\n" +
-                "<p><b>Licença:</b> " + serialKeyService.getChaveSerial().getChave() + "</p>\n" +
-                "<p><b>Data de expiração:</b> " + (new SimpleDateFormat("dd/MM/yyyy")).format(serialKeyService.getChaveSerial().getDataexpiracao()) + "</p>\n" +
-                "<p><b>Licenciado para:</b> " + serialKeyService.getUsuario().getEmail() + "</p>\n" +
+                "<p><b>Licença:</b> " + chave + "</p>\n" +
+                "<p><b>Data de expiração:</b> " + data + "</p>\n" +
+                "<p><b>Licenciado para:</b> " + email + "</p>\n" +
                 "<br>\n" +
                 "<p><b>Suporte:</b> <a href=\"mailto:suporte@neogis.com.br\">suporte@neogis.com.br</a></p>\n" +
                 "<br>\n" +

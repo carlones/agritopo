@@ -4,9 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class ExemploGeradorIdDAO {
+class ExemploGeradorIdDAO {
 
-    private SQLiteDatabase db;
     private BancoDeDadosSQLite banco;
 
     public ExemploGeradorIdDAO(Context context) {
@@ -14,7 +13,7 @@ public class ExemploGeradorIdDAO {
     }
 
     public int proximoId(String tabela) {
-        db = banco.getReadableDatabase();
+        SQLiteDatabase db = banco.getReadableDatabase();
         String[] campos = new String[]{"tabela", "id_atual"};
         String[] where = new String[]{"tabela = " + tabela};
         Cursor cursor = db.query("GeradorId", campos, "id_atual", where, null, null, null);

@@ -102,4 +102,14 @@
     <string name="pref_title_seletor_proximidade">Proximidade</string>
     <string name="pref_summary_seletor_proximidade">Ao manter pressionado, considerar os elementos mais próximos, maior o número, maior atingimento</string>
     <string name="pref_dialogmessage_seletor_proximidade">Considerar os elementos mais próximos ao pressionar na tela.</string>
+
+    <string name="pref_key_seguir_por_tempo">seguir_por_tempo</string>
+    <string name="pref_title_seguir_por_tempo">Seguir com intervalo de tempo</string>
+    <string name="pref_dialogmessage_seguir_por_tempo">Grava o ponto de acordo com tempo especificado. Quando Zero, grava conforme o GPS recebe a informação.</string>
+    <string name="pref_summary_seguir_por_tempo">No modo "Seguir", grava ponto a ponto conforme o tempo em segundos especificado.</string>
+
+    <string name="pref_key_seguir_por_distancia">seguir_por_distancia</string>
+    <string name="pref_title_seguir_por_distancia">Seguir com intervalo de distância</string>
+    <string name="pref_dialogmessage_seguir_por_distancia">Grava o ponto de acordo com a distância especificada. Quando Zero, grava conforme o GPS recebe a informação.</string>
+    <string name="pref_summary_seguir_por_distancia">No modo Seguir, grava ponto a ponto conforme a distância do ultimo ponto em metros especificada.</string>
 </resources>

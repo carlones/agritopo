@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class Area {
         }
     }
 
-    public double getArea() {
+    private double getArea() {
         return area;
     }
 
@@ -113,12 +112,12 @@ public class Area {
         }
     }
 
-    public double getPerimetro() {
+    private double getPerimetro() {
         return perimetro;
     }
 
     // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-    public double calcularPerimetro() {
+    private double calcularPerimetro() {
         double perimetro = 0.0;
 
         GeoPoint p1, p2;
@@ -211,7 +210,7 @@ public class Area {
         return this.pontos.toString();
     }
 
-    public List<MyGeoPoint> getMyGeoPointList() {
+    private List<MyGeoPoint> getMyGeoPointList() {
         List<MyGeoPoint> lista = new ArrayList<>();
         for (GeoPoint ponto : pontos) {
             lista.add(new MyGeoPoint(ponto));
@@ -219,7 +218,7 @@ public class Area {
         return lista;
     }
 
-    public void setMyGeoPointList(List<MyGeoPoint> lista) {
+    private void setMyGeoPointList(List<MyGeoPoint> lista) {
         pontos.clear();
         for (MyGeoPoint ponto : lista) {
             adicionarPonto(ponto);
@@ -234,8 +233,8 @@ public class Area {
 
     public void removerUltimoPonto() {
         GeoPoint geoPoint = null;
-        for (Iterator<GeoPoint> iter = pontos.iterator(); iter.hasNext(); ) {
-            geoPoint = iter.next();
+        for (GeoPoint ponto : pontos) {
+            geoPoint = ponto;
         }
         if (geoPoint != null) {
             pontos.remove(geoPoint);

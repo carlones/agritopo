@@ -108,4 +108,7 @@ public class SerialKeyService {
         return chaveSerialDao.getValid(currentDate.getTime());
     }
 
+    public ChaveSerial getChaveSerialTrial() {
+        return chaveSerialDao.getTrial();
+    }
 }

@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.util.Locale;
+
 import br.com.neogis.agritopo.singleton.Configuration;
 
 /**
@@ -82,7 +84,7 @@ public final class Utils {
         builder.append("°");
         builder.append(String.format("%02d", Integer.parseInt(longitudeSplit[1])));
         builder.append("'");
-        seconds = longitudeSplit[2].split(",");
+        seconds = longitudeSplit[2].replace(".", ",").split(",");
         builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
 //        builder.append(".");
 //        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));
@@ -103,7 +105,7 @@ public final class Utils {
         builder.append("°");
         builder.append(String.format("%02d", Integer.parseInt(latitudeSplit[1])));
         builder.append("'");
-        seconds = latitudeSplit[2].split(",");
+        seconds = latitudeSplit[2].replace(".", ",").split(",");
         builder.append(String.format("%02d", Integer.parseInt(seconds[0])));
 //        builder.append(".");
 //        builder.append(String.format("%04d", Integer.parseInt(seconds[1])));

@@ -41,7 +41,7 @@ public class Elemento {
         this(tipoElemento, classe, "", "", geometria);
     }
 
-    public Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {
+    private Elemento(TipoElemento tipoElemento, Classe classe, String titulo, String descricao, Object geometria) {
         this(tipoElemento, classe, titulo, descricao, "");
         JSONSerializer serializer = new JSONSerializer();
         serializer.prettyPrint(true);
@@ -65,7 +65,7 @@ public class Elemento {
         this.geometria = geometria;
         this.created_at = dateFormat.format(cal.getTime());
         this.modified_at = dateFormat.format(cal.getTime());
-        this.images = new ArrayList<ElementoImagem>();
+        this.images = new ArrayList<>();
     }
 
     public static String getInformacaoExtra(Elemento elemento) {
@@ -127,8 +127,7 @@ public class Elemento {
         }
         centroLat = centroLat / list.size();
         centroLon = centroLon / list.size();
-        GeoPoint centro = new GeoPoint(centroLat, centroLon);
-        return centro;
+        return new GeoPoint(centroLat, centroLon);
     }
 
     public MyGeoPoint getGeometriaMyGeoPoint() {
@@ -202,7 +201,7 @@ public class Elemento {
         this.modified_at = modified_at;
     }
 
-    public void setModified_at() {
+    private void setModified_at() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
         this.modified_at = dateFormat.format(cal.getTime());

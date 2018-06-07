@@ -6,14 +6,14 @@ import java.util.List;
  * Created by carlo on 15/10/2017.
  */
 
-public interface ImagemDao {
-    public List<Imagem> getAll();
+interface ImagemDao {
+    List<Imagem> getAll();
 
-    public Imagem get(int id);
+    Imagem get(int id);
 
-    public int insert(Imagem obj);
+    int insert(Imagem obj);
 
-    public void update(Imagem obj);
+    void update(Imagem obj);
 
-    public void delete(Imagem obj);
+    void delete(Imagem obj);
 }

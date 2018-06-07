@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:text="My Hotel"
+            android:text="@string/place_node_place_name"
             android:textColor="@color/text_lgray"
             android:textSize="14sp" />
 

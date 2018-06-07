@@ -1,6 +1,5 @@
 package br.com.neogis.agritopo.activity;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import br.com.neogis.agritopo.R;
@@ -41,8 +37,6 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
 public class ElementoDetailActivity extends AppCompatActivity {
     private ElementoDetailFragment fragment;
     private int elementoId;
-    private int tipoelementoId;
-    private int classeId;
     private String geometria;
     private int posicao_lista;
     private Elemento mItem;
@@ -56,8 +50,8 @@ public class ElementoDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         elementoId = getIntent().getIntExtra(ARG_ELEMENTOID, 0);
-        tipoelementoId = getIntent().getIntExtra(ARG_TIPOELEMENTOID, 0);
-        classeId = getIntent().getIntExtra(ARG_CLASSEID, 0);
+        int tipoelementoId = getIntent().getIntExtra(ARG_TIPOELEMENTOID, 0);
+        int classeId = getIntent().getIntExtra(ARG_CLASSEID, 0);
         geometria = getIntent().getStringExtra(ARG_GEOMETRIA);
         posicao_lista = getIntent().getIntExtra(ARG_POSICAO_LISTA, -1);
 
@@ -148,7 +142,7 @@ public class ElementoDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void gravarElemento() {
+    private void gravarElemento() {
         if (fragment == null)
             fragment = (ElementoDetailFragment) getFragmentManager().findFragmentByTag(tagFragmento);
 

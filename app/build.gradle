@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15 // Tablet do Angelo é versão 15
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionName '1.0.2.3'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //signingConfig signingConfigs.AgritopoKey
