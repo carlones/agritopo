@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, final String permissions[], int[] grantResults)
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String permissions[], @NonNull int[] grantResults)
     {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
         {
@@ -149,14 +150,14 @@ public class MainActivity extends AppCompatActivity {
                 boolean should = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
                 if (should) {
                     new android.app.AlertDialog.Builder(this)
-                            .setTitle("Permissão Negada")
-                            .setMessage("Sem esta permissão você terá problemas ao utilizar o aplicativo.")
-                            .setPositiveButton("Tentar novamente.", new DialogInterface.OnClickListener() {
+                            .setTitle(getBaseContext().getString(R.string.permissao_negada))
+                            .setMessage(getBaseContext().getString(R.string.permissao_negada_mensagem))
+                            .setPositiveButton(getBaseContext().getString(R.string.permissao_tentar_novamente), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     requestSpecificPermission(permissions[0], requestCode);
                                 }
                             })
-                            .setNegativeButton("Sair", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(getBaseContext().getString(R.string.permissao_sair), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
                                 }

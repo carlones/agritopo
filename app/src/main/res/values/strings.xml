@@ -546,4 +546,8 @@
     <string name="content_serial_key_mensagem_partial_2">dias gratuitos restantes</string>
     <string name="content_serial_key_titulo">Agritopo (Licença Temporária)</string>
     <string name="content_map_novo_poi">Novo Ponto de Interesse</string>
+    <string name="permissao_negada">Permissão Negada</string>
+    <string name="permissao_negada_mensagem">Sem esta permissão você terá problemas ao utilizar o aplicativo.</string>
+    <string name="permissao_tentar_novamente">Tentar novamente.</string>
+    <string name="permissao_sair">Sair</string>
 </resources>

@@ -143,14 +143,14 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
                     if(should)
                     {
                         new android.app.AlertDialog.Builder(this)
-                                .setTitle("Permissão Negada")
-                            .setMessage("Sem Esta permissão você não poderá utilizar o aplicativo.")
-                            .setPositiveButton("Tentar Novamente.", new DialogInterface.OnClickListener() {
+                                .setTitle(getBaseContext().getString(R.string.permissao_negada))
+                                .setMessage(getBaseContext().getString(R.string.permissao_negada_mensagem))
+                                .setPositiveButton(getBaseContext().getString(R.string.permissao_tentar_novamente), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     getTelephonyManager();
                                 }
                             })
-                            .setNegativeButton("Sair", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(getBaseContext().getString(R.string.permissao_sair), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
                                 }
