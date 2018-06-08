@@ -533,4 +533,17 @@
     <string name="gps_box_inicializando">Inicializando GPS</string>
     <string name="info_box_descricao">Mensagens e avisos aparecem aqui!!</string>
     <string name="neogis_consultoria_e_sistemas">Neogis Consultoria e Sistemas</string>
+    <string name="cadastro_aba_tudo">Tudo</string>
+    <string name="cadastro_aba_pontos">Pontos</string>
+    <string name="cadastro_aba_areas">Áreas</string>
+    <string name="cadastro_aba_distancias">Distâncias</string>
+    <string name="cadastro_remover_item">Remover este item?</string>
+    <string name="cadastro_remover_item_partial_1">Remover</string>
+    <string name="cadastro_remover_item_partial_2">itens?</string>
+    <string name="cadastro_remover_cancelar">Cancelar</string>
+    <string name="cadastro_remover">Remover</string>
+    <string name="content_serial_key_mensagem_partial_1">Você tem</string>
+    <string name="content_serial_key_mensagem_partial_2">dias gratuitos restantes</string>
+    <string name="content_serial_key_titulo">Agritopo (Licença Temporária)</string>
+    <string name="content_map_novo_poi">Novo Ponto de Interesse</string>
 </resources>

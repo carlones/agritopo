@@ -38,14 +38,19 @@ public class CadastrosListarActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private MyGeoPoint posicaoAtual;
     private List<Elemento> elementos;
-    private String[] titulosAbas = {"Tudo", "Pontos", "Áreas", "Distâncias"};
+    private String[] titulosAbas;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_cadastros_listar);
-
+        titulosAbas = new String[]{
+                getBaseContext().getString(R.string.cadastro_aba_tudo),
+                getBaseContext().getString(R.string.cadastro_aba_pontos),
+                getBaseContext().getString(R.string.cadastro_aba_areas),
+                getBaseContext().getString(R.string.cadastro_aba_distancias)
+        };
         int abrirNaAba = getIntent().getIntExtra(ARG_CLASSEID, 0);
         posicaoAtual = new MyGeoPoint(getIntent().getStringExtra(ARG_GPS_POSICAO));
 
@@ -78,17 +83,17 @@ public class CadastrosListarActivity extends AppCompatActivity {
         if (idsSelecionados.isEmpty()) return;
 
         String mensagemAlerta = idsSelecionados.size() == 1
-                ? "Remover esse item?"
-                : "Remover " + Integer.toString(idsSelecionados.size()) + " itens?";
+                ? getBaseContext().getString(R.string.cadastro_remover_item)
+                : getBaseContext().getString(R.string.cadastro_remover_item_partial_1) + Integer.toString(idsSelecionados.size()) + getBaseContext().getString(R.string.cadastro_remover_item_partial_2);
         AlertDialog confirmacao = new AlertDialog.Builder(this)
                 .setMessage(mensagemAlerta)
                 .setIcon(android.R.drawable.ic_menu_delete)
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getBaseContext().getString(R.string.cadastro_remover_cancelar), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton("Remover", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getBaseContext().getString(R.string.cadastro_remover), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         ElementoDao dao = new ElementoDaoImpl(getBaseContext());
                         for (Integer id : idsSelecionados) {

@@ -14,7 +14,7 @@ import br.com.neogis.agritopo.parse.JsonParse;
 
 public class NetworkUtils {
     public static String getJSONFromAPI(String url) throws Exception {
-        String retorno = "";
+        String retorno;
         int codigoResposta;
         String contentType;
         HttpURLConnection conexao;

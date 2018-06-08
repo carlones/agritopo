@@ -91,4 +91,6 @@
     <string name="principal_mapas">Mapas</string>
     <string name="gps_box_inicializando">Inicializando GPS</string>
     <string name="neogis_consultoria_e_sistemas">Neogis Consultoria e Sistemas</string>
+    <string name="content_serial_key_titulo">Agritopo (Licença Temporária)</string>
+    <string name="content_map_novo_poi">Novo Ponto de Interesse</string>
 </resources>

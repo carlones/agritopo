@@ -21,7 +21,7 @@ public class SerialKeyTrialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_serial_key_trial);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Agritopo (Licença Temporária)");
+        setTitle(getResources().getString(R.string.content_serial_key_titulo));
 
         Button botaoAtivar = (Button)findViewById(R.id.serial_key_free_button_ativar);
         botaoAtivar.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +42,7 @@ public class SerialKeyTrialActivity extends AppCompatActivity {
         SerialKeyService service = new SerialKeyService(getApplicationContext(), this);
 
         TextView textTempo = (TextView) findViewById(R.id.serial_key_free_text_tempo);
-        textTempo.setText("Você tem " + service.getFreeTimeDays() + " dias gratuitos restantes");
+        textTempo.setText(getResources().getString(R.string.content_serial_key_mensagem_partial_1) + " " + service.getFreeTimeDays() + " " + getResources().getString(R.string.content_serial_key_mensagem_partial_2));
     }
 
     @Override

@@ -1022,7 +1022,7 @@ public class MapActivity extends AppCompatActivity
             String texto = elemento.getClasse().getNome() + " / " + elemento.getTipoElemento().getNome() + " / " + elemento.getTitulo();
             popupMenu.getMenu().add(0, elemento.getElementoid(), 0, texto);
         }
-        popupMenu.getMenu().add(1, 0, 0, "Novo Ponto de Interesse");
+        popupMenu.getMenu().add(1, 0, 0, getResources().getString(R.string.content_map_novo_poi));
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
