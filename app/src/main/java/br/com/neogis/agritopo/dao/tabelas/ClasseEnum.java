@@ -1,5 +1,6 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
+import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.model.MyPolygon;
 import br.com.neogis.agritopo.model.MyPolyline;
@@ -21,16 +22,16 @@ public enum ClasseEnum {
         return valor;
     }
 
-    public String getDescricao() {
+    public int getDescricao() {
         switch (valor) {
             case 1:
-                return "Ponto";
+                return R.string.action_novo_ponto;
             case 2:
-                return "Área";
+                return R.string.action_nova_area;
             case 3:
-                return "Distância";
+                return R.string.action_nova_distancia;
             default:
-                return "Ponto";
+                return R.string.action_novo_ponto;
         }
     }
 

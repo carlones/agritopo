@@ -99,7 +99,7 @@ public class ElementoDetailFragment extends Fragment {
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
-            appBarLayout.setTitle(mItem.getClasse().getNome());
+            appBarLayout.setTitle(getResources().getString(mItem.getClasse().getClasseEnum().getDescricao()));
         }
     }
 
@@ -250,9 +250,9 @@ public class ElementoDetailFragment extends Fragment {
             @Override
             public boolean onLongClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Alerta");
-                builder.setMessage("Tem certeza que deseja excluir?");
-                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                builder.setTitle(getResources().getString(R.string.alerta));
+                builder.setMessage(getResources().getString(R.string.pergunta_deseja_excluir));
+                builder.setPositiveButton(getResources().getString(R.string.sim), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         v.setVisibility(View.GONE);
                         for (String img : listaImagens)
@@ -263,7 +263,7 @@ public class ElementoDetailFragment extends Fragment {
                             }
                     }
                 });
-                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.nao), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                     }
                 });

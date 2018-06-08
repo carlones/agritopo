@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">Agritopo</string>
-
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
-
     <string name="action_settings">Configuração</string>
-
     <string name="title_activity_mapa">Mapa</string>
     <string name="action_novo_ponto">Ponto</string>
     <string name="action_nova_area">Área</string>
@@ -18,7 +15,6 @@
     <string name="action_layer_curvas_nivel">Curvas de Nível</string>
     <string name="action_layer_geometry">Geometrias</string>
     <string name="title_activity_settings">Configurações</string>
-
     <string-array name="list_preference_entries">
         <item>Entrada 1</item>
         <item>Entrada 2</item>
@@ -486,8 +482,6 @@
     <string name="ic_whatshot" translatable="false">&#xe1ae;</string>
     <string name="ic_wifi_tethering" translatable="false">&#xe1af;</string>
     <string name="ic_work" translatable="false">&#xe1b0;</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_main">Principal</string>
     <string name="title_activity_exportar_kml">Exportar Arquivo</string>
     <string name="arquivo_nome">Nome do Arquivo</string>
@@ -509,11 +503,11 @@
     <string name="elemento_detail_tipo">Tipo</string>
     <string name="elemnto_detail_descricao">Descrição</string>
     <string name="elemento_detail_imagens">Imagens</string>
-    <string name="elemento_detail_data_criacao">Data Criação</string>
-    <string name="elemento_detail_data_modificacao">Data Modificação</string>
-    <string name="bonuspack_bubble_titulo">Title</string>
-    <string name="bonuspack_bubble_description">Description</string>
-    <string name="bonuspack_bubble_address">Address</string>
+    <string name="elemento_detail_data_criacao">Criado em</string>
+    <string name="elemento_detail_data_modificacao">Modificado em</string>
+    <string name="bonuspack_bubble_titulo">Título</string>
+    <string name="bonuspack_bubble_description">Descrição</string>
+    <string name="bonuspack_bubble_address">Endereço</string>
     <string name="content_serial_key_trial_descricao">Você tem 0 dias gratuitos restantes</string>
     <string name="content_serial_key_trial_continuar">Continuar</string>
     <string name="content_serial_key_trial_ativar">Ativar</string>
@@ -524,8 +518,8 @@
     <string name="content_serial_key_ativar">Ativar</string>
     <string name="fragment_selectable_nodes_marcar_todos">Marcar Todos</string>
     <string name="fragment_selectable_nodes_desmarcar_todos">Desmarcar Todos</string>
-    <string name="social_node_connections">130 connections</string>
-    <string name="place_node_place_name">My Hotel</string>
+    <string name="social_node_connections">130 conexões</string>
+    <string name="place_node_place_name">Meu Hotel</string>
     <string name="cadastros_remover">Remover</string>
     <string name="principal_recentralizar">Recentralizar</string>
     <string name="principal_kmls">KMLs</string>
@@ -550,4 +544,10 @@
     <string name="permissao_negada_mensagem">Sem esta permissão você terá problemas ao utilizar o aplicativo.</string>
     <string name="permissao_tentar_novamente">Tentar novamente.</string>
     <string name="permissao_sair">Sair</string>
+    <string name="action_nova_distancia">Distância</string>
+    <string name="action_novo">Novo</string>
+    <string name="alerta">Alerta</string>
+    <string name="pergunta_deseja_excluir">Tem certeza que deseja excluir?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
 </resources>

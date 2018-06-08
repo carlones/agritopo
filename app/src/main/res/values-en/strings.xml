@@ -7,6 +7,8 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="action_novo_ponto">Point</string>
     <string name="action_nova_area">Area</string>
+    <string name="action_nova_distancia">Distance</string>
+    <string name="action_novo">New</string>
     <string name="action_poi">Point of Interest</string>
     <string name="action_curvas_nivel">Level Curves</string>
     <string name="action_terrenos">Grounds</string>
@@ -68,8 +70,8 @@
     <string name="elemento_detail_tipo">Type</string>
     <string name="elemnto_detail_descricao">Description</string>
     <string name="elemento_detail_imagens">Images</string>
-    <string name="elemento_detail_data_criacao">Creation Date</string>
-    <string name="elemento_detail_data_modificacao">Modification Date</string>
+    <string name="elemento_detail_data_criacao">Created at</string>
+    <string name="elemento_detail_data_modificacao">Modified at</string>
     <string name="bonuspack_bubble_titulo">Title</string>
     <string name="bonuspack_bubble_description">Description</string>
     <string name="bonuspack_bubble_address">Address</string>
@@ -105,4 +107,8 @@
     <string name="permissao_negada_mensagem">Without permission you won´t be able to use the app.</string>
     <string name="permissao_tentar_novamente">Try again.</string>
     <string name="permissao_sair">Exit</string>
+    <string name="alerta">Alert</string>
+    <string name="pergunta_deseja_excluir">Are you sure to delete?</string>
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
 </resources>
