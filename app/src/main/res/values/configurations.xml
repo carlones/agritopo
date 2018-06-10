@@ -107,9 +107,33 @@
     <string name="pref_title_seguir_por_tempo">Seguir com intervalo de tempo</string>
     <string name="pref_dialogmessage_seguir_por_tempo">Grava o ponto de acordo com tempo especificado. Quando Zero, grava conforme o GPS recebe a informação.</string>
     <string name="pref_summary_seguir_por_tempo">No modo "Seguir", grava ponto a ponto conforme o tempo em segundos especificado.</string>
+    <string-array name="pref_summary_seguir_por_tempo_values">
+        <item>0s</item>
+        <item>1s</item>
+        <item>2s</item>
+        <item>3s</item>
+        <item>4s</item>
+        <item>5s</item>
+        <item>6s</item>
+        <item>7s</item>
+        <item>8s</item>
+        <item>9s</item>
+    </string-array>
 
     <string name="pref_key_seguir_por_distancia">seguir_por_distancia</string>
     <string name="pref_title_seguir_por_distancia">Seguir com intervalo de distância</string>
     <string name="pref_dialogmessage_seguir_por_distancia">Grava o ponto de acordo com a distância especificada. Quando Zero, grava conforme o GPS recebe a informação.</string>
     <string name="pref_summary_seguir_por_distancia">No modo Seguir, grava ponto a ponto conforme a distância do ultimo ponto em metros especificada.</string>
+    <string-array name="pref_summary_seguir_por_distancia_values">
+        <item>0m</item>
+        <item>1m</item>
+        <item>2m</item>
+        <item>3m</item>
+        <item>4m</item>
+        <item>5m</item>
+        <item>6m</item>
+        <item>7m</item>
+        <item>8m</item>
+        <item>9m</item>
+    </string-array>
 </resources>

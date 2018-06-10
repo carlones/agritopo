@@ -52,7 +52,7 @@
             android:defaultValue="0.0"
             android:dialogMessage="@string/pref_dialogmessage_seguir_por_tempo"
             android:key="@string/pref_key_seguir_por_tempo"
-            android:summary="@string/pref_summary_seguir_por_tempo"
+            android:summary="@array/pref_summary_seguir_por_tempo_values"
             android:title="@string/pref_title_seguir_por_tempo" />
 
         <!--suppress AndroidDomInspection -->
@@ -60,7 +60,7 @@
             android:defaultValue="0.0"
             android:dialogMessage="@string/pref_dialogmessage_seguir_por_distancia"
             android:key="@string/pref_key_seguir_por_distancia"
-            android:summary="@string/pref_summary_seguir_por_distancia"
+            android:summary="@array/pref_summary_seguir_por_distancia_values"
             android:title="@string/pref_title_seguir_por_distancia" />
     </PreferenceCategory>
 </PreferenceScreen>
