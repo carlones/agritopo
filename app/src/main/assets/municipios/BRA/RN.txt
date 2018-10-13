@@ -1,0 +1,167 @@
+Acari,22
+Açu,5521
+Afonso Bezerra,36
+Água Nova,59
+Alexandria,108
+Almino Afonso,122
+Alto do Rodrigues,149
+Angicos,239
+Antônio Martins,262
+Apodi,279
+Areia Branca,366
+Arês,374
+Augusto Severo (Campo Grande),5524
+Baía Formosa,450
+Baraúna,488
+Barcelona,495
+Bento Fernandes,598
+Bodó,654
+Bom Jesus,667
+Brejinho,756
+Caiçara do Norte,877
+Caiçara do Rio do Vento,878
+Caicó,879
+Campo Redondo,976
+Canguaretama,1020
+Caraúbas,1091
+Carnaúba dos Dantas,1129
+Carnaubais,1130
+Ceará-Mirim,5522
+Cerro Corá,1219
+Coronel Ezequiel,1385
+Coronel João Pessoa,1388
+Cruzeta,1471
+Currais Novos,1497
+Doutor Severiano,1609
+Encanto,1642
+Equador,1661
+Espírito Santo,1685
+Extremoz,1715
+Felipe Guerra,1746
+Fernando Pedroza,1757
+Florânia,1776
+Francisco Dantas,1826
+Frutuoso Gomes,1848
+Galinhos,1855
+Goianinha,1904
+Governador Dix-Sept Rosado,1920
+Grossos,1946
+Guamaré,1962
+Ielmo Marinho,2110
+Ipanguaçu,2192
+Ipueira,2219
+Itajá,2293
+Itaú,2384
+Jaçanã,2432
+Jandaíra,2476
+Janduís,2478
+Januário Cicco (Boa Saúde),5523
+Japi,2486
+Jardim de Angicos,2502
+Jardim de Piranhas,2503
+Jardim do Seridó,2505
+João Câmara,2550
+João Dias,2552
+José da Penha,2572
+Jucurutu,2590
+Jundiá,2600
+Lagoa d'Anta,2644
+Lagoa de Pedras,2649
+Lagoa de Velhos,2651
+Lagoa Nova,2668
+Lagoa Salgada,2670
+Lajes,2690
+Lajes Pintadas,2691
+Lucrécia,2764
+Luís Gomes,2768
+Macaíba,2785
+Macau,2793
+Major Sales,2825
+Marcelino Vieira,2895
+Martins,2936
+Maxaranguape,2987
+Messias Targino,3008
+Montanhas,3083
+Monte Alegre,3086
+Monte das Gameleiras,3103
+Mossoró,3149
+Natal,3189
+Nísia Floresta,3220
+Nova Cruz,3261
+Olho-d'Água do Borges,3388
+Ouro Branco,3428
+Paraná,3532
+Paraú,3549
+Parazinho,3552
+Parelhas,3556
+Parnamirim,3565
+Passa e Fica,3569
+Passagem,3575
+Patu,3594
+Pau dos Ferros,3599
+Pedra Grande,3636
+Pedra Preta,3640
+Pedro Avelino,3656
+Pedro Velho,3667
+Pendências,3675
+Pilões,3723
+Poço Branco,3824
+Portalegre,3873
+Porto do Mangue,3893
+Pureza,3985
+Rafael Fernandes,4028
+Rafael Godeiro,4029
+Riacho da Cruz,4078
+Riacho de Santana,4080
+Riachuelo,4086
+Rio do Fogo,4141
+Rodolfo Fernandes,4191
+Ruy Barbosa,4224
+Santa Cruz,4296
+Santa Maria,4357
+Santana do Matos,4438
+Santana do Seridó,4444
+Santo Antônio,4462
+São Bento do Norte,4512
+São Bento do Trairí,4516
+São Fernando,4555
+São Francisco do Oeste,4572
+São Gonçalo do Amarante,4588
+São João do Sabugi,4643
+São José de Mipibu,4674
+São José do Campestre,4685
+São José do Seridó,4707
+São Miguel,4745
+São Miguel do Gostoso,5525
+São Paulo do Potengi,4770
+São Pedro,4772
+São Rafael,4790
+São Tomé,4824
+São Vicente,4831
+Senador Elói de Souza,4876
+Senador Georgino Avelino,4878
+Serra Caiada,4906
+Serra de São Bento,4909
+Serra do Mel,4910
+Serra Negra do Norte,4918
+Serrinha,4932
+Serrinha dos Pintos,4933
+Severiano Melo,4950
+Sítio Novo,4978
+Taboleiro Grande,5024
+Taipu,5038
+Tangará,5048
+Tenente Ananias,5106
+Tenente Laurentino Cruz,5107
+Tibau,5137
+Tibau do Sul,5138
+Timbaúba dos Batistas,5144
+Touros,5173
+Triunfo Potiguar,5208
+Umarizal,5273
+Upanema,5292
+Várzea,5350
+Venha-Ver,5526
+Vera Cruz,5373
+Viçosa,5399
+Vila Flor,5408

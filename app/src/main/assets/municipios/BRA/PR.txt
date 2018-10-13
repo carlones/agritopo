@@ -1,0 +1,399 @@
+Abatiá,9
+Adrianópolis,33
+Agudos do Sul,77
+Almirante Tamandaré,123
+Altamira do Paraná,134
+Altônia,165
+Alto Paraíso,5493
+Alto Paraná,158
+Alto Piquiri,160
+Alvorada do Sul,181
+Amaporã,186
+Ampére,207
+Anahy,210
+Andirá,225
+Ângulo,242
+Antonina,253
+Antônio Olinto,263
+Apucarana,283
+Arapongas,331
+Arapoti,333
+Arapuã,334
+Araruna,349
+Araucária,355
+Ariranha do Ivaí,381
+Assaí,404
+Assis Chateaubriand,408
+Astorga,412
+Atalaia,414
+Balsa Nova,465
+Bandeirantes,476
+Barbosa Ferraz,493
+Barracão,531
+Barra do Jacaré,516
+Bela Vista da Caroba,565
+Bela Vista do Paraíso,569
+Bituruna,623
+Boa Esperança,627
+Boa Esperança do Iguaçu,628
+Boa Ventura de São Roque,633
+Boa Vista da Aparecida,637
+Bocaiúva do Sul,653
+Bom Jesus do Sul,683
+Bom Sucesso,695
+Bom Sucesso do Sul,698
+Borrazópolis,725
+Braganey,738
+Brasilândia do Sul,744
+Cafeara,866
+Cafelândia,868
+Cafezal do Sul,869
+Califórnia,903
+Cambará,916
+Cambé,918
+Cambira,919
+Campina da Lagoa,934
+Campina do Simão,937
+Campina Grande do Sul,939
+Campo Bonito,956
+Campo do Tenente,960
+Campo Largo,967
+Campo Magro,970
+Campo Mourão,972
+Cândido de Abreu,1010
+Candói,1017
+Cantagalo,1033
+Capanema,1040
+Capitão Leônidas Marques,5494
+Carambeí,1083
+Carlópolis,1112
+Cascavel,1150
+Castro,1167
+Catanduvas,1172
+Centenário do Sul,1206
+Cerro Azul,5500
+Céu Azul,1225
+Chopinzinho,1251
+Cianorte,1258
+Cidade Gaúcha,1260
+Clevelândia,1272
+Colombo,1299
+Colorado,1303
+Congonhinhas,1350
+Conselheiro Mairinck,5496
+Contenda,1357
+Corbélia,1365
+Cornélio Procópio,1377
+Coronel Domingos Soares,1384
+Coronel Vivida,1397
+Corumbataí do Sul,1413
+Cruzeiro do Iguaçu,1466
+Cruzeiro do Oeste,1467
+Cruzeiro do Sul,1469
+Cruz Machado,1461
+Cruzmaltina,1473
+Curitiba,1493
+Curiúva,1495
+Diamante D'Oeste,1537
+Diamante do Norte,1538
+Diamante do Sul,1539
+Dois Vizinhos,1571
+Douradina,1601
+Doutor Camargo,1605
+Doutor Ulysses,1610
+Enéas Marques,1645
+Engenheiro Beltrão,1646
+Entre Rios do Oeste,1656
+Esperança Nova,1678
+Espigão Alto do Iguaçu,1682
+Farol,1724
+Faxinal,1731
+Fazenda Rio Grande,1736
+Fênix,1752
+Fernandes Pinheiro,1753
+Figueira,1765
+Floraí,1775
+Flor da Serra do Sul,1772
+Floresta,1783
+Florestópolis,1788
+Flórida,1792
+Formosa do Oeste,1800
+Foz do Iguaçu,1817
+Foz do Jordão,1818
+Francisco Alves,1822
+Francisco Beltrão,1825
+General Carneiro,1877
+Godoy Moreira,1895
+Goioerê,1910
+Goioxim,1911
+Grandes Rios,1936
+Guaíra,1956
+Guairaçá,1957
+Guamiranga,1963
+Guapirama,1970
+Guaporema,1973
+Guaraci,1978
+Guaraniaçu,1992
+Guarapuava,1996
+Guaraqueçaba,1997
+Guaratuba,2003
+Honório Serpa,2039
+Ibaiti,2055
+Ibema,5487
+Ibiporã,2077
+Icaraíma,2104
+Iguaraçu,2130
+Iguatu,2133
+Imbaú,2149
+Imbituva,2153
+Inácio Martins,2157
+Inajá,2160
+Indianópolis,2168
+Ipiranga,2206
+Iporã,2213
+Iracema do Oeste,2227
+Irati,2241
+Iretama,2244
+Itaguajé,5490
+Itaipulândia,2289
+Itambaracá,2306
+Itambé,2309
+Itapejara d'Oeste,5503
+Itaperuçu,2332
+Itaúna do Sul,2390
+Ivaí,2416
+Ivaiporã,2417
+Ivaté,2418
+Ivatuba,2419
+Jaboti,2428
+Jacarezinho,2438
+Jaguapitã,2452
+Jaguariaíva,2460
+Jandaia do Sul,2474
+Janiópolis,2480
+Japira,2487
+Japurá,2492
+Jardim Alegre,2501
+Jardim Olinda,2506
+Jataizinho,2513
+Jesuítas,2539
+Joaquim Távora,2564
+Jundiaí do Sul,2602
+Juranda,2610
+Jussara,2621
+Kaloré,2628
+Lapa,2697
+Laranjal,2701
+Laranjeiras do Sul,2705
+Leópolis,2726
+Lidianópolis,2730
+Lindoeste,2739
+Loanda,2749
+Lobato,2750
+Londrina,2752
+Luiziana,2772
+Lunardelli,2775
+Lupionópolis,2777
+Mallet,2832
+Mamborê,2836
+Mandaguaçu,2845
+Mandaguari,2846
+Mandirituba,2847
+Manfrinópolis,5485
+Mangueirinha,2851
+Manoel Ribas,2856
+Marechal Cândido Rondon,5492
+Maria Helena,2906
+Marialva,2907
+Marilândia do Sul,2917
+Marilena,2918
+Mariluz,2920
+Maringá,2921
+Mariópolis,5488
+Maripá,2924
+Marmeleiro,2929
+Marquinho,2932
+Marumbi,2939
+Matelândia,2954
+Matinhos,2964
+Mato Rico,2970
+Mauá da Serra,2982
+Medianeira,2992
+Mercedes,3000
+Mirador,3035
+Miraselva,3049
+Missal,3055
+Moreira Sales,5502
+Morretes,3130
+Munhoz de Melo,5491
+Nossa Senhora das Graças,3230
+Nova Aliança do Ivaí,3237
+Nova América da Colina,3241
+Nova Aurora,3244
+Nova Cantu,3257
+Nova Esperança,3264
+Nova Esperança do Sudoeste,5486
+Nova Fátima,3268
+Nova Laranjeiras,3286
+Nova Londrina,3288
+Nova Olímpia,3298
+Nova Prata do Iguaçu,3312
+Nova Santa Bárbara,3320
+Nova Santa Rosa,3324
+Nova Tebas,3327
+Novo Itacolomi,3355
+Ortigueira,3413
+Ourizona,3424
+Ouro Verde do Oeste,3437
+Paiçandu,3456
+Palmas,3476
+Palmeira,3479
+Palmital,3494
+Palotina,3499
+Paraíso do Norte,3524
+Paranacity,3533
+Paranaguá,3534
+Paranapoema,3539
+Paranavaí,3543
+Pato Bragado,5498
+Pato Branco,3587
+Paula Freitas,3603
+Paulo Frontin,3615
+Peabiru,3623
+Perobal,3692
+Pérola,3693
+Pérola d'Oeste,5499
+Piên,3717
+Pinhais,3738
+Pinhalão,3743
+Pinhal de São Bento,3741
+Pinhão,3747
+Piraí do Sul,3768
+Piraquara,3785
+Pitanga,3799
+Pitangueiras,3801
+Planaltina do Paraná,3810
+Planalto,3814
+Ponta Grossa,3845
+Pontal do Paraná,3849
+Porecatu,3872
+Porto Amazonas,3886
+Porto Barreiro,3887
+Porto Rico,3908
+Porto Vitória,3914
+Prado Ferreira,3931
+Pranchita,5495
+Presidente Castelo Branco,3947
+Primeiro de Maio,3974
+Prudentópolis,3983
+Quarto Centenário,3991
+Quatiguá,3993
+Quatro Barras,3996
+Quatro Pontes,3998
+Quedas do Iguaçu,4000
+Querência do Norte,4009
+Quinta do Sol,4013
+Quitandinha,4019
+Ramilândia,4032
+Rancho Alegre,4034
+Rancho Alegre D'Oeste,5504
+Realeza,4039
+Rebouças,4040
+Renascença,4057
+Reserva,4061
+Reserva do Iguaçu,4063
+Ribeirão Claro,4100
+Ribeirão do Pinhal,4104
+Rio Azul,4118
+Rio Bom,4120
+Rio Bonito do Iguaçu,4122
+Rio Branco do Ivaí,4125
+Rio Branco do Sul,4126
+Rio Negro,4160
+Rolândia,4194
+Roncador,4199
+Rondon,4203
+Rosário do Ivaí,4212
+Sabáudia,4227
+Salgado Filho,4244
+Salto do Itararé,4258
+Salto do Lontra,4260
+Santa Amélia,4277
+Santa Cecília do Pavão,4291
+Santa Cruz de Monte Castelo,5497
+Santa Fé,4317
+Santa Helena,4327
+Santa Inês,4334
+Santa Isabel do Ivaí,4338
+Santa Izabel do Oeste,4340
+Santa Lúcia,4344
+Santa Maria do Oeste,4367
+Santa Mariana,4373
+Santa Mônica,4375
+Santana do Itararé,4434
+Santa Tereza do Oeste,4409
+Santa Terezinha de Itaipu,5501
+Santo Antônio da Platina,4466
+Santo Antônio do Caiuá,4476
+Santo Antônio do Paraíso,4485
+Santo Antônio do Sudoeste,4490
+Santo Inácio,4500
+São Carlos do Ivaí,4529
+São Jerônimo da Serra,4598
+São João,4599
+São João do Caiuá,4626
+São João do Ivaí,4630
+São João do Triunfo,4647
+São Jorge d'Oeste,5489
+São Jorge do Ivaí,4656
+São Jorge do Patrocínio,4657
+São José da Boa Vista,4661
+São José das Palmeiras,4671
+São José dos Pinhais,4715
+São Manoel do Paraná,4736
+São Mateus do Sul,4744
+São Miguel do Iguaçu,4758
+São Pedro do Iguaçu,4781
+São Pedro do Ivaí,4782
+São Pedro do Paraná,4783
+São Sebastião da Amoreira,4802
+São Tomé,4825
+Sapopema,4840
+Sarandi,4847
+Saudade do Iguaçu,4856
+Sengés,4887
+Serranópolis do Iguaçu,4928
+Sertaneja,4937
+Sertanópolis,4939
+Siqueira Campos,4972
+Sulina,5008
+Tamarana,5042
+Tamboara,5044
+Tapejara,5060
+Tapira,5066
+Teixeira Soares,5099
+Telêmaco Borba,5104
+Terra Boa,5123
+Terra Rica,5128
+Terra Roxa,5129
+Tibagi,5136
+Tijucas do Sul,5142
+Toledo,5162
+Tomazina,5164
+Três Barras do Paraná,5185
+Tunas do Paraná,5222
+Tuneiras do Oeste,5223
+Tupãssi,5233
+Turvo,5247
+Ubiratã,5264
+Umuarama,5279
+União da Vitória,5284
+Uniflor,5290
+Uraí,5293
+Ventania,5367
+Vera Cruz do Oeste,5374
+Verê,5379
+Virmond,5427
+Vitorino,5444
+Wenceslau Braz,5455
+Xambrê,5460

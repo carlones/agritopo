@@ -1,0 +1,92 @@
+Angra dos Reis,240
+Aperibé,273
+Araruama,347
+Areal,363
+Armação dos Búzios,382
+Arraial do Cabo,388
+Barra do Piraí,519
+Barra Mansa,528
+Belford Roxo,580
+Bom Jardim,661
+Bom Jesus do Itabapoana,680
+Cabo Frio,820
+Cachoeiras de Macacu,845
+Cambuci,921
+Campos dos Goytacazes,983
+Cantagalo,1031
+Carapebus,1087
+Cardoso Moreira,1099
+Carmo,1117
+Casimiro de Abreu,1154
+Comendador Levy Gasparian,1309
+Conceição de Macabu,1320
+Cordeiro,1366
+Duas Barras,1614
+Duque de Caxias,1619
+Engenheiro Paulo de Frontin,1650
+Guapimirim,1969
+Iguaba Grande,2126
+Itaboraí,2262
+Itaguaí,2277
+Italva,2300
+Itaocara,2320
+Itaperuna,2333
+Itatiaia,2376
+Japeri,2485
+Laje do Muriaé,2680
+Macaé,2784
+Macuco,2804
+Magé,2817
+Mangaratiba,2850
+Maricá,2914
+Mendes,2997
+Mesquita,3005
+Miguel Pereira,3012
+Miracema,3032
+Natividade,3192
+Nilópolis,3214
+Niterói,3221
+Nova Friburgo,3271
+Nova Iguaçu,3278
+Paracambi,3511
+Paraíba do Sul,3518
+Paraty,5527
+Paty do Alferes,3595
+Petrópolis,3702
+Pinheiral,3748
+Piraí,3766
+Porciúncula,3871
+Porto Real,3906
+Quatis,3995
+Queimados,4004
+Quissamã,4018
+Resende,4059
+Rio Bonito,4121
+Rio Claro,4130
+Rio das Flores,4134
+Rio das Ostras,4135
+Rio de Janeiro,4138
+Santa Maria Madalena,4372
+Santo Antônio de Pádua,4471
+São Fidélis,4556
+São Francisco de Itabapoana,4563
+São Gonçalo,4585
+São João da Barra,4606
+São João de Meriti,4621
+São José de Ubá,4678
+São José do Vale do Rio Preto,4709
+São Pedro da Aldeia,4774
+São Sebastião do Alto,4807
+Sapucaia,4842
+Saquarema,4845
+Seropédica,4900
+Silva Jardim,4955
+Sumidouro,5011
+Tanguá,5051
+Teresópolis,5119
+Trajano de Moraes,5528
+Três Rios,5198
+Valença,5326
+Varre-Sai,5349
+Vassouras,5363
+Volta Redonda,5447

@@ -93,7 +93,7 @@
     <string name="principal_mapas">Maps</string>
     <string name="gps_box_inicializando">Inicializing GPS</string>
     <string name="neogis_consultoria_e_sistemas">Neogis Sistemas e Consultoria em Tecnologia LTDA</string>
-    <string name="content_serial_key_titulo">Agritopo (Temporary License)</string>
+    <string name="content_serial_key_titulo">Agritopo - Register License</string>
     <string name="content_map_novo_poi">New Point of Interest</string>
     <string name="cadastro_remover_item_partial_1">Remove</string>
     <string name="cadastro_remover_item_partial_2">items?</string>

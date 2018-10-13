@@ -55,10 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(serialKeyService.containsValidSerialKey())
             startMapActivity();
-        else if(serialKeyService.containsFreeSerialKey())
-            startTrialSerialActivity();
         else
-            startSerialActivity();
+            startTrialSerialActivity();
+//        else if(serialKeyService.containsFreeSerialKey())
+//            startTrialSerialActivity();
+//        else
+//            startSerialActivity();
     }
 
     @Override

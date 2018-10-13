@@ -1,0 +1,295 @@
+Abdon Batista,10
+Abelardo Luz,12
+Agrolândia,43
+Agronômica,44
+Água Doce,53
+Águas de Chapecó,66
+Águas Frias,71
+Águas Mornas,73
+Alfredo Wagner,114
+Alto Bela Vista,146
+Anchieta,223
+Angelina,235
+Anita Garibaldi,248
+Anitápolis,249
+Antônio Carlos,257
+Apiúna,278
+Arabutã,289
+Araquari,337
+Araranguá,339
+Armazém,383
+Arroio Trinta,396
+Arvoredo,400
+Ascurra,402
+Atalanta,416
+Aurora,428
+Balneário Arroio do Silva,460
+Balneário Barra do Sul,461
+Balneário Camboriú,462
+Balneário Gaivota,463
+Balneário Piçarras,5559
+Balneário Rincão,5567
+Bandeirante,474
+Barra Bonita,500
+Barra Velha,529
+Bela Vista do Toldo,571
+Belmonte,582
+Benedito Novo,593
+Biguaçu,617
+Blumenau,624
+Bocaina do Sul,651
+Bombinhas,699
+Bom Jardim da Serra,664
+Bom Jesus,670
+Bom Jesus do Oeste,682
+Bom Retiro,692
+Botuverá,731
+Braço do Norte,733
+Braço do Trombudo,734
+Brunópolis,780
+Brusque,781
+Caçador,825
+Caibi,874
+Calmon,904
+Camboriú,920
+Campo Alegre,947
+Campo Belo do Sul,954
+Campo Erê,961
+Campos Novos,986
+Canelinha,1019
+Canoinhas,1028
+Capão Alto,1041
+Capinzal,1060
+Capivari de Baixo,1071
+Catanduvas,1173
+Caxambu do Sul,1193
+Celso Ramos,1203
+Cerro Negro,1223
+Chapadão do Lageado,1239
+Chapecó,1242
+Cocal do Sul,1277
+Concórdia,1335
+Cordilheira Alta,1369
+Coronel Freitas,1387
+Coronel Martins,1392
+Correia Pinto,1404
+Corupá,1415
+Criciúma,1434
+Cunha Porã,1486
+Cunhataí,1487
+Curitibanos,1494
+Descanso,1529
+Dionísio Cerqueira,1546
+Dona Emma,1589
+Doutor Pedrinho,1607
+Entre Rios,1653
+Ermo,1666
+Erval Velho,1670
+Faxinal dos Guedes,1733
+Flor do Sertão,1773
+Florianópolis,1791
+Formosa do Sul,1802
+Forquilhinha,1808
+Fraiburgo,1819
+Frei Rogério,1842
+Galvão,1856
+Garopaba,1864
+Garuva,1867
+Gaspar,1868
+Governador Celso Ramos,1919
+Grão Pará,1941
+Gravatal,1944
+Guabiruba,1949
+Guaraciaba,1980
+Guaramirim,1986
+Guarujá do Sul,2010
+Guatambú,2012
+Herval d'Oeste,2033
+Ibiam,2065
+Ibicaré,2070
+Ibirama,2085
+Içara,2102
+Ilhota,2144
+Imaruí,2148
+Imbituba,2152
+Imbuia,2154
+Indaial,2163
+Iomerê,2188
+Ipira,2204
+Iporã do Oeste,2214
+Ipuaçu,5561
+Ipumirim,2223
+Iraceminha,2229
+Irani,2235
+Irati,2240
+Irineópolis,2245
+Itá,2250
+Itaiópolis,2286
+Itajaí,2294
+Itapema,2330
+Itapiranga,2344
+Itapoá,2351
+Ituporanga,2410
+Jaborá,2425
+Jacinto Machado,2442
+Jaguaruna,2466
+Jaraguá do Sul,2496
+Jardinópolis,2508
+Joaçaba,2545
+Joinville,2567
+José Boiteux,2570
+Jupiá,2606
+Lacerdópolis,2630
+Lages,2636
+Laguna,2677
+Lajeado Grande,2684
+Laurentino,2708
+Lauro Muller,2710
+Lebon Régis,2718
+Leoberto Leal,2723
+Lindóia do Sul,2741
+Lontras,2754
+Luiz Alves,2771
+Luzerna,2780
+Macieira,2803
+Mafra,2813
+Major Gercino,2823
+Major Vieira,2826
+Maracajá,2872
+Maravilha,2889
+Marema,2903
+Massaranduba,2944
+Matos Costa,2974
+Meleiro,2995
+Mirim Doce,3053
+Modelo,3059
+Mondaí,3073
+Monte Carlo,3099
+Monte Castelo,3102
+Morro da Fumaça,3137
+Morro Grande,3142
+Navegantes,3196
+Nova Erechim,3263
+Nova Itaberaba,3283
+Nova Trento,3329
+Nova Veneza,3334
+Novo Horizonte,3350
+Orleans,3409
+Otacílio Costa,3418
+Ouro,3425
+Ouro Verde,3433
+Paial,3455
+Painel,3459
+Palhoça,3468
+Palma Sola,3470
+Palmeira,3478
+Palmitos,3497
+Papanduva,3508
+Paraíso,3522
+Passo de Torres,3580
+Passos Maia,3584
+Paulo Lopes,3617
+Pedras Grandes,3647
+Penha,3677
+Peritiba,3690
+Pescaria Brava,5568
+Petrolândia,3699
+Pinhalzinho,3745
+Pinheiro Preto,3752
+Piratuba,3790
+Planalto Alegre,3816
+Pomerode,3840
+Ponte Alta,3853
+Ponte Alta do Norte,3855
+Ponte Serrada,3860
+Porto Belo,3888
+Porto União,3911
+Pouso Redondo,3927
+Praia Grande,3934
+Presidente Castello Branco,5562
+Presidente Getúlio,3952
+Presidente Nereu,3962
+Princesa,3975
+Quilombo,4012
+Rancho Queimado,4035
+Rio das Antas,4133
+Rio do Campo,4140
+Rio do Oeste,4142
+Rio dos Cedros,4148
+Rio do Sul,4145
+Rio Fortuna,4152
+Rio Negrinho,4159
+Rio Rufino,4173
+Riqueza,4181
+Rodeio,4187
+Romelândia,4198
+Salete,4239
+Saltinho,4253
+Salto Veloso,4262
+Sangão,4273
+Santa Cecília,4290
+Santa Helena,4328
+Santa Rosa de Lima,4398
+Santa Rosa do Sul,4402
+Santa Terezinha,4413
+Santa Terezinha do Progresso,4415
+Santiago do Sul,4452
+Santo Amaro da Imperatriz,4455
+São Bento do Sul,4514
+São Bernardino,4518
+São Bonifácio,4521
+São Carlos,4527
+São Cristovão do Sul,4531
+São Domingos,4533
+São Francisco do Sul,4575
+São João Batista,4601
+São João do Itaperiú,4629
+São João do Oeste,4634
+São João do Sul,4645
+São Joaquim,4651
+São José,4658
+São José do Cedro,4686
+São José do Cerrito,4687
+São Lourenço do Oeste,5560
+São Ludgero,4725
+São Martinho,4739
+São Miguel da Boa Vista,4748
+São Miguel do Oeste,4759
+São Pedro de Alcântara,4779
+Saudades,4857
+Schroeder,4859
+Seara,4861
+Serra Alta,4902
+Siderópolis,4952
+Sombrio,4994
+Sul Brasil,5007
+Taió,5035
+Tangará,5049
+Tigrinhos,5140
+Tijucas,5141
+Timbé do Sul,5145
+Timbó,5147
+Timbó Grande,5148
+Três Barras,5184
+Treviso,5199
+Treze de Maio,5200
+Treze Tílias,5201
+Trombudo Central,5211
+Tubarão,5212
+Tunápolis,5220
+Turvo,5246
+União do Oeste,5286
+Urubici,5302
+Urupema,5313
+Urussanga,5315
+Vargeão,5334
+Vargem,5335
+Vargem Bonita,5339
+Vidal Ramos,5402
+Videira,5403
+Vitor Meireles,5435
+Witmarsum,5458
+Xanxerê,5462
+Xavantina,5464
+Xaxim,5465
+Zortéa,5472

@@ -183,13 +183,13 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                new SerialKeyValidate(
-                        activity.getApplicationContext(),
-                        serialKey,
-                        email,
-                        deviceId,
-                        activity
-                ).run();
+//                new SerialKeyValidate(
+//                        activity.getApplicationContext(),
+//                        serialKey,
+//                        email,
+//                        deviceId,
+//                        activity
+//                ).run();
             } catch (Exception e) {
                 erro = e.getMessage();
             }

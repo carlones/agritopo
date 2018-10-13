@@ -3,7 +3,8 @@ package br.com.neogis.agritopo.dao.controlador;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import br.com.neogis.agritopo.utils.Utils;
 
 /**
  * Created by carlo on 14/10/2017.
@@ -19,7 +20,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("Agritopo", "BancoDeDadosSQLite: criando banco");
+        Utils.info("BancoDeDadosSQLite: criando banco");
 
         db.execSQL("\n" +
                 "\n" +
@@ -176,7 +177,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i("Agritopo", "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
+        Utils.info( "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
         if (newVersion > oldVersion) {
             if(oldVersion <= 5){
                 db.execSQL("CREATE TABLE chaveserial (\n" +
@@ -189,9 +190,8 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                         " FOREIGN KEY (usuarioid) REFERENCES usuario (usuarioid)\n" +
                         ");" +
                         "\n");
+                Utils.info("BancoDeDadosSQLite: versão atualizada de 5 para 6");
             }
-
-            Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de 5 para 6");
         }
     }
 }

@@ -1,0 +1,15 @@
+Alto Alegre,140
+Amajari,182
+Boa Vista,635
+Bonfim,701
+Cantá,1030
+Caracaraí,1077
+Caroebe,1135
+Iracema,2226
+Mucajaí,3154
+Normandia,3225
+Pacaraima,3443
+Rorainópolis,4207
+São João da Baliza,4605
+São Luiz,4732
+Uiramutã,5268

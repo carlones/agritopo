@@ -1,0 +1,75 @@
+Amparo de São Francisco,205
+Aquidabã,286
+Aracaju,292
+Arauá,354
+Areia Branca,367
+Barra dos Coqueiros,525
+Boquim,716
+Brejo Grande,766
+Campo do Brito,958
+Canhoba,1022
+Canindé de São Francisco,1025
+Capela,1048
+Carira,1106
+Carmópolis,1126
+Cedro de São João,1201
+Cristinápolis,1449
+Cumbe,1484
+Divina Pastora,1550
+Estância,1692
+Feira Nova,1742
+Frei Paulo,1841
+Gararu,1861
+General Maynard,1878
+Gracho Cardoso,1931
+Ilha das Flores,2138
+Indiaroba,2172
+Itabaiana,2252
+Itabaianinha,2254
+Itabi,2259
+Itaporanga d'Ajuda,2357
+Japaratuba,2484
+Japoatã,2488
+Lagarto,2635
+Laranjeiras,2704
+Macambira,2788
+Malhada dos Bois,2830
+Malhador,2831
+Maruim,2938
+Moita Bonita,3067
+Monte Alegre de Sergipe,3089
+Muribeca,3173
+Neópolis,3206
+Nossa Senhora Aparecida,3227
+Nossa Senhora da Glória,3228
+Nossa Senhora das Dores,3229
+Nossa Senhora de Lourdes,3231
+Nossa Senhora do Socorro,3234
+Pacatuba,3444
+Pedra Mole,3638
+Pedrinhas,3651
+Pinhão,3746
+Pirambu,3772
+Poço Redondo,3830
+Poço Verde,3831
+Porto da Folha,3890
+Propriá,3980
+Riachão do Dantas,4073
+Riachuelo,4087
+Ribeirópolis,4113
+Rosário do Catete,4211
+Salgado,4242
+Santa Luzia do Itanhy,4351
+Santana do São Francisco,4443
+Santa Rosa de Lima,4397
+Santo Amaro das Brotas,4456
+São Cristóvão,4530
+São Domingos,4535
+São Francisco,4559
+São Miguel do Aleixo,4752
+Simão Dias,4963
+Siriri,4974
+Telha,5105
+Tobias Barreto,5156
+Tomar do Geru,5163
+Umbaúba,5274

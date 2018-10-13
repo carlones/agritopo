@@ -1,0 +1,62 @@
+Alvarães,168
+Amaturá,193
+Anamã,214
+Anori,250
+Apuí,284
+Atalaia do Norte,415
+Autazes,431
+Barcelos,496
+Barreirinha,536
+Benjamin Constant,595
+Beruri,610
+Boa Vista do Ramos,643
+Boca do Acre,647
+Borba,720
+Caapiranga,808
+Canutama,1038
+Carauari,1090
+Careiro,1101
+Careiro da Várzea,5474
+Coari,1274
+Codajás,1282
+Eirunepé,1625
+Envira,1659
+Fonte Boa,1794
+Guajará,1959
+Humaitá,2046
+Ipixuna,2209
+Iranduba,2234
+Itacoatiara,2268
+Itamarati,5475
+Itapiranga,2343
+Japurá,2491
+Juruá,2615
+Jutaí,2625
+Lábrea,2629
+Manacapuru,2839
+Manaquiri,2841
+Manaus,2843
+Manicoré,2854
+Maraã,2867
+Maués,2983
+Nhamundá,3210
+Nova Olinda do Norte,3304
+Novo Airão,3340
+Novo Aripuanã,3342
+Parintins,3558
+Pauini,3601
+Presidente Figueiredo,3951
+Rio Preto da Eva,4170
+Santa Isabel do Rio Negro,4339
+Santo Antônio do Içá,4479
+São Gabriel da Cachoeira,4578
+São Paulo de Olivença,4769
+São Sebastião do Uatumã,4817
+Silves,4961
+Tabatinga,5020
+Tapauá,5058
+Tefé,5096
+Tonantins,5166
+Uarini,5250
+Urucará,5305
+Urucurituba,5309

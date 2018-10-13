@@ -1,0 +1,184 @@
+Abaiara,6
+Acarape,20
+Acaraú,21
+Acopiara,25
+Aiuaba,83
+Alcântaras,96
+Altaneira,135
+Alto Santo,163
+Amontada,201
+Antonina do Norte,254
+Apuiarés,285
+Aquiraz,288
+Aracati,295
+Aracoiaba,301
+Ararendá,342
+Araripe,345
+Aratuba,352
+Arneiroz,384
+Assaré,405
+Aurora,427
+Baixio,455
+Banabuiú,469
+Barbalha,491
+Barreira,533
+Barro,541
+Barroquinha,548
+Baturité,558
+Beberibe,562
+Bela Cruz,563
+Boa Viagem,634
+Brejo Santo,768
+Camocim,925
+Campos Sales,988
+Canindé,1024
+Capistrano,1062
+Caridade,1103
+Cariré,1107
+Caririaçu,1109
+Cariús,1110
+Carnaubal,1131
+Cascavel,1151
+Catarina,1174
+Catunda,1185
+Caucaia,1190
+Cedro,1200
+Chaval,1246
+Choró,1252
+Chorozinho,1253
+Coreaú,1372
+Crateús,1430
+Crato,1431
+Croatá,1454
+Cruz,1457
+Deputado Irapuan Pinheiro,1526
+Ererê,1664
+Eusébio,1712
+Farias Brito,1722
+Forquilha,1807
+Fortaleza,1809
+Fortim,1814
+Frecheirinha,1834
+General Sampaio,1880
+Graça,1929
+Granja,1938
+Granjeiro,1939
+Groaíras,1945
+Guaiúba,1958
+Guaraciaba do Norte,1981
+Guaramiranga,1985
+Hidrolândia,2035
+Horizonte,2040
+Ibaretama,2057
+Ibiapina,2066
+Ibicuitinga,2073
+Icapuí,2101
+Icó,2108
+Iguatu,2134
+Independência,2166
+Ipaporanga,2193
+Ipaumirim,2195
+Ipu,2216
+Ipueiras,2220
+Iracema,2225
+Irauçuba,2242
+Itaiçaba,2284
+Itaitinga,2290
+Itapajé,2322
+Itapipoca,2341
+Itapiúna,2350
+Itarema,2372
+Itatira,2382
+Jaguaretama,2458
+Jaguaribara,2461
+Jaguaribe,2462
+Jaguaruana,2465
+Jardim,2499
+Jati,2516
+Jijoca de Jericoacoara,2542
+Juazeiro do Norte,2585
+Jucás,2587
+Lavras da Mangabeira,2714
+Limoeiro do Norte,2738
+Madalena,2806
+Maracanaú,2875
+Maranguape,2881
+Marco,2897
+Martinópole,2934
+Massapê,2942
+Mauriti,2986
+Meruoca,3003
+Milagres,3015
+Milhã,3017
+Miraíma,3039
+Missão Velha,3056
+Mombaça,3069
+Monsenhor Tabosa,3079
+Morada Nova,3123
+Moraújo,3125
+Morrinhos,3131
+Mucambo,3155
+Mulungu,3162
+Nova Olinda,3301
+Nova Russas,3319
+Novo Oriente,3360
+Ocara,3375
+Orós,3412
+Pacajus,3442
+Pacatuba,3445
+Pacoti,3447
+Pacujá,3448
+Palhano,3467
+Palmácia,3471
+Paracuru,3513
+Paraipaba,3521
+Parambu,3528
+Paramoti,3530
+Pedra Branca,3631
+Penaforte,3672
+Pentecoste,3678
+Pereiro,3687
+Pindoretama,3737
+Piquet Carneiro,3759
+Pires Ferreira,3794
+Poranga,3868
+Porteiras,3876
+Potengi,3919
+Potiretama,3923
+Quiterianópolis,4020
+Quixadá,4024
+Quixelô,4025
+Quixeramobim,4026
+Quixeré,4027
+Redenção,4044
+Reriutaba,4058
+Russas,4223
+Saboeiro,4230
+Salitre,4249
+Santana do Acaraú,4428
+Santana do Cariri,4430
+Santa Quitéria,4376
+São Benedito,4505
+São Gonçalo do Amarante,4587
+São João do Jaguaribe,4631
+São Luís do Curu,4728
+Senador Pompeu,4883
+Senador Sá,4885
+Sobral,4984
+Solonópole,4993
+Tabuleiro do Norte,5026
+Tamboril,5045
+Tarrafas,5086
+Tauá,5092
+Tejuçuoca,5102
+Tianguá,5135
+Trairi,5178
+Tururu,5243
+Ubajara,5256
+Umari,5272
+Umirim,5278
+Uruburetama,5303
+Uruoca,5311
+Varjota,5348
+Várzea Alegre,5352
+Viçosa do Ceará,5400

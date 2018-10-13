@@ -1,0 +1,185 @@
+Abreu e Lima,14
+Afogados da Ingazeira,35
+Afrânio,39
+Agrestina,41
+Água Preta,60
+Águas Belas,64
+Alagoinha,90
+Aliança,117
+Altinho,137
+Amaraji,187
+Angelim,234
+Araçoiaba,300
+Araripina,346
+Arcoverde,361
+Barra de Guabiraba,503
+Barreiros,538
+Belém de Maria,576
+Belém do São Francisco,577
+Belo Jardim,586
+Betânia,611
+Bezerros,614
+Bodocó,655
+Bom Conselho,659
+Bom Jardim,663
+Bonito,708
+Brejão,754
+Brejinho,757
+Brejo da Madre de Deus,761
+Buenos Aires,784
+Buíque,787
+Cabo de Santo Agostinho,819
+Cabrobó,824
+Cachoeirinha,846
+Caetés,863
+Calçado,895
+Calumbi,905
+Camaragibe,914
+Camocim de São Félix,926
+Camutanga,990
+Canhotinho,1023
+Capoeiras,1074
+Carnaíba,1128
+Carnaubeira da Penha,1132
+Carpina,1137
+Caruaru,1141
+Casinhas,1155
+Catende,1177
+Cedro,1199
+Chã de Alegria,1227
+Chã Grande,1228
+Condado,1337
+Correntes,1406
+Cortês,1408
+Cumaru,1482
+Cupira,1489
+Custódia,1509
+Dormentes,1599
+Escada,1672
+Exu,1716
+Feira Nova,1743
+Fernando de Noronha,1755
+Ferreiros,1762
+Flores,1778
+Floresta,1782
+Frei Miguelinho,1840
+Gameleira,1857
+Garanhuns,1860
+Glória do Goitá,1892
+Goiana,1897
+Granito,1937
+Gravatá,1942
+Iati,2054
+Ibimirim,2074
+Ibirajuba,2084
+Igarassu,2120
+Iguaracy,2129
+Ilha de Itamaracá,2139
+Inajá,2159
+Ingazeira,2176
+Ipojuca,2211
+Ipubi,2218
+Itacuruba,2269
+Itaíba,2283
+Itambé,2308
+Itapetim,2334
+Itapissuma,2348
+Itaquitinga,2368
+Jaboatão dos Guararapes,2424
+Jaqueira,2493
+Jataúba,2514
+Jatobá,2518
+João Alfredo,2549
+Joaquim Nabuco,2562
+Jucati,2588
+Jupi,2605
+Jurema,2611
+Lagoa de Itaenga,2654
+Lagoa do Carro,2653
+Lagoa do Ouro,2656
+Lagoa dos Gatos,2660
+Lagoa Grande,2666
+Lajedo,2688
+Limoeiro,2735
+Macaparana,2790
+Machados,2802
+Manari,2842
+Maraial,2879
+Mirandiba,3042
+Moreilândia,3126
+Moreno,3127
+Nazaré da Mata,3200
+Olinda,3391
+Orobó,3410
+Orocó,3411
+Ouricuri,3421
+Palmares,3472
+Palmeirina,3490
+Panelas,3503
+Paranatama,3541
+Parnamirim,3566
+Passira,3578
+Paudalho,3600
+Paulista,3608
+Pedra,3626
+Pesqueira,3697
+Petrolândia,3698
+Petrolina,3700
+Poção,3821
+Pombos,3839
+Primavera,3969
+Quipapá,4016
+Quixaba,4021
+Recife,4041
+Riacho das Almas,4079
+Ribeirão,4096
+Rio Formoso,4151
+Sairé,4234
+Salgadinho,4241
+Salgueiro,4245
+Saloá,4251
+Sanharó,4274
+Santa Cruz,4297
+Santa Cruz da Baixa Verde,4299
+Santa Cruz do Capibaribe,4308
+Santa Filomena,4323
+Santa Maria da Boa Vista,4359
+Santa Maria do Cambucá,4365
+Santa Terezinha,4412
+São Benedito do Sul,4507
+São Bento do Una,4517
+São Caetano,5563
+São João,4600
+São Joaquim do Monte,4654
+São José da Coroa Grande,4662
+São José do Belmonte,4681
+São José do Egito,4690
+São Lourenço da Mata,4721
+São Vicente Ferrer,4834
+Serra Talhada,4922
+Serrita,4934
+Sertânia,4938
+Sirinhaém,4973
+Solidão,4992
+Surubim,5012
+Tabira,5021
+Tacaimbó,5027
+Tacaratu,5028
+Tamandaré,5041
+Taquaritinga do Norte,5079
+Terezinha,5120
+Terra Nova,5125
+Timbaúba,5143
+Toritama,5167
+Tracunhaém,5175
+Trindade,5203
+Triunfo,5206
+Tupanatinga,5227
+Tuparetama,5232
+Venturosa,5368
+Verdejante,5377
+Vertente do Lério,5384
+Vertentes,5385
+Vicência,5393
+Vitória de Santo Antão,5440
+Xexéu,5466

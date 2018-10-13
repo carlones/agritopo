@@ -1,0 +1,102 @@
+Água Branca,48
+Anadia,208
+Arapiraca,328
+Atalaia,413
+Barra de Santo Antônio,506
+Barra de São Miguel,508
+Batalha,554
+Belém,573
+Belo Monte,587
+Boca da Mata,646
+Branquinha,739
+Cacimbinhas,853
+Cajueiro,891
+Campestre,930
+Campo Alegre,948
+Campo Grande,964
+Canapi,996
+Capela,1049
+Carneiros,1134
+Chã Preta,1229
+Coité do Nóia,1286
+Colônia Leopoldina,1302
+Coqueiro Seco,1361
+Coruripe,1416
+Craíbas,1429
+Delmiro Gouveia,1521
+Dois Riachos,1570
+Estrela de Alagoas,1701
+Feira Grande,1741
+Feliz Deserto,1750
+Flexeiras,1771
+Girau do Ponciano,1886
+Ibateguara,2059
+Igaci,2112
+Igreja Nova,2124
+Inhapi,2180
+Jacaré dos Homens,2435
+Jacuípe,2446
+Japaratinga,2483
+Jaramataia,2498
+Jequiá da Praia,2528
+Joaquim Gomes,2561
+Jundiá,2599
+Junqueiro,2603
+Lagoa da Canoa,2645
+Limoeiro de Anadia,2736
+Maceió,2797
+Major Isidoro,2824
+Maragogi,2877
+Maravilha,2890
+Marechal Deodoro,2900
+Maribondo,2913
+Mar Vermelho,2865
+Mata Grande,2948
+Matriz de Camaragibe,2977
+Messias,3007
+Minador do Negrão,3022
+Monteirópolis,3115
+Murici,3174
+Novo Lino,3357
+Olho d'Água das Flores,3384
+Olho d'Água do Casado,3385
+Olho d'Água Grande,3387
+Olivença,3399
+Ouro Branco,3426
+Palestina,3463
+Palmeira dos Índios,3483
+Pão de Açúcar,3506
+Pariconha,3557
+Paripueira,3560
+Passo de Camaragibe,3579
+Paulo Jacinto,3616
+Penedo,3676
+Piaçabuçu,3703
+Pilar,3719
+Pindoba,3733
+Piranhas,3777
+Poço das Trincheiras,3827
+Porto Calvo,3889
+Porto de Pedras,3892
+Porto Real do Colégio,3907
+Quebrangulo,3999
+Rio Largo,4156
+Roteiro,4216
+Santa Luzia do Norte,4352
+Santana do Ipanema,4433
+Santana do Mundaú,4439
+São Brás,5476
+São José da Laje,4664
+São José da Tapera,4667
+São Luís do Quitunde,4730
+São Miguel dos Campos,4763
+São Miguel dos Milagres,4764
+São Sebastião,4800
+Satuba,4853
+Senador Rui Palmeira,4884
+Tanque d'Arca,5053
+Taquarana,5076
+Teotônio Vilela,5115
+Traipu,5176
+União dos Palmares,5288
+Viçosa,5398

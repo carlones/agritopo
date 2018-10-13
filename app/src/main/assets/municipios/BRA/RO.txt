@@ -1,0 +1,52 @@
+Alta Floresta D'Oeste,130
+Alto Alegre dos Parecis,144
+Alto Paraíso,156
+Alvorada D'Oeste,177
+Ariquemes,379
+Buritis,803
+Cabixi,818
+Cacaulândia,828
+Cacoal,855
+Campo Novo de Rondônia,974
+Candeias do Jamari,1007
+Castanheiras,1162
+Cerejeiras,1213
+Chupinguaia,1256
+Colorado do Oeste,1305
+Corumbiara,1414
+Costa Marques,1419
+Cujubim,1480
+Espigão D'Oeste,1683
+Governador Jorge Teixeira,1923
+Guajará-Mirim,1960
+Itapuã do Oeste,2359
+Jaru,2511
+Ji-Paraná,2541
+Machadinho D'Oeste,2800
+Ministro Andreazza,3028
+Mirante da Serra,3047
+Monte Negro,3108
+Nova Brasilândia D'Oeste,3250
+Nova Mamoré,3290
+Nova União,3332
+Novo Horizonte do Oeste,3353
+Ouro Preto do Oeste,3431
+Parecis,3555
+Pimenta Bueno,3727
+Pimenteiras do Oeste,3729
+Porto Velho,3912
+Presidente Médici,3960
+Primavera de Rondônia,3971
+Rio Crespo,4131
+Rolim de Moura,4196
+Santa Luzia D'Oeste,4350
+São Felipe D'Oeste,4546
+São Francisco do Guaporé,4570
+São Miguel do Guaporé,4757
+Seringueiras,4897
+Teixeirópolis,5101
+Theobroma,5134
+Urupá,5312
+Vale do Anari,5320
+Vale do Paraíso,5321
+Vilhena,5420

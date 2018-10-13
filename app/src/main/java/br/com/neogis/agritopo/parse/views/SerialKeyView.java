@@ -7,9 +7,10 @@ import java.util.Date;
  */
 
 public class SerialKeyView {
-    public long id;
-    public String key;
-    public Date expiration;
-    public String deviceId;
-    public UserView user;
+    public String chave;
+    public Date valida_ate;
+    public int tipo;
+    public String tipo_descricao;
+    public String email_conta;
+//    public UserView user;
 }

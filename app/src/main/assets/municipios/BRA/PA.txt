@@ -1,0 +1,144 @@
+Abaetetuba,5
+Abel Figueiredo,11
+Acará,19
+Afuá,40
+Água Azul do Norte,45
+Alenquer,107
+Almeirim,5518
+Altamira,132
+Anajás,211
+Ananindeua,216
+Anapu,218
+Augusto Corrêa,5513
+Aurora do Pará,429
+Aveiro,435
+Bagre,448
+Baião,452
+Bannach,478
+Barcarena,494
+Belém,574
+Belterra,590
+Benevides,594
+Bom Jesus do Tocantins,685
+Bonito,707
+Bragança,736
+Brasil Novo,741
+Brejo Grande do Araguaia,767
+Breu Branco,771
+Breves,772
+Bujaru,789
+Cachoeira do Arari,837
+Cachoeira do Piriá,838
+Cametá,924
+Canaã dos Carajás,993
+Capanema,1039
+Capitão Poço,1068
+Castanhal,1160
+Chaves,1248
+Colares,1288
+Conceição do Araguaia,1322
+Concórdia do Pará,1336
+Cumaru do Norte,1483
+Curionópolis,1492
+Curralinho,1502
+Curuá,1504
+Curuçá,1505
+Dom Eliseu,5512
+Eldorado do Carajás,1629
+Faro,1723
+Floresta do Araguaia,1785
+Garrafão do Norte,1865
+Goianésia do Pará,1902
+Gurupá,2024
+Igarapé-Açu,5509
+Igarapé-Miri,5517
+Inhangapi,2179
+Ipixuna do Pará,2210
+Irituia,2246
+Itaituba,2291
+Itupiranga,2409
+Jacareacanga,2436
+Jacundá,2448
+Juruti,2618
+Limoeiro do Ajuru,2737
+Mãe do Rio,2811
+Magalhães Barata,2814
+Marabá,2868
+Maracanã,2874
+Marapanim,2883
+Marituba,2926
+Medicilândia,2993
+Melgaço,2996
+Mocajuba,3057
+Moju,3068
+Mojuí dos Campos,5569
+Monte Alegre,3085
+Muaná,3153
+Nova Esperança do Piriá,3265
+Nova Ipixuna,3282
+Nova Timboteua,3328
+Novo Progresso,3364
+Novo Repartimento,3365
+Óbidos,3374
+Oeiras do Pará,3378
+Oriximiná,3405
+Ourém,3419
+Ourilândia do Norte,3422
+Pacajá,5519
+Palestina do Pará,3466
+Paragominas,3514
+Parauapebas,3550
+Pau d'Arco,5510
+Peixe-Boi,5516
+Piçarra,3709
+Placas,3807
+Ponta de Pedras,3844
+Portel,3878
+Porto de Moz,3891
+Prainha,3937
+Primavera,3970
+Quatipuru,3994
+Redenção,4045
+Rio Maria,4158
+Rondon do Pará,4204
+Rurópolis,4222
+Salinópolis,4248
+Salvaterra,4266
+Santa Bárbara do Pará,5520
+Santa Cruz do Arari,4307
+Santa Izabel do Pará,5508
+Santa Luzia do Pará,4353
+Santa Maria das Barreiras,4362
+Santa Maria do Pará,4368
+Santana do Araguaia,4429
+Santarém,4448
+Santarém Novo,4450
+Santo Antônio do Tauá,4491
+São Caetano de Odivelas,4525
+São Domingos do Araguaia,4537
+São Domingos do Capim,4539
+São Félix do Xingu,4554
+São Francisco do Pará,4573
+São Geraldo do Araguaia,4583
+São João da Ponta,4613
+São João de Pirabas,4622
+São João do Araguaia,4624
+São Miguel do Guamá,4756
+São Sebastião da Boa Vista,4804
+Sapucaia,4843
+Senador José Porfírio,5511
+Soure,5000
+Tailândia,5034
+Terra Alta,5122
+Terra Santa,5131
+Tomé-Açu,5514
+Tracuateua,5515
+Trairão,5177
+Tucumã,5214
+Tucuruí,5216
+Ulianópolis,5271
+Uruará,5301
+Vigia,5406
+Viseu,5429
+Vitória do Xingu,5443
+Xinguara,5467

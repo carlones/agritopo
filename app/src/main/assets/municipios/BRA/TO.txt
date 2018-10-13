@@ -1,0 +1,139 @@
+Abreulândia,15
+Aguiarnópolis,80
+Aliança do Tocantins,118
+Almas,120
+Alvorada,176
+Ananás,215
+Angico,238
+Aparecida do Rio Negro,271
+Aragominas,308
+Araguacema,309
+Araguaçu,310
+Araguaína,312
+Araguanã,315
+Araguatins,318
+Arapoema,329
+Arraias,389
+Augustinópolis,420
+Aurora do Tocantins,430
+Axixá do Tocantins,439
+Babaçulândia,440
+Bandeirantes do Tocantins,477
+Barra do Ouro,518
+Barrolândia,547
+Bernardo Sayão,606
+Bom Jesus do Tocantins,684
+Brasilândia do Tocantins,745
+Brejinho de Nazaré,758
+Buriti do Tocantins,796
+Cachoeirinha,847
+Campos Lindos,985
+Cariri do Tocantins,1108
+Carmolândia,1125
+Carrasco Bonito,1140
+Caseara,1152
+Centenário,1205
+Chapada da Natividade,1233
+Chapada de Areia,1234
+Colinas do Tocantins,1295
+Colméia,1296
+Combinado,1307
+Conceição do Tocantins,1331
+Couto Magalhães,5507
+Cristalândia,1442
+Crixás do Tocantins,1453
+Darcinópolis,1513
+Dianópolis,1542
+Divinópolis do Tocantins,1559
+Dois Irmãos do Tocantins,1568
+Dueré,1616
+Esperantina,1680
+Fátima,1729
+Figueirópolis,1766
+Filadélfia,1768
+Formoso do Araguaia,1805
+Fortaleza do Tabocão,1811
+Goianorte,1906
+Goiatins,1908
+Guaraí,1983
+Gurupi,2025
+Ipueiras,2221
+Itacajá,2264
+Itaguatins,2281
+Itapiratins,2347
+Itaporã do Tocantins,2354
+Jaú do Tocantins,2521
+Juarina,2581
+Lagoa da Confusão,2646
+Lagoa do Tocantins,2659
+Lajeado,2682
+Lavandeira,2711
+Lizarda,2748
+Luzinópolis,2783
+Marianópolis do Tocantins,2911
+Mateiros,2953
+Maurilândia do Tocantins,2985
+Miracema do Tocantins,3033
+Miranorte,3045
+Monte do Carmo,3104
+Monte Santo do Tocantins,3111
+Muricilândia,3176
+Natividade,3193
+Nazaré,3199
+Nova Olinda,3302
+Nova Rosalândia,3318
+Novo Acordo,3339
+Novo Alegre,3341
+Novo Jardim,3356
+Oliveira de Fátima,3396
+Palmas,3475
+Palmeirante,3486
+Palmeiras do Tocantins,3489
+Palmeirópolis,3491
+Paraíso do Tocantins,3526
+Paranã,3531
+Pau D'Arco,3597
+Pedro Afonso,3654
+Peixe,3668
+Pequizeiro,3681
+Pindorama do Tocantins,3736
+Piraquê,3786
+Pium,3804
+Ponte Alta do Bom Jesus,3854
+Ponte Alta do Tocantins,3856
+Porto Alegre do Tocantins,3885
+Porto Nacional,3905
+Praia Norte,3936
+Presidente Kennedy,3957
+Pugmil,3984
+Recursolândia,4043
+Riachinho,4077
+Rio da Conceição,4132
+Rio dos Bois,4147
+Rio Sono,4174
+Sampaio,4268
+Sandolândia,4271
+Santa Fé do Araguaia,4320
+Santa Maria do Tocantins,4371
+Santa Rita do Tocantins,4392
+Santa Rosa do Tocantins,4403
+Santa Tereza do Tocantins,4410
+Santa Terezinha do Tocantins,4416
+São Bento do Tocantins,4515
+São Félix do Tocantins,4553
+São Miguel do Tocantins,4762
+São Salvador do Tocantins,4799
+São Sebastião do Tocantins,4816
+São Valério,5506
+Silvanópolis,4957
+Sítio Novo do Tocantins,4980
+Sucupira,5003
+Taguatinga,5032
+Taipas do Tocantins,5037
+Talismã,5040
+Tocantínia,5157
+Tocantinópolis,5158
+Tupirama,5235
+Tupiratins,5236
+Wanderlândia,5452
+Xambioá,5459

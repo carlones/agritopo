@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/labelNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/labelEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/labelAreaAtuacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Área atuação"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/areaAtuacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/labelEmpresa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Empresa"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/empresa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/labelMunicipio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Município"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/municipio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textSize="24sp"
+        android:focusable="false" /> <!-- assim não precisa de 2 toques para disparar o onClick -->
+
+</LinearLayout>

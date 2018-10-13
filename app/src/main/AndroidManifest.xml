@@ -71,6 +71,17 @@
         <activity
             android:name=".activity.SerialKeyTrialActivity"
             android:label="@string/title_activity_serial_key_trial"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ColetarDadosPessoaActivity"
+            android:label="Coletar dados pessoa"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SelecionarMunicipioActivity"
+            android:label="Coletar dados pessoa"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider

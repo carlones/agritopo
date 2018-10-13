@@ -1,0 +1,16 @@
+Amapá,184
+Calçoene,896
+Cutias,5478
+Ferreira Gomes,1761
+Itaubal,5477
+Laranjal do Jari,2702
+Macapá,2789
+Mazagão,2989
+Oiapoque,3379
+Pedra Branca do Amapari,3632
+Porto Grande,3901
+Pracuúba,3929
+Santana,4421
+Serra do Navio,4911
+Tartarugalzinho,5087
+Vitória do Jari,5441

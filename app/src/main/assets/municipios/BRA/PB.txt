@@ -1,0 +1,223 @@
+Água Branca,50
+Aguiar,79
+Alagoa Grande,87
+Alagoa Nova,88
+Alagoinha,89
+Alcantil,97
+Algodão de Jandaíra,115
+Alhandra,116
+Amparo,203
+Aparecida,267
+Araçagi,290
+Arara,338
+Araruna,348
+Areia,365
+Areia de Baraúnas,368
+Areial,369
+Aroeiras,386
+Assunção,409
+Baía da Traição,449
+Bananeiras,471
+Baraúna,489
+Barra de Santana,505
+Barra de Santa Rosa,504
+Barra de São Miguel,509
+Bayeux,560
+Belém,575
+Belém do Brejo do Cruz,578
+Bernardino Batista,603
+Boa Ventura,632
+Boa Vista,636
+Bom Jesus,671
+Bom Sucesso,694
+Bonito de Santa Fé,711
+Boqueirão,713
+Borborema,721
+Brejo do Cruz,763
+Brejo dos Santos,765
+Caaporã,809
+Cabaceiras,812
+Cabedelo,817
+Cachoeira dos Índios,840
+Cacimba de Areia,850
+Cacimba de Dentro,851
+Cacimbas,852
+Caiçara,876
+Cajazeiras,887
+Cajazeirinhas,889
+Caldas Brandão,898
+Camalaú,909
+Campina Grande,938
+Capim,1056
+Caraúbas,1092
+Carrapateira,1139
+Casserengue,1156
+Catingueira,1179
+Catolé do Rocha,1181
+Caturité,1188
+Conceição,1312
+Condado,1338
+Conde,1340
+Congo,1346
+Coremas,1373
+Coxixola,1428
+Cruz do Espírito Santo,1460
+Cubati,1475
+Cuité,1477
+Cuité de Mamanguape,1478
+Cuitegi,1479
+Curral de Cima,1498
+Curral Velho,1501
+Damião,1511
+Desterro,1531
+Diamante,1536
+Dona Inês,1592
+Duas Estradas,1615
+Emas,1636
+Esperança,1676
+Fagundes,1717
+Frei Martinho,1839
+Gado Bravo,1852
+Guarabira,1975
+Gurinhém,2022
+Gurjão,2023
+Ibiara,2067
+Igaracy,2115
+Imaculada,2147
+Ingá,2174
+Itabaiana,2253
+Itaporanga,2356
+Itapororoca,2358
+Itatuba,2383
+Jacaraú,2434
+Jericó,2534
+João Pessoa,2557
+Joca Claudino,4449
+Juarez Távora,2580
+Juazeirinho,2583
+Junco do Seridó,2598
+Juripiranga,2613
+Juru,2614
+Lagoa,2641
+Lagoa de Dentro,2648
+Lagoa Seca,2672
+Lastro,2707
+Livramento,2746
+Logradouro,2751
+Lucena,2761
+Mãe d'Água,2810
+Malta,2833
+Mamanguape,2834
+Manaíra,2840
+Marcação,2892
+Mari,2904
+Marizópolis,2927
+Massaranduba,2945
+Mataraca,2952
+Matinhas,2963
+Mato Grosso,2967
+Maturéia,2979
+Mogeiro,3062
+Montadas,3080
+Monte Horebe,3106
+Monteiro,3113
+Mulungu,3163
+Natuba,3195
+Nazarezinho,3204
+Nova Floresta,3270
+Nova Olinda,3300
+Nova Palmeira,3307
+Olho d'Água,3382
+Olivedos,3394
+Ouro Velho,3432
+Parari,3547
+Passagem,3574
+Patos,3588
+Paulista,3607
+Pedra Branca,3630
+Pedra Lavrada,3637
+Pedras de Fogo,3645
+Pedro Régis,3665
+Piancó,3705
+Picuí,3711
+Pilar,3720
+Pilões,3724
+Pilõezinhos,3725
+Pirpirituba,3798
+Pitimbu,3803
+Pocinhos,3823
+Poço Dantas,3825
+Poço de José de Moura,3828
+Pombal,3838
+Prata,3938
+Princesa Isabel,3976
+Puxinanã,3987
+Queimadas,4003
+Quixabá,4022
+Remígio,4056
+Riachão,4070
+Riachão do Bacamarte,4072
+Riachão do Poço,4075
+Riacho de Santo Antônio,4082
+Riacho dos Cavalos,4083
+Rio Tinto,4175
+Salgadinho,4240
+Salgado de São Félix,4243
+Santa Cecília,4289
+Santa Cruz,4295
+Santa Helena,4326
+Santa Inês,4333
+Santa Luzia,4347
+Santana de Mangueira,4426
+Santana dos Garrotes,4445
+Santa Rita,4378
+Santa Teresinha,4406
+Santo André,4459
+São Bentinho,4508
+São Bento,4510
+São Domingos,5505
+São Domingos do Cariri,4540
+São Francisco,4558
+São João do Cariri,4627
+São João do Rio do Peixe,4642
+São João do Tigre,4646
+São José da Lagoa Tapada,4663
+São José de Caiana,4672
+São José de Espinharas,4673
+São José de Piranhas,4675
+São José de Princesa,4676
+São José do Bonfim,4682
+São José do Brejo do Cruz,4683
+São José do Sabugi,4706
+São José dos Cordeiros,4714
+São José dos Ramos,4717
+São Mamede,4735
+São Miguel de Taipu,4751
+São Sebastião de Lagoa de Roça,4806
+São Sebastião do Umbuzeiro,4818
+São Vicente do Seridó,4896
+Sapé,4836
+Serra Branca,4905
+Serra da Raiz,4907
+Serra Grande,4916
+Serra Redonda,4921
+Serraria,4930
+Sertãozinho,4943
+Sobrado,4983
+Solânea,4988
+Soledade,4989
+Sossêgo,4999
+Sousa,5001
+Sumé,5010
+Tacima,957
+Taperoá,5063
+Tavares,5094
+Teixeira,5097
+Tenório,5109
+Triunfo,5207
+Uiraúna,5270
+Umbuzeiro,5277
+Várzea,5351
+Vieirópolis,5405
+Vista Serrana,5434
+Zabelê,5469
