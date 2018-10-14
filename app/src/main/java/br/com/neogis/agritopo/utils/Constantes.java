@@ -43,8 +43,8 @@ public final class Constantes {
     public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";
     public static final String ARG_EXPORTAR_TIPO_ARQUIVO = "exportar_tipo_arquivo";
     public static final String ARG_IMPORTAR_NOME_ARQUIVO = "importar_nome_arquivo";
-    //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://www.neogis.com.br";
-    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://192.168.25.238/Neogis";
+    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://www.neogis.com.br";
+    //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://192.168.25.238/Neogis";
 
     public static final int CLASSE_AREA_ID = 2;
     public static final int CLASSE_DISTANCIA_ID = 3;
