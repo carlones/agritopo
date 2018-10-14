@@ -5,26 +5,32 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.controlador.DaoController;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.Alteracao;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.AlteracaoDao;
 
 /**
  * Created by carlo on 15/10/2017.
  */
 
 public class TipoElementoDaoImpl extends DaoController implements TipoElementoDao {
-    public TipoElementoDaoImpl(Context context) {
+    private AlteracaoDao alteracaoDao;
+    public TipoElementoDaoImpl(Context context, AlteracaoDao alteracaoDao) {
         super(context);
+        this.alteracaoDao = alteracaoDao;
     }
 
     private List<TipoElemento> getListaObjetos(Cursor cursor) {
         List<TipoElemento> l = new ArrayList<>();
         while (cursor.moveToNext()) {
-            l.add(new TipoElemento(
+            TipoElemento tipo = new TipoElemento(
                     cursor.getInt(cursor.getColumnIndex("tipoelementoid")),
                     cursor.getString(cursor.getColumnIndex("nome"))
-            ));
+            );
+            l.add(tipo);
         }
         return l;
     }
@@ -83,6 +89,38 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
     }
 
     @Override
+    public void save(TipoElemento obj){
+        if(obj.getId() == 0) {
+            insert(obj);
+            alteracaoDao.insert(obj);
+        }
+        else {
+            update(obj);
+            alteracaoDao.update(obj);
+        }
+    }
+
+    @Override
+    public void save(TipoElemento obj, Alteracao alteracao){
+        if(obj.getId() == 0)
+            insert(obj);
+        else
+            update(obj);
+
+        alteracao.setTipoId(obj.getId());
+        alteracaoDao.save(alteracao);
+    }
+
+    @Override
+    public void delete(TipoElemento obj) {
+        abrirGravacao();
+        if (db.delete("tipoelemento", "tipoelementoid = ?", new String[]{(Integer.toString(obj.getTipoelementoid()))}) != 1) {
+            new Exception("Erro ao excluir tipoelemento");
+        }
+        fecharConexao();
+        alteracaoDao.update(obj);
+    }
+
     public void insert(TipoElemento obj) {
         abrirGravacao();
         obj.setTipoelementoid(getId("tipoelemento"));
@@ -96,7 +134,6 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
         fecharConexao();
     }
 
-    @Override
     public void update(TipoElemento obj) {
         abrirGravacao();
         ContentValues cv = new ContentValues();
@@ -104,15 +141,6 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
 
         if (db.update("tipoelemento", cv, "tipoelementoid = ?", new String[]{(Integer.toString(obj.getTipoelementoid()))}) != 1) {
             new Exception("Erro ao atualizar tipoelemento");
-        }
-        fecharConexao();
-    }
-
-    @Override
-    public void delete(TipoElemento obj) {
-        abrirGravacao();
-        if (db.delete("tipoelemento", "tipoelementoid = ?", new String[]{(Integer.toString(obj.getTipoelementoid()))}) != 1) {
-            new Exception("Erro ao excluir tipoelemento");
         }
         fecharConexao();
     }

@@ -1,5 +1,8 @@
 package br.com.neogis.agritopo.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +47,21 @@ public class DateUtils {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    public static String formatDate(Date date){
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        return df.format(date);
+    }
+
+    public static String formatDateddMMyyyyThhmmssZ(Date date){
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ssZ");
+        return df.format(date);
+    }
+
+    public static Date convertoToDateddMMyyyyThhmmssZ(String text) throws ParseException {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ssZ");
+        return df.parse(text);
     }
 
     public static Date getCurrentDateTime(){

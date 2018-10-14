@@ -27,8 +27,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
                     cursor.getString(cursor.getColumnIndex("chave")),
                     new Date(cursor.getLong(cursor.getColumnIndex("dataexpiracao"))),
                     cursor.getInt(cursor.getColumnIndex("usuarioid")),
-//                    ChaveSerial.ChaveSerialTipo.values()[cursor.getInt(cursor.getColumnIndex("tipo"))]
-                    cursor.getInt(cursor.getColumnIndex("tipo"))
+                    ChaveSerial.ChaveSerialTipo.values()[cursor.getInt(cursor.getColumnIndex("tipo"))]
             );
             l.add(serial);
         }
@@ -64,8 +63,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
         abrirLeitura();
         String sql = "" +
                 "SELECT * FROM chaveserial WHERE tipo = ?";
-//        Cursor cursor = db.rawQuery(sql, new String[]{Integer.toString(ChaveSerial.ChaveSerialTipo.Gratuito.ordinal())});
-        Cursor cursor = db.rawQuery(sql, new String[]{"1"});
+        Cursor cursor = db.rawQuery(sql, new String[]{Integer.toString(ChaveSerial.ChaveSerialTipo.Gratuito.ordinal())});
         List<ChaveSerial> l = getListaObjetos(cursor);
         fecharConexao();
         if (l.isEmpty())
@@ -76,13 +74,11 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
 
     public ChaveSerial getValid(long currentTime) {
         abrirLeitura();
-//        String sql = "" +
-//                "SELECT * FROM chaveserial WHERE tipo = ? and dataexpiracao > ?";
-//        Cursor cursor = db.rawQuery(sql, new String[]{
-//                Integer.toString(ChaveSerial.ChaveSerialTipo.Pago.ordinal()),
-//                Long.toString(currentTime)});
-        String sql = "SELECT * FROM chaveserial WHERE dataexpiracao > ? LIMIT 1";
-        Cursor cursor = db.rawQuery(sql, new String[]{Long.toString(currentTime)});
+        String sql = "" +
+                "SELECT * FROM chaveserial WHERE tipo = ? and dataexpiracao > ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{
+                Integer.toString(ChaveSerial.ChaveSerialTipo.Pago.ordinal()),
+                Long.toString(currentTime)});
         List<ChaveSerial> l = getListaObjetos(cursor);
         fecharConexao();
         if (l.isEmpty())
@@ -120,8 +116,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
         cv.put("chave", obj.getChave());
         cv.put("dataexpiracao", obj.getDataexpiracao().getTime());
         cv.put("usuarioid", obj.getUsuarioId());
-//        cv.put("tipo", obj.getTipo().ordinal());
-        cv.put("tipo", obj.getTipo());
+        cv.put("tipo", obj.getTipo().ordinal());
         if (db.insert("chaveserial", null, cv) == -1) {
             new Exception("Erro ao inserir chaveserial");
         }
@@ -136,8 +131,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
         cv.put("chave", obj.getChave());
         cv.put("dataexpiracao", obj.getDataexpiracao().getTime());
         cv.put("usuarioid", obj.getUsuarioId());
-//        cv.put("tipo", obj.getTipo().ordinal());
-        cv.put("tipo", obj.getTipo());
+        cv.put("tipo", obj.getTipo().ordinal());
         if (db.update("chaveserial", cv, "id = ?", new String[]{(Integer.toString(obj.getSerialId()))}) != 1) {
             new Exception("Erro ao atualizar chaveserial");
         }

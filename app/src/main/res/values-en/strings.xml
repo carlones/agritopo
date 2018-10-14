@@ -65,6 +65,10 @@
     <string name="pref_title_seguir_por_distancia">Follow with distance interval</string>
     <string name="pref_dialogmessage_seguir_por_distancia">Record the GPS point on distance interval. When Zero, records as receiving GPS information</string>
     <string name="pref_summary_seguir_por_distancia">On follow mode, record point for each distance from the last point specified.</string>
+    <string name="pref_title_tempo_sincronizacao">Time between Synchronization</string>
+    <string name="pref_dialogmessage_tempo_sincronizacao">Sets the time between each sending and receiving of data with the server.</string>
+    <string name="pref_summary_tempo_sincronizacao">Sets the time between each sending and receiving of data with the server.</string>
+    <string name="pref_title_ultima_sincronizacao">Sync at: </string>
     <string name="pref_header_mapping">Mapping</string>
     <string name="elemento_detail_titulo">Title</string>
     <string name="elemento_detail_tipo">Type</string>
@@ -92,8 +96,8 @@
     <string name="principal_kmls">KMLs</string>
     <string name="principal_mapas">Maps</string>
     <string name="gps_box_inicializando">Inicializing GPS</string>
-    <string name="neogis_consultoria_e_sistemas">Neogis Sistemas e Consultoria em Tecnologia LTDA</string>
-    <string name="content_serial_key_titulo">Agritopo - Register License</string>
+    <string name="neogis_consultoria_e_sistemas">Neogis Consultoria e Sistemas</string>
+    <string name="content_serial_key_titulo">Agritopo (Temporary License)</string>
     <string name="content_map_novo_poi">New Point of Interest</string>
     <string name="cadastro_remover_item_partial_1">Remove</string>
     <string name="cadastro_remover_item_partial_2">items?</string>
@@ -111,19 +115,4 @@
     <string name="pergunta_deseja_excluir">Are you sure to delete?</string>
     <string name="sim">Yes</string>
     <string name="nao">No</string>
-    <string name="eula">AGRITOPO EULA - End User License Agreement
-
-THIS IS THE END USER LICENSE AGREEMENT OF UNIQUE PURCHASE (AGREEMENT) BETWEEN YOU AND Neogis Sistemas e Consultoria em Tecnologia LTDA (NEOGIS). PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE PURCHASING OR USING THE AGRITOPO SOFTWARE, THE TECHNOLOGY AND / OR THE AGRITOPIAN DATA FOR YOUR ANDROID DEVICE. BY BUYING, SUBSCRIBING, TRANSFERING, INSTALLING, USING, OR OTHERWISE ACCESSING THE APPLICATION, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS AGREEMENT, THAT YOU HAVE UNDERSTOOD THAT YOU AGREE TO BE BOUND BY THE TERMS AND CONDITIONS AND THAT ARE AT LEAST 18 YEARS OF AGE. IF YOU DO NOT AGREE TO THE TERMS AND CONDITIONS OF THIS AGREEMENT, REMOVE THE APPLICATION FROM YOUR DEVICE.
-
-1 The Limited Warranty Application Agritopo is intended for use only as a measuring and research aid and should not be used for any purpose that requires accurate measurement of direction, distance, location or topography. NEOGIS DOES NOT WARRANT THE ACCURACY OR INTEGRITY OF THE MAP DATA OR OTHER THIRD PARTY CONTENTS IN THE APPLICATION. The APPLICATION will use the information provided by the DEVICE to display the information, and, as a consequence, will have as much accuracy as the DEVICE provides.
-
-2 Disclaimer of Warranty: ALL INFORMATION IS PROVIDED TO YOU AS IS, AND YOU AGREE TO USE IT AT YOUR OWN RISK. NEOGIS MAKES NO WARRANTY, REPRESENTATION OR WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, RESULTING FROM LAW OR OTHERWISE, REGARDING THE INFORMATION, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF TITLE, CONTENT, QUALITY, ACCURACY, COMPLETENESS, EFFICIENCY , RELIABILITY, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OF THIRD PARTY RIGHTS, UTILITY, USE OR RESULTS TO OBTAIN INFORMATION, OR THAT THE INFORMATION WILL NOT APPLY TO ERRORS. Some states, territories, and countries may not allow certain warranty exclusions; therefore, to that extent, the above exclusion may not apply to you.
-
-3 LIMITATION OF LIABILITY: YOU ASSUME ALL RESPONSIBILITY AND RISK FOR THE USE OF THE APPLICATION, AND NEOGIS DISCLAIMS ALL LIABILITY FOR ANY LOSS, INJURY OR DAMAGE RESULTING FROM THE USE OF THE APPLICATION AND ANY THIRD PARTY DATA OR CONTENT. IT IS YOUR RESPONSIBILITY TO USE THE APPLICATION CAREFULLY AND TO VERIFY ONLY THE STREETS, ROADS, ROAD SIGNS, INSTRUCTIONS, METEOROLOGICAL CONDITIONS AND TRAFFIC CONDITIONS. IN NO EVENT SHALL NEOGIS OR ITS SUPPLIERS, IN RESPECT OF THIRD PARTY DATA PROVIDERS, BE LIABLE TO YOU OR ANY OTHER PARTY FOR ANY COMPENSATORY, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES (INCLUDING, WITHOUT LIMITATION, INDIRECT, DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, PUNITIVE, OR EXEMPLARY DAMAGES FOR LOSS OF BUSINESS, LOSS OF PROFITS, BUSINESS INTERRUPTION OR LOSS OF BUSINESS INFORMATION) RESULTING FROM THE USE OR INABILITY TO USE THE APPLICATION AND ANY THIRD PARTY DATA OR CONTENT, EVEN IF NEOGIS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. IN ACCORDANCE WITH THE FOREGOING, THE ENTIRE AGGREGATE LIABILITY OF NEOGIS AND ITS SUPPLIERS WITH RESPECT TO ITS OBLIGATIONS UNDER THIS AGREEMENT OR OTHERWISE WITH RESPECT TO THE REQUEST SHALL NOT EXCEED $ 1.00. SOME STATES AND COUNTRIES DO NOT ALLOW THE EXCLUSION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.
-NEOGIS makes no representations as to the suitability for any purpose of the geographic data and attribute data (Data) presented in this application. All such data is provided as a basis and the data has not been validated by NEOGIS. In no event shall NEOGIS be liable in any way for loss of revenue or contracts, or any consequential loss of any kind resulting from the use of the Data.
-
-4 Third-party APIs: This app uses several third-party APIs, such as: Google Maps API for Android v2, Google Drive API, Bing Maps Platform APIs, OpenStreetMap content, API NEOGIS and others.
-
-IT IS YOUR OBLIGATION TO READ AND ACCEPT THE API SPECIFIC TERMS AND CONDITIONS BEFORE USING THIS CONTENT.
-    </string>
 </resources>

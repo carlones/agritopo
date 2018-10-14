@@ -19,6 +19,8 @@ import br.com.neogis.agritopo.dao.tabelas.Classe;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDao;
 import br.com.neogis.agritopo.dao.tabelas.ClasseDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaTipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
@@ -48,9 +50,9 @@ public class AdicionarAreaHolder extends AdicionarElementoHolder {
         this.infoBox = infoBox;
 
         List<MyGeoPoint> lista = new ArrayList<>();
-        ClasseDao classeDao = new ClasseDaoImpl(activity.getBaseContext());
+        ClasseDao classeDao = FabricaClasseDao.Criar(activity.getBaseContext());
         Classe classe = classeDao.get(2);
-        TipoElementoDao ted = new TipoElementoDaoImpl(activity.getBaseContext());
+        TipoElementoDao ted = FabricaTipoElementoDao.Criar(activity.getBaseContext());
         TipoElemento te = ted.get(3);
         this.area = new Area(new Elemento(te, classe, lista));
         this.area.desenharEm(mapa);

@@ -11,13 +11,11 @@ public class ChaveSerial {
     private String chave;
     private Date dataexpiracao;
     private int usuarioId;
-//    private ChaveSerialTipo tipo;
-    private int tipo;
+    private ChaveSerialTipo tipo;
 
     public ChaveSerial(){}
 
-//    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, ChaveSerialTipo tipo){
-    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, int tipo){
+    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, ChaveSerialTipo tipo){
         this.serialId = serialId;
         this.chave = chave;
         this.dataexpiracao = dataexpiracao;
@@ -57,14 +55,6 @@ public class ChaveSerial {
         this.usuarioId = usuarioId;
     }
 
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-    /*
     public ChaveSerialTipo getTipo() {
         return tipo;
     }
@@ -77,5 +67,4 @@ public class ChaveSerial {
         Gratuito,
         Pago
     }
-    */
 }

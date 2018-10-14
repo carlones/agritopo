@@ -1,6 +1,11 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
-public class TipoElemento {
+import java.util.Date;
+
+import br.com.neogis.agritopo.dao.tabelas.Integracao.ISincronizavel;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
+
+public class TipoElemento implements ISincronizavel {
 
     private int tipoelementoid;
 
@@ -29,5 +34,15 @@ public class TipoElemento {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public long getId() {
+        return tipoelementoid;
+    }
+
+    @Override
+    public TipoAlteracao getTipoAlteracao() {
+        return TipoAlteracao.TipoElemento;
     }
 }

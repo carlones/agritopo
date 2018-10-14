@@ -82,6 +82,7 @@ import br.com.neogis.agritopo.dao.tabelas.ClasseEnum;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaElementoDao;
 import br.com.neogis.agritopo.fragment.CamadasFragment;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
 import br.com.neogis.agritopo.holder.AdicionarDistanciaHolder;
@@ -510,7 +511,7 @@ public class MapActivity extends AppCompatActivity
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
         map.getOverlays().add(0, mapEventsOverlay);
 
-        mMyLocationNewOverlay = new MyLocationNewOverlay(new MyGpsMyLocationProvider(ctx, this, this), map);
+        mMyLocationNewOverlay = new MyLocationNewOverlay(new MyGpsMyLocationProvider(ctx, this), map);
         mMyLocationNewOverlay.enableMyLocation();
         map.getOverlays().add(mMyLocationNewOverlay);
 
@@ -758,7 +759,7 @@ public class MapActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PEGAR_ELEMENTO_AREA_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                ElementoDao elementoDao = FabricaElementoDao.Criar(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
                 Area area = new Area(mItem);
                 areaList.add(area);
@@ -770,7 +771,7 @@ public class MapActivity extends AppCompatActivity
         }
         if (requestCode == PEGAR_ELEMENTO_DISTANCIA_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                ElementoDao elementoDao = FabricaElementoDao.Criar(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
                 Distancia distancia = new Distancia(mItem);
                 distanciaList.add(distancia);
@@ -782,7 +783,7 @@ public class MapActivity extends AppCompatActivity
         }
         if (requestCode == PEGAR_ELEMENTO_PONTO_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                ElementoDao elementoDao = FabricaElementoDao.Criar(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID));
                 Ponto ponto = new Ponto(mItem);
                 pontoList.add(ponto);
@@ -797,7 +798,7 @@ public class MapActivity extends AppCompatActivity
             carregarAreas();
             carregarDistancias();
             if (data != null && data.getExtras().getInt(ARG_ELEMENTO_CENTRALIZAR, 0) == 1) {
-                ElementoDao elementoDao = new ElementoDaoImpl(mContext);
+                ElementoDao elementoDao = FabricaElementoDao.Criar(mContext);
                 Elemento mItem = elementoDao.get(data.getExtras().getInt(ARG_ELEMENTOID, 0));
                 map.getController().setCenter(mItem.getPontoCentral());
             }
@@ -1063,7 +1064,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarPontos() {
-        ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
+        ElementoDao elementoDao = FabricaElementoDao.Criar(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
         for (Ponto p : pontoList) {
             p.removerDe(map);
@@ -1081,7 +1082,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarAreas() {
-        ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
+        ElementoDao elementoDao = FabricaElementoDao.Criar(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
         for (Area a : areaList) {
             a.removerDe(map);
@@ -1099,7 +1100,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarDistancias() {
-        ElementoDao elementoDao = new ElementoDaoImpl(this.getBaseContext());
+        ElementoDao elementoDao = FabricaElementoDao.Criar(this.getBaseContext());
         List<Elemento> elementos = elementoDao.getAll();
         for (Distancia d : distanciaList) {
             d.removerDe(map);

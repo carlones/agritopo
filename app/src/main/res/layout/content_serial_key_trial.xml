@@ -26,7 +26,7 @@
             tools:layout_editor_absoluteY="8sp">
 
             <TextView
-                android:id="@+id/descricao"
+                android:id="@+id/serial_key_free_text_tempo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -35,25 +35,34 @@
                 android:textSize="25sp" />
 
             <Button
-                android:id="@+id/registrar"
+                android:id="@+id/serial_key_free_button_continuar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70sp"
                 android:layout_marginLeft="50sp"
                 android:layout_marginRight="50sp"
                 android:padding="20sp"
                 android:text="@string/content_serial_key_trial_continuar"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:onClick="registrar" />
+                android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/obs"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20sp"
-                android:text="* precisa de conexão com a Internet"
-                android:textSize="15sp"/>
+                android:layout_height="1sp"
+                android:layout_marginBottom="20sp"
+                android:layout_marginLeft="80sp"
+                android:layout_marginRight="80sp"
+                android:layout_marginTop="20sp"
+                android:background="@android:color/black" />
+
+            <Button
+                android:id="@+id/serial_key_free_button_ativar"
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:layout_marginLeft="50sp"
+                android:layout_marginRight="50sp"
+                android:text="@string/content_serial_key_trial_ativar"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
         </LinearLayout>
     </LinearLayout>

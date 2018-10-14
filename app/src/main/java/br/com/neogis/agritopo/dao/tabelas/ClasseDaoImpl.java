@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.controlador.DaoController;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.AlteracaoDao;
 
 /**
  * Created by carlo on 15/10/2017.
  */
 
 public class ClasseDaoImpl extends DaoController implements ClasseDao {
+
     public ClasseDaoImpl(Context context) {
         super(context);
     }

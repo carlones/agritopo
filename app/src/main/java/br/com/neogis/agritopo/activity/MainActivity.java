@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.service.SerialKeyService;
@@ -29,12 +31,7 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY_TRIAL;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static final int REQUEST_COARSE_LOCATION = 2;
-    private static final int REQUEST_FINE_LOCATION = 2;
-    private static final int REQUEST_WIFI_STATE = 2;
-    private static final int REQUEST_NETWORK_STATE = 2;
-    private static final int REQUEST_INTERNET = 2;
+    private List<String> permissions;
 
     private SerialKeyService serialKeyService;
 
@@ -46,21 +43,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         requestPermissions();
+        //Não implementar nada abaixo disso
+        //implementar no metodo "continueonCreateAfterPermissions"
+        //é chamado depois que o usuario aceita as permissoes
+        //Marciel
+    }
 
+    private void continueonCreateAfterPermissions(){
         Configuration.getInstance().LoadConfiguration(getApplicationContext());
 
         createRootDirectory();
 
-        serialKeyService = new SerialKeyService(getApplicationContext(), this);
+        serialKeyService = new SerialKeyService(getApplicationContext());
 
         if(serialKeyService.containsValidSerialKey())
             startMapActivity();
-        else
+        else if(serialKeyService.containsFreeSerialKey())
             startTrialSerialActivity();
-//        else if(serialKeyService.containsFreeSerialKey())
-//            startTrialSerialActivity();
-//        else
-//            startSerialActivity();
+        else
+            startSerialActivity();
     }
 
     @Override
@@ -126,18 +127,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestPermissions(){
-        requestSpecificPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_EXTERNAL_STORAGE);
-        requestSpecificPermission(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_COARSE_LOCATION);
-        requestSpecificPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_FINE_LOCATION);
-        requestSpecificPermission(Manifest.permission.ACCESS_WIFI_STATE, REQUEST_WIFI_STATE);
-        requestSpecificPermission(Manifest.permission.ACCESS_NETWORK_STATE, REQUEST_NETWORK_STATE);
-        requestSpecificPermission(Manifest.permission.INTERNET, REQUEST_INTERNET);
+        permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
+        permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        permissions.add(Manifest.permission.INTERNET);
+        requestSpecificPermission(0);
     }
 
-    private void requestSpecificPermission(String permission, int code){
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, code);
-        }
+    private void requestSpecificPermission(int index){
+        if(permissions.size() > index){
+            String permission = permissions.get(index);
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{permission}, index);
+            }else
+                requestSpecificPermission(index + 1);
+        }else
+            continueonCreateAfterPermissions();
     }
 
     @Override
@@ -145,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
     {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
         {
-
+            requestSpecificPermission(requestCode + 1);
         }
         else {
             if(permissions.length > 0) {
@@ -156,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage(getBaseContext().getString(R.string.permissao_negada_mensagem))
                             .setPositiveButton(getBaseContext().getString(R.string.permissao_tentar_novamente), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    requestSpecificPermission(permissions[0], requestCode);
+                                    requestSpecificPermission(requestCode);
                                 }
                             })
                             .setNegativeButton(getBaseContext().getString(R.string.permissao_sair), new DialogInterface.OnClickListener() {

@@ -1,10 +1,16 @@
 package br.com.neogis.agritopo.dao.controlador;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-import br.com.neogis.agritopo.utils.Utils;
+import java.util.Date;
+import java.util.UUID;
+
+import br.com.neogis.agritopo.dao.tabelas.Integracao.Sincronizacao;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
 
 /**
  * Created by carlo on 14/10/2017.
@@ -12,15 +18,17 @@ import br.com.neogis.agritopo.utils.Utils;
 
 public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "neogis_agritopo.db";
-    private static final int VERSAO = 6;
+    private static final int VERSAO = 7;
+    private Context contexto;
 
     public BancoDeDadosSQLite(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
+        this.contexto = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Utils.info("BancoDeDadosSQLite: criando banco");
+        Log.i("Agritopo", "BancoDeDadosSQLite: criando banco");
 
         db.execSQL("\n" +
                 "\n" +
@@ -160,6 +168,29 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 ");" +
                 "\n");
 
+        db.execSQL("CREATE TABLE sincronizacao (\n" +
+                " id INT NOT NULL PRIMARY KEY,\n" +
+                " data LONG NOT NULL);" +
+                "\n");
+
+        db.execSQL("CREATE TABLE alteracao (\n" +
+                " id INT NOT NULL PRIMARY KEY,\n" +
+                " tipoid LONG NOT NULL, \n" +
+                " data LONG NOT NULL, \n" +
+                " tipo INT NOT NULL, \n" +
+                " guid VARCHAR(36) NOT NULL );" +
+                "\n");
+
+        db.execSQL("CREATE UNIQUE INDEX \n" +
+                " idx_alteracao_tipo ON \n" +
+                " alteracao(tipo, tipoid);" +
+                "\n");
+
+        db.execSQL("CREATE UNIQUE INDEX \n" +
+                " idx_alteracao_guid ON \n" +
+                " alteracao(tipo, guid);" +
+                "\n");
+
         // Android 4.0 não entende múltiplos VALUES numúnico INSERT
         db.execSQL("INSERT INTO classe (classeid, nome) VALUES (1, 'Ponto')");
         db.execSQL("INSERT INTO classe (classeid, nome) VALUES (2, 'Área')");
@@ -173,25 +204,123 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('classe', 3)");
         db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('tipoelemento', 5)");
+
+        db.execSQL("INSERT INTO sincronizacao (id, data) VALUES (" + Integer.toString(Sincronizacao.ID) + ", 0)");
+
+        //Insere dados de alterações, para sincronizar com o servidor
+        InserirAlteracoesDaVersao7(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Utils.info( "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
+        Log.i("Agritopo", "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
         if (newVersion > oldVersion) {
             if(oldVersion <= 5){
-                db.execSQL("CREATE TABLE chaveserial (\n" +
-                        " id INT NOT NULL PRIMARY KEY,\n" +
-                        " chave VARCHAR(8) NOT NULL,\n" +
-                        " dataexpiracao LONG NOT NULL,\n" +
-                        " usuarioid int NOT NULL,\n" +
-                        " tipo int NOT NULL,\n" +
+                db.execSQL("CREATE TABLE chaveserial ( \n" +
+                        " id INT NOT NULL PRIMARY KEY, \n" +
+                        " chave VARCHAR(8) NOT NULL, \n" +
+                        " dataexpiracao LONG NOT NULL, \n" +
+                        " usuarioid int NOT NULL, \n" +
+                        " tipo int NOT NULL, \n" +
                         "\n" +
                         " FOREIGN KEY (usuarioid) REFERENCES usuario (usuarioid)\n" +
                         ");" +
                         "\n");
-                Utils.info("BancoDeDadosSQLite: versão atualizada de 5 para 6");
             }
+
+            if(oldVersion <= 6){
+                db.execSQL("CREATE TABLE sincronizacao (\n" +
+                        " id INT NOT NULL PRIMARY KEY,\n" +
+                        " data LONG NOT NULL);" +
+                        "\n");
+
+                db.execSQL("CREATE TABLE alteracao (\n" +
+                        " id INT NOT NULL PRIMARY KEY,\n" +
+                        " tipoid LONG NOT NULL, \n" +
+                        " data LONG NOT NULL, \n" +
+                        " tipo INT NOT NULL, \n" +
+                        " guid VARCHAR(36) NOT NULL );" +
+                        "\n");
+
+                db.execSQL("CREATE UNIQUE INDEX \n" +
+                        " idx_alteracao_tipo ON \n" +
+                        " alteracao(tipo, tipoid);" +
+                        "\n");
+
+                db.execSQL("CREATE UNIQUE INDEX \n" +
+                        " idx_alteracao_guid ON \n" +
+                        " alteracao(tipo, guid);" +
+                        "\n");
+
+                db.execSQL("INSERT INTO sincronizacao (id, data) VALUES (" + Integer.toString(Sincronizacao.ID) + ", 0)");
+
+                InserirAlteracoesDaVersao7(db);
+            }
+
+            Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de " + oldVersion + " para " + newVersion);
         }
+    }
+
+    private void InserirAlteracoesDaVersao7(SQLiteDatabase db){
+        //TipoElemento
+        db.execSQL("INSERT INTO alteracao (id, tipoid, data, tipo, guid) VALUES(?, ?, ?, ?, ?)",
+                new String[]{
+                        Integer.toString(1),
+                        Integer.toString(1),
+                        Long.toString((new Date()).getTime()),
+                        Integer.toString(TipoAlteracao.TipoElemento.ordinal()),
+                        "45cef9cc-fd9b-4c07-aec4-af9b1556d134"
+                });
+        db.execSQL("INSERT INTO alteracao (id, tipoid, data, tipo, guid) VALUES(?, ?, ?, ?, ?)",
+                new String[]{
+                        Integer.toString(2),
+                        Integer.toString(2),
+                        Long.toString((new Date()).getTime()),
+                        Integer.toString(TipoAlteracao.TipoElemento.ordinal()),
+                        "ee7a34c2-e39b-454d-805b-c3466df94e69"
+                });
+        db.execSQL("INSERT INTO alteracao (id, tipoid, data, tipo, guid) VALUES(?, ?, ?, ?, ?)",
+                new String[]{
+                        Integer.toString(3),
+                        Integer.toString(3),
+                        Long.toString((new Date()).getTime()),
+                        Integer.toString(TipoAlteracao.TipoElemento.ordinal()),
+                        "327b6c80-fae4-4be7-adb3-235e905bd721"
+                });
+        db.execSQL("INSERT INTO alteracao (id, tipoid, data, tipo, guid) VALUES(?, ?, ?, ?, ?)",
+                new String[]{
+                        Integer.toString(4),
+                        Integer.toString(4),
+                        Long.toString((new Date()).getTime()),
+                        Integer.toString(TipoAlteracao.TipoElemento.ordinal()),
+                        "c5b01843-b84d-4c66-aade-1489ce0ab263"
+                });
+        db.execSQL("INSERT INTO alteracao (id, tipoid, data, tipo, guid) VALUES(?, ?, ?, ?, ?)",
+                new String[]{
+                        Integer.toString(5),
+                        Integer.toString(5),
+                        Long.toString((new Date()).getTime()),
+                        Integer.toString(TipoAlteracao.TipoElemento.ordinal()),
+                        "32482808-be36-41ce-bdc1-b54f704b8b89"
+                });
+
+        int count = 6;
+
+        //Elementos
+        Cursor cursor = db.rawQuery("SELECT elementoid from elemento", new String[]{});
+        while (cursor.moveToNext()) {
+            db.execSQL("INSERT INTO alteracao (id, tipoid, data, tipo, guid) VALUES(?, ?, ?, ?, ?)",
+                    new String[]{
+                            Integer.toString(count),
+                            Integer.toString(cursor.getInt(cursor.getColumnIndex("elementoid"))),
+                            Long.toString((new Date()).getTime()),
+                            Integer.toString(TipoAlteracao.Elemento.ordinal()),
+                            UUID.randomUUID().toString()
+                    });
+            count += 1;
+        }
+
+
+        db.execSQL("INSERT INTO geradorid (tabela, id_atual) VALUES ('alteracao', " + Integer.toString(count) + " )");
     }
 }

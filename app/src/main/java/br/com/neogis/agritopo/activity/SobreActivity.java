@@ -32,7 +32,7 @@ public class SobreActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        SerialKeyService serialKeyService = new SerialKeyService(getApplicationContext(), this);
+        SerialKeyService serialKeyService = new SerialKeyService(getApplicationContext());
         ChaveSerial chaveSerial = null;
         if (serialKeyService.containsValidSerialKey())
             chaveSerial = serialKeyService.getChaveSerial();

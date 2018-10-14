@@ -22,6 +22,7 @@ import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaElementoDao;
 import br.com.neogis.agritopo.fragment.CadastrosAbaFragment;
 import br.com.neogis.agritopo.model.MyGeoPoint;
 
@@ -65,7 +66,7 @@ public class CadastrosListarActivity extends AppCompatActivity {
     }
 
     private void carregarElementos() {
-        elementos = (new ElementoDaoImpl(getBaseContext()).getAll("elementoid DESC"));
+        elementos = (FabricaElementoDao.Criar(getBaseContext()).getAll("elementoid DESC"));
     }
 
     @Override
@@ -95,7 +96,7 @@ public class CadastrosListarActivity extends AppCompatActivity {
                 })
                 .setPositiveButton(getBaseContext().getString(R.string.cadastro_remover), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        ElementoDao dao = new ElementoDaoImpl(getBaseContext());
+                        ElementoDao dao = FabricaElementoDao.Criar(getBaseContext());
                         for (Integer id : idsSelecionados) {
                             Elemento e = dao.get(id);
                             dao.delete(e);

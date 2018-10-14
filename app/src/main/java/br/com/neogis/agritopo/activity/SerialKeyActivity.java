@@ -170,26 +170,25 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         private String serialKey;
         private String email;
         private String deviceId;
-        private SerialKeyActivity activity;
         private String erro;
+        private Context context;
 
-        CarregarEmBackground(String serialKey, String email, String deviceId, SerialKeyActivity activity) {
+        CarregarEmBackground(String serialKey, String email, String deviceId, Context context) {
             this.serialKey = serialKey;
             this.email = email;
             this.deviceId = deviceId;
-            this.activity = activity;
+            this.context = context;
         }
 
         @Override
         protected String doInBackground(Void... voids) {
             try {
-//                new SerialKeyValidate(
-//                        activity.getApplicationContext(),
-//                        serialKey,
-//                        email,
-//                        deviceId,
-//                        activity
-//                ).run();
+                new SerialKeyValidate(
+                        context,
+                        serialKey,
+                        email,
+                        deviceId
+                ).run();
             } catch (Exception e) {
                 erro = e.getMessage();
             }

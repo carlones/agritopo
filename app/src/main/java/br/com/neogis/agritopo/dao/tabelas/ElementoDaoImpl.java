@@ -4,24 +4,33 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.neogis.agritopo.dao.controlador.DaoController;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaTipoElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.Alteracao;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.AlteracaoDao;
 
 /**
  * Created by carlo on 15/10/2017.
  */
 
 public class ElementoDaoImpl extends DaoController implements ElementoDao {
-    public ElementoDaoImpl(Context context) {
+    private AlteracaoDao alteracaoDao;
+
+    public ElementoDaoImpl(Context context, AlteracaoDao alteracaoDao) {
         super(context);
+        this.alteracaoDao = alteracaoDao;
     }
 
     private List<Elemento> getListaObjetos(Cursor cursor) {
         List<Elemento> l = new ArrayList<>();
-        TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(context);
-        ClasseDao classeDao = new ClasseDaoImpl(context);
+        TipoElementoDao tipoElementoDao = FabricaTipoElementoDao.Criar(context);
+        ClasseDao classeDao = FabricaClasseDao.Criar(context);
         while (cursor.moveToNext()) {
             Elemento elemento = new Elemento(
                     cursor.getInt(cursor.getColumnIndex("elementoid")),
@@ -59,6 +68,7 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         return objetos;
     }
 
+    @Override
     public List<Elemento> getAll(String orderBy) {
         abrirLeitura();
         String sql = "" +
@@ -123,14 +133,28 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
 
     @Override
     public void save(Elemento obj) {
+        if(obj.getElementoid() == 0) {
+            insert(obj);
+            alteracaoDao.insert(obj);
+        }
+        else{
+            update(obj);
+            alteracaoDao.update(obj);
+        }
+    }
+
+    @Override
+    public void save(Elemento obj, Alteracao alteracao) {
         if(obj.getElementoid() == 0)
             insert(obj);
         else
             update(obj);
+
+        alteracao.setTipoId(obj.getId());
+        alteracaoDao.save(alteracao);
     }
 
-    @Override
-    public void insert(Elemento obj) {
+    private void insert(Elemento obj) {
         abrirGravacao();
         obj.setElementoid(getId("elemento"));
         ContentValues cv = new ContentValues();
@@ -150,8 +174,7 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         fecharConexao();
     }
 
-    @Override
-    public void update(Elemento obj) {
+    private void update(Elemento obj) {
         abrirGravacao();
         ContentValues cv = new ContentValues();
         cv.put("classeid", obj.getClasse().getClasseid());
@@ -174,9 +197,10 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
         abrirGravacao();
         if (db.delete("elemento", "elementoid = ?", new String[]{(Integer.toString(obj.getElementoid()))}) != 1) {
             new Exception("Erro ao excluir elemento");
-        }else
-
-        fecharConexao();
+        }else {
+            fecharConexao();
+            alteracaoDao.update(obj);
+        }
     }
 
     private void SalvarImagens(Elemento obj){

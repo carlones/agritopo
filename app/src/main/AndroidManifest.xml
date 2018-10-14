@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -71,17 +74,6 @@
         <activity
             android:name=".activity.SerialKeyTrialActivity"
             android:label="@string/title_activity_serial_key_trial"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ColetarDadosPessoaActivity"
-            android:label="Coletar dados pessoa"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SelecionarMunicipioActivity"
-            android:label="Coletar dados pessoa"
-            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
@@ -98,6 +90,20 @@
             android:name=".activity.SobreActivity"
             android:label="@string/title_activity_sobre"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service
+            android:name=".service.Sincronizacao.SincronizacaoDadosService">
+        </service>
+
+        <receiver android:name=".receivers.IntegracaoReceiver">
+            <intent-filter>
+                <action android:name="br.com.neogis.agritopo.receiver.integracaoreceiver"/>
+                <action android:name="br.com.neogis.agritopo.receiver.cancelnotification"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

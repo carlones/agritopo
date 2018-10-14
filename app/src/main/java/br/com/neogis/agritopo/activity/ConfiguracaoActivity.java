@@ -27,6 +27,13 @@ import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaSincronizacaoDao;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.Sincronizacao;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.SincronizacaoDao;
+import br.com.neogis.agritopo.service.SerialKeyService;
+import br.com.neogis.agritopo.service.Sincronizacao.IntegradorRecepcao;
+import br.com.neogis.agritopo.service.Sincronizacao.SincronizacaoDadosService;
+import br.com.neogis.agritopo.utils.DateUtils;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -316,11 +323,32 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
             addPreferencesFromResource(R.xml.pref_data_sync);
             setHasOptionsMenu(true);
             preferenceFragment = this;
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+
+            final Preference sincPref = findPreference( getResources().getString(R.string.pref_key_ultima_sincronizacao) );
+
+            SerialKeyService serviceKey = new SerialKeyService(getActivity().getApplicationContext());
+
+            if(serviceKey.containsValidSerialKey()){
+                SincronizacaoDao sincDao = FabricaSincronizacaoDao.Criar(getActivity().getApplicationContext());
+                Sincronizacao sinc = sincDao.get(1);
+                if(sinc != null && sinc.getData().getTime() > 0)
+                    sincPref.setTitle("Sincronizado em: " + DateUtils.formatDate(sinc.getData()));
+                else
+                    sincPref.setTitle("Sincronizado em: NUNCA");
+
+                sincPref.setOnPreferenceClickListener( new Preference.OnPreferenceClickListener()
+                {
+                    public boolean onPreferenceClick( Preference pref )
+                    {
+                        Intent it = new Intent("br.com.neogis.agritopo.receiver.integracaoreceiver");
+                        getActivity().getApplicationContext().sendBroadcast(it);
+                        getActivity().finish();
+                        return true;
+                    }
+                } );
+            }else{
+                sincPref.setTitle("Login é necessário para sincronização de dados");
+            }
         }
 
         @Override

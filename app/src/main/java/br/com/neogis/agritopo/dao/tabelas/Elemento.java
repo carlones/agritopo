@@ -8,8 +8,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import br.com.neogis.agritopo.dao.tabelas.Integracao.ISincronizavel;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
 import br.com.neogis.agritopo.model.Area;
 import br.com.neogis.agritopo.model.Distancia;
 import br.com.neogis.agritopo.model.MyGeoPoint;
@@ -17,7 +20,7 @@ import br.com.neogis.agritopo.utils.Utils;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
-public class Elemento {
+public class Elemento implements ISincronizavel{
 
     private int elementoid;
 
@@ -228,4 +231,12 @@ public class Elemento {
     }
 
     public void setImages(List<ElementoImagem> images){ this.images = images; }
+
+    public long getId(){
+        return (long)elementoid;
+    }
+
+    public TipoAlteracao getTipoAlteracao(){
+        return TipoAlteracao.Elemento;
+    }
 }

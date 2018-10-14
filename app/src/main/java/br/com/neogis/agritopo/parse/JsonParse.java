@@ -26,7 +26,7 @@ public class JsonParse {
         return gsonBuilder.create();
     }
 
-    class DateDeserializer implements JsonDeserializer<Date> {
+    private class DateDeserializer implements JsonDeserializer<Date> {
 
         @Override
         public Date deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {

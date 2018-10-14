@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -38,11 +40,15 @@ import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.ElementoImagem;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaClasseDao;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaTipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
 import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.DateUtils;
+import br.com.neogis.agritopo.utils.ImageUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_CLASSEID;
@@ -66,7 +72,12 @@ public class ElementoDetailFragment extends Fragment {
     private EditText elementoTitulo;
     private AutoCompleteTextView elementoTipoElemento;
     private EditText elementoDescricao;
+    private EditText elementoInformacao;
+    private EditText elementoDataCriacao;
+    private EditText elementoDataModificacao;
     private LinearLayout elementoListaImagens;
+    private ImageView imageTirarFoto;
+    private ImageView imageAdicionarImagem;
     private AlertDialog alerta;
 
     public ElementoDetailFragment() {
@@ -80,7 +91,7 @@ public class ElementoDetailFragment extends Fragment {
             listaImagensExcluir = savedInstanceState.getStringArrayList("imagensExcluir");
         }
 
-        ElementoDao elementoDao = new ElementoDaoImpl(getActivity().getBaseContext());
+        ElementoDao elementoDao = FabricaElementoDao.Criar(getActivity().getBaseContext());
         int elementoId = getArguments().getInt(ARG_ELEMENTOID);
         if (elementoId != 0) {
             mItem = elementoDao.get(elementoId);
@@ -89,9 +100,9 @@ public class ElementoDetailFragment extends Fragment {
                     listaImagens.add(elementoImagem.getImagem().getArquivo());
                 }
         } else {
-            ClasseDao classeDao = new ClasseDaoImpl(getActivity().getBaseContext());
+            ClasseDao classeDao = FabricaClasseDao.Criar(getActivity().getBaseContext());
             Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
-            TipoElementoDao ted = new TipoElementoDaoImpl(getActivity().getBaseContext());
+            TipoElementoDao ted = FabricaTipoElementoDao.Criar(getActivity().getBaseContext());
             TipoElemento te = ted.get(getArguments().getInt(ARG_TIPOELEMENTOID, 0));
             mItem = new Elemento(te, classe, "", "", getArguments().getString(ARG_GEOMETRIA));
         }
@@ -99,7 +110,7 @@ public class ElementoDetailFragment extends Fragment {
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
-            appBarLayout.setTitle(getResources().getString(mItem.getClasse().getClasseEnum().getDescricao()));
+            appBarLayout.setTitle(mItem.getClasse().getNome());
         }
     }
 
@@ -111,20 +122,20 @@ public class ElementoDetailFragment extends Fragment {
         elementoTitulo = (EditText) rootView.findViewById(R.id.elementoTitulo);
         elementoTipoElemento = (AutoCompleteTextView) rootView.findViewById(R.id.elementoTipoElemento);
         elementoDescricao = (EditText) rootView.findViewById(R.id.elementoDescricao);
-        EditText elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
-        EditText elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
-        EditText elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
+        elementoInformacao = (EditText) rootView.findViewById(R.id.elementoInformacao);
+        elementoDataCriacao = (EditText) rootView.findViewById(R.id.elementoDataCriacao);
+        elementoDataModificacao = (EditText) rootView.findViewById(R.id.elementoDataModificacao);
         elementoListaImagens = (LinearLayout) rootView.findViewById(R.id.elementoListaImagens);
-        ImageView imageTirarFoto = (ImageView) rootView.findViewById(R.id.elemento_botao_tirar_foto);
-        ImageView imageAdicionarImagem = (ImageView) rootView.findViewById(R.id.elemento_botao_adicionar_foto);
+        imageTirarFoto = (ImageView) rootView.findViewById(R.id.elemento_botao_tirar_foto);
+        imageAdicionarImagem = (ImageView) rootView.findViewById(R.id.elemento_botao_adicionar_foto);
 
-        TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(rootView.getContext());
+        TipoElementoDao tipoElementoDao = FabricaTipoElementoDao.Criar(rootView.getContext());
         List<TipoElemento> listaTipoElemento = tipoElementoDao.getAll();
         List<String> nomesTipoElemento = new ArrayList<>();
         for (TipoElemento te : listaTipoElemento) {
             nomesTipoElemento.add(te.getNome());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 rootView.getContext(),
                 android.R.layout.simple_dropdown_item_1line,
                 nomesTipoElemento
@@ -211,6 +222,8 @@ public class ElementoDetailFragment extends Fragment {
             case REQUEST_IMAGE_MEDIA:{
                 if(resultCode == RESULT_OK){
                     Uri uri = imageReturnedIntent.getData();
+                    //GeoPoint pontoCentral = mItem.getPontoCentral();
+                    //ImageUtils.writeLocation(getActivity().getBaseContext(), uri, pontoCentral.getLatitude(), pontoCentral.getLongitude());
                     adicionarImagem(uri);
                     listaImagens.add(uri.toString());
                 }
@@ -218,6 +231,8 @@ public class ElementoDetailFragment extends Fragment {
             }
             case REQUEST_TAKE_PICTURE:{
                 if(resultCode == RESULT_OK){
+                   // GeoPoint pontoCentral = mItem.getPontoCentral();
+                    //ImageUtils.writeLocation(getActivity().getBaseContext(), caminhoFoto, pontoCentral.getLatitude(), pontoCentral.getLongitude());
                     adicionarImagem(caminhoFoto);
                     listaImagens.add(caminhoFoto.toString());
                 }
@@ -227,7 +242,7 @@ public class ElementoDetailFragment extends Fragment {
     }
 
     private void adicionarImagem(final Uri uri){
-        Bitmap preview_bitmap = decodeFile(uri);
+        Bitmap preview_bitmap = ImageUtils.createPreviewImage(getActivity().getBaseContext(), uri,160);
         ImageView image = new ImageView(getActivity().getBaseContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         image.setLayoutParams(params);

@@ -1,5 +1,8 @@
 package br.com.neogis.agritopo.dao.tabelas;
 
+import br.com.neogis.agritopo.dao.tabelas.Integracao.ISincronizavel;
+import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
+
 /**
  * Created by carlo on 15/10/2017.
  */

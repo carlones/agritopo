@@ -16,6 +16,8 @@ import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaElementoDao;
+import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaTipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
@@ -149,11 +151,11 @@ public class ElementoDetailActivity extends AppCompatActivity {
         String titulo = fragment.getTitulo();
         String descricao = fragment.getDescricao();
         String nomeTipoElemento = fragment.getNomeTipoElemento();
-        TipoElementoDao tipoElementoDao = new TipoElementoDaoImpl(getBaseContext());
+        TipoElementoDao tipoElementoDao = FabricaTipoElementoDao.Criar(getBaseContext());
         TipoElemento tipoElemento = tipoElementoDao.getByNome(nomeTipoElemento);
         if (tipoElemento == null) {
             tipoElemento = new TipoElemento(nomeTipoElemento);
-            tipoElementoDao.insert(tipoElemento);
+            tipoElementoDao.save(tipoElemento);
         }
         mItem = fragment.getElemento();
         mItem.setTitulo(titulo);
@@ -164,12 +166,10 @@ public class ElementoDetailActivity extends AppCompatActivity {
         for (String image : fragment.getListaImagens())
             mItem.addImage(image);
 
-        ElementoDao elementoDao = new ElementoDaoImpl(getBaseContext());
-        if (elementoId != 0) {
-            elementoDao.update(mItem);
-        } else {
+        ElementoDao elementoDao = FabricaElementoDao.Criar(getBaseContext());
+        if (elementoId == 0)
             mItem.setGeometria(geometria);
-            elementoDao.insert(mItem);
-        }
+
+        elementoDao.save(mItem);
     }
 }

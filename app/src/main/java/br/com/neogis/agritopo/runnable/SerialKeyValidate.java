@@ -1,6 +1,7 @@
 package br.com.neogis.agritopo.runnable;
 
-import org.json.JSONObject;
+import android.app.Activity;
+import android.content.Context;
 
 import br.com.neogis.agritopo.parse.JsonParse;
 import br.com.neogis.agritopo.parse.views.SerialKeyView;
@@ -16,25 +17,33 @@ import static br.com.neogis.agritopo.utils.Constantes.ENDERECO_SERVIDOR_INTEGRAC
  */
 
 public class SerialKeyValidate {
-    private SerialKeyService serialKeyService;
-    private JSONObject dados;
+    private String serialKey;
+    private String email;
+    private String deviceId;
+    private Context context;
 
-    public SerialKeyValidate(SerialKeyService serialKeyService, JSONObject dados){
-        this.serialKeyService = serialKeyService;
-        this.dados = dados;
+    public SerialKeyValidate(Context context, String serialKey, String email, String deviceId){
+        this.context = context;
+        this.serialKey = serialKey;
+        this.email = email;
+        this.deviceId = deviceId;
     }
 
     public void run() throws Exception {
-        String url = ENDERECO_SERVIDOR_INTEGRACAO + "/api/SerialKey/BuscarLicenca";
+        String url = ENDERECO_SERVIDOR_INTEGRACAO +
+                "/api/SerialKey/ProcessSerialKey?" +
+                "serialKey=" + serialKey.replace("-", "") +
+                "&deviceId=" + deviceId +
+                "&email=" + email;
         try {
-            String retorno = NetworkUtils.postJSON(url, dados);
-            SerialKeyView dadosLicenca = processJson(retorno);
-            if (dadosLicenca == null)
+            String retorno = NetworkUtils.getJSONFromAPI(url);
+            SerialKeyView serial = processJson(retorno);
+            if (serial == null)
                 throw new Exception("Erro ao validar licença");
-            else if (dadosLicenca.valida_ate.getTime() < DateUtils.getCurrentDate().getTime())
-                throw new Exception("Licença expirada, entre em contato com o suporte");
+            else if (serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
+                throw new Exception("Erro ao validar licença");
             else {
-                serialKeyService.saveSerialKey(dadosLicenca);
+                new SerialKeyService(context).saveSerialKey(serial);
             }
         }
         catch(RetornoErroServidorException ex) {
