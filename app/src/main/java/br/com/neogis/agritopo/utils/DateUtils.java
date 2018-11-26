@@ -50,17 +50,17 @@ public class DateUtils {
     }
 
     public static String formatDate(Date date){
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return df.format(date);
     }
 
     public static String formatDateddMMyyyyThhmmssZ(Date date){
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ssZ");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'HH:mm:ssZ");
         return df.format(date);
     }
 
     public static Date convertoToDateddMMyyyyThhmmssZ(String text) throws ParseException {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ssZ");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'HH:mm:ssZ");
         return df.parse(text);
     }
 
