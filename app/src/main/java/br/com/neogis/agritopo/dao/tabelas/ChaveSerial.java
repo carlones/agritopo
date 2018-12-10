@@ -64,7 +64,9 @@ public class ChaveSerial {
     }
 
     public enum ChaveSerialTipo {
-        Gratuito,
-        Pago
+        Gratuito, //Gratuito com limitações
+        Pago, //Pago com mensalidade/anuidade
+        Pago_Standalone, //Pago com uma única vez
+        Trial //Teste com versão completa por 15 dias
     }
 }

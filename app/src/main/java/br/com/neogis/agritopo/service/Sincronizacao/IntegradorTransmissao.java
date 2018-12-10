@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import br.com.neogis.agritopo.parse.JsonParse;
 import br.com.neogis.agritopo.parse.views.SincronizacaoView;
+import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.Constantes;
 import br.com.neogis.agritopo.utils.http.HTTPParameter;
 import br.com.neogis.agritopo.utils.http.HTTPPost;
@@ -41,7 +42,7 @@ public class IntegradorTransmissao {
 
     private URL ObterUrl() throws MalformedURLException {
         try {
-            URL url = new URL(Constantes.ENDERECO_SERVIDOR_INTEGRACAO + "/api/Integracao/SincronizarAlteracao");
+            URL url = new URL(Configuration.getInstance().HostSincroniaObjetos + "/api/Integracao/SincronizarAlteracao");
             return url;
         }catch (Exception e){
             e.printStackTrace();
