@@ -550,4 +550,6 @@
     <string name="pergunta_deseja_excluir">Tem certeza que deseja excluir?</string>
     <string name="sim">Sim</string>
     <string name="nao">Não</string>
+    <string name="content_serial_key_network_needed">É necessário uma conexão com a Internet para esta etapa.</string>
+    <string name="content_sobre_revalidar_licenca">Revalidar Licença</string>
 </resources>

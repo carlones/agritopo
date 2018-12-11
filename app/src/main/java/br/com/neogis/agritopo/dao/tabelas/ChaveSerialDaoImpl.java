@@ -87,6 +87,21 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
             return l.get(0);
     }
 
+    public ChaveSerial getInvalid(long currentTime) {
+        abrirLeitura();
+        String sql = "" +
+                "SELECT * FROM chaveserial WHERE tipo = ? and dataexpiracao <= ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{
+                Integer.toString(ChaveSerial.ChaveSerialTipo.Pago.ordinal()),
+                Long.toString(currentTime)});
+        List<ChaveSerial> l = getListaObjetos(cursor);
+        fecharConexao();
+        if (l.isEmpty())
+            return null;
+        else
+            return l.get(0);
+    }
+
     public ChaveSerial getBySerialKey(String serialKey) {
         abrirLeitura();
         String sql = "" +

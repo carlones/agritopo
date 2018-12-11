@@ -22,7 +22,10 @@ import android.widget.Toast;
 
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
+import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
 import br.com.neogis.agritopo.runnable.SerialKeyValidate;
+import br.com.neogis.agritopo.service.SerialKeyService;
 import br.com.neogis.agritopo.utils.Utils;
 
 
@@ -39,7 +42,9 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle("Agritopo(Ativação)");
+        setTitle("Agritopo (Ativação)");
+        SerialKeyService serialKeyService = new SerialKeyService(getBaseContext());
+        ChaveSerial chaveSerial = serialKeyService.getChaveSerialVencida();
 
         serialEdit = (EditText) findViewById(R.id.serial_key_edit);
         emailEdit = (EditText) findViewById(R.id.serial_email_edit);
@@ -52,6 +57,14 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         });
 
         getTelephonyManager();
+
+        if (chaveSerial != null) {
+            setTitle("Agritopo (Reativação)");
+            UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(getBaseContext());
+            serialEdit.setText(chaveSerial.getChave());
+            emailEdit.setText(usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
+            validateSerialKey(serialEdit.getText().toString(), emailEdit.getText().toString());
+        }
     }
 
     private void validateSerialKey(String serial, String email) {
@@ -60,7 +73,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
             return;
 
         showProgressDialog();
-        new CarregarEmBackground(
+        new ValidarSerialEmBackground(
             serial,
             email,
             deviceId,
@@ -165,7 +178,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         }
     }
 
-    private class CarregarEmBackground extends AsyncTask<Void, Void, String>
+    public class ValidarSerialEmBackground extends AsyncTask<Void, Void, String>
     {
         private String serialKey;
         private String email;
@@ -173,7 +186,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         private String erro;
         private Context context;
 
-        CarregarEmBackground(String serialKey, String email, String deviceId, Context context) {
+        ValidarSerialEmBackground(String serialKey, String email, String deviceId, Context context) {
             this.serialKey = serialKey;
             this.email = email;
             this.deviceId = deviceId;

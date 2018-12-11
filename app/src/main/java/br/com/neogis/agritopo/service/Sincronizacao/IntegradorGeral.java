@@ -159,7 +159,6 @@ public class IntegradorGeral extends AsyncTask<Void, Void, Void> {
     }
 
     public interface Completed {
-
         void onComplete(boolean sucess);
         void onProgress(int progress);
     }

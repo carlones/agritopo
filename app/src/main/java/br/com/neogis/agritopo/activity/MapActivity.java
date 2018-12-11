@@ -277,6 +277,22 @@ public class MapActivity extends AppCompatActivity
         });
         fabGPS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                /*ChaveSerialDaoImpl chaveSerialDao = new ChaveSerialDaoImpl(getBaseContext());
+                List<ChaveSerial> list = chaveSerialDao.getAll();
+                for (ChaveSerial chaveSerial: list) {
+                    if ((chaveSerial.getTipo() == ChaveSerial.ChaveSerialTipo.Pago) || (chaveSerial.getTipo() == ChaveSerial.ChaveSerialTipo.Pago_Standalone)) {
+                        try {
+                            chaveSerial.setDataexpiracao(new SimpleDateFormat( "yyyyMMdd" ).parse( "20181209" ));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        chaveSerialDao.save(chaveSerial);
+                        Utils.toast(getBaseContext(), chaveSerial.getChave() + "-" + chaveSerial.getDataexpiracao().toString());
+                        break;
+                    }
+                }*/
+
                 if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
                     mMyLocationNewOverlay.disableMyLocation();
                     mMyLocationNewOverlay.disableFollowLocation();
