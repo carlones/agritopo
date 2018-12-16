@@ -42,7 +42,7 @@ public class SerialKeyTrialActivity extends AppCompatActivity {
         SerialKeyService service = new SerialKeyService(getApplicationContext());
 
         TextView textTempo = (TextView) findViewById(R.id.serial_key_free_text_tempo);
-        textTempo.setText(getResources().getString(R.string.content_serial_key_mensagem_partial_1) + " " + service.getFreeTimeDays() + " " + getResources().getString(R.string.content_serial_key_mensagem_partial_2));
+        textTempo.setText(getResources().getString(R.string.content_serial_key_mensagem_partial_1) + " 0 " + getResources().getString(R.string.content_serial_key_mensagem_partial_2));
     }
 
     @Override

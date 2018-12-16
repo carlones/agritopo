@@ -11,11 +11,11 @@ public class ChaveSerial {
     private String chave;
     private Date dataexpiracao;
     private int usuarioId;
-    private ChaveSerialTipo tipo;
+    private LicencaTipo tipo;
 
     public ChaveSerial(){}
 
-    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, ChaveSerialTipo tipo){
+    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, LicencaTipo tipo) {
         this.serialId = serialId;
         this.chave = chave;
         this.dataexpiracao = dataexpiracao;
@@ -55,18 +55,19 @@ public class ChaveSerial {
         this.usuarioId = usuarioId;
     }
 
-    public ChaveSerialTipo getTipo() {
+    public LicencaTipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(ChaveSerialTipo tipo) {
+    public void setTipo(LicencaTipo tipo) {
         this.tipo = tipo;
     }
 
-    public enum ChaveSerialTipo {
+    public enum LicencaTipo {
         Gratuito, //Gratuito com limitações
+        Trial, //Gratuito sem limitações por 15 dias
         Pago, //Pago com mensalidade/anuidade
-        Pago_Standalone, //Pago com uma única vez
-        Trial //Teste com versão completa por 15 dias
+        Pago_Standalone //Pago com uma única vez
     }
 }
+

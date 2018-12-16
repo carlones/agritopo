@@ -552,4 +552,8 @@
     <string name="nao">Não</string>
     <string name="content_serial_key_network_needed">É necessário uma conexão com a Internet para esta etapa.</string>
     <string name="content_sobre_revalidar_licenca">Revalidar Licença</string>
+    <string name="ALERTA_VERSAO_GRATUITA_MENSAGEM">Opção disponível na versão Paga.</string>
+    <string name="ALERTA_VERSAO_GRATUITA_TITULO">Atenção</string>
+    <string name="ALERTA_VERSAO_GRATUITA_BOTAO">Ok</string>
+    <string name="title_activity_seletor_licenca">Seleção de Licença</string>
 </resources>

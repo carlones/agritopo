@@ -1,11 +1,16 @@
 package br.com.neogis.agritopo.utils;
 
+import android.content.Context;
+import android.location.Location;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 
 /**
  * Created by marci on 21/04/2018.
@@ -66,5 +71,18 @@ public class DateUtils {
 
     public static Date getCurrentDateTime(){
         return Calendar.getInstance().getTime();
+    }
+
+    public static Date getCurrentDateFromGPS(Context contexto) {
+        MyGpsMyLocationProvider gps = new MyGpsMyLocationProvider(contexto, null);
+        try {
+            Location location = gps.getLastKnownLocation();
+            if (location != null)
+                return DateUtils.getDateWithOutTime(new Date(location.getTime()));
+            else
+                return DateUtils.getCurrentDate();
+        } finally {
+            gps.stopLocationProvider();
+        }
     }
 }

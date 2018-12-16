@@ -1,6 +1,5 @@
 package br.com.neogis.agritopo.runnable;
 
-import android.app.Activity;
 import android.content.Context;
 
 import br.com.neogis.agritopo.parse.JsonParse;
@@ -43,7 +42,7 @@ public class SerialKeyValidate {
             else if (serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
                 throw new Exception("Erro ao validar licença");
             else {
-                new SerialKeyService(context).saveSerialKey(serial);
+                new SerialKeyService(context).saveSerialKeyView(serial);
             }
         }
         catch(RetornoErroServidorException ex) {

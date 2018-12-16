@@ -12,4 +12,5 @@ public class SerialKeyView {
     public Date expiration;
     public String deviceId;
     public UserView user;
+    public LicencaTipoView licencaTipo;
 }

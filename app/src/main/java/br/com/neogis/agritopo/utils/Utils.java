@@ -1,13 +1,18 @@
 package br.com.neogis.agritopo.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
@@ -30,6 +35,39 @@ public final class Utils {
      */
     public static void toast(Context context, String mensagem) {
         Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Mostra mensagem no formato de diálogo, com botão
+     *
+     * @param context  indica o contexto
+     * @param titulo   título da mensagem
+     * @param mensagem mensagem a exibir
+     * @param botao    texto a mostrar no botão
+     */
+    public static void alert(Context context, String titulo, String mensagem, String botao) {
+        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
+        dlgAlert.setMessage(mensagem);
+        dlgAlert.setTitle(titulo);
+        dlgAlert.setPositiveButton(botao,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dismiss the dialog
+                    }
+                });
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static void info(String msg) {

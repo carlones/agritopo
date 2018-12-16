@@ -7,18 +7,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.utils.Utils;
+
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_AREA_ATUACAO;
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_EMAIL;
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_EMPRESA;
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_INFORMAR_MUNICIPIO;
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_MUNICIPIO;
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_MUNICIPIO_ID;
+import static br.com.neogis.agritopo.utils.Constantes.PESSOA_NOME;
 
 public class ColetarDadosPessoaActivity extends FormGeralActivity {
-
-    public static final String NOME         = "nome";
-    public static final String EMAIL        = "email";
-    public static final String AREA_ATUACAO = "area_atuacao";
-    public static final String EMPRESA      = "empresa";
-    public static final String MUNICIPIO    = "municipio";
-    public static final String MUNICIPIO_ID = "municipio_id";
-
-    public static final int INFORMAR_MUNICIPIO = 1;
-
     EditText inputNome;
     EditText inputEmail;
     EditText inputAreaAtuacao;
@@ -45,26 +44,26 @@ public class ColetarDadosPessoaActivity extends FormGeralActivity {
         inputEmpresa     = (EditText) findViewById(R.id.empresa    );
         inputMunicipio   = (EditText) findViewById(R.id.municipio  );
 
-        inputNome       .setText(getIntent().getStringExtra(NOME        ));
-        inputEmail      .setText(getIntent().getStringExtra(EMAIL       ));
-        inputAreaAtuacao.setText(getIntent().getStringExtra(AREA_ATUACAO));
-        inputEmpresa    .setText(getIntent().getStringExtra(EMPRESA     ));
-        inputMunicipio  .setText(getIntent().getStringExtra(MUNICIPIO   ));
+        inputNome.setText(getIntent().getStringExtra(PESSOA_NOME));
+        inputEmail.setText(getIntent().getStringExtra(PESSOA_EMAIL));
+        inputAreaAtuacao.setText(getIntent().getStringExtra(PESSOA_AREA_ATUACAO));
+        inputEmpresa.setText(getIntent().getStringExtra(PESSOA_EMPRESA));
+        inputMunicipio.setText(getIntent().getStringExtra(PESSOA_MUNICIPIO));
 
-        municipioId = getIntent().getIntExtra(MUNICIPIO_ID, 0);
+        municipioId = getIntent().getIntExtra(PESSOA_MUNICIPIO_ID, 0);
 
         inputMunicipio.setKeyListener(null); // desabilitar edição
         inputMunicipio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), SelecionarMunicipioActivity.class);
-                startActivityForResult(intent, INFORMAR_MUNICIPIO);
+                startActivityForResult(intent, PESSOA_INFORMAR_MUNICIPIO);
             }
         });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if( requestCode == INFORMAR_MUNICIPIO ) {
+        if (requestCode == PESSOA_INFORMAR_MUNICIPIO) {
             if (resultCode == android.app.Activity.RESULT_OK) {
                 municipioId = data.getIntExtra(SelecionarMunicipioActivity.MUNICIPIO_ID, 0);
                 String municipio = data.getStringExtra(SelecionarMunicipioActivity.MUNICIPIO);
@@ -81,30 +80,25 @@ public class ColetarDadosPessoaActivity extends FormGeralActivity {
         String empresa     = inputEmpresa    .getText().toString();
 
         if( nome.trim().isEmpty() ) {
-            avisar("Nome deve ser preenchido");
+            Utils.toast(getBaseContext(), "Nome deve ser preenchido");
             return;
         }
         if( email.trim().isEmpty() ) {
-            avisar("Email deve ser preenchido");
+            Utils.toast(getBaseContext(), "Email deve ser preenchido");
             return;
         }
         if( areaAtuacao.trim().isEmpty() ) {
-            avisar("Área de atuação deve ser preenchida");
+            Utils.toast(getBaseContext(), "Área de atuação deve ser preenchida");
             return;
         }
 
         Intent result = new Intent();
-        result.putExtra(NOME        , nome       );
-        result.putExtra(EMAIL       , email      );
-        result.putExtra(AREA_ATUACAO, areaAtuacao);
-        result.putExtra(EMPRESA     , empresa    );
-        result.putExtra(MUNICIPIO_ID, municipioId);
+        result.putExtra(PESSOA_NOME, nome);
+        result.putExtra(PESSOA_EMAIL, email);
+        result.putExtra(PESSOA_AREA_ATUACAO, areaAtuacao);
+        result.putExtra(PESSOA_EMPRESA, empresa);
+        result.putExtra(PESSOA_MUNICIPIO_ID, municipioId);
         setResult(RESULT_OK, result);
         finish();
     }
-
-    private void avisar(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
 }

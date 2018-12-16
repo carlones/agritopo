@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.service.SerialKeyService;
 import br.com.neogis.agritopo.singleton.Configuration;
 
+import static br.com.neogis.agritopo.utils.Constantes.ARG_LICENCA_TIPO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LATITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LONGITUDEATUAL;
@@ -28,7 +30,6 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ZOOMINICIAL;
 import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
-import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY_TRIAL;
 
 public class MainActivity extends AppCompatActivity {
     private List<String> permissions;
@@ -43,23 +44,24 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         requestPermissions();
-        //Não implementar nada abaixo disso
-        //implementar no metodo "continueonCreateAfterPermissions"
-        //é chamado depois que o usuario aceita as permissoes
-        //Marciel
+        /**
+         * Não implementar nada abaixo disso
+         * implementar no metodo "continueonCreateAfterPermissions"
+         * é chamado depois que o usuario aceita as permissoes
+         * Marciel
+         */
     }
 
-    private void continueonCreateAfterPermissions(){
+    private void continueonCreateAfterPermissions() {
         Configuration.getInstance().LoadConfiguration(getApplicationContext());
 
         createRootDirectory();
 
         serialKeyService = new SerialKeyService(getApplicationContext());
+        ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
 
-        if(serialKeyService.containsValidSerialKey())
-            startMapActivity();
-        else if(serialKeyService.containsFreeSerialKey())
-            startTrialSerialActivity();
+        if (chaveSerial != null)
+            startMapActivity(chaveSerial.getTipo());
         else
             startSerialActivity();
     }
@@ -69,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case PEGAR_MAPA_MODO_REQUEST:
                 if (resultCode == RESULT_OK) {
+                    ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
                     Intent intent = new Intent(getBaseContext(), MapActivity.class);
+                    intent.putExtra(ARG_LICENCA_TIPO, chaveSerial.getTipo().toString());
                     intent.putExtra(ARG_MAPA_ID, data.getExtras().getInt(ARG_MAPA_ID));
                     intent.putExtra(ARG_MAPA_LATITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LATITUDEATUAL));
                     intent.putExtra(ARG_MAPA_LONGITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LONGITUDEATUAL));
@@ -82,27 +86,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case PEGAR_SERIAL_KEY:
-                if (resultCode == RESULT_OK)
-                    if (serialKeyService.containsValidSerialKey())
-                        startMapActivity();
+                if (resultCode == RESULT_OK) {
+                    ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
+                    startMapActivity(chaveSerial.getTipo());
+                }
                 if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "A ativação é necessária.", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-                break;
-            case PEGAR_SERIAL_KEY_TRIAL:
-                if (resultCode == RESULT_OK)
-                    if (serialKeyService.containsValidSerialKey() || serialKeyService.containsFreeSerialKey())
-                        startMapActivity();
-                if (resultCode == RESULT_CANCELED) {
                     finish();
                 }
                 break;
         }
     }
 
-    private void startMapActivity(){
+    private void startMapActivity(ChaveSerial.LicencaTipo licencaTipo) {
         Intent intent = new Intent(getBaseContext(), MapActivity.class);
+        intent.putExtra(ARG_LICENCA_TIPO, licencaTipo.toString());
         intent.putExtra(ARG_MAPA_ID, 0);
         intent.putExtra(ARG_MAPA_LATITUDEATUAL, 0.0);
         intent.putExtra(ARG_MAPA_LONGITUDEATUAL, 0.0);
@@ -111,22 +109,17 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
     }
 
-    private void startSerialActivity(){
+    private void startSerialActivity() {
         Intent intent = new Intent(getBaseContext(), SerialKeyActivity.class);
         startActivityForResult(intent, PEGAR_SERIAL_KEY);
     }
 
-    private void startTrialSerialActivity(){
-        Intent intent = new Intent(getBaseContext(), SerialKeyTrialActivity.class);
-        startActivityForResult(intent, PEGAR_SERIAL_KEY_TRIAL);
-    }
-
-    private void createRootDirectory(){
+    private void createRootDirectory() {
         File diretorioFotos = new File(Configuration.getInstance().DiretorioFotos);
         diretorioFotos.mkdirs();
     }
 
-    private void requestPermissions(){
+    private void requestPermissions() {
         permissions = new ArrayList<>();
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -137,26 +130,23 @@ public class MainActivity extends AppCompatActivity {
         requestSpecificPermission(0);
     }
 
-    private void requestSpecificPermission(int index){
-        if(permissions.size() > index){
+    private void requestSpecificPermission(int index) {
+        if (permissions.size() > index) {
             String permission = permissions.get(index);
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{permission}, index);
-            }else
+            } else
                 requestSpecificPermission(index + 1);
-        }else
+        } else
             continueonCreateAfterPermissions();
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull final String permissions[], @NonNull int[] grantResults)
-    {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String permissions[], @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             requestSpecificPermission(requestCode + 1);
-        }
-        else {
-            if(permissions.length > 0) {
+        } else {
+            if (permissions.length > 0) {
                 boolean should = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
                 if (should) {
                     new android.app.AlertDialog.Builder(this)

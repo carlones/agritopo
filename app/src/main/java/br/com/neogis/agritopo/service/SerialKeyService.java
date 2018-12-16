@@ -1,18 +1,20 @@
 package br.com.neogis.agritopo.service;
 
 import android.content.Context;
-import android.location.Location;
 
 import java.util.Date;
+import java.util.List;
 
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Usuario;
 import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
-import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 import br.com.neogis.agritopo.parse.views.SerialKeyView;
 import br.com.neogis.agritopo.utils.Constantes;
 import br.com.neogis.agritopo.utils.DateUtils;
+
+import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDate;
+import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDateFromGPS;
 
 /**
  * Created by marci on 21/04/2018.
@@ -29,29 +31,31 @@ public class SerialKeyService {
         usuarioDao = new UsuarioDaoImpl(contexto);
     }
 
-    public boolean containsValidSerialKey(){
-        Date currentDate = getCurrentDate();
-        ChaveSerial serial = chaveSerialDao.getValid(currentDate.getTime());
-        if(serial == null)
+    public boolean containsValidSerialKey(ChaveSerial.LicencaTipo licencaTipo) {
+        Date currentDate = getCurrentDateFromGPS(contexto);
+        ChaveSerial chaveSerial = chaveSerialDao.getByTipo(licencaTipo);
+        if (chaveSerial == null)
             return false;
 
-        return DateUtils.getDaysBetween(currentDate, serial.getDataexpiracao()) >= 0;
+        return DateUtils.getDaysBetween(currentDate, chaveSerial.getDataexpiracao()) >= 0;
     }
 
-    public boolean containsFreeSerialKey(){
-        return getFreeTimeDays() > 0;
-    }
-
-    public long getFreeTimeDays(){
-        ChaveSerial serial = chaveSerialDao.getTrial();
-        if(serial == null){
-            serial = insertSerialTrial();
+    public ChaveSerial getValidChaveSerial() {
+        ChaveSerial chaveSerial = null;
+        Date currentDate = getCurrentDateFromGPS(contexto);
+        List<ChaveSerial> list = chaveSerialDao.getAll();
+        for (ChaveSerial c : list) {
+            if (DateUtils.getDaysBetween(currentDate, c.getDataexpiracao()) >= 0) {
+                chaveSerial = c;
+                break;
+            }
         }
-        return DateUtils.getDaysBetween(getCurrentDate(), serial.getDataexpiracao());
+        return chaveSerial;
     }
 
-    public void saveSerialKey(SerialKeyView serial){
+    public void saveSerialKeyView(SerialKeyView serial) {
         Usuario usuario = getUsuario();
+        ChaveSerial.LicencaTipo chaveLicencaTipo;
         usuario.setEmail(serial.user.email);
         ChaveSerial serialKey = chaveSerialDao.getBySerialKey(serial.key);
         if(serialKey==null)
@@ -59,7 +63,26 @@ public class SerialKeyService {
 
         serialKey.setChave(serial.key);
         serialKey.setDataexpiracao(serial.expiration);
-        serialKey.setTipo(ChaveSerial.ChaveSerialTipo.Pago);
+        switch (serial.licencaTipo.descricao) {
+            case "Trial":
+                chaveLicencaTipo = ChaveSerial.LicencaTipo.Trial;
+                break;//Trial de 15 dias, com registro via web
+            case "Professional":
+                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago_Standalone;
+                break;//Professional
+            case "Project":
+                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago;
+                break;//Project
+            case "Business":
+                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago;
+                break;//Business
+            case "Enterprise":
+                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago;
+                break;//Enterprise
+            default:
+                chaveLicencaTipo = ChaveSerial.LicencaTipo.Gratuito; //Free
+        }
+        serialKey.setTipo(chaveLicencaTipo);
         serialKey.setUsuarioId(usuario.getUsuarioid());
 
         usuarioDao.update(usuario);
@@ -73,7 +96,7 @@ public class SerialKeyService {
                 Constantes.CHAVE_TESTE_TRIAL,
                 DateUtils.addDays(getCurrentDate(), Constantes.CHAVE_TESTE_TRIAL_DIAS),
                 usuario.getUsuarioid(),
-                ChaveSerial.ChaveSerialTipo.Gratuito
+                ChaveSerial.LicencaTipo.Trial
                 );
         chaveSerialDao.insert(serial);
         return serial;
@@ -86,33 +109,6 @@ public class SerialKeyService {
             new UsuarioDaoImpl(contexto).insert(usuario);
         }
         return usuario;
-    }
-
-    private Date getCurrentDate(){
-        MyGpsMyLocationProvider gps = new MyGpsMyLocationProvider(contexto, null);
-        try {
-            Location location = gps.getLastKnownLocation();
-            if (location != null)
-                return DateUtils.getDateWithOutTime(new Date(location.getTime()));
-            else
-                return DateUtils.getCurrentDate();
-        }finally {
-            gps.stopLocationProvider();
-        }
-    }
-
-    public ChaveSerial getChaveSerial() {
-        Date currentDate = getCurrentDate();
-        return chaveSerialDao.getValid(currentDate.getTime());
-    }
-
-    public ChaveSerial getChaveSerialTrial() {
-        return chaveSerialDao.getTrial();
-    }
-
-    public ChaveSerial getChaveSerialVencida() {
-        Date currentDate = getCurrentDate();
-        return chaveSerialDao.getInvalid(currentDate.getTime());
     }
 
 }

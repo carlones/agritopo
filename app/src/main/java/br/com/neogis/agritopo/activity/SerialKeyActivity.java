@@ -1,9 +1,11 @@
 package br.com.neogis.agritopo.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,11 +17,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
@@ -27,6 +29,10 @@ import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
 import br.com.neogis.agritopo.runnable.SerialKeyValidate;
 import br.com.neogis.agritopo.service.SerialKeyService;
 import br.com.neogis.agritopo.utils.Utils;
+
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_CHAVE;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_EMAIL;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_MANUAL;
 
 
 public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyValidate.OnSerialValidate*/ {
@@ -42,9 +48,13 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        boolean manual = (getIntent().getIntExtra(ARG_SERIALKEY_MANUAL, 0) == 1);
+        String email = getIntent().getStringExtra(ARG_SERIALKEY_EMAIL);
+        String chave = getIntent().getStringExtra(ARG_SERIALKEY_CHAVE);
+
         setTitle("Agritopo (Ativação)");
-        SerialKeyService serialKeyService = new SerialKeyService(getBaseContext());
-        ChaveSerial chaveSerial = serialKeyService.getChaveSerialVencida();
+        final SerialKeyService serialKeyService = new SerialKeyService(getBaseContext());
+        ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
 
         serialEdit = (EditText) findViewById(R.id.serial_key_edit);
         emailEdit = (EditText) findViewById(R.id.serial_email_edit);
@@ -58,26 +68,31 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
 
         getTelephonyManager();
 
-        if (chaveSerial != null) {
+        if ((chaveSerial != null) || (manual)) {
             setTitle("Agritopo (Reativação)");
-            UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(getBaseContext());
-            serialEdit.setText(chaveSerial.getChave());
-            emailEdit.setText(usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
-            validateSerialKey(serialEdit.getText().toString(), emailEdit.getText().toString());
+            if (manual) {
+                serialEdit.setText(chave);
+                emailEdit.setText(email);
+            } else {
+                UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(getBaseContext());
+                serialEdit.setText(chaveSerial.getChave());
+                emailEdit.setText(usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
+                validateSerialKey(serialEdit.getText().toString(), emailEdit.getText().toString());
+            }
         }
     }
 
     private void validateSerialKey(String serial, String email) {
         String deviceId = getDeviceId();
-        if( deviceId == null )
+        if (deviceId == null)
             return;
 
         showProgressDialog();
         new ValidarSerialEmBackground(
-            serial,
-            email,
-            deviceId,
-            this
+                serial,
+                email,
+                deviceId,
+                this
         ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -88,14 +103,14 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
             return null;
         }
         String deviceId = telephonyManager.getDeviceId();
-        if( deviceId != null ) {
+        if (deviceId != null) {
             Utils.info("Telephony:" + deviceId);
             return "Telephony:" + deviceId;
         }
 
         // Alguns aparelhos deixam valores sem nexo nesse campo (tablet do Carlos)
         String serial = android.os.Build.SERIAL;
-        if( serial != null && !serial.equals("0123456789ABCDEF")) {
+        if (serial != null && !serial.equals("0123456789ABCDEF")) {
             Utils.info("AndroidSerial:" + serial);
             return "AndroidSerial:" + serial;
         }
@@ -119,58 +134,51 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
 
     private void mostrarRetorno(String msg_erro) {
         ringProgressDialog.dismiss();
-        if(msg_erro == null) {
-            Toast.makeText(this, "Licença validada com sucesso!", Toast.LENGTH_LONG).show();
-            setResult(RESULT_OK);
-            finish();
-        }
-        else {
-            Toast.makeText(this, msg_erro, Toast.LENGTH_LONG).show();
+        if (msg_erro == null) {
+            Utils.toast(this, "Licença validada com sucesso!");
+            finalizar(true);
+        } else {
+            Utils.toast(this, msg_erro);
         }
     }
 
-    private void getTelephonyManager(){
+    private void getTelephonyManager() {
         if (Build.VERSION.SDK_INT < 23)
             telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        else{
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-            {
+        else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_PHONE_STATE},
                         1);
-            }
-            else
+            } else
                 telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                else                {
+                else {
                     boolean should = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE);
-                    if(should)
-                    {
+                    if (should) {
                         new android.app.AlertDialog.Builder(this)
                                 .setTitle(getBaseContext().getString(R.string.permissao_negada))
                                 .setMessage(getBaseContext().getString(R.string.permissao_negada_mensagem))
                                 .setPositiveButton(getBaseContext().getString(R.string.permissao_tentar_novamente), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getTelephonyManager();
-                                }
-                            })
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getTelephonyManager();
+                                    }
+                                })
                                 .setNegativeButton(getBaseContext().getString(R.string.permissao_sair), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            }).show();
-                    }
-                    else                    {
-                        finish();
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finalizar(false);
+                                    }
+                                }).show();
+                    } else {
+                        finalizar(true);
                     }
                 }
                 break;
@@ -178,8 +186,18 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         }
     }
 
-    public class ValidarSerialEmBackground extends AsyncTask<Void, Void, String>
-    {
+    public void finalizar(boolean sucesso) {
+        Intent intent = new Intent();
+        //intent.putExtra(ARG_IMPORTAR_NOME_ARQUIVO, edtArquivoImportar.getText().toString());
+        if (sucesso)
+            setResult(RESULT_OK, intent);
+        else
+            setResult(RESULT_CANCELED, intent);
+        finish();
+        onBackPressed();
+    }
+
+    public class ValidarSerialEmBackground extends AsyncTask<Void, Void, String> {
         private String serialKey;
         private String email;
         private String deviceId;

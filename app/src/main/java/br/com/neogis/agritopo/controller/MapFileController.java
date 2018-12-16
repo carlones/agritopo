@@ -8,13 +8,17 @@ import java.util.List;
 
 import br.com.neogis.agritopo.singleton.Configuration;
 
+import static br.com.neogis.agritopo.utils.Constantes.LICENCA_GRATUITA_LIMITE_ARQUIVO_RASTER;
+
 public class MapFileController {
     public List<MapFile> Maps;
 
     private int selected = 0;
+    private boolean versaoGratuita = true;
 
-    public MapFileController(){
+    public MapFileController(boolean versaoGratuita) {
         Maps = new ArrayList<>();
+        this.versaoGratuita = versaoGratuita;
     }
 
     public void LoadMaps(){
@@ -34,8 +38,15 @@ public class MapFileController {
 
         File[] listaArquivosMapas = pasta_mapas.listFiles(filtro);
         if (listaArquivosMapas != null)
-            for (File file : listaArquivosMapas)
-                AddMap(file);
+            for (File file : listaArquivosMapas) {
+                if (versaoGratuita) {
+                    if ((file.length() > 0) && (file.length() < LICENCA_GRATUITA_LIMITE_ARQUIVO_RASTER)) {
+                        AddMap(file);
+                        break;
+                    }
+                } else
+                    AddMap(file);
+            }
     }
 
     public Boolean ContainsMaps(){

@@ -27,12 +27,11 @@ import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaSincronizacaoDao;
 import br.com.neogis.agritopo.dao.tabelas.Integracao.Sincronizacao;
 import br.com.neogis.agritopo.dao.tabelas.Integracao.SincronizacaoDao;
 import br.com.neogis.agritopo.service.SerialKeyService;
-import br.com.neogis.agritopo.service.Sincronizacao.IntegradorRecepcao;
-import br.com.neogis.agritopo.service.Sincronizacao.SincronizacaoDadosService;
 import br.com.neogis.agritopo.utils.DateUtils;
 
 /**
@@ -328,7 +327,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
 
             SerialKeyService serviceKey = new SerialKeyService(getActivity().getApplicationContext());
 
-            if(serviceKey.containsValidSerialKey()){
+            if (serviceKey.containsValidSerialKey(ChaveSerial.LicencaTipo.Pago) || serviceKey.containsValidSerialKey(ChaveSerial.LicencaTipo.Gratuito)) {
                 SincronizacaoDao sincDao = FabricaSincronizacaoDao.Criar(getActivity().getApplicationContext());
                 Sincronizacao sinc = sincDao.get(1);
                 if(sinc != null && sinc.getData().getTime() > 0)
@@ -347,7 +346,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
                     }
                 } );
             }else{
-                sincPref.setTitle("Login é necessário para sincronização de dados");
+                sincPref.setTitle("Indisponível neste tipo de licença.");
             }
         }
 

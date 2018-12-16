@@ -19,6 +19,7 @@ public final class Constantes {
     public static final int PEGAR_MENU_CAMADAS_REQUEST = 10000;
     public static final int PEGAR_SERIAL_KEY = 11000;
     public static final int PEGAR_SERIAL_KEY_TRIAL = 12000;
+    public static final int RECARREGAR_LICENCA = 13000;
 
     public static final int ONLINE = 1;
     public static final int OFFLINE = 0;
@@ -28,6 +29,14 @@ public final class Constantes {
     public static final int KM2_EM_METROS2 = 1000000;
     public static final int HECTARE_EM_METROS2 = 10000;
 
+    public static final String PESSOA_NOME = "nome";
+    public static final String PESSOA_EMAIL = "email";
+    public static final String PESSOA_AREA_ATUACAO = "area_atuacao";
+    public static final String PESSOA_EMPRESA = "empresa";
+    public static final String PESSOA_MUNICIPIO = "municipio";
+    public static final String PESSOA_MUNICIPIO_ID = "municipio_id";
+    public static final int PESSOA_INFORMAR_MUNICIPIO = 1;
+    public static final String ARG_LICENCA_TIPO = "licenca_tipo";
     public static final String ARG_MAPA_ID = "mapa_id";
     public static final String ARG_MAPA_MODO = "mapa_modo";
     public static final String ARG_MAPA_ZOOMINICIAL = "mapa_zoom_inicial";
@@ -43,8 +52,11 @@ public final class Constantes {
     public static final String ARG_EXPORTAR_NOME_ARQUIVO = "exportar_nome_arquivo";
     public static final String ARG_EXPORTAR_TIPO_ARQUIVO = "exportar_tipo_arquivo";
     public static final String ARG_IMPORTAR_NOME_ARQUIVO = "importar_nome_arquivo";
-    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://staging.neogis.com.br";
-    public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://portal.neogis.com.br";
+    public static final String ARG_SERIALKEY_EMAIL = "email";
+    public static final String ARG_SERIALKEY_CHAVE = "chave";
+    public static final String ARG_SERIALKEY_MANUAL = "solicitacao manual - sim ou nao";
+    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://192.168.31.64/neogis";//"http://staging.neogis.com.br";
+    public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://192.168.31.64/neogis";//"http://portal.neogis.com.br";
     //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://192.168.25.238/Neogis";
 
     public static final int CLASSE_AREA_ID = 2;
@@ -53,4 +65,9 @@ public final class Constantes {
 
     public static final String CHAVE_TESTE_TRIAL = "trial";
     public static final int CHAVE_TESTE_TRIAL_DIAS = 15;
+
+    public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_RASTER = 25000000;
+    public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_VETORIAL = 20000;
+    public static final int LICENCA_GRATUITA_LIMITE_ELEMENTOS = 10;
+
 }

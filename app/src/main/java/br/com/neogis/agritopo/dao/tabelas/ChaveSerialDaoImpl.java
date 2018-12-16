@@ -27,13 +27,12 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
                     cursor.getString(cursor.getColumnIndex("chave")),
                     new Date(cursor.getLong(cursor.getColumnIndex("dataexpiracao"))),
                     cursor.getInt(cursor.getColumnIndex("usuarioid")),
-                    ChaveSerial.ChaveSerialTipo.values()[cursor.getInt(cursor.getColumnIndex("tipo"))]
+                    ChaveSerial.LicencaTipo.values()[cursor.getInt(cursor.getColumnIndex("tipo"))]
             );
             l.add(serial);
         }
         return l;
     }
-
 
     @Override
     public List<ChaveSerial> getAll() {
@@ -59,41 +58,11 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
             return l.get(0);
     }
 
-    public ChaveSerial getTrial() {
+    public ChaveSerial getByTipo(ChaveSerial.LicencaTipo licencaTipo) {
         abrirLeitura();
         String sql = "" +
                 "SELECT * FROM chaveserial WHERE tipo = ?";
-        Cursor cursor = db.rawQuery(sql, new String[]{Integer.toString(ChaveSerial.ChaveSerialTipo.Gratuito.ordinal())});
-        List<ChaveSerial> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
-    }
-
-    public ChaveSerial getValid(long currentTime) {
-        abrirLeitura();
-        String sql = "" +
-                "SELECT * FROM chaveserial WHERE tipo = ? and dataexpiracao > ?";
-        Cursor cursor = db.rawQuery(sql, new String[]{
-                Integer.toString(ChaveSerial.ChaveSerialTipo.Pago.ordinal()),
-                Long.toString(currentTime)});
-        List<ChaveSerial> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
-    }
-
-    public ChaveSerial getInvalid(long currentTime) {
-        abrirLeitura();
-        String sql = "" +
-                "SELECT * FROM chaveserial WHERE tipo = ? and dataexpiracao <= ?";
-        Cursor cursor = db.rawQuery(sql, new String[]{
-                Integer.toString(ChaveSerial.ChaveSerialTipo.Pago.ordinal()),
-                Long.toString(currentTime)});
+        Cursor cursor = db.rawQuery(sql, new String[]{Integer.toString(licencaTipo.ordinal())});
         List<ChaveSerial> l = getListaObjetos(cursor);
         fecharConexao();
         if (l.isEmpty())

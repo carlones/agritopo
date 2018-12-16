@@ -78,18 +78,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipFile;
 
 import br.com.neogis.agritopo.BuildConfig;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.controller.MapFile;
 import br.com.neogis.agritopo.controller.MapFileController;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.dao.tabelas.ClasseEnum;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
-import br.com.neogis.agritopo.dao.tabelas.ElementoDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaElementoDao;
 import br.com.neogis.agritopo.fragment.CamadasFragment;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
@@ -121,12 +121,14 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_EXPORTAR_TIPO_ARQUIVO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_GEOMETRIA;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_GPS_POSICAO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_LICENCA_TIPO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ID;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LATITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LONGITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ZOOMINICIAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_TIPOELEMENTOID;
+import static br.com.neogis.agritopo.utils.Constantes.LICENCA_GRATUITA_LIMITE_ELEMENTOS;
 import static br.com.neogis.agritopo.utils.Constantes.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
 import static br.com.neogis.agritopo.utils.Constantes.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
 import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
@@ -138,6 +140,7 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MENU_CADASTROS_REQUE
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MENU_CAMADAS_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST;
+import static br.com.neogis.agritopo.utils.Constantes.RECARREGAR_LICENCA;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IGPSListener, MapEventsReceiver, MapView.OnFirstLayoutListener {
@@ -176,6 +179,7 @@ public class MapActivity extends AppCompatActivity
     // Mostra área, perímetro e distância enquando desenha Área e Distância
     private InfoBox infoBox;
     private InfoBox gpsBox;
+    private ChaveSerial.LicencaTipo licencaTipo;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
@@ -205,7 +209,8 @@ public class MapActivity extends AppCompatActivity
         criarDiretorio("agritopo");
         criarDiretorio("OsmDroid");
 
-        mapFileController = new MapFileController();
+        licencaTipo = ChaveSerial.LicencaTipo.valueOf(getIntent().getStringExtra(ARG_LICENCA_TIPO));
+        mapFileController = new MapFileController(licencaTipo == ChaveSerial.LicencaTipo.Gratuito);
         mapFileController.LoadMaps();
 
         if (savedInstanceState != null)
@@ -256,32 +261,45 @@ public class MapActivity extends AppCompatActivity
 
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAtivo != null) return;
-                modalAtivo = new AdicionarPontoHolder(map, mActivity);
-                mostrarBotoesModal();
+                if ((licencaTipo == ChaveSerial.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
+                    Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), "Você atingiu o limite de " + LICENCA_GRATUITA_LIMITE_ELEMENTOS + " elementos da versão gratuita.", getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
+                } else {
+                    if (modalAtivo != null) return;
+                    modalAtivo = new AdicionarPontoHolder(map, mActivity);
+                    mostrarBotoesModal();
+                }
             }
         });
         fabNovaArea.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAtivo != null) return;
-                modalAtivo = new AdicionarAreaHolder(map, mActivity, infoBox);
-                mostrarBotoesModal();
+                if ((licencaTipo == ChaveSerial.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
+                    Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), "Você atingiu o limite de " + LICENCA_GRATUITA_LIMITE_ELEMENTOS + " elementos da versão gratuita.", getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
+                } else {
+                    if (modalAtivo != null) return;
+                    modalAtivo = new AdicionarAreaHolder(map, mActivity, infoBox);
+                    mostrarBotoesModal();
+                }
             }
         });
         fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (modalAtivo != null) return;
-                modalAtivo = new AdicionarDistanciaHolder(map, mActivity, infoBox);
-                mostrarBotoesModal();
+                if ((licencaTipo == ChaveSerial.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
+                    Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), "Você atingiu o limite de " + LICENCA_GRATUITA_LIMITE_ELEMENTOS + " elementos da versão gratuita.", getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
+                } else {
+                    if (modalAtivo != null) return;
+                    modalAtivo = new AdicionarDistanciaHolder(map, mActivity, infoBox);
+                    mostrarBotoesModal();
+                }
             }
         });
         fabGPS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                /*ChaveSerialDaoImpl chaveSerialDao = new ChaveSerialDaoImpl(getBaseContext());
+                /* Teste chave licenciamento vencida
+                ChaveSerialDaoImpl chaveSerialDao = new ChaveSerialDaoImpl(getBaseContext());
                 List<ChaveSerial> list = chaveSerialDao.getAll();
                 for (ChaveSerial chaveSerial: list) {
-                    if ((chaveSerial.getTipo() == ChaveSerial.ChaveSerialTipo.Pago) || (chaveSerial.getTipo() == ChaveSerial.ChaveSerialTipo.Pago_Standalone)) {
+                    if ((chaveSerial.getTipo() == ChaveSerial.LicencaTipo.Pago) || (chaveSerial.getTipo() == ChaveSerial.LicencaTipo.Pago_Standalone)) {
                         try {
                             chaveSerial.setDataexpiracao(new SimpleDateFormat( "yyyyMMdd" ).parse( "20181209" ));
                         } catch (ParseException e) {
@@ -302,7 +320,7 @@ public class MapActivity extends AppCompatActivity
                         meuLocalHolder = null;
                     }
                 } else {
-                    if( !mMyLocationNewOverlay.isMyLocationEnabled() ) // evitar stop/start do locationProvider só para centrar o mapa
+                    if (!mMyLocationNewOverlay.isMyLocationEnabled()) // evitar stop/start do locationProvider só para centrar o mapa
                         mMyLocationNewOverlay.enableMyLocation();
                     mMyLocationNewOverlay.enableFollowLocation();
                     ((FloatingActionButton) v).setImageResource(R.drawable.ic_gps_fixed_white_24dp);
@@ -449,31 +467,35 @@ public class MapActivity extends AppCompatActivity
         });*/
         fabCompartilhar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                try {
-                    File imageFile = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioFotos + File.separator + Long.toString(DateUtils.getCurrentDateTime().getTime()) + ".jpg");
-                    Uri caminhoFoto = FileProvider.getUriForFile(getBaseContext(), BuildConfig.APPLICATION_ID + ".utils.MyFileProvider", imageFile);
-                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    List<ResolveInfo> resolvedIntentActivities = getBaseContext().getPackageManager().queryIntentActivities(takePicture, PackageManager.MATCH_DEFAULT_ONLY);
-                    for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
-                        String packageName = resolvedIntentInfo.activityInfo.packageName;
-                        getBaseContext().grantUriPermission(packageName, caminhoFoto, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    }
-                    View v1 = getWindow().getDecorView().getRootView();
-                    v1.setDrawingCacheEnabled(true);
-                    Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-                    v1.setDrawingCacheEnabled(false);
+                if (licencaTipo == ChaveSerial.LicencaTipo.Gratuito)
+                    Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), getString(R.string.ALERTA_VERSAO_GRATUITA_MENSAGEM), getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
+                else {
+                    try {
+                        File imageFile = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioFotos + File.separator + Long.toString(DateUtils.getCurrentDateTime().getTime()) + ".jpg");
+                        Uri caminhoFoto = FileProvider.getUriForFile(getBaseContext(), BuildConfig.APPLICATION_ID + ".utils.MyFileProvider", imageFile);
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        List<ResolveInfo> resolvedIntentActivities = getBaseContext().getPackageManager().queryIntentActivities(takePicture, PackageManager.MATCH_DEFAULT_ONLY);
+                        for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+                            String packageName = resolvedIntentInfo.activityInfo.packageName;
+                            getBaseContext().grantUriPermission(packageName, caminhoFoto, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        }
+                        View v1 = getWindow().getDecorView().getRootView();
+                        v1.setDrawingCacheEnabled(true);
+                        Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+                        v1.setDrawingCacheEnabled(false);
 
-                    FileOutputStream outputStream = new FileOutputStream(imageFile);
-                    int quality = 100;
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-                    outputStream.flush();
-                    outputStream.close();
-                    Intent share = new Intent(Intent.ACTION_SEND);
-                    share.setType("image/jpeg");
-                    share.putExtra(Intent.EXTRA_STREAM, caminhoFoto);
-                    startActivity(Intent.createChooser(share, "Compartilhar"));
-                } catch (Throwable e) {
-                    e.printStackTrace();
+                        FileOutputStream outputStream = new FileOutputStream(imageFile);
+                        int quality = 100;
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                        outputStream.flush();
+                        outputStream.close();
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        share.setType("image/jpeg");
+                        share.putExtra(Intent.EXTRA_STREAM, caminhoFoto);
+                        startActivity(Intent.createChooser(share, "Compartilhar"));
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -499,10 +521,9 @@ public class MapActivity extends AppCompatActivity
         });
         fabSeguirGPS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ( modalAtivo.seguindoGPS() ) {
+                if (modalAtivo.seguindoGPS()) {
                     modalAtivo.pararSeguirGPS();
-                }
-                else {
+                } else {
                     modalAtivo.seguirGPS();
                     if (!mMyLocationNewOverlay.isFollowLocationEnabled()) {
                         fabGPS.callOnClick();
@@ -531,10 +552,10 @@ public class MapActivity extends AppCompatActivity
         famNovo.setVisibility(View.INVISIBLE);
         fabConcluido.setVisibility(View.VISIBLE);
         fabCancelar.setVisibility(View.VISIBLE);
-        if( modalAtivo.aceitaDesfazer ) {
+        if (modalAtivo.aceitaDesfazer) {
             fabDesfazer.setVisibility(View.VISIBLE);
         }
-        if( modalAtivo.aceitaSeguirGps ) {
+        if (modalAtivo.aceitaSeguirGps) {
             setarIconeBotaoSeguirGPS();
             fabSeguirGPS.setVisibility(View.VISIBLE);
         }
@@ -711,13 +732,21 @@ public class MapActivity extends AppCompatActivity
                 break;
             }
             case R.id.nav_exportar: {
-                Intent intent = new Intent(this, ExportarActivity.class);
-                startActivityForResult(intent, PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST);
+                if (licencaTipo == ChaveSerial.LicencaTipo.Gratuito)
+                    Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), getString(R.string.ALERTA_VERSAO_GRATUITA_MENSAGEM), getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
+                else {
+                    Intent intent = new Intent(this, ExportarActivity.class);
+                    startActivityForResult(intent, PEGAR_NOME_ARQUIVO_EXPORTAR_REQUEST);
+                }
                 break;
             }
             case R.id.nav_importar: {
-                Intent intent = new Intent(this, ImportarActivity.class);
-                startActivityForResult(intent, PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST);
+                if (licencaTipo == ChaveSerial.LicencaTipo.Gratuito)
+                    Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), getString(R.string.ALERTA_VERSAO_GRATUITA_MENSAGEM), getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
+                else {
+                    Intent intent = new Intent(this, ImportarActivity.class);
+                    startActivityForResult(intent, PEGAR_NOME_ARQUIVO_IMPORTAR_REQUEST);
+                }
                 break;
             }
             case R.id.nav_configuracao: {
@@ -727,7 +756,7 @@ public class MapActivity extends AppCompatActivity
             }
             case R.id.nav_sobre: {
                 Intent intent = new Intent(this, SobreActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, RECARREGAR_LICENCA);
                 break;
             }
         }
@@ -745,11 +774,12 @@ public class MapActivity extends AppCompatActivity
     }
 
     @Override
-    public void startLocationProvider() {}
+    public void startLocationProvider() {
+    }
 
     @Override
     public void stopLocationProvider() {
-        if( modalAtivo != null && modalAtivo.aceitaSeguirGps && modalAtivo.seguindoGPS() ) {
+        if (modalAtivo != null && modalAtivo.aceitaSeguirGps && modalAtivo.seguindoGPS()) {
             modalAtivo.pararSeguirGPS();
             setarIconeBotaoSeguirGPS();
         }
@@ -771,16 +801,21 @@ public class MapActivity extends AppCompatActivity
         mapController.setCenter(coordenadasIniciais);
     }
 
-    public void recarregarAppComMapaOnline() {
+    public void recarregarAppComMapa(int arg_mapa_modo) {
         Intent intent = new Intent();
-        intent.putExtra(ARG_MAPA_MODO, ONLINE);
+        intent.putExtra(ARG_MAPA_MODO, arg_mapa_modo);
+        intent.putExtra(ARG_LICENCA_TIPO, licencaTipo.toString());
         intent.putExtra(ARG_MAPA_ZOOMINICIAL, map.getZoomLevel());
         intent.putExtra(ARG_MAPA_ID, mapFileController.GetMapFileSelected().getIndex());
         intent.putExtra(ARG_MAPA_LATITUDEATUAL, coordenadasIniciais.getLatitude());
         intent.putExtra(ARG_MAPA_LONGITUDEATUAL, coordenadasIniciais.getLongitude());
         setResult(RESULT_OK, intent);
         finish();
-        onBackPressed();
+        try {
+            onBackPressed();
+        } catch (Exception e) {
+
+        }
     }
 
     private void carregarMapaDeArquivo(MapFile mapFile) {
@@ -894,6 +929,11 @@ public class MapActivity extends AppCompatActivity
                 } catch (Exception e) {
                     Utils.toast(mContext, "Ocorreu erro ao importar o arquivo:\r\n" + e.getMessage());
                 }
+            }
+        }
+        if (requestCode == RECARREGAR_LICENCA) {
+            if (resultCode == RESULT_OK) {
+                recarregarAppComMapa(getIntent().getIntExtra(ARG_MAPA_MODO, OFFLINE));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -1039,7 +1079,7 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean longPressHelper(GeoPoint p) {
-        if( modalAtivo == null ) {
+        if (modalAtivo == null) {
             onLongPressMenuSelected(p);
         }
         return true;
@@ -1176,6 +1216,7 @@ public class MapActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (map != null) {
+            outState.putString(ARG_LICENCA_TIPO, licencaTipo.toString());
             outState.putInt(ARG_MAPA_ZOOMINICIAL, map.getZoomLevel());
             outState.putInt(ARG_MAPA_ID, mapFileController.GetMapFileSelected().getIndex());
             outState.putDouble(ARG_MAPA_LATITUDEATUAL, coordenadasIniciais.getLatitude());
@@ -1186,6 +1227,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        licencaTipo = ChaveSerial.LicencaTipo.valueOf(savedInstanceState.getString(ARG_LICENCA_TIPO, "Gratuito"));
         zoomInicial = savedInstanceState.getInt(ARG_MAPA_ZOOMINICIAL, 0);
         mapFileController.SetSelectedMap(savedInstanceState.getInt(ARG_MAPA_ID, 0));
         double lat = savedInstanceState.getDouble(ARG_MAPA_LATITUDEATUAL, 0.0);
@@ -1195,6 +1237,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void onRestoreActivity() {
+        licencaTipo = ChaveSerial.LicencaTipo.valueOf(getIntent().getStringExtra(ARG_LICENCA_TIPO));
         zoomInicial = getIntent().getIntExtra(ARG_MAPA_ZOOMINICIAL, 0);
         mapFileController.SetSelectedMap(getIntent().getIntExtra(ARG_MAPA_ID, 0));
         double lat = getIntent().getDoubleExtra(ARG_MAPA_LATITUDEATUAL, 0.0);
@@ -1204,26 +1247,25 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarCamadas() {
-        new CamadasLoader(map).carregar(new AsyncResponse() {
+        new CamadasLoader(map, licencaTipo.equals(ChaveSerial.LicencaTipo.Gratuito)).carregar(new AsyncResponse() {
             @Override
             public void processFinish() {
                 invalidateOptionsMenu();
 
                 // Reabilitar KML no menu lateral
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                Menu menuNav=navigationView.getMenu();
+                Menu menuNav = navigationView.getMenu();
                 MenuItem nav_item2 = menuNav.findItem(R.id.nav_camadas);
                 nav_item2.setEnabled(true);
 
-                for(ArvoreCamada camada : camadaHolder.camadas)
+                for (ArvoreCamada camada : camadaHolder.camadas)
                     camadaHolder.exibirCamadasSelecionadasNoMapa(camada, map);
             }
         });
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         // deixar botão KML do menu desabilitado enquanto o carregamento não terminar
         //
         boolean kmlHabilitado = !camadaHolder.carregando;
@@ -1248,17 +1290,16 @@ public class MapActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         RemoverTodosOverlays();
         super.onDestroy();
     }
 
-    private void RemoverTodosOverlays(){
-        if(map == null)
+    private void RemoverTodosOverlays() {
+        if (map == null)
             return;
 
-        for(int i = map.getOverlays().size() - 1;i >= 0;i--)
+        for (int i = map.getOverlays().size() - 1; i >= 0; i--)
             map.getOverlays().remove(i);
     }
 

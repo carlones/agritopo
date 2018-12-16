@@ -18,11 +18,19 @@ import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.service.SerialKeyService;
 
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_CHAVE;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_EMAIL;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_MANUAL;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
 public class SobreActivity extends AppCompatActivity {
     private TextView aboutContent;
-    private Button reativarLicenca;
+    private Button revalidarLicenca;
+    private String email = "";
+    private String chave = "TRIAL";
+    private String licenca = "";
+    private String versao = "";
+    private String data = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +38,17 @@ public class SobreActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         aboutContent = (TextView) findViewById(R.id.aboutContent);
-        reativarLicenca = (Button) findViewById(R.id.reativarLicenca);
+        revalidarLicenca = (Button) findViewById(R.id.revalidarLicenca);
 
         ConstruirAjuda();
 
-        reativarLicenca.setOnClickListener(new View.OnClickListener() {
+        revalidarLicenca.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), SerialKeyActivity.class);
+                intent.putExtra(ARG_SERIALKEY_EMAIL, email);
+                intent.putExtra(ARG_SERIALKEY_CHAVE, chave);
+                intent.putExtra(ARG_SERIALKEY_MANUAL, 1);
                 startActivityForResult(intent, PEGAR_SERIAL_KEY);
-                finish();
             }
         });
     }
@@ -53,18 +63,11 @@ public class SobreActivity extends AppCompatActivity {
         }
 
         SerialKeyService serialKeyService = new SerialKeyService(getApplicationContext());
-        ChaveSerial chaveSerial = null;
-        if (serialKeyService.containsValidSerialKey())
-            chaveSerial = serialKeyService.getChaveSerial();
-        else if (serialKeyService.containsFreeSerialKey())
-            chaveSerial = serialKeyService.getChaveSerialTrial();
+        ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
 
-        String versao = "";
-        String chave = "TRIAL";
-        String data = "";
-        String email = "";
         if (chaveSerial != null) {
             chave = chaveSerial.getChave();
+            licenca = chaveSerial.getTipo().name();
             data = (new SimpleDateFormat("dd/MM/yyyy")).format(chaveSerial.getDataexpiracao());
         }
         if (serialKeyService.getUsuario() != null) {
@@ -76,15 +79,15 @@ public class SobreActivity extends AppCompatActivity {
 
         aboutContent.setText(Html.fromHtml("<h1>Agritopo</h1>\n" +
                 "<p><b>Versão:</b> " + versao + "</p>\n" +
-                //"<p><b>Edição:</b> Imobiliária</p>\n" +
-                "<p><b>Licença:</b> " + chave + "</p>\n" +
+                "<p><b>Tipo Licença:</b> " + licenca + "</p>\n" +
+                "<p><b>Chave:</b> " + chave + "</p>\n" +
                 "<p><b>Data de expiração:</b> " + data + "</p>\n" +
                 "<p><b>Licenciado para:</b> " + email + "</p>\n" +
                 "<br>\n" +
                 "<p><b>Suporte:</b> <a href=\"mailto:suporte@neogis.com.br\">suporte@neogis.com.br</a></p>\n" +
                 "<br>\n" +
-                "<p>Copyright© 2018</p>\n" +
-                "<h2><a href=\"http://www.neogis.com.br\"><b>Neogis</b> Sistemas e Consultoria</a></h2>\n" +
+                "<p>Copyright© 2019</p>\n" +
+                "<h2><a href=\"http://www.neogis.com.br\"><b>Neogis</b> Sistemas e Consultoria em Tecnologia Ltda</a></h2>\n" +
                 "<p>Todos os direitos reservados.</p>\n" +
                 "<p>Chapecó - Santa Catarina - Brasil</p>\n" +
                 "<p><a href=\"http://www.neogis.com.br/Home/PrivacyPolicy\">Política de Privacidade</a></p>\n" +
@@ -107,4 +110,15 @@ public class SobreActivity extends AppCompatActivity {
         aboutContent.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PEGAR_SERIAL_KEY) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent();
+                //intent.putExtra(ARG_IMPORTAR_NOME_ARQUIVO, edtArquivoImportar.getText().toString());
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+    }
 }

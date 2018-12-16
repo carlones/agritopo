@@ -14,7 +14,6 @@ import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaSincronizacaoDao;
 import br.com.neogis.agritopo.dao.tabelas.Integracao.Alteracao;
 import br.com.neogis.agritopo.dao.tabelas.Integracao.Sincronizacao;
 import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
-import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.Usuario;
 import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
 import br.com.neogis.agritopo.parse.views.SincronizacaoView;
@@ -142,10 +141,7 @@ public class IntegradorGeral extends AsyncTask<Void, Void, Void> {
 
     private ChaveSerial obterChaveSerial(){
         SerialKeyService service = new SerialKeyService(contexto);
-        if (service.containsValidSerialKey())
-            return service.getChaveSerial();
-        else
-            return null;
+        return service.getValidChaveSerial();
     }
 
     private Usuario obterUsuario(ChaveSerial serial){

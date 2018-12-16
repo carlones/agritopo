@@ -11,14 +11,20 @@ import java.util.Arrays;
 import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.utils.AsyncResponse;
 
+import static br.com.neogis.agritopo.utils.Constantes.LICENCA_GRATUITA_LIMITE_ARQUIVO_RASTER;
+import static br.com.neogis.agritopo.utils.Constantes.LICENCA_GRATUITA_LIMITE_ARQUIVO_VETORIAL;
+
 /**
  * Created by marci on 30/03/2018.
  */
 
 public class CamadasLoader {
     private MapView mapView;
-    public CamadasLoader(MapView map){
+    private boolean versaoGratuita = true;
+
+    public CamadasLoader(MapView map, boolean versaoGratuita) {
         mapView = map;
+        this.versaoGratuita = versaoGratuita;
     }
 
     public void carregar(final AsyncResponse callback) {
@@ -67,10 +73,16 @@ public class CamadasLoader {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (File arquivo : arquivos) {
+            for (File file : arquivos) {
 //                Utils.info("Kml carregando: " + arquivo.toString());
-                if (!CamadaHolder.getInstance().arquivoExiste(arquivo))
-                    CamadaHolder.getInstance().adicionarArquivo(arquivo, mapView);
+                if (!CamadaHolder.getInstance().arquivoExiste(file))
+                    if (versaoGratuita) {
+                        if ((file.length() > 0) && (file.length() < LICENCA_GRATUITA_LIMITE_ARQUIVO_VETORIAL)) {
+                            CamadaHolder.getInstance().adicionarArquivo(file, mapView);
+                            break;
+                        }
+                    } else
+                        CamadaHolder.getInstance().adicionarArquivo(file, mapView);
 //                Utils.info("Kml pronto: " + arquivo.toString());
             }
             return null;
