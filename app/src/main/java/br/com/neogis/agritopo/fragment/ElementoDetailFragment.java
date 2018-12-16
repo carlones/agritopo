@@ -102,8 +102,9 @@ public class ElementoDetailFragment extends Fragment {
         } else {
             ClasseDao classeDao = FabricaClasseDao.Criar(getActivity().getBaseContext());
             Classe classe = classeDao.get(getArguments().getInt(ARG_CLASSEID, 0));
-            TipoElementoDao ted = FabricaTipoElementoDao.Criar(getActivity().getBaseContext());
-            TipoElemento te = ted.get(getArguments().getInt(ARG_TIPOELEMENTOID, 0));
+            //TipoElementoDao ted = FabricaTipoElementoDao.Criar(getActivity().getBaseContext());
+            //TipoElemento te = ted.get(getArguments().getInt(ARG_TIPOELEMENTOID, 0));
+            TipoElemento te = new TipoElemento("");
             mItem = new Elemento(te, classe, "", "", getArguments().getString(ARG_GEOMETRIA));
         }
 

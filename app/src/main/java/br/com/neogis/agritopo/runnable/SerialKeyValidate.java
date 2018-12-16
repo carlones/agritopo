@@ -10,7 +10,7 @@ import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.NetworkUtils;
 import br.com.neogis.agritopo.utils.RetornoErroServidorException;
 
-import static br.com.neogis.agritopo.utils.Constantes.ENDERECO_SERVIDOR_INTEGRACAO;
+import static br.com.neogis.agritopo.utils.Constantes.ENDERECO_SERVIDOR_LICENCIAMENTO;
 
 /**
  * Created by marci on 14/04/2018.
@@ -30,7 +30,7 @@ public class SerialKeyValidate {
     }
 
     public void run() throws Exception {
-        String url = ENDERECO_SERVIDOR_INTEGRACAO +
+        String url = ENDERECO_SERVIDOR_LICENCIAMENTO +
                 "/api/SerialKey/ProcessSerialKey?" +
                 "serialKey=" + serialKey.replace("-", "") +
                 "&deviceId=" + deviceId +

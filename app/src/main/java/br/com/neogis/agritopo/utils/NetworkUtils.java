@@ -1,5 +1,10 @@
 package br.com.neogis.agritopo.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,18 +27,20 @@ public class NetworkUtils {
             URL apiEnd = new URL(url);
             InputStream is;
 
-            conexao = (HttpURLConnection) apiEnd.openConnection();
-            conexao.setRequestMethod("GET");
-            conexao.setReadTimeout(15000);
-            conexao.setConnectTimeout(15000);
-            conexao.connect();
+            conexao = getHttpURLConnection(apiEnd);
 
             contentType = conexao.getContentType();
             codigoResposta = conexao.getResponseCode();
             if(codigoResposta < HttpURLConnection.HTTP_BAD_REQUEST){
                 is = conexao.getInputStream();
             }else{
-                is = conexao.getErrorStream();
+                conexao = getHttpURLConnection(apiEnd);
+                contentType = conexao.getContentType();
+                codigoResposta = conexao.getResponseCode();
+                if (codigoResposta < HttpURLConnection.HTTP_BAD_REQUEST)
+                    is = conexao.getInputStream();
+                else
+                    is = conexao.getErrorStream();
             }
 
             retorno = converterInputStreamToString(is);
@@ -55,6 +62,17 @@ public class NetworkUtils {
         return retorno;
     }
 
+    @NonNull
+    private static HttpURLConnection getHttpURLConnection(URL apiEnd) throws IOException {
+        HttpURLConnection conexao;
+        conexao = (HttpURLConnection) apiEnd.openConnection();
+        conexao.setRequestMethod("GET");
+        conexao.setReadTimeout(15000);
+        conexao.setConnectTimeout(15000);
+        conexao.connect();
+        return conexao;
+    }
+
     private static String converterInputStreamToString(InputStream is){
         StringBuilder buffer = new StringBuilder();
         try{
@@ -72,5 +90,12 @@ public class NetworkUtils {
         }
 
         return buffer.toString();
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

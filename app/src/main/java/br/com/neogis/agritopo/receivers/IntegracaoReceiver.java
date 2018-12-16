@@ -100,15 +100,17 @@ public class IntegracaoReceiver extends BroadcastReceiver {
 
     private void SetAlarm(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        float horas = prefs.getFloat(context.getResources().getString(R.string.pref_key_tempo_sincronizacao), 0.5f) * 12;
-        if(horas < 1.0f)
-            horas = 1.0f;
+        float minutos = prefs.getFloat(
+                context.getResources().getString(R.string.pref_key_tempo_sincronizacao),
+                0.5f);
+        if (minutos < 1.0f)
+            minutos = 5.0f;
 
-        horas = horas * 60 * 60;
+        float segundos = minutos * 60;
 
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
-        c.add(Calendar.SECOND, (int)(horas));
+        c.add(Calendar.SECOND, (int) (segundos));
 
         Intent alertIntent = new Intent("br.com.neogis.agritopo.receiver.integracaoreceiver");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 100001, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);

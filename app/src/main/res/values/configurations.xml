@@ -119,26 +119,26 @@
     </string-array>
 
     <string name="pref_key_ultima_sincronizacao">ultima_sincronizacao</string>
+    <string name="pref_title_ultima_sincronizacao">Sincronizado em: </string>
+    <string name="pref_summary_ultima_sincronizacao">Indica quando foi a última sincronia com o servidor, toque aqui para sincronizar agora.</string>
 
     <string name="pref_key_tempo_sincronizacao">tempo_sincronizacao</string>
-    <string name="pref_title_tempo_sincronizacao">Tempo entre Sincronização</string>
+    <string name="pref_title_tempo_sincronizacao">Tempo entre Sincronização (minutos)</string>
     <string name="pref_dialogmessage_tempo_sincronizacao">Define o tempo entre cada envio e recebimento de dados com o servidor.</string>
     <string name="pref_summary_tempo_sincronizacao">Define o tempo entre cada envio e recebimento de dados com o servidor.</string>
     <string-array name="pref_summary_tempo_sincronizacao_values">
-        <item>1h</item>
-        <item>2h</item>
-        <item>3h</item>
-        <item>4h</item>
-        <item>5h</item>
-        <item>6h</item>
-        <item>7h</item>
-        <item>8h</item>
-        <item>9h</item>
-        <item>10h</item>
-        <item>11h</item>
-        <item>12h</item>
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
     </string-array>
 
-    <string name="pref_title_ultima_sincronizacao">Sincronizado em: </string>
+    <string name="pref_key_host_sincronia_objetos">host_sincronia_objetos</string>
+    <string name="pref_title_host_sincronia_objetos">Host de sincronia dos Objetos</string>
+    <string name="pref_summary_host_sincronia_objetos">Endereço da Internet para sincronização dos Objetos exibidos no aplicativo</string>
+
 
 </resources>

@@ -1,6 +1,5 @@
 package br.com.neogis.agritopo.service;
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 
@@ -12,6 +11,7 @@ import br.com.neogis.agritopo.dao.tabelas.Usuario;
 import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
 import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 import br.com.neogis.agritopo.parse.views.SerialKeyView;
+import br.com.neogis.agritopo.utils.Constantes;
 import br.com.neogis.agritopo.utils.DateUtils;
 
 /**
@@ -70,8 +70,8 @@ public class SerialKeyService {
         Usuario usuario = getUsuario();
         ChaveSerial serial = new ChaveSerial(
                 0,
-                "trial",
-                DateUtils.addDays(getCurrentDate(), 15),
+                Constantes.CHAVE_TESTE_TRIAL,
+                DateUtils.addDays(getCurrentDate(), Constantes.CHAVE_TESTE_TRIAL_DIAS),
                 usuario.getUsuarioid(),
                 ChaveSerial.ChaveSerialTipo.Gratuito
                 );
@@ -109,4 +109,10 @@ public class SerialKeyService {
     public ChaveSerial getChaveSerialTrial() {
         return chaveSerialDao.getTrial();
     }
+
+    public ChaveSerial getChaveSerialVencida() {
+        Date currentDate = getCurrentDate();
+        return chaveSerialDao.getInvalid(currentDate.getTime());
+    }
+
 }

@@ -1,5 +1,6 @@
 package br.com.neogis.agritopo.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -15,15 +18,32 @@ import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.service.SerialKeyService;
 
-public class SobreActivity extends AppCompatActivity {
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
+public class SobreActivity extends AppCompatActivity {
+    private TextView aboutContent;
+    private Button reativarLicenca;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sobre);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        aboutContent = (TextView) findViewById(R.id.aboutContent);
+        reativarLicenca = (Button) findViewById(R.id.reativarLicenca);
 
+        ConstruirAjuda();
+
+        reativarLicenca.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SerialKeyActivity.class);
+                startActivityForResult(intent, PEGAR_SERIAL_KEY);
+                finish();
+            }
+        });
+    }
+
+    private void ConstruirAjuda() {
         String version = "";
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -54,7 +74,6 @@ public class SobreActivity extends AppCompatActivity {
             versao = version;
         }
 
-        TextView aboutContent = (TextView) findViewById(R.id.aboutContent);
         aboutContent.setText(Html.fromHtml("<h1>Agritopo</h1>\n" +
                 "<p><b>Versão:</b> " + versao + "</p>\n" +
                 //"<p><b>Edição:</b> Imobiliária</p>\n" +
@@ -65,7 +84,7 @@ public class SobreActivity extends AppCompatActivity {
                 "<p><b>Suporte:</b> <a href=\"mailto:suporte@neogis.com.br\">suporte@neogis.com.br</a></p>\n" +
                 "<br>\n" +
                 "<p>Copyright© 2018</p>\n" +
-                "<h2><a href=\"http://www.neogis.com.br\"><b>Neogis</b> Consultoria e Sistemas</a></h2>\n" +
+                "<h2><a href=\"http://www.neogis.com.br\"><b>Neogis</b> Sistemas e Consultoria</a></h2>\n" +
                 "<p>Todos os direitos reservados.</p>\n" +
                 "<p>Chapecó - Santa Catarina - Brasil</p>\n" +
                 "<p><a href=\"http://www.neogis.com.br/Home/PrivacyPolicy\">Política de Privacidade</a></p>\n" +

@@ -211,12 +211,13 @@ public class CadastrosListarActivity extends AppCompatActivity {
         private void setarConteudoAbas() {
             for (CadastrosAbaFragment f : mFragmentList) {
                 f.elementosDaAba.clear();
-                Collections.sort(elementos, new Comparator<Elemento>() {
+                /*Collections.sort(elementos, new Comparator<Elemento>() {
                     @Override
                     public int compare(Elemento elemento2, Elemento elemento1) {
-                        return elemento2.getPontoCentral().distanceTo(posicaoAtual) - elemento1.getPontoCentral().distanceTo(posicaoAtual);
+                        return elemento2.getCreated_at().compareToIgnoreCase(elemento1.getCreated_at());
+                        //return elemento2.getPontoCentral().distanceTo(posicaoAtual) - elemento1.getPontoCentral().distanceTo(posicaoAtual);
                     }
-                });
+                });*/
                 for (Elemento e : elementos) {
                     if (f.classeId == 0 || f.classeId == e.getClasse().getClasseid())
                         f.elementosDaAba.add(e);

@@ -4,18 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -70,11 +75,14 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipFile;
 
+import br.com.neogis.agritopo.BuildConfig;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.controller.MapFile;
 import br.com.neogis.agritopo.controller.MapFileController;
@@ -100,6 +108,7 @@ import br.com.neogis.agritopo.model.Ponto;
 import br.com.neogis.agritopo.runnable.CamadasLoader;
 import br.com.neogis.agritopo.singleton.CamadaHolder;
 import br.com.neogis.agritopo.utils.AsyncResponse;
+import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.IGPSListener;
 import br.com.neogis.agritopo.utils.Utils;
 
@@ -151,7 +160,7 @@ public class MapActivity extends AppCompatActivity
     private FloatingActionMenu famNovo;
     private Context mContext;
     private Activity mActivity;
-    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabRotacao, fabConcluido, fabCancelar, fabDesfazer, fabSeguirGPS;
+    private FloatingActionButton fabNovoPonto, fabNovaArea, fabNovaDistancia, fabCamadas, fabGPS, fabCompartilhar, fabRotacao, fabConcluido, fabCancelar, fabDesfazer, fabSeguirGPS;
     private PopupWindow popupLayers;
     private ConstraintLayout layoutTelaPrincipal;
     private boolean exibirPontos;
@@ -238,6 +247,7 @@ public class MapActivity extends AppCompatActivity
         fabNovaDistancia = (FloatingActionButton) findViewById(R.id.action_nova_distancia);
         fabGPS = (FloatingActionButton) findViewById(R.id.action_gps);
         fabCamadas = (FloatingActionButton) findViewById(R.id.action_layer);
+        fabCompartilhar = (FloatingActionButton) findViewById(R.id.action_share);
         //fabRotacao = (FloatingActionButton) findViewById(R.id.action_rotacao);
         fabConcluido = (FloatingActionButton) findViewById(R.id.action_concluido);
         fabCancelar = (FloatingActionButton) findViewById(R.id.action_cancelar);
@@ -267,6 +277,22 @@ public class MapActivity extends AppCompatActivity
         });
         fabGPS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                /*ChaveSerialDaoImpl chaveSerialDao = new ChaveSerialDaoImpl(getBaseContext());
+                List<ChaveSerial> list = chaveSerialDao.getAll();
+                for (ChaveSerial chaveSerial: list) {
+                    if ((chaveSerial.getTipo() == ChaveSerial.ChaveSerialTipo.Pago) || (chaveSerial.getTipo() == ChaveSerial.ChaveSerialTipo.Pago_Standalone)) {
+                        try {
+                            chaveSerial.setDataexpiracao(new SimpleDateFormat( "yyyyMMdd" ).parse( "20181209" ));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        chaveSerialDao.save(chaveSerial);
+                        Utils.toast(getBaseContext(), chaveSerial.getChave() + "-" + chaveSerial.getDataexpiracao().toString());
+                        break;
+                    }
+                }*/
+
                 if (mMyLocationNewOverlay.isFollowLocationEnabled()) {
                     mMyLocationNewOverlay.disableMyLocation();
                     mMyLocationNewOverlay.disableFollowLocation();
@@ -421,6 +447,36 @@ public class MapActivity extends AppCompatActivity
                 }
             }
         });*/
+        fabCompartilhar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    File imageFile = new File(br.com.neogis.agritopo.singleton.Configuration.getInstance().DiretorioFotos + File.separator + Long.toString(DateUtils.getCurrentDateTime().getTime()) + ".jpg");
+                    Uri caminhoFoto = FileProvider.getUriForFile(getBaseContext(), BuildConfig.APPLICATION_ID + ".utils.MyFileProvider", imageFile);
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    List<ResolveInfo> resolvedIntentActivities = getBaseContext().getPackageManager().queryIntentActivities(takePicture, PackageManager.MATCH_DEFAULT_ONLY);
+                    for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+                        String packageName = resolvedIntentInfo.activityInfo.packageName;
+                        getBaseContext().grantUriPermission(packageName, caminhoFoto, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    }
+                    View v1 = getWindow().getDecorView().getRootView();
+                    v1.setDrawingCacheEnabled(true);
+                    Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+                    v1.setDrawingCacheEnabled(false);
+
+                    FileOutputStream outputStream = new FileOutputStream(imageFile);
+                    int quality = 100;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("image/jpeg");
+                    share.putExtra(Intent.EXTRA_STREAM, caminhoFoto);
+                    startActivity(Intent.createChooser(share, "Compartilhar"));
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         fabConcluido.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 modalAtivo.finalizar();
