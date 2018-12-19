@@ -48,8 +48,8 @@ public class IntegradorGeral extends AsyncTask<Void, Void, Void> {
             Usuario usuario = obterUsuario(serial);
             Sincronizacao ultimaSincronizacao = obterUltimaSincronizacao();
 
- //           if(!ReceberAlteracoesRecentes(usuario, ultimaSincronizacao))
- //               return null;
+            if(!ReceberAlteracoesRecentes(usuario, ultimaSincronizacao))
+                return null;
 
             if(!EnviarAlteracoesPendentes(usuario, ultimaSincronizacao))
                 return null;
