@@ -110,9 +110,40 @@
     <string name="permissao_negada">Permission Denied</string>
     <string name="permissao_negada_mensagem">Without permission you won´t be able to use the app.</string>
     <string name="permissao_tentar_novamente">Try again.</string>
+    <string name="title_activity_registrar_usuario">User Register</string>
     <string name="permissao_sair">Exit</string>
     <string name="alerta">Alert</string>
     <string name="pergunta_deseja_excluir">Are you sure to delete?</string>
+    <string name="todos_os_direitos_reservados">All rights reserved</string>
     <string name="sim">Yes</string>
     <string name="nao">No</string>
+    <string name="content_serial_key_network_needed">Internet connection is needed for this operation.</string>
+    <string name="texto_activity_eula"><![CDATA[<p>AGRITOPO EULA - End User License Agreement</p>
+
+<p>THIS IS THE END USER LICENSE AGREEMENT OF UNIQUE PURCHASE (AGREEMENT) BETWEEN YOU AND Neogis Sistemas e Consultoria em Tecnologia LTDA (NEOGIS). PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE PURCHASING OR USING THE AGRITOPO SOFTWARE, THE TECHNOLOGY AND / OR THE AGRITOPIAN DATA FOR YOUR ANDROID DEVICE. BY BUYING, SUBSCRIBING, TRANSFERING, INSTALLING, USING, OR OTHERWISE ACCESSING THE APPLICATION, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS AGREEMENT, THAT YOU HAVE UNDERSTOOD THAT YOU AGREE TO BE BOUND BY THE TERMS AND CONDITIONS AND THAT ARE AT LEAST 18 YEARS OF AGE. IF YOU DO NOT AGREE TO THE TERMS AND CONDITIONS OF THIS AGREEMENT, REMOVE THE APPLICATION FROM YOUR DEVICE.</p>
+
+<p>1 The Limited Warranty Application Agritopo is intended for use only as a measuring and research aid and should not be used for any purpose that requires accurate measurement of direction, distance, location or topography. NEOGIS DOES NOT WARRANT THE ACCURACY OR INTEGRITY OF THE MAP DATA OR OTHER THIRD PARTY CONTENTS IN THE APPLICATION. The APPLICATION will use the information provided by the DEVICE to display the information, and, as a consequence, will have as much accuracy as the DEVICE provides.</p>
+
+<p>2 Disclaimer of Warranty: ALL INFORMATION IS PROVIDED TO YOU AS IS, AND YOU AGREE TO USE IT AT YOUR OWN RISK. NEOGIS MAKES NO WARRANTY, REPRESENTATION OR WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, RESULTING FROM LAW OR OTHERWISE, REGARDING THE INFORMATION, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF TITLE, CONTENT, QUALITY, ACCURACY, COMPLETENESS, EFFICIENCY , RELIABILITY, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OF THIRD PARTY RIGHTS, UTILITY, USE OR RESULTS TO OBTAIN INFORMATION, OR THAT THE INFORMATION WILL NOT APPLY TO ERRORS. Some states, territories, and countries may not allow certain warranty exclusions; therefore, to that extent, the above exclusion may not apply to you.</p>
+
+<p>3 LIMITATION OF LIABILITY: YOU ASSUME ALL RESPONSIBILITY AND RISK FOR THE USE OF THE APPLICATION, AND NEOGIS DISCLAIMS ALL LIABILITY FOR ANY LOSS, INJURY OR DAMAGE RESULTING FROM THE USE OF THE APPLICATION AND ANY THIRD PARTY DATA OR CONTENT. IT IS YOUR RESPONSIBILITY TO USE THE APPLICATION CAREFULLY AND TO VERIFY ONLY THE STREETS, ROADS, ROAD SIGNS, INSTRUCTIONS, METEOROLOGICAL CONDITIONS AND TRAFFIC CONDITIONS. IN NO EVENT SHALL NEOGIS OR ITS SUPPLIERS, IN RESPECT OF THIRD PARTY DATA PROVIDERS, BE LIABLE TO YOU OR ANY OTHER PARTY FOR ANY COMPENSATORY, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES (INCLUDING, WITHOUT LIMITATION, INDIRECT, DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, PUNITIVE, OR EXEMPLARY DAMAGES FOR LOSS OF BUSINESS, LOSS OF PROFITS, BUSINESS INTERRUPTION OR LOSS OF BUSINESS INFORMATION) RESULTING FROM THE USE OR INABILITY TO USE THE APPLICATION AND ANY THIRD PARTY DATA OR CONTENT, EVEN IF NEOGIS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. IN ACCORDANCE WITH THE FOREGOING, THE ENTIRE AGGREGATE LIABILITY OF NEOGIS AND ITS SUPPLIERS WITH RESPECT TO ITS OBLIGATIONS UNDER THIS AGREEMENT OR OTHERWISE WITH RESPECT TO THE REQUEST SHALL NOT EXCEED $ 1.00. SOME STATES AND COUNTRIES DO NOT ALLOW THE EXCLUSION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU. NEOGIS makes no representations as to the suitability for any purpose of the geographic data and attribute data (Data) presented in this application. All such data is provided as a basis and the data has not been validated by NEOGIS. In no event shall NEOGIS be liable in any way for loss of revenue or contracts, or any consequential loss of any kind resulting from the use of the Data.</p>
+
+<p>4 Third-party APIs: This app uses several third-party APIs, such as: Google Maps API for Android v2, Google Drive API, Bing Maps Platform APIs, OpenStreetMap content, API NEOGIS and others.</p>
+
+<p>IT IS YOUR OBLIGATION TO READ AND ACCEPT THE API SPECIFIC TERMS AND CONDITIONS BEFORE USING THIS CONTENT.</p><p>.</p>.<p>.</p>.<p>.</p>]]></string>
+    <string name="agritopo_ativacao">Agritopo (Activation)</string>
+    <string name="agritopo_reativacao">Agritopo (Reactivation)</string>
+    <string name="title_activity_seletor_licenca">License Selection</string>
+    <string name="versao">Version</string>
+    <string name="tipo_licenca">License Type</string>
+    <string name="chave">Serial Key</string>
+    <string name="data_expiracao">Expiration Date</string>
+    <string name="licenciado_para">Licensed to</string>
+    <string name="suporte">Support</string>
+    <string name="politica_privacidade">Privacy Policy</string>
+    <string name="content_sobre_atualizar_licenca">Update License</string>
+    <string name="informar_chave_serial">Report Serial Key</string>
+    <string name="solicitar_chave_trial">Request Trial Serial Key (15 Days)</string>
+    <string name="utilizar_versao_gratuita">Use Free Version</string>
+    <string name="este_software_e_composto_pelos_seguintes_componentes_licenciados_separadamente">This software is compound by this components licenced separately</string>
 </resources>

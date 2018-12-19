@@ -39,10 +39,10 @@
                     tools:layout_editor_absoluteY="0dp" />
 
                 <Button
-                    android:id="@+id/revalidarLicenca"
+                    android:id="@+id/atualizarLicenca"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/content_sobre_revalidar_licenca"
+                    android:text="@string/content_sobre_atualizar_licenca"
                     tools:layout_editor_absoluteX="148dp"
                     tools:layout_editor_absoluteY="279dp" />
 

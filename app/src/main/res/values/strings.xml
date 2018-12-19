@@ -511,7 +511,7 @@
     <string name="content_serial_key_trial_descricao">Você tem 0 dias gratuitos restantes</string>
     <string name="content_serial_key_trial_continuar">Continuar</string>
     <string name="content_serial_key_trial_ativar">Ativar</string>
-    <string name="neogis">NeoGIS</string>
+    <string name="neogis">Neogis</string>
     <string name="neogis_suporte_email">suporte@neogis.com.br</string>
     <string name="content_serial_key_informe_seu_email">Informe seu email</string>
     <string name="content_serial_key_informe_sua_chave">Informe sua chave</string>
@@ -551,9 +551,40 @@
     <string name="sim">Sim</string>
     <string name="nao">Não</string>
     <string name="content_serial_key_network_needed">É necessário uma conexão com a Internet para esta etapa.</string>
-    <string name="content_sobre_revalidar_licenca">Revalidar Licença</string>
+    <string name="content_sobre_atualizar_licenca">Atualizar Licença</string>
     <string name="ALERTA_VERSAO_GRATUITA_MENSAGEM">Opção disponível na versão Paga.</string>
     <string name="ALERTA_VERSAO_GRATUITA_TITULO">Atenção</string>
-    <string name="ALERTA_VERSAO_GRATUITA_BOTAO">Ok</string>
-    <string name="title_activity_seletor_licenca">Seleção de Licença</string>
+    <string name="ALERTA_VERSAO_GRATUITA_BOTAO">OK</string>
+    <string name="title_activity_registrar_usuario">Registrar Usuário</string>
+    <string name="title_activity_seletor_licenca">Selecionar Licença</string>
+    <string name="todos_os_direitos_reservados">Todos os direitos reservados</string>
+    <string name="title_activity_eula">EULA</string>
+    <string name="texto_activity_eula"><![CDATA[<p>AGRITOPO EULA - Contrato de licen&ccedil;a de usu&aacute;rio final</p>
+
+<p>ESTE &Eacute; O ACORDO DE LICEN&Ccedil;A DE USU&Aacute;RIO FINAL DE COMPRA &Uacute;NICA (ACORDO) ENTRE VOC&Ecirc; E A Neogis Sistemas e Consultoria em Tecnologia LTDA (NEOGIS). POR FAVOR, LEIA CUIDADOSAMENTE ESTES TERMOS E CONDI&Ccedil;&Otilde;ES ANTES DE ADQUIRIR OU UTILIZAR O SOFTWARE AGRITOPO (APLICATIVO), A TECNOLOGIA E/OU OS DADOS DO AGRITOPO PARA O SEU DISPOSITIVO ANDROID (DISPOSITIVO). POR COMPRA, SUBSCRI&Ccedil;&Atilde;O, TRANSFER&Ecirc;NCIA, INSTALA&Ccedil;&Atilde;O, UTILIZA&Ccedil;&Atilde;O, OU DE OUTRA FORMA ACESSANDO O APLICATIVO, VOC&Ecirc; RECONHECE QUE LEU ESTE ACORDO, QUE VOC&Ecirc; ENTENDEU QUE CONCORDA EM CUMPRIR OS TERMOS E CONDI&Ccedil;&Otilde;ES E QUE TEM PELO MENOS 18 ANOS DE IDADE. SE VOC&Ecirc; N&Atilde;O CONCORDAR COM OS TERMOS E CONDI&Ccedil;&Otilde;ES DESTE CONTRATO, REMOVER O APLICATIVO DO SEU DISPOSITIVO.</p>
+
+<p>1 A Garantia Limitada Aplica&ccedil;&atilde;o Agritopo destina-se a ser usada apenas como aux&iacute;lio de medi&ccedil;&atilde;o e pesquisa e n&atilde;o deve ser usada para qualquer finalidade que exija medi&ccedil;&atilde;o precisa de dire&ccedil;&atilde;o, dist&acirc;ncia, localiza&ccedil;&atilde;o ou topografia. A NEOGIS N&Atilde;O GARANTE A PRECIS&Atilde;O OU A INTEGRIDADE DOS DADOS DO MAPA OU DE OUTROS CONTE&Uacute;DOS DE TERCEIROS NO APLICATIVO. O APLICATIVO utilizar&aacute; a informa&ccedil;&atilde;o fornecida pelo DISPOSITIVO para exibi&ccedil;&atilde;o das informa&ccedil;&otilde;es, e, por consequ&ecirc;ncia, ter&aacute; tanta precis&atilde;o quanto o DISPOSITIVO fornecer. </p>
+
+<p>2 Ren&uacute;ncia de Garantia: TODAS AS INFORMA&Ccedil;&Otilde;ES S&Atilde;O FORNECIDAS A VOC&Ecirc; COMO EST&Atilde;O, E VOC&Ecirc; CONCORDA EM US&Aacute;-LO POR SUA CONTA E RISCO. A NEOGIS N&Atilde;O FAZ NENHUMA GARANTIA, REPRESENTA&Ccedil;&Atilde;O OU GARANTIA DE QUALQUER TIPO, EXPRESSA OU IMPLANTADA, RESULTANTE DE LEI OU DE OUTRA FORMA, RELATIVAMENTE &Agrave;S INFORMA&Ccedil;&Otilde;ES, INCLUINDO, MAS N&Atilde;O SE LIMITANDO &Agrave;S GARANTIAS DE T&Iacute;TULO, CONTE&Uacute;DO, QUALIDADE, PRECIS&Atilde;O , INTEGRIDADE, EFIC&Aacute;CIA, CONFIABILIDADE, COMERCIALIZA&Ccedil;&Atilde;O, ADEQUA&Ccedil;&Atilde;O A UM DETERMINADO FIM, N&Atilde;O VIOLA&Ccedil;&Atilde;O DE DIREITOS DE TERCEIROS, UTILIDADE, USO OU RESULTADOS A OBTER DE INFORMA&Ccedil;&Otilde;ES, OU QUE AS INFORMA&Ccedil;&Otilde;ES N&Atilde;O SE APLICAR&Atilde;O A ERROS. Alguns estados, territ&oacute;rios e pa&iacute;ses podem n&atilde;o permitir certas exclus&otilde;es de garantia; portanto, at&eacute; esse ponto, a exclus&atilde;o acima pode n&atilde;o se aplicar a voc&ecirc;.</p>
+
+<p>3 Limita&ccedil;&atilde;o de responsabilidade: VOC&Ecirc; ASSUME TODA A RESPONSABILIDADE E RISCO PELO USO DO APLICATIVO, E A NEOGIS REJEITA TODA A RESPONSABILIDADE POR QUAISQUER PERDAS, LES&Otilde;ES OU DANOS RESULTANTES DO USO DO APLICATIVO E DE QUALQUER DADO OU CONTE&Uacute;DO DE TERCEIROS. &Eacute; DE SUA RESPONSABILIDADE UTILIZAR O APLICATIVO PRUDENTEMENTE E VERIFICAR EXCLUSIVAMENTE AS RUAS, AS ESTRADAS, OS SINAIS DA ESTRADA, AS INSTRU&Ccedil;&Otilde;ES, AS CONDI&Ccedil;&Otilde;ES METEOROL&Oacute;GICAS E AS CONDI&Ccedil;&Otilde;ES DO TR&Aacute;FEGO. EM NENHUMA CIRCUNST&Acirc;NCIA, A NEOGIS OU SEUS FORNECEDORES, EM RELA&Ccedil;&Atilde;O AOS FORNECEDORES DE DADOS DE TERCEIROS, SER&Atilde;O RESPONSABILIZADOS POR VOC&Ecirc; OU POR QUALQUER OUTRA PARTE POR QUAISQUER DANOS COMPENSAT&Oacute;RIOS, INDIRETOS, INCIDENTAIS, ESPECIAIS OU CONSEQUENTES (INCLUINDO, SEM LIMITA&Ccedil;&Atilde;O, INDIRETOS, DIRETOS DANOS ESPECIAIS, PUNITIVOS OU EXEMPLARES POR PERDA DE NEG&Oacute;CIOS, PERDA DE LUCROS, INTERRUP&Ccedil;&Atilde;O DE NEG&Oacute;CIOS OU PERDA DE INFORMA&Ccedil;&Otilde;ES DE NEG&Oacute;CIOS) RESULTANTES DO USO OU DA INCAPACIDADE DE USAR O APLICATIVO E QUAISQUER DADOS OU CONTE&Uacute;DOS DE TERCEIROS, MESMO QUE NEOGIS FOI ADVERTIDA DA POSSIBILIDADE DE TAIS DANOS. DE ACORDO COM O PRECEDENTE, A RESPONSABILIDADE TOTAL AGREGADA DA NEOGIS E DE SEUS FORNECEDORES COM RESPEITO A SUAS OBRIGA&Ccedil;&Otilde;ES SOB ESTE CONTRATO OU DE OUTRA FORMA RELATIVAMENTE AO PEDIDO N&Atilde;O DEVE EXCEDER R$ 1,00. ALGUNS ESTADOS E PA&Iacute;SES N&Atilde;O PERMITEM A EXCLUS&Atilde;O DE DANOS INCIDENTAIS OU CONSEQ&Uuml;ENCIAIS, PORTANTO, AS LIMITA&Ccedil;&Otilde;ES ACIMA PODEM N&Atilde;O SE APLICAR A VOC&Ecirc;.  A NEOGIS n&atilde;o faz declara&ccedil;&otilde;es sobre a adequa&ccedil;&atilde;o para qualquer finalidade dos dados geogr&aacute;ficos e dados de atributos (Dados) apresentados nesta aplica&ccedil;&atilde;o. Todos esses dados s&atilde;o fornecidos como base e os dados n&atilde;o foram validados pelo NEOGIS. Em nenhum caso a NEOGIS ser&aacute; respons&aacute;vel de qualquer forma por perda de receita ou contratos, ou qualquer outra perda consequencial de qualquer tipo resultante do uso dos Dados.</p>
+
+<p>4 APIs de terceiros: Este aplicativo usa v&aacute;rias APIs de terceiros, como: API do Google Maps para Android v2, API do Google Drive, APIs do Bing Maps Platform, conte&uacute;do do OpenStreetMap, API da NEOGIS e outros.</p>
+
+<p>&Eacute; SUA OBRIGA&Ccedil;&Atilde;O DE LER E ACEITAR OS TERMOS E CONDI&Ccedil;&Otilde;ES ESPEC&Iacute;FICOS DAS APIs ANTES DA UTILIZA&Ccedil;&Atilde;O DESTE CONTE&Uacute;DO.</p><p>.</p>.<p>.</p>.<p>.</p>]]></string>
+    <string name="eula_condicoes_de_uso">EULA</string>
+    <string name="informar_chave_serial">Informar Chave Serial</string>
+    <string name="solicitar_chave_trial">Solicitar Chave Trial 15 Dias</string>
+    <string name="utilizar_versao_gratuita">Utilizar Versão Gratuita</string>
+    <string name="agritopo_ativacao">Agritopo (Ativação)</string>
+    <string name="agritopo_reativacao">Agritopo (Reativação)</string>
+    <string name="versao">Versão</string>
+    <string name="tipo_licenca">Tipo Licença</string>
+    <string name="chave">Chave Serial</string>
+    <string name="data_expiracao">Data de Expiração</string>
+    <string name="licenciado_para">Licenciado para</string>
+    <string name="suporte">Suporte</string>
+    <string name="neogis_site_politica_privacidade">http://www.neogis.com.br/Home/PrivacyPolicy</string>
+    <string name="politica_privacidade">Política de Privacidade</string>
+    <string name="este_software_e_composto_pelos_seguintes_componentes_licenciados_separadamente">Este software é composto pelos seguintes componentes licenciados separadamente</string>
 </resources>

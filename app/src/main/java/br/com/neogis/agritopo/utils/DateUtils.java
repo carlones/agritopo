@@ -69,6 +69,11 @@ public class DateUtils {
         return df.parse(text);
     }
 
+    public static Date convertoToDateddMMyyyy(String text) throws ParseException {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.parse(text);
+    }
+
     public static Date getCurrentDateTime(){
         return Calendar.getInstance().getTime();
     }

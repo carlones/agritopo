@@ -1,7 +1,6 @@
 package br.com.neogis.agritopo.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,11 +16,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
@@ -52,7 +49,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         String email = getIntent().getStringExtra(ARG_SERIALKEY_EMAIL);
         String chave = getIntent().getStringExtra(ARG_SERIALKEY_CHAVE);
 
-        setTitle("Agritopo (Ativação)");
+        setTitle(getString(R.string.agritopo_ativacao));
         final SerialKeyService serialKeyService = new SerialKeyService(getBaseContext());
         ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
 
@@ -69,15 +66,17 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         getTelephonyManager();
 
         if ((chaveSerial != null) || (manual)) {
-            setTitle("Agritopo (Reativação)");
-            if (manual) {
-                serialEdit.setText(chave);
-                emailEdit.setText(email);
-            } else {
-                UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(getBaseContext());
-                serialEdit.setText(chaveSerial.getChave());
-                emailEdit.setText(usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
-                validateSerialKey(serialEdit.getText().toString(), emailEdit.getText().toString());
+            if (!(chaveSerial.getChave().equals("TRIAL") || chaveSerial.getChave().equals("GRATUITO"))) {
+                setTitle(getString(R.string.agritopo_reativacao));
+                if (manual) {
+                    serialEdit.setText(chave);
+                    emailEdit.setText(email);
+                } else {
+                    UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(getBaseContext());
+                    serialEdit.setText(chaveSerial.getChave());
+                    emailEdit.setText(usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
+                    validateSerialKey(serialEdit.getText().toString(), emailEdit.getText().toString());
+                }
             }
         }
     }

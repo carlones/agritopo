@@ -53,7 +53,17 @@ public class SerialKeyService {
         return chaveSerial;
     }
 
-    public void saveSerialKeyView(SerialKeyView serial) {
+    public boolean containsChaveSerial() {
+        boolean resultado = false;
+        List<ChaveSerial> list = chaveSerialDao.getAll();
+        for (ChaveSerial c : list) {
+            resultado = true;
+            break;
+        }
+        return resultado;
+    }
+
+    public void setChaveSerial(SerialKeyView serial) {
         Usuario usuario = getUsuario();
         ChaveSerial.LicencaTipo chaveLicencaTipo;
         usuario.setEmail(serial.user.email);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.utils.Utils;
@@ -17,7 +16,7 @@ import static br.com.neogis.agritopo.utils.Constantes.PESSOA_MUNICIPIO;
 import static br.com.neogis.agritopo.utils.Constantes.PESSOA_MUNICIPIO_ID;
 import static br.com.neogis.agritopo.utils.Constantes.PESSOA_NOME;
 
-public class ColetarDadosPessoaActivity extends FormGeralActivity {
+public class RegistrarUsuarioActivity extends FormGeralActivity {
     EditText inputNome;
     EditText inputEmail;
     EditText inputAreaAtuacao;
@@ -28,7 +27,7 @@ public class ColetarDadosPessoaActivity extends FormGeralActivity {
 
     @Override
     protected int getLayoutFormulario() {
-        return R.layout.activity_coletar_dados_pessoa_form;
+        return R.layout.activity_registrar_usuario_form;
     }
 
     protected void onCreate(Bundle savedInstanceState) {

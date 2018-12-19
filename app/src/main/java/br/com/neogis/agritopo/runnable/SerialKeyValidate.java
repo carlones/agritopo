@@ -42,7 +42,7 @@ public class SerialKeyValidate {
             else if (serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
                 throw new Exception("Erro ao validar licença");
             else {
-                new SerialKeyService(context).saveSerialKeyView(serial);
+                new SerialKeyService(context).setChaveSerial(serial);
             }
         }
         catch(RetornoErroServidorException ex) {

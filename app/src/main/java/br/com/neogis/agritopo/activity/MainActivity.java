@@ -28,6 +28,7 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LONGITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ZOOMINICIAL;
 import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_EULA;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
@@ -62,8 +63,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (chaveSerial != null)
             startMapActivity(chaveSerial.getTipo());
-        else
-            startSerialActivity();
+        else {
+            if (!serialKeyService.containsChaveSerial()) {
+                Intent intent = new Intent(getBaseContext(), EULAActivity.class);
+                startActivityForResult(intent, PEGAR_EULA);
+            } else {
+                Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
+                startActivityForResult(intent, PEGAR_SERIAL_KEY);
+            }
+        }
     }
 
     @Override
@@ -92,6 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "A ativação é necessária.", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            case PEGAR_EULA:
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
+                    startActivityForResult(intent, PEGAR_SERIAL_KEY);
+                }
+                if (resultCode == RESULT_CANCELED) {
                     finish();
                 }
                 break;
