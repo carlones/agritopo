@@ -99,19 +99,6 @@ public class SerialKeyService {
         chaveSerialDao.save(serialKey);
     }
 
-    private ChaveSerial insertSerialTrial(){
-        Usuario usuario = getUsuario();
-        ChaveSerial serial = new ChaveSerial(
-                0,
-                Constantes.CHAVE_TESTE_TRIAL,
-                DateUtils.addDays(getCurrentDate(), Constantes.CHAVE_TESTE_TRIAL_DIAS),
-                usuario.getUsuarioid(),
-                ChaveSerial.LicencaTipo.Trial
-                );
-        chaveSerialDao.insert(serial);
-        return serial;
-    }
-
     public Usuario getUsuario() {
         Usuario usuario = usuarioDao.get(1);
         if(usuario == null) {

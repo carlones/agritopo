@@ -97,6 +97,7 @@ public class SobreActivity extends AppCompatActivity {
                                         "<p>%s.</p>\n" +
                                         "<p>Chapecó - Santa Catarina - Brasil</p>\n" +
                                         "<p><a href=\"%s\">%s</a></p>\n" +
+                                        "<p><a href=\"%s\">%s</a></p>\n" +
                                         "<hr>\n" +
                                         "<p>%s:</p>\n" +
                                         "<p><b><a href=\"https://github.com/Angads25/android-filepicker\">Android-FilePicker - com.github.angads25</a></b>: <a href=\"http://www.apache.org/licenses/LICENSE-2.0\">Apache Licence v2</a></p>\n" +
@@ -129,6 +130,8 @@ public class SobreActivity extends AppCompatActivity {
                                 getString(R.string.todos_os_direitos_reservados),
                                 getString(R.string.neogis_site_politica_privacidade),
                                 getString(R.string.politica_privacidade),
+                                getString(R.string.site_neogis_ajuda),
+                                getString(R.string.ajuda),
                                 getString(R.string.este_software_e_composto_pelos_seguintes_componentes_licenciados_separadamente)
                         )
                 )

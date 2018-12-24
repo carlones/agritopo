@@ -587,4 +587,15 @@
     <string name="neogis_site_politica_privacidade">http://www.neogis.com.br/Home/PrivacyPolicy</string>
     <string name="politica_privacidade">Política de Privacidade</string>
     <string name="este_software_e_composto_pelos_seguintes_componentes_licenciados_separadamente">Este software é composto pelos seguintes componentes licenciados separadamente</string>
+    <string name="title_activity_selecionar_municipio">Selecionar Município</string>
+    <string name="registrar_usuario_erro_nome_deve_ser_preenchido">Nome deve ser preenchido</string>
+    <string name="registrar_usuario_erro_email_deve_ser_preenchido">Email deve ser preenchido</string>
+    <string name="registrar_usuario_erro_area_de_atuacao_deve_ser_preenchido">Área de atuação deve ser preenchida</string>
+    <string name="nome">Nome</string>
+    <string name="email">E-mail</string>
+    <string name="ramo_atividade">Ramo de Atividade</string>
+    <string name="empresa">Empresa</string>
+    <string name="munic_pio">Município</string>
+    <string name="site_neogis_ajuda">https://suporte.neogis.com.br/portal/kb</string>
+    <string name="ajuda">Ajuda</string>
 </resources>

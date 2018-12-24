@@ -66,7 +66,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         getTelephonyManager();
 
         if ((chaveSerial != null) || (manual)) {
-            if (!(chaveSerial.getChave().equals("TRIAL") || chaveSerial.getChave().equals("GRATUITO"))) {
+            if (!chaveSerial.getChave().equals("GRATUITO")) {
                 setTitle(getString(R.string.agritopo_reativacao));
                 if (manual) {
                     serialEdit.setText(chave);

@@ -16,10 +16,10 @@ android {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15 // Tablet do Angelo é versão 15
         targetSdkVersion 25
-        versionName '1.0.2.4'
+        versionName '1.1.0.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //signingConfig signingConfigs.AgritopoKey
-        versionCode 9
+        versionCode 10
     }
     lintOptions {
         disable 'MissingTranslation'

@@ -8,7 +8,7 @@
         android:id="@+id/labelEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="@string/email"
         android:textSize="18sp" />
 
     <EditText
@@ -23,7 +23,7 @@
         android:id="@+id/labelNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome"
+        android:text="@string/nome"
         android:textSize="18sp" />
 
     <EditText
@@ -35,10 +35,10 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/labelAreaAtuacao"
+        android:id="@+id/labelRamoAtividade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Área atuação"
+        android:text="@string/ramo_atividade"
         android:textSize="18sp" />
 
     <EditText
@@ -53,7 +53,7 @@
         android:id="@+id/labelEmpresa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Empresa"
+        android:text="@string/empresa"
         android:textSize="18sp" />
 
     <EditText
@@ -68,7 +68,7 @@
         android:id="@+id/labelMunicipio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Município"
+        android:text="@string/munic_pio"
         android:textSize="18sp" />
 
     <EditText

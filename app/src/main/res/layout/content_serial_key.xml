@@ -78,8 +78,7 @@
                 android:layout_marginLeft="70sp"
                 android:layout_marginRight="70sp"
                 android:layout_marginTop="20sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:focusable="false"
                 android:text="@string/content_serial_key_ativar"
                 android:textColor="#000000"
                 android:textSize="25sp" />

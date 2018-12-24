@@ -77,17 +77,18 @@ public class RegistrarUsuarioActivity extends FormGeralActivity {
         String email       = inputEmail      .getText().toString();
         String areaAtuacao = inputAreaAtuacao.getText().toString();
         String empresa     = inputEmpresa    .getText().toString();
+        String municipio = inputMunicipio.getText().toString();
 
         if( nome.trim().isEmpty() ) {
-            Utils.toast(getBaseContext(), "Nome deve ser preenchido");
+            Utils.toast(getBaseContext(), getString(R.string.registrar_usuario_erro_nome_deve_ser_preenchido));
             return;
         }
         if( email.trim().isEmpty() ) {
-            Utils.toast(getBaseContext(), "Email deve ser preenchido");
+            Utils.toast(getBaseContext(), getString(R.string.registrar_usuario_erro_email_deve_ser_preenchido));
             return;
         }
         if( areaAtuacao.trim().isEmpty() ) {
-            Utils.toast(getBaseContext(), "Área de atuação deve ser preenchida");
+            Utils.toast(getBaseContext(), getString(R.string.registrar_usuario_erro_area_de_atuacao_deve_ser_preenchido));
             return;
         }
 
@@ -96,6 +97,7 @@ public class RegistrarUsuarioActivity extends FormGeralActivity {
         result.putExtra(PESSOA_EMAIL, email);
         result.putExtra(PESSOA_AREA_ATUACAO, areaAtuacao);
         result.putExtra(PESSOA_EMPRESA, empresa);
+        result.putExtra(PESSOA_MUNICIPIO, municipio);
         result.putExtra(PESSOA_MUNICIPIO_ID, municipioId);
         setResult(RESULT_OK, result);
         finish();

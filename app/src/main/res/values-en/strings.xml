@@ -146,4 +146,14 @@
     <string name="solicitar_chave_trial">Request Trial Serial Key (15 Days)</string>
     <string name="utilizar_versao_gratuita">Use Free Version</string>
     <string name="este_software_e_composto_pelos_seguintes_componentes_licenciados_separadamente">This software is compound by this components licenced separately</string>
+    <string name="title_activity_selecionar_municipio">Select County</string>
+    <string name="registrar_usuario_erro_nome_deve_ser_preenchido">Name must be filled</string>
+    <string name="registrar_usuario_erro_email_deve_ser_preenchido">Email must be filled</string>
+    <string name="registrar_usuario_erro_area_de_atuacao_deve_ser_preenchido">Activity must be filled</string>
+    <string name="nome">Name</string>
+    <string name="email">E-mail</string>
+    <string name="ramo_atividade">Activity</string>
+    <string name="empresa">Company</string>
+    <string name="munic_pio">County</string>
+    <string name="ajuda">Help</string>
 </resources>
