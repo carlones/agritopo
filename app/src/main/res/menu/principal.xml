@@ -7,18 +7,16 @@
         android:id="@+id/action_recentralizar"
         android:icon="@drawable/ic_navigation_white_24dp"
         android:title="@string/principal_recentralizar"
-        app:showAsAction="ifRoom" />
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_menu_kml"
         android:icon="@drawable/ic_layers_white_24dp"
         android:title="@string/principal_kmls"
-        app:showAsAction="ifRoom"
-        />
-
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_menu_raster"
         android:icon="@drawable/ic_map_white_24dp"
         android:title="@string/principal_mapas"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
 </menu>
