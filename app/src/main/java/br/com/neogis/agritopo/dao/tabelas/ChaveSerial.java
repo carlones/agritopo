@@ -66,8 +66,8 @@ public class ChaveSerial {
     public enum LicencaTipo {
         Gratuito, //Gratuito com limitações
         Trial, //Gratuito sem limitações por 15 dias
-        Pago, //Pago com mensalidade/anuidade
-        Pago_Standalone //Pago com uma única vez
+        Pago_Standalone, //Pago com uma única vez
+        Pago //Pago com mensalidade/anuidade
     }
 }
 

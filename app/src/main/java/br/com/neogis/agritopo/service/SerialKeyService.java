@@ -10,10 +10,8 @@ import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
 import br.com.neogis.agritopo.dao.tabelas.Usuario;
 import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
 import br.com.neogis.agritopo.parse.views.SerialKeyView;
-import br.com.neogis.agritopo.utils.Constantes;
 import br.com.neogis.agritopo.utils.DateUtils;
 
-import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDate;
 import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDateFromGPS;
 
 /**
@@ -44,10 +42,18 @@ public class SerialKeyService {
         ChaveSerial chaveSerial = null;
         Date currentDate = getCurrentDateFromGPS(contexto);
         List<ChaveSerial> list = chaveSerialDao.getAll();
+        ChaveSerial.LicencaTipo licencaTipoAnterior = ChaveSerial.LicencaTipo.Gratuito;
         for (ChaveSerial c : list) {
             if (DateUtils.getDaysBetween(currentDate, c.getDataexpiracao()) >= 0) {
                 chaveSerial = c;
                 break;
+            }
+        }
+        for (ChaveSerial c : list) {
+            if (DateUtils.getDaysBetween(currentDate, c.getDataexpiracao()) >= 0) {
+                if (c.getTipo().ordinal() > licencaTipoAnterior.ordinal()){
+                    chaveSerial = c;
+                }
             }
         }
         return chaveSerial;
