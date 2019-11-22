@@ -598,4 +598,6 @@
     <string name="munic_pio">Município</string>
     <string name="site_neogis_ajuda">https://suporte.neogis.com.br/portal/kb</string>
     <string name="ajuda">Ajuda</string>
+    <string name="processando_ativacao">Processando Ativação...</string>
+    <string name="licenca_validada_com_sucesso">Licença validada com  sucesso!</string>
 </resources>

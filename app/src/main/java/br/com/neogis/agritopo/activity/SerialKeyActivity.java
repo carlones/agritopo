@@ -126,7 +126,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
     private void showProgressDialog() {
         ringProgressDialog = new ProgressDialog(this);
         ringProgressDialog.setIndeterminate(true);
-        ringProgressDialog.setMessage("Processando Ativação...");
+        ringProgressDialog.setMessage(getString(R.string.processando_ativacao));
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.show();
     }
@@ -134,7 +134,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
     private void mostrarRetorno(String msg_erro) {
         ringProgressDialog.dismiss();
         if (msg_erro == null) {
-            Utils.toast(this, "Licença validada com sucesso!");
+            Utils.toast(this, getString(R.string.licenca_validada_com_sucesso));
             finalizar(true);
         } else {
             Utils.toast(this, msg_erro);

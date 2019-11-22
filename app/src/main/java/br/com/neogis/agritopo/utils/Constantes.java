@@ -58,8 +58,8 @@ public final class Constantes {
     public static final String ARG_SERIALKEY_MANUAL = "solicitacao manual - sim ou nao";
     //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://192.168.31.64/neogis";
     //public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://192.168.31.64/neogis";
-    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://portal.neogis.com.br";
-    public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://portal.neogis.com.br";
+    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "https://portal.neogis.com.br";
+    public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "https://portal.neogis.com.br";
 
     public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_RASTER = 25000000;
     public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_VETORIAL = 20000;

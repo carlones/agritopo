@@ -156,4 +156,6 @@
     <string name="empresa">Company</string>
     <string name="munic_pio">County</string>
     <string name="ajuda">Help</string>
+    <string name="processando_ativacao">Processing Activation...</string>
+    <string name="licenca_validada_com_sucesso">License successful validated!</string>
 </resources>
