@@ -11,15 +11,17 @@ public class ChaveSerial {
     private String chave;
     private Date dataexpiracao;
     private int usuarioId;
+    private int proprietarioId;
     private LicencaTipo tipo;
 
     public ChaveSerial(){}
 
-    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int usuarioid, LicencaTipo tipo) {
+    public ChaveSerial(int serialId, String chave, Date dataexpiracao, int proprietarioid, int usuarioid, LicencaTipo tipo) {
         this.serialId = serialId;
         this.chave = chave;
         this.dataexpiracao = dataexpiracao;
         this.usuarioId = usuarioid;
+        this.proprietarioId = proprietarioid;
         this.tipo = tipo;
     }
 
@@ -45,6 +47,14 @@ public class ChaveSerial {
 
     public void setDataexpiracao(Date dataexpiracao) {
         this.dataexpiracao = dataexpiracao;
+    }
+
+    public int getProprietarioId() {
+        return proprietarioId;
+    }
+
+    public void setProprietarioId(int proprietarioId) {
+        this.proprietarioId = proprietarioId;
     }
 
     public int getUsuarioId() {

@@ -2,6 +2,7 @@ package br.com.neogis.agritopo.runnable;
 
 import android.content.Context;
 
+import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.parse.JsonParse;
 import br.com.neogis.agritopo.parse.views.SerialKeyView;
 import br.com.neogis.agritopo.service.SerialKeyService;
@@ -38,9 +39,9 @@ public class SerialKeyValidate {
             String retorno = NetworkUtils.getJSONFromAPI(url);
             SerialKeyView serial = processJson(retorno);
             if (serial == null)
-                throw new Exception("Erro ao validar licença");
+                throw new Exception(context.getString(R.string.erro_ao_validar_licenca));
             else if (serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
-                throw new Exception("Erro ao validar licença");
+                throw new Exception(context.getString(R.string.erro_ao_validar_licenca));
             else {
                 new SerialKeyService(context).setChaveSerial(serial);
             }
@@ -49,7 +50,7 @@ public class SerialKeyValidate {
             throw ex;
         }
         catch(Exception ex) {
-            throw new Exception("Erro ao contatar o site. Existe conexão com a Internet?");
+            throw new Exception( context.getString(R.string.existe_conexao_com_internet));
         }
     }
 

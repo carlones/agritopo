@@ -149,6 +149,7 @@
     <string name="title_activity_selecionar_municipio">Select County</string>
     <string name="registrar_usuario_erro_nome_deve_ser_preenchido">Name must be filled</string>
     <string name="registrar_usuario_erro_email_deve_ser_preenchido">Email must be filled</string>
+    <string name="registrar_usuario_erro_cpfcnpj_deve_ser_preenchido">CPF/CNPJ must be filled</string>
     <string name="registrar_usuario_erro_area_de_atuacao_deve_ser_preenchido">Activity must be filled</string>
     <string name="nome">Name</string>
     <string name="email">E-mail</string>
@@ -158,4 +159,6 @@
     <string name="ajuda">Help</string>
     <string name="processando_ativacao">Processing Activation...</string>
     <string name="licenca_validada_com_sucesso">License successful validated!</string>
+    <string name="erro_ao_validar_licenca">Error on license validation.</string>
+    <string name="existe_conexao_com_internet">Error on connecting to server. Does it have Internet connection?</string>
 </resources>

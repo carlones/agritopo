@@ -5,6 +5,21 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/labelNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nome"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textSize="24sp" />
+
+    <TextView
         android:id="@+id/labelEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,19 +35,19 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/labelNome"
+        android:id="@+id/labelCpfCnpj"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nome"
+        android:text="@string/cpfcnpj"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/nome"
+        android:id="@+id/cpfcnpj"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:inputType="number"
         android:padding="16dp"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/labelRamoAtividade"

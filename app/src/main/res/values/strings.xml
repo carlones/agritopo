@@ -590,9 +590,11 @@
     <string name="title_activity_selecionar_municipio">Selecionar Município</string>
     <string name="registrar_usuario_erro_nome_deve_ser_preenchido">Nome deve ser preenchido</string>
     <string name="registrar_usuario_erro_email_deve_ser_preenchido">Email deve ser preenchido</string>
+    <string name="registrar_usuario_erro_cpfcnpj_deve_ser_preenchido">CPF/CNPJ deve ser preenchido</string>
     <string name="registrar_usuario_erro_area_de_atuacao_deve_ser_preenchido">Área de atuação deve ser preenchida</string>
     <string name="nome">Nome</string>
     <string name="email">E-mail</string>
+    <string name="cpfcnpj">CPF/CNPJ</string>
     <string name="ramo_atividade">Ramo de Atividade</string>
     <string name="empresa">Empresa</string>
     <string name="munic_pio">Município</string>
@@ -600,4 +602,6 @@
     <string name="ajuda">Ajuda</string>
     <string name="processando_ativacao">Processando Ativação...</string>
     <string name="licenca_validada_com_sucesso">Licença validada com  sucesso!</string>
+    <string name="erro_ao_validar_licenca">Erro ao validar licença</string>
+    <string name="existe_conexao_com_internet">Erro ao contatar o site. Existe conexão com a Internet?</string>
 </resources>

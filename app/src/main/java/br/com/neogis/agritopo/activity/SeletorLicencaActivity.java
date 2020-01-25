@@ -74,6 +74,8 @@ public class SeletorLicencaActivity extends AppCompatActivity {
                 serialKeyView.key = "GRATUITO";
                 serialKeyView.user = new UserView();
                 serialKeyView.user.email = "contato@neogis.com.br";
+                serialKeyView.proprietario = new UserView();
+                serialKeyView.proprietario.email = "contato@neogis.com.br";
                 try {
                     serialKeyView.expiration = DateUtils.convertoToDateddMMyyyy("31/12/2500");
                 } catch (ParseException e) {

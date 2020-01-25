@@ -27,6 +27,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
                     cursor.getString(cursor.getColumnIndex("chave")),
                     new Date(cursor.getLong(cursor.getColumnIndex("dataexpiracao"))),
                     cursor.getInt(cursor.getColumnIndex("usuarioid")),
+                    cursor.getInt(cursor.getColumnIndex("proprietarioid")),
                     ChaveSerial.LicencaTipo.values()[cursor.getInt(cursor.getColumnIndex("tipo"))]
             );
             l.add(serial);
@@ -100,6 +101,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
         cv.put("chave", obj.getChave());
         cv.put("dataexpiracao", obj.getDataexpiracao().getTime());
         cv.put("usuarioid", obj.getUsuarioId());
+        cv.put("proprietarioid", obj.getProprietarioId());
         cv.put("tipo", obj.getTipo().ordinal());
         if (db.insert("chaveserial", null, cv) == -1) {
             new Exception("Erro ao inserir chaveserial");
@@ -115,6 +117,7 @@ public class ChaveSerialDaoImpl extends DaoController implements ChaveSerialDao 
         cv.put("chave", obj.getChave());
         cv.put("dataexpiracao", obj.getDataexpiracao().getTime());
         cv.put("usuarioid", obj.getUsuarioId());
+        cv.put("proprietarioid", obj.getProprietarioId());
         cv.put("tipo", obj.getTipo().ordinal());
         if (db.update("chaveserial", cv, "id = ?", new String[]{(Integer.toString(obj.getSerialId()))}) != 1) {
             new Exception("Erro ao atualizar chaveserial");

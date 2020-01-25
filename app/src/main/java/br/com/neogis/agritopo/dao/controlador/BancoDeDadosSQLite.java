@@ -18,7 +18,7 @@ import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
 
 public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     private static final String NOME_BANCO = "neogis_agritopo.db";
-    private static final int VERSAO = 7;
+    private static final int VERSAO = 8;
     private Context contexto;
 
     public BancoDeDadosSQLite(Context context) {
@@ -255,6 +255,11 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 db.execSQL("INSERT INTO sincronizacao (id, data) VALUES (" + Integer.toString(Sincronizacao.ID) + ", 0)");
 
                 InserirAlteracoesDaVersao7(db);
+            }
+
+            if(oldVersion <= 8){
+                db.execSQL("ALTER TABLE chaveserial ADD proprietarioid INT;");
+                db.execSQL("UPDATE chaveserial SET proprietarioid = usuarioid;");
             }
 
             Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de " + oldVersion + " para " + newVersion);

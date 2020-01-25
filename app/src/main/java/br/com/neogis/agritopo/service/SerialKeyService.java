@@ -71,6 +71,7 @@ public class SerialKeyService {
 
     public void setChaveSerial(SerialKeyView serial) {
         Usuario usuario = getUsuario();
+        Usuario proprietario = getProprietario();
         ChaveSerial.LicencaTipo chaveLicencaTipo;
         usuario.setEmail(serial.user.email);
         ChaveSerial serialKey = chaveSerialDao.getBySerialKey(serial.key);
@@ -100,12 +101,22 @@ public class SerialKeyService {
         }
         serialKey.setTipo(chaveLicencaTipo);
         serialKey.setUsuarioId(usuario.getUsuarioid());
+        serialKey.setProprietarioId(usuario.getUsuarioid());
 
         usuarioDao.update(usuario);
         chaveSerialDao.save(serialKey);
     }
 
     public Usuario getUsuario() {
+        Usuario usuario = usuarioDao.get(1);
+        if(usuario == null) {
+            usuario = new Usuario(0, "", "", 0);
+            new UsuarioDaoImpl(contexto).insert(usuario);
+        }
+        return usuario;
+    }
+
+    public Usuario getProprietario() {
         Usuario usuario = usuarioDao.get(1);
         if(usuario == null) {
             usuario = new Usuario(0, "", "", 0);
