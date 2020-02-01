@@ -162,6 +162,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 " chave VARCHAR(8) NOT NULL,\n" +
                 " dataexpiracao LONG NOT NULL,\n" +
                 " usuarioid int NOT NULL,\n" +
+                " proprietarioid INT,\n" +
                 " tipo int NOT NULL,\n" +
                 "\n" +
                 " FOREIGN KEY (usuarioid) REFERENCES usuario (usuarioid)\n" +
