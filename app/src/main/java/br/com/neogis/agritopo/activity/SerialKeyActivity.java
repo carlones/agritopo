@@ -65,6 +65,7 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
 
         getTelephonyManager();
 
+        /*
         if ((chaveSerial != null) || (manual)) {
             if (!chaveSerial.getChave().equals("GRATUITO")) {
                 setTitle(getString(R.string.agritopo_reativacao));
@@ -78,6 +79,13 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
                     validateSerialKey(serialEdit.getText().toString(), emailEdit.getText().toString());
                 }
             }
+        }
+        */
+
+        if (!chave.isEmpty() && !chave.equals("GRATUITO")) {
+            setTitle(getString(R.string.agritopo_reativacao));
+            serialEdit.setText(chave);
+            emailEdit.setText(email);
         }
     }
 

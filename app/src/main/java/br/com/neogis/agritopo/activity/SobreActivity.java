@@ -17,6 +17,7 @@ import java.util.Calendar;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
 import br.com.neogis.agritopo.service.SerialKeyService;
 import br.com.neogis.agritopo.utils.DateUtils;
 
@@ -33,6 +34,7 @@ public class SobreActivity extends AppCompatActivity {
     private String licenca = "";
     private String versao = "";
     private String data = "";
+    private ChaveSerial chaveSerial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,10 @@ public class SobreActivity extends AppCompatActivity {
                 intent.putExtra(ARG_SERIALKEY_EMAIL, email);
                 intent.putExtra(ARG_SERIALKEY_CHAVE, chave);
                 intent.putExtra(ARG_SERIALKEY_MANUAL, 1);
+
+                ChaveSerialDaoImpl chaveserialDao = new ChaveSerialDaoImpl(getBaseContext());
+                chaveserialDao.delete(chaveSerial);
+
                 startActivityForResult(intent, PEGAR_SERIAL_KEY);
             }
         });
@@ -66,7 +72,7 @@ public class SobreActivity extends AppCompatActivity {
         }
 
         SerialKeyService serialKeyService = new SerialKeyService(getApplicationContext());
-        ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
+        chaveSerial = serialKeyService.getValidChaveSerial();
 
         if (chaveSerial != null) {
             chave = chaveSerial.getChave();

@@ -43,6 +43,11 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_EULA;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_CHAVE;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_EMAIL;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_MANUAL;
+
+
 public class MainActivity extends AppCompatActivity {
     private List<String> permissions;
 
@@ -94,10 +99,17 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(String response) {
                                 // Display the first 500 characters of the response string.
                                 if (!response.startsWith("{\"id\":")) {
+                                    getIntent().putExtra(ARG_SERIALKEY_EMAIL, usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
+                                    getIntent().putExtra(ARG_SERIALKEY_CHAVE, chaveSerial.getChave());
+                                    getIntent().putExtra(ARG_SERIALKEY_MANUAL, 1);
+
                                     ChaveSerialDaoImpl chaveserialDao = new ChaveSerialDaoImpl(getBaseContext());
                                     chaveserialDao.delete(chaveSerial);
 
                                     Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
+                                    intent.putExtra(ARG_SERIALKEY_EMAIL, getIntent().getStringExtra(ARG_SERIALKEY_EMAIL));
+                                    intent.putExtra(ARG_SERIALKEY_CHAVE, getIntent().getStringExtra(ARG_SERIALKEY_CHAVE));
+                                    intent.putExtra(ARG_SERIALKEY_MANUAL, getIntent().getStringExtra(ARG_SERIALKEY_MANUAL));
                                     startActivityForResult(intent, PEGAR_SERIAL_KEY);
                                 } else {
                                     startMapActivity(chaveSerial.getTipo());
