@@ -21,6 +21,7 @@ public class SerialKeyValidate {
     private String email;
     private String deviceId;
     private Context context;
+    private SerialKeyView serial;
 
     public SerialKeyValidate(Context context, String serialKey, String email, String deviceId){
         this.context = context;
@@ -30,34 +31,43 @@ public class SerialKeyValidate {
     }
 
     public void run() throws Exception {
-        String url = ENDERECO_SERVIDOR_LICENCIAMENTO +
-                "/api/SerialKey/ProcessSerialKey?" +
-                "serialKey=" + serialKey.replace("-", "") +
-                "&deviceId=" + deviceId +
-                "&email=" + email;
+        String url = NetworkUtils.getUrlLicenciamento(
+                serialKey,
+                email,
+                deviceId);
+
+        serial = null;
+        String retorno = null;
         try {
-            String retorno = NetworkUtils.getJSONFromAPI(url);
-            SerialKeyView serial = processJson(retorno);
-            if (serial == null)
+            try {
+                retorno = NetworkUtils.getJSONFromAPI(url);
+            } catch(Exception ex) {
+                throw new Exception(context.getString(R.string.existe_conexao_com_internet));
+            }
+
+            if (retorno.startsWith("{\"id\":")) {
+                serial = processJson(retorno);
+                validarPeriodoSerial(serial);
+                transferirLicenca();
+            } else {
                 throw new Exception(context.getString(R.string.erro_ao_validar_licenca));
-            else if (serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
-                throw new Exception(context.getString(R.string.erro_ao_validar_licenca));
-            else {
-                new SerialKeyService(context).setChaveSerial(serial);
             }
         }
-        catch(RetornoErroServidorException ex) {
-            throw ex;
-        }
         catch(Exception ex) {
-            throw new Exception( context.getString(R.string.existe_conexao_com_internet));
+            throw new Exception(ex.getMessage());
         }
     }
 
-    private SerialKeyView processJson(String retorno){
-        if(retorno.equals(""))
-            return null;
+    private void transferirLicenca() {
+        new SerialKeyService(context).setChaveSerial(serial);
+    }
 
+    private SerialKeyView processJson(String retorno){
         return new JsonParse().getParser().fromJson(retorno, SerialKeyView.class);
+    }
+
+    private void validarPeriodoSerial(SerialKeyView serial) throws Exception {
+        if (serial.expiration.getTime() < DateUtils.getCurrentDate().getTime())
+            throw new Exception(context.getString(R.string.erro_ao_validar_licenca));
     }
 }

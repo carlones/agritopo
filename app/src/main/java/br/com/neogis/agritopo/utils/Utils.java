@@ -1,23 +1,27 @@
 package br.com.neogis.agritopo.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
+import android.os.Build;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 import org.osmdroid.util.GeoPoint;
-
-import java.util.Locale;
 
 import br.com.neogis.agritopo.singleton.Configuration;
 
@@ -162,5 +166,48 @@ public final class Utils {
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return Constantes.RAIO_DA_TERRA_EM_METROS * c; // Distance in m
+    }
+
+    public static TelephonyManager getTelephonyManager(Activity activity) {
+        TelephonyManager telephonyManager = null;
+        if (Build.VERSION.SDK_INT < 23)
+            telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        else {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        1);
+            } else
+                telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        }
+        return telephonyManager;
+    }
+
+    public static String getDeviceId(Activity activity) {
+
+        // IMEI para GSM, MEID/ESN para CDMA. Nem todos os aparelhos possuem chip de telefonia
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        }
+        String deviceId = getTelephonyManager(activity).getDeviceId();
+        if (deviceId != null) {
+            Utils.info("Telephony:" + deviceId);
+            return "Telephony:" + deviceId;
+        }
+
+        // Alguns aparelhos deixam valores sem nexo nesse campo (tablet do Carlos)
+        String serial = android.os.Build.SERIAL;
+        if (serial != null && !serial.equals("0123456789ABCDEF")) {
+            Utils.info("AndroidSerial:" + serial);
+            return "AndroidSerial:" + serial;
+        }
+
+        // Evitando endereço MAC: se o wifi não estiver ativo, o endereço não será retornado
+        // https://stackoverflow.com/questions/11705906/programmatically-getting-the-mac-of-an-android-device
+
+        // Muda a cada formatação
+        String androidId = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
+        Utils.info("Secure android id: " + androidId);
+        return "SecureAndroidId:" + androidId;
     }
 }

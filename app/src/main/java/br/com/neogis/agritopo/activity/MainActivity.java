@@ -12,14 +12,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
+import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
+import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
 import br.com.neogis.agritopo.service.SerialKeyService;
 import br.com.neogis.agritopo.singleton.Configuration;
+import br.com.neogis.agritopo.utils.NetworkUtils;
+import br.com.neogis.agritopo.utils.Utils;
 
 import static br.com.neogis.agritopo.utils.Constantes.ARG_LICENCA_TIPO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ID;
@@ -36,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private List<String> permissions;
 
     private SerialKeyService serialKeyService;
+    private ChaveSerial chaveSerial;
+    private UsuarioDaoImpl usuarioDao;
+    private StringRequest stringRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +73,50 @@ public class MainActivity extends AppCompatActivity {
         createRootDirectory();
 
         serialKeyService = new SerialKeyService(getApplicationContext());
-        ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
+        chaveSerial = serialKeyService.getValidChaveSerial();
 
-        if (chaveSerial != null)
-            startMapActivity(chaveSerial.getTipo());
-        else {
+        if (chaveSerial != null) {
+            if (NetworkUtils.isNetworkAvailable(getApplicationContext()) && chaveSerial.getTipo().equals(ChaveSerial.LicencaTipo.Pago)) {
+                usuarioDao = new UsuarioDaoImpl(getBaseContext());
+
+                // Instantiate the RequestQueue.
+                RequestQueue queue = Volley.newRequestQueue(this);
+                String url = NetworkUtils.getUrlLicenciamento(
+                        chaveSerial.getChave(),
+                        usuarioDao.get(chaveSerial.getUsuarioId()).getEmail(),
+                                Utils.getDeviceId(this)
+                );
+
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                // Display the first 500 characters of the response string.
+                                if (!response.startsWith("{\"id\":")) {
+                                    ChaveSerialDaoImpl chaveserialDao = new ChaveSerialDaoImpl(getBaseContext());
+                                    chaveserialDao.delete(chaveSerial);
+
+                                    Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
+                                    startActivityForResult(intent, PEGAR_SERIAL_KEY);
+                                } else {
+                                    startMapActivity(chaveSerial.getTipo());
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                    That didn't work!
+                        startMapActivity(chaveSerial.getTipo());
+                    }
+                });
+
+//            Add the request to the RequestQueue.
+              queue.add(stringRequest);
+            } else {
+                startMapActivity(chaveSerial.getTipo());
+            }
+        } else {
             if (!serialKeyService.containsChaveSerial()) {
                 Intent intent = new Intent(getBaseContext(), EULAActivity.class);
                 startActivityForResult(intent, PEGAR_EULA);
@@ -72,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, PEGAR_SERIAL_KEY);
             }
         }
-    }
+     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
