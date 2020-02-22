@@ -98,7 +98,7 @@
             android:id="@+id/action_nova_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_polygon_white_24dp"
+            android:src="@drawable/ic_crop_original_white_24dp"
             fab:fab_label="@string/action_nova_area"
             fab:fab_size="mini" />
 
@@ -106,7 +106,7 @@
             android:id="@+id/action_nova_distancia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_route_white_24dp"
+            android:src="@drawable/ic_crop_original_white_24dp"
             fab:fab_label="@string/action_nova_distancia"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>

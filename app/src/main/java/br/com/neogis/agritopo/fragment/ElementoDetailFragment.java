@@ -46,7 +46,6 @@ import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaTipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElemento;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDao;
 import br.com.neogis.agritopo.dao.tabelas.TipoElementoDaoImpl;
-import br.com.neogis.agritopo.model.MyGeoPoint;
 import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.ImageUtils;
@@ -344,11 +343,6 @@ public class ElementoDetailFragment extends Fragment {
 
     public ArrayList<String> getListaImagens() {
         return listaImagens;
-    }
-
-    public void setGeometria(MyGeoPoint geometria) {
-        mItem.setGeometria(geometria.toString());
-        elementoInformacao.setText(Elemento.getInformacaoExtra(mItem));
     }
 
     public void setListaImagens(ArrayList<String> imageList) {

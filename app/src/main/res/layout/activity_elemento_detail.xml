@@ -38,61 +38,29 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/elemento_detail_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/elemento_detail_geom_container"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnElementoSalvar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/botoes_cadastro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/elemento_detail_container"
-        app:layout_anchorGravity="top|center">
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/ic_done_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnElementoSalvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_anchor="@+id/botoes_cadastro"
-            app:layout_anchorGravity="bottom|end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_done_white_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnElementoFocar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_anchor="@+id/botoes_cadastro"
-            app:layout_anchorGravity="bottom|center"
-            app:layout_constraintEnd_toStartOf="@+id/btnElementoAlterarLocal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_location_on_white_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnElementoAlterarLocal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_anchor="@+id/botoes_cadastro"
-            app:layout_anchorGravity="start|bottom"
-            app:layout_constraintEnd_toStartOf="@+id/btnElementoSalvar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_gps_fixed_white_24dp"
-            tools:ignore="VectorDrawableCompat" />
-
-    </android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnElementoFocar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@+id/elemento_detail_container"
+        app:layout_anchorGravity="top|center_horizontal"
+        app:srcCompat="@drawable/ic_location_on_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
 </android.support.design.widget.CoordinatorLayout>
