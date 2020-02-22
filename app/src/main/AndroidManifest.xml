@@ -88,18 +88,6 @@
             android:label="@string/title_activity_sobre"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".service.Sincronizacao.SincronizacaoDadosService" />
-
-        <receiver android:name=".receivers.IntegracaoReceiver">
-            <intent-filter>
-                <action android:name="br.com.neogis.agritopo.receiver.integracaoreceiver" />
-                <action android:name="br.com.neogis.agritopo.receiver.cancelnotification" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".activity.RegistrarUsuarioActivity"
             android:label="@string/title_activity_registrar_usuario"
