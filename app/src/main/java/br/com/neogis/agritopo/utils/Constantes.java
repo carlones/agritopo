@@ -57,10 +57,10 @@ public final class Constantes {
     public static final String ARG_SERIALKEY_EMAIL = "email";
     public static final String ARG_SERIALKEY_CHAVE = "chave";
     public static final String ARG_SERIALKEY_MANUAL = "solicitacao manual - sim ou nao";
-    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://10.0.0.159:1000";
-    public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://10.0.0.159:1000";
-    //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "https://portal.neogis.com.br";
-    //public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "https://portal.neogis.com.br";
+    //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://10.0.0.159:1000";
+    //public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://10.0.0.159:1000";
+    public static final String ENDERECO_SERVIDOR_INTEGRACAO = "https://portal.neogis.com.br";
+    public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "https://portal.neogis.com.br";
 
     public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_RASTER = 25000000;
     public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_VETORIAL = 20000;

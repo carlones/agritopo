@@ -82,10 +82,12 @@ public class SerialKeyActivity extends AppCompatActivity /*implements SerialKeyV
         }
         */
 
-        if (!chave.isEmpty() && !chave.equals("GRATUITO")) {
-            setTitle(getString(R.string.agritopo_reativacao));
-            serialEdit.setText(chave);
-            emailEdit.setText(email);
+        if (!(chave == null)) {
+            if (!chave.isEmpty() && !chave.equals("GRATUITO")) {
+                setTitle(getString(R.string.agritopo_reativacao));
+                serialEdit.setText(chave);
+                emailEdit.setText(email);
+            }
         }
     }
 
