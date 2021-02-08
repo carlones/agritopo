@@ -9,7 +9,7 @@ class ExemploGeradorIdDAO {
     private BancoDeDadosSQLite banco;
 
     public ExemploGeradorIdDAO(Context context) {
-        banco = new BancoDeDadosSQLite(context);
+        banco = BancoDeDadosSQLite.getInstance(context);
     }
 
     public int proximoId(String tabela) {

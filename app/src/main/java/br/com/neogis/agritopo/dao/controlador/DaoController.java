@@ -16,7 +16,7 @@ public class DaoController {
 
     protected DaoController(Context context) {
         this.context = context;
-        banco = new BancoDeDadosSQLite(context);
+        banco = BancoDeDadosSQLite.getInstance(context);
     }
 
     protected void abrirGravacao() {

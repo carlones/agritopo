@@ -19,7 +19,7 @@ class ExemploElementoDAO {
     private BancoDeDadosSQLite banco;
 
     public ExemploElementoDAO(Context context) {
-        banco = new BancoDeDadosSQLite(context);
+        banco = BancoDeDadosSQLite.getInstance(context);
     }
 
 
