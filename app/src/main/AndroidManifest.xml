@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_ALARM" />
@@ -68,10 +70,6 @@
             android:name=".activity.ImportarActivity"
             android:label="@string/title_activity_importar"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SerialKeyActivity"
-            android:label="@string/title_activity_serial_key"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name=".utils.MyFileProvider"
@@ -88,14 +86,6 @@
             android:label="@string/title_activity_sobre"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity
-            android:name=".activity.RegistrarUsuarioActivity"
-            android:label="@string/title_activity_registrar_usuario"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SelecionarMunicipioActivity"
-            android:label="@string/title_activity_selecionar_municipio"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SeletorLicencaActivity"
             android:label="@string/title_activity_seletor_licenca"

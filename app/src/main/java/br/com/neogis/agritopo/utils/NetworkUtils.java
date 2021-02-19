@@ -11,9 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import br.com.neogis.agritopo.parse.JsonParse;
-
-import static br.com.neogis.agritopo.utils.Constantes.ENDERECO_SERVIDOR_LICENCIAMENTO;
 
 /**
  * Created by marci on 14/04/2018.
@@ -100,13 +97,5 @@ public class NetworkUtils {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public static String getUrlLicenciamento(String serialKey, String email, String deviceId) {
-        return ENDERECO_SERVIDOR_LICENCIAMENTO +
-                    "/api/SerialKey/ProcessSerialKey?" +
-                    "serialKey=" + serialKey.replace("-", "") +
-                    "&deviceId=" + deviceId +
-                    "&email=" + email;
     }
 }

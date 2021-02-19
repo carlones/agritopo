@@ -484,7 +484,8 @@
     <string name="ic_work" translatable="false">&#xe1b0;</string>
     <string name="title_activity_main">Principal</string>
     <string name="title_activity_exportar_kml">Exportar Arquivo</string>
-    <string name="arquivo_nome">Nome do Arquivo</string>
+    <string name="arquivo_nome">Arquivo</string>
+    <string name="arquivo_chave_nome">Arquivo da Chave</string>
     <string name="arquivo_informacao">Sempre na pasta \"agritopo\" de seu dispositivo</string>
     <string name="arquivo_tipo_kml">Formato KML</string>
     <string name="arquivo_tipo_geojson">Formato GeoJSON</string>
@@ -573,7 +574,7 @@
 
 <p>&Eacute; SUA OBRIGA&Ccedil;&Atilde;O DE LER E ACEITAR OS TERMOS E CONDI&Ccedil;&Otilde;ES ESPEC&Iacute;FICOS DAS APIs ANTES DA UTILIZA&Ccedil;&Atilde;O DESTE CONTE&Uacute;DO.</p><p>.</p>.<p>.</p>.<p>.</p>]]></string>
     <string name="eula_condicoes_de_uso">EULA</string>
-    <string name="informar_chave_serial">Informar Chave Serial</string>
+    <string name="validar_licenca">Validar Licença</string>
     <string name="solicitar_chave_trial">Solicitar Chave Trial 15 Dias</string>
     <string name="utilizar_versao_gratuita">Utilizar Versão Gratuita</string>
     <string name="agritopo_ativacao">Agritopo (Ativação)</string>

@@ -22,7 +22,6 @@ import br.com.neogis.agritopo.service.SerialKeyService;
 import br.com.neogis.agritopo.utils.DateUtils;
 
 import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_CHAVE;
-import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_EMAIL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_MANUAL;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
@@ -50,7 +49,6 @@ public class SobreActivity extends AppCompatActivity {
         atualizarLicenca.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
-                intent.putExtra(ARG_SERIALKEY_EMAIL, email);
                 intent.putExtra(ARG_SERIALKEY_CHAVE, chave);
                 intent.putExtra(ARG_SERIALKEY_MANUAL, 1);
 
@@ -80,7 +78,7 @@ public class SobreActivity extends AppCompatActivity {
             data = (new SimpleDateFormat("dd/MM/yyyy")).format(chaveSerial.getDataexpiracao());
         }
         if (serialKeyService.getUsuario() != null) {
-            email = serialKeyService.getUsuario().getEmail();
+            email = serialKeyService.getEmail();
         }
         if (version != null) {
             versao = version;

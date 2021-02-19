@@ -55,7 +55,6 @@ public final class Configuration {
 
         LoadGeneralConfiguration(applicationContext, prefs);
         LoadMappingConfiguration(applicationContext, prefs);
-        LoadSyncConfiguration(applicationContext, prefs);
     }
 
     private void LoadGeneralConfiguration(Context context, SharedPreferences prefs){
@@ -65,12 +64,6 @@ public final class Configuration {
         DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
         DiretorioFotos = DiretorioLeituraArquivos + File.separator + "Media" + File.separator + "Fotos" + File.separator;
-    }
-
-    private void LoadSyncConfiguration(Context context, SharedPreferences prefs) {
-        HostSincroniaObjetos = prefs.getString(
-                context.getResources().getString(R.string.pref_key_host_sincronia_objetos),
-                Constantes.ENDERECO_SERVIDOR_INTEGRACAO);
     }
 
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){

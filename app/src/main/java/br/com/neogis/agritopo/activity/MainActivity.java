@@ -43,10 +43,6 @@ import static br.com.neogis.agritopo.utils.Constantes.PEGAR_EULA;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
-import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_CHAVE;
-import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_EMAIL;
-import static br.com.neogis.agritopo.utils.Constantes.ARG_SERIALKEY_MANUAL;
-
 
 public class MainActivity extends AppCompatActivity {
     private List<String> permissions;
@@ -81,53 +77,6 @@ public class MainActivity extends AppCompatActivity {
         chaveSerial = serialKeyService.getValidChaveSerial();
 
         if (chaveSerial != null) {
-            if (NetworkUtils.isNetworkAvailable(getApplicationContext()) && chaveSerial.getTipo().equals(ChaveSerial.LicencaTipo.Pago)) {
-                usuarioDao = new UsuarioDaoImpl(getBaseContext());
-
-                // Instantiate the RequestQueue.
-                RequestQueue queue = Volley.newRequestQueue(this);
-                String url = NetworkUtils.getUrlLicenciamento(
-                        chaveSerial.getChave(),
-                        usuarioDao.get(chaveSerial.getUsuarioId()).getEmail(),
-                                Utils.getDeviceId(this)
-                );
-
-                // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // Display the first 500 characters of the response string.
-                                if (!response.startsWith("{\"id\":")) {
-                                    getIntent().putExtra(ARG_SERIALKEY_EMAIL, usuarioDao.get(chaveSerial.getUsuarioId()).getEmail());
-                                    getIntent().putExtra(ARG_SERIALKEY_CHAVE, chaveSerial.getChave());
-                                    getIntent().putExtra(ARG_SERIALKEY_MANUAL, 1);
-
-                                    ChaveSerialDaoImpl chaveserialDao = new ChaveSerialDaoImpl(getBaseContext());
-                                    chaveserialDao.delete(chaveSerial);
-
-                                    Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
-                                    intent.putExtra(ARG_SERIALKEY_EMAIL, getIntent().getStringExtra(ARG_SERIALKEY_EMAIL));
-                                    intent.putExtra(ARG_SERIALKEY_CHAVE, getIntent().getStringExtra(ARG_SERIALKEY_CHAVE));
-                                    intent.putExtra(ARG_SERIALKEY_MANUAL, getIntent().getStringExtra(ARG_SERIALKEY_MANUAL));
-                                    startActivityForResult(intent, PEGAR_SERIAL_KEY);
-                                } else {
-                                    startMapActivity(chaveSerial.getTipo());
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-//                    That didn't work!
-                        startMapActivity(chaveSerial.getTipo());
-                    }
-                });
-
-//            Add the request to the RequestQueue.
-              queue.add(stringRequest);
-            } else {
-                startMapActivity(chaveSerial.getTipo());
-            }
         } else {
             if (!serialKeyService.containsChaveSerial()) {
                 Intent intent = new Intent(getBaseContext(), EULAActivity.class);
@@ -189,11 +138,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(ARG_MAPA_ZOOMINICIAL, 0);
         intent.putExtra(ARG_MAPA_MODO, OFFLINE);
         startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
-    }
-
-    private void startSerialActivity() {
-        Intent intent = new Intent(getBaseContext(), SerialKeyActivity.class);
-        startActivityForResult(intent, PEGAR_SERIAL_KEY);
     }
 
     private void createRootDirectory() {

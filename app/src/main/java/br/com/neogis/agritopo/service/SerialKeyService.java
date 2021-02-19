@@ -7,9 +7,6 @@ import java.util.List;
 
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
-import br.com.neogis.agritopo.dao.tabelas.Usuario;
-import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
-import br.com.neogis.agritopo.parse.views.SerialKeyView;
 import br.com.neogis.agritopo.utils.DateUtils;
 
 import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDateFromGPS;
@@ -21,12 +18,10 @@ import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDateFromGPS;
 public class SerialKeyService {
     private Context contexto;
     private ChaveSerialDaoImpl chaveSerialDao;
-    private UsuarioDaoImpl usuarioDao;
 
     public SerialKeyService(Context contexto){
         this.contexto = contexto;
         chaveSerialDao = new ChaveSerialDaoImpl(contexto);
-        usuarioDao = new UsuarioDaoImpl(contexto);
     }
 
     public boolean containsValidSerialKey(ChaveSerial.LicencaTipo licencaTipo) {
@@ -69,9 +64,7 @@ public class SerialKeyService {
         return resultado;
     }
 
-    public void setChaveSerial(SerialKeyView serial) {
-        Usuario usuario = getUsuario();
-        Usuario proprietario = getProprietario();
+    public void setChaveSerial(String nomeProduto) {
         ChaveSerial.LicencaTipo chaveLicencaTipo;
         usuario.setEmail(serial.user.email);
         ChaveSerial serialKey = chaveSerialDao.getBySerialKey(serial.key);
@@ -80,49 +73,17 @@ public class SerialKeyService {
 
         serialKey.setChave(serial.key);
         serialKey.setDataexpiracao(serial.expiration);
-        switch (serial.licencaTipo.descricao) {
-            case "Trial":
-                chaveLicencaTipo = ChaveSerial.LicencaTipo.Trial;
-                break;//Trial de 15 dias, com registro via web
-            case "Professional":
+        switch (nomeProduto) {
+            case "Agritopo-Standalone":
                 chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago_Standalone;
                 break;//Professional
-            case "Project":
-                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago;
-                break;//Project
-            case "Business":
-                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago;
-                break;//Business
-            case "Enterprise":
-                chaveLicencaTipo = ChaveSerial.LicencaTipo.Pago;
-                break;//Enterprise
             default:
                 chaveLicencaTipo = ChaveSerial.LicencaTipo.Gratuito; //Free
         }
         serialKey.setTipo(chaveLicencaTipo);
         serialKey.setUsuarioId(usuario.getUsuarioid());
-        serialKey.setProprietarioId(usuario.getUsuarioid());
 
         usuarioDao.update(usuario);
         chaveSerialDao.save(serialKey);
     }
-
-    public Usuario getUsuario() {
-        Usuario usuario = usuarioDao.get(1);
-        if(usuario == null) {
-            usuario = new Usuario(0, "", "", 0);
-            new UsuarioDaoImpl(contexto).insert(usuario);
-        }
-        return usuario;
-    }
-
-    public Usuario getProprietario() {
-        Usuario usuario = usuarioDao.get(1);
-        if(usuario == null) {
-            usuario = new Usuario(0, "", "", 0);
-            new UsuarioDaoImpl(contexto).insert(usuario);
-        }
-        return usuario;
-    }
-
 }

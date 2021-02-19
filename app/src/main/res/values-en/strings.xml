@@ -38,6 +38,7 @@
     <string name="title_elemento_detail">Element Detail</string>
     <string name="title_elemento_list">Elements</string>
     <string name="arquivo_nome">File name</string>
+    <string name="arquivo_chave_nome">Key file name</string>
     <string name="arquivo_tipo_kml">KML Format</string>
     <string name="arquivo_tipo_geojson">GeoJSON Format</string>
     <string name="title_activity_exportar_kml">Export File</string>
@@ -142,7 +143,7 @@
     <string name="suporte">Support</string>
     <string name="politica_privacidade">Privacy Policy</string>
     <string name="content_sobre_atualizar_licenca">Update License</string>
-    <string name="informar_chave_serial">Report Serial Key</string>
+    <string name="validar_licenca">Validate License Key</string>
     <string name="solicitar_chave_trial">Request Trial Serial Key (15 Days)</string>
     <string name="utilizar_versao_gratuita">Use Free Version</string>
     <string name="este_software_e_composto_pelos_seguintes_componentes_licenciados_separadamente">This software is compound by this components licenced separately</string>
