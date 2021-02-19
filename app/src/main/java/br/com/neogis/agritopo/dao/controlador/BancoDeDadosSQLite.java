@@ -17,11 +17,27 @@ import br.com.neogis.agritopo.dao.tabelas.Integracao.TipoAlteracao;
  */
 
 public class BancoDeDadosSQLite extends SQLiteOpenHelper {
+
+    private static BancoDeDadosSQLite sInstance;
+
     private static final String NOME_BANCO = "neogis_agritopo.db";
     private static final int VERSAO = 8;
     private Context contexto;
 
+    /*
     public BancoDeDadosSQLite(Context context) {
+        super(context, NOME_BANCO, null, VERSAO);
+        this.contexto = context;
+    }
+    */
+    public static synchronized BancoDeDadosSQLite getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new BancoDeDadosSQLite(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    private BancoDeDadosSQLite(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
         this.contexto = context;
     }

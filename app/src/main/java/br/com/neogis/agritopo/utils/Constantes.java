@@ -56,6 +56,7 @@ public final class Constantes {
     public static final String ARG_IMPORTAR_NOME_ARQUIVO = "importar_nome_arquivo";
     public static final String ARG_SERIALKEY_CHAVE = "chave";
     public static final String ARG_SERIALKEY_MANUAL = "solicitacao manual - sim ou nao";
+    //public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "https://portal.neogis.com.br";
     //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "http://10.0.0.159:1000";
     //public static final String ENDERECO_SERVIDOR_LICENCIAMENTO = "http://10.0.0.159:1000";
     //public static final String ENDERECO_SERVIDOR_INTEGRACAO = "https://portal.neogis.com.br";
@@ -66,5 +67,5 @@ public final class Constantes {
     public static final int LICENCA_GRATUITA_LIMITE_ELEMENTOS = 10;
     public static final String ARQUIVO_LICENCA = "chave.ngs";
 
-    public static final String K = "\tÃ¸Â°kÃ²Ã€Â´Ã˜ÂªD\u001CLÃœÃ‘7Ã§Â¶Â¸`Ã–Ã¢Ãƒc\u0087\u001E\bÂ±\u007F'[ÂªÃ—Ãš";
+    public static final String K = "\tø°kòÀ´ØªD\u001CLÜÑ7ç¶¸`ÖâÃc\u0087\u001E\b±\u007F'[ª×Ú";
 }
