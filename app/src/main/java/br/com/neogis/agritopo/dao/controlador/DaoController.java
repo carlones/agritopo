@@ -17,18 +17,21 @@ public class DaoController {
     protected DaoController(Context context) {
         this.context = context;
         banco = BancoDeDadosSQLite.getInstance(context);
+        if (db == null) {
+            db = banco.getWritableDatabase();
+        }
     }
 
     protected void abrirGravacao() {
-        db = banco.getWritableDatabase();
+       /* db = banco.getWritableDatabase(); */
     }
 
     protected void abrirLeitura() {
-        db = banco.getReadableDatabase();
+       /* db = banco.getReadableDatabase(); */
     }
 
     protected void fecharConexao() {
-        db.close();
+       /* db.close(); */
     }
 
     protected int getId(String tabela) {

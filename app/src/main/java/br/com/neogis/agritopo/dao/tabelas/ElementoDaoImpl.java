@@ -63,9 +63,15 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
                 "  ,created_at\n" +
                 "  ,modified_at\n" +
                 "FROM elemento", new String[]{});
-        List<Elemento> objetos = getListaObjetos(cursor);
-        fecharConexao();
-        return objetos;
+        try {
+            List<Elemento> objetos = getListaObjetos(cursor);
+            fecharConexao();
+            return objetos;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -85,9 +91,15 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
             sql += " ORDER BY " + orderBy;
         }
         Cursor cursor = db.rawQuery(sql, new String[]{});
-        List<Elemento> objetos = getListaObjetos(cursor);
-        fecharConexao();
-        return objetos;
+        try {
+            List<Elemento> objetos = getListaObjetos(cursor);
+            fecharConexao();
+            return objetos;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -104,9 +116,15 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
                         "  ,modified_at\n" +
                         "FROM elemento WHERE classeid = ?"
                 , new String[]{Integer.toString(classeid)});
-        List<Elemento> objetos = getListaObjetos(cursor);
-        fecharConexao();
-        return objetos;
+        try {
+            List<Elemento> objetos = getListaObjetos(cursor);
+            fecharConexao();
+            return objetos;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -123,12 +141,18 @@ public class ElementoDaoImpl extends DaoController implements ElementoDao {
                         "  ,modified_at\n" +
                         "FROM elemento WHERE elementoid = ?"
                 , new String[]{Integer.toString(id)});
-        List<Elemento> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
+        try {
+            List<Elemento> l = getListaObjetos(cursor);
+            fecharConexao();
+            if (l.isEmpty())
+                return null;
+            else
+                return l.get(0);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override

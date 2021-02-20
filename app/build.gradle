@@ -10,16 +10,16 @@ android {
             storeFile file('AgritopoKey.jks')
         }
     }*/
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "br.com.neogis.agritopo"
         minSdkVersion 15 // Tablet do Angelo é versão 15
-        targetSdkVersion 28
-        versionName '1.1.0.1'
+        targetSdkVersion 30
+        versionName '1.1.0.3'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //signingConfig signingConfigs.AgritopoKey
-        versionCode 12
+        versionCode 14
     }
     lintOptions {
         disable 'MissingTranslation'

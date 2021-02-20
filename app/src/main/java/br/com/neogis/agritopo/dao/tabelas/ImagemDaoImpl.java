@@ -33,9 +33,15 @@ public class ImagemDaoImpl extends DaoController implements ImagemDao {
     public List<Imagem> getAll() {
         abrirLeitura();
         Cursor cursor = db.rawQuery("SELECT * FROM imagem", new String[]{});
-        List<Imagem> objetos = getListaObjetos(cursor);
-        fecharConexao();
-        return objetos;
+        try {
+            List<Imagem> objetos = getListaObjetos(cursor);
+            fecharConexao();
+            return objetos;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -45,12 +51,18 @@ public class ImagemDaoImpl extends DaoController implements ImagemDao {
         Cursor cursor = db.rawQuery(
                 "SELECT * FROM imagem WHERE id = ?"
                 , new String[]{Integer.toString(id)});
-        List<Imagem> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
+        try {
+           List<Imagem> l = getListaObjetos(cursor);
+            fecharConexao();
+            if (l.isEmpty())
+                return null;
+            else
+                return l.get(0);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
