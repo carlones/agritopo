@@ -79,14 +79,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipFile;
 
 import br.com.neogis.agritopo.BuildConfig;
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.controller.MapFile;
 import br.com.neogis.agritopo.controller.MapFileController;
-import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
 import br.com.neogis.agritopo.dao.tabelas.ClasseEnum;
 import br.com.neogis.agritopo.dao.tabelas.Elemento;
 import br.com.neogis.agritopo.dao.tabelas.ElementoDao;
@@ -107,6 +105,7 @@ import br.com.neogis.agritopo.model.MyGpsMyLocationProvider;
 import br.com.neogis.agritopo.model.Ponto;
 import br.com.neogis.agritopo.runnable.CamadasLoader;
 import br.com.neogis.agritopo.singleton.CamadaHolder;
+import br.com.neogis.agritopo.singleton.Licenca;
 import br.com.neogis.agritopo.utils.AsyncResponse;
 import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.IGPSListener;
@@ -132,7 +131,6 @@ import static br.com.neogis.agritopo.utils.Constantes.LICENCA_GRATUITA_LIMITE_EL
 import static br.com.neogis.agritopo.utils.Constantes.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
 import static br.com.neogis.agritopo.utils.Constantes.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
 import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
-import static br.com.neogis.agritopo.utils.Constantes.ONLINE;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_AREA_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_DISTANCIA_REQUEST;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_ELEMENTO_PONTO_REQUEST;
@@ -179,7 +177,7 @@ public class MapActivity extends AppCompatActivity
     // Mostra área, perímetro e distância enquando desenha Área e Distância
     private InfoBox infoBox;
     private InfoBox gpsBox;
-    private ChaveSerial.LicencaTipo licencaTipo;
+    private Licenca.LicencaTipo licencaTipo;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
@@ -209,8 +207,8 @@ public class MapActivity extends AppCompatActivity
         criarDiretorio("agritopo");
         criarDiretorio("OsmDroid");
 
-        licencaTipo = ChaveSerial.LicencaTipo.valueOf(getIntent().getStringExtra(ARG_LICENCA_TIPO));
-        mapFileController = new MapFileController(licencaTipo == ChaveSerial.LicencaTipo.Gratuito);
+        licencaTipo = Licenca.LicencaTipo.valueOf(getIntent().getStringExtra(ARG_LICENCA_TIPO));
+        mapFileController = new MapFileController(licencaTipo == Licenca.LicencaTipo.Gratuito);
         mapFileController.LoadMaps();
 
         if (savedInstanceState != null)
@@ -261,7 +259,7 @@ public class MapActivity extends AppCompatActivity
 
         fabNovoPonto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((licencaTipo == ChaveSerial.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
+                if ((licencaTipo == Licenca.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
                     Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), "Você atingiu o limite de " + LICENCA_GRATUITA_LIMITE_ELEMENTOS + " elementos da versão gratuita.", getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
                 } else {
                     if (modalAtivo != null) return;
@@ -272,7 +270,7 @@ public class MapActivity extends AppCompatActivity
         });
         fabNovaArea.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((licencaTipo == ChaveSerial.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
+                if ((licencaTipo == Licenca.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
                     Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), "Você atingiu o limite de " + LICENCA_GRATUITA_LIMITE_ELEMENTOS + " elementos da versão gratuita.", getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
                 } else {
                     if (modalAtivo != null) return;
@@ -283,7 +281,7 @@ public class MapActivity extends AppCompatActivity
         });
         fabNovaDistancia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((licencaTipo == ChaveSerial.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
+                if ((licencaTipo == Licenca.LicencaTipo.Gratuito) && (areaList.size() + distanciaList.size() + pontoList.size() > LICENCA_GRATUITA_LIMITE_ELEMENTOS)) {
                     Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), "Você atingiu o limite de " + LICENCA_GRATUITA_LIMITE_ELEMENTOS + " elementos da versão gratuita.", getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
                 } else {
                     if (modalAtivo != null) return;
@@ -296,17 +294,17 @@ public class MapActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 /* Teste chave licenciamento vencida
-                ChaveSerialDaoImpl chaveSerialDao = new ChaveSerialDaoImpl(getBaseContext());
-                List<ChaveSerial> list = chaveSerialDao.getAll();
-                for (ChaveSerial chaveSerial: list) {
-                    if ((chaveSerial.getTipo() == ChaveSerial.LicencaTipo.Pago) || (chaveSerial.getTipo() == ChaveSerial.LicencaTipo.Pago_Standalone)) {
+                LicencaDaoImpl LicencaDao = new LicencaDaoImpl(getBaseContext());
+                List<Licenca> list = LicencaDao.getAll();
+                for (Licenca Licenca: list) {
+                    if ((Licenca.getTipo() == Licenca.LicencaTipo.Pago) || (Licenca.getTipo() == Licenca.LicencaTipo.Pago_Standalone)) {
                         try {
-                            chaveSerial.setDataexpiracao(new SimpleDateFormat( "yyyyMMdd" ).parse( "20181209" ));
+                            Licenca.setDataexpiracao(new SimpleDateFormat( "yyyyMMdd" ).parse( "20181209" ));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        chaveSerialDao.save(chaveSerial);
-                        Utils.toast(getBaseContext(), chaveSerial.getChave() + "-" + chaveSerial.getDataexpiracao().toString());
+                        LicencaDao.save(Licenca);
+                        Utils.toast(getBaseContext(), Licenca.getChave() + "-" + Licenca.getDataexpiracao().toString());
                         break;
                     }
                 }*/
@@ -467,7 +465,7 @@ public class MapActivity extends AppCompatActivity
         });*/
         fabCompartilhar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (licencaTipo == ChaveSerial.LicencaTipo.Gratuito)
+                if (licencaTipo == Licenca.LicencaTipo.Gratuito)
                     Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), getString(R.string.ALERTA_VERSAO_GRATUITA_MENSAGEM), getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
                 else {
                     try {
@@ -732,7 +730,7 @@ public class MapActivity extends AppCompatActivity
                 break;
             }
             case R.id.nav_exportar: {
-                if (licencaTipo == ChaveSerial.LicencaTipo.Gratuito)
+                if (licencaTipo == Licenca.LicencaTipo.Gratuito)
                     Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), getString(R.string.ALERTA_VERSAO_GRATUITA_MENSAGEM), getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
                 else {
                     Intent intent = new Intent(this, ExportarActivity.class);
@@ -741,7 +739,7 @@ public class MapActivity extends AppCompatActivity
                 break;
             }
             case R.id.nav_importar: {
-                if (licencaTipo == ChaveSerial.LicencaTipo.Gratuito)
+                if (licencaTipo == Licenca.LicencaTipo.Gratuito)
                     Utils.alert(MapActivity.this, getString(R.string.ALERTA_VERSAO_GRATUITA_TITULO), getString(R.string.ALERTA_VERSAO_GRATUITA_MENSAGEM), getString(R.string.ALERTA_VERSAO_GRATUITA_BOTAO));
                 else {
                     Intent intent = new Intent(this, ImportarActivity.class);
@@ -1227,7 +1225,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        licencaTipo = ChaveSerial.LicencaTipo.valueOf(savedInstanceState.getString(ARG_LICENCA_TIPO, "Gratuito"));
+        licencaTipo = Licenca.LicencaTipo.valueOf(savedInstanceState.getString(ARG_LICENCA_TIPO, "Gratuito"));
         zoomInicial = savedInstanceState.getInt(ARG_MAPA_ZOOMINICIAL, 0);
         mapFileController.SetSelectedMap(savedInstanceState.getInt(ARG_MAPA_ID, 0));
         double lat = savedInstanceState.getDouble(ARG_MAPA_LATITUDEATUAL, 0.0);
@@ -1237,7 +1235,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void onRestoreActivity() {
-        licencaTipo = ChaveSerial.LicencaTipo.valueOf(getIntent().getStringExtra(ARG_LICENCA_TIPO));
+        licencaTipo = Licenca.LicencaTipo.valueOf(getIntent().getStringExtra(ARG_LICENCA_TIPO));
         zoomInicial = getIntent().getIntExtra(ARG_MAPA_ZOOMINICIAL, 0);
         mapFileController.SetSelectedMap(getIntent().getIntExtra(ARG_MAPA_ID, 0));
         double lat = getIntent().getDoubleExtra(ARG_MAPA_LATITUDEATUAL, 0.0);
@@ -1247,7 +1245,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void carregarCamadas() {
-        new CamadasLoader(map, licencaTipo.equals(ChaveSerial.LicencaTipo.Gratuito)).carregar(new AsyncResponse() {
+        new CamadasLoader(map, licencaTipo.equals(Licenca.LicencaTipo.Gratuito)).carregar(new AsyncResponse() {
             @Override
             public void processFinish() {
                 invalidateOptionsMenu();

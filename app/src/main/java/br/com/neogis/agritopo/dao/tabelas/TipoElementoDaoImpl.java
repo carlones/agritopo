@@ -42,7 +42,13 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
                 "SELECT tipoelementoid, nome\n" +
                         "FROM tipoelemento " +
                         "ORDER BY nome", new String[]{});
-        return getListaObjetos(cursor);
+        try {
+            return getListaObjetos(cursor);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public List<TipoElemento> getAllDescricao() {
@@ -51,7 +57,13 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
                 "SELECT tipoelementoid, nome\n" +
                         "FROM tipoelemento " +
                         "ORDER BY nome", new String[]{});
-        return getListaObjetos(cursor);
+        try {
+            return getListaObjetos(cursor);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -63,12 +75,18 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
                         "WHERE tipoelementoid = ?",
                 new String[]{Integer.toString(id)}
         );
-        List<TipoElemento> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
+        try {
+            List<TipoElemento> l = getListaObjetos(cursor);
+            fecharConexao();
+            if (l.isEmpty())
+                return null;
+            else
+                return l.get(0);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -80,12 +98,18 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
                         "WHERE nome = ?",
                 new String[]{nome}
         );
-        List<TipoElemento> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
+        try {
+            List<TipoElemento> l = getListaObjetos(cursor);
+            fecharConexao();
+            if (l.isEmpty())
+                return null;
+            else
+                return l.get(0);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -130,7 +154,6 @@ public class TipoElementoDaoImpl extends DaoController implements TipoElementoDa
         if (db.insert("tipoelemento", null, cv) == -1) {
             new Exception("Erro ao inserir tipoelemento");
         }
-
         fecharConexao();
     }
 

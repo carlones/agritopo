@@ -10,27 +10,25 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
-import br.com.neogis.agritopo.dao.tabelas.ChaveSerialDaoImpl;
-import br.com.neogis.agritopo.dao.tabelas.UsuarioDaoImpl;
-import br.com.neogis.agritopo.service.SerialKeyService;
+import br.com.neogis.agritopo.singleton.Licenca;
 import br.com.neogis.agritopo.singleton.Configuration;
-import br.com.neogis.agritopo.utils.NetworkUtils;
-import br.com.neogis.agritopo.utils.Utils;
 
 import static br.com.neogis.agritopo.utils.Constantes.ARG_LICENCA_TIPO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ID;
@@ -39,18 +37,11 @@ import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_LONGITUDEATUAL;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_MODO;
 import static br.com.neogis.agritopo.utils.Constantes.ARG_MAPA_ZOOMINICIAL;
 import static br.com.neogis.agritopo.utils.Constantes.OFFLINE;
-import static br.com.neogis.agritopo.utils.Constantes.PEGAR_EULA;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_MAPA_MODO_REQUEST;
-import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
 
 public class MainActivity extends AppCompatActivity {
     private List<String> permissions;
-
-    private SerialKeyService serialKeyService;
-    private ChaveSerial chaveSerial;
-    private UsuarioDaoImpl usuarioDao;
-    private StringRequest stringRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,66 +61,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void continueonCreateAfterPermissions() {
         Configuration.getInstance().LoadConfiguration(getApplicationContext());
+        try {
+            Licenca.getInstance().LoadLicenca(getApplicationContext());
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         createRootDirectory();
-
-        serialKeyService = new SerialKeyService(getApplicationContext());
-        chaveSerial = serialKeyService.getValidChaveSerial();
-
-        if (chaveSerial != null) {
-        } else {
-            if (!serialKeyService.containsChaveSerial()) {
-                Intent intent = new Intent(getBaseContext(), EULAActivity.class);
-                startActivityForResult(intent, PEGAR_EULA);
-            } else {
-                Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
-                startActivityForResult(intent, PEGAR_SERIAL_KEY);
-            }
-        }
+        startMapActivity(Licenca.getInstance().getTipoAutorizado());
      }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case PEGAR_MAPA_MODO_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
-                    Intent intent = new Intent(getBaseContext(), MapActivity.class);
-                    intent.putExtra(ARG_LICENCA_TIPO, chaveSerial.getTipo().toString());
-                    intent.putExtra(ARG_MAPA_ID, data.getExtras().getInt(ARG_MAPA_ID));
-                    intent.putExtra(ARG_MAPA_LATITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LATITUDEATUAL));
-                    intent.putExtra(ARG_MAPA_LONGITUDEATUAL, data.getExtras().getDouble(ARG_MAPA_LONGITUDEATUAL));
-                    intent.putExtra(ARG_MAPA_ZOOMINICIAL, data.getExtras().getInt(ARG_MAPA_ZOOMINICIAL));
-                    intent.putExtra(ARG_MAPA_MODO, data.getExtras().getInt(ARG_MAPA_MODO));
-                    startActivityForResult(intent, PEGAR_MAPA_MODO_REQUEST);
-                }
-                if (resultCode == RESULT_CANCELED) {
-                    finish();
-                }
-                break;
-            case PEGAR_SERIAL_KEY:
-                if (resultCode == RESULT_OK) {
-                    ChaveSerial chaveSerial = serialKeyService.getValidChaveSerial();
-                    startMapActivity(chaveSerial.getTipo());
-                }
-                if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "A ativação é necessária.", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-                break;
-            case PEGAR_EULA:
-                if (resultCode == RESULT_OK) {
-                    Intent intent = new Intent(getBaseContext(), SeletorLicencaActivity.class);
-                    startActivityForResult(intent, PEGAR_SERIAL_KEY);
-                }
-                if (resultCode == RESULT_CANCELED) {
-                    finish();
-                }
-                break;
-        }
-    }
-
-    private void startMapActivity(ChaveSerial.LicencaTipo licencaTipo) {
+    private void startMapActivity(Licenca.LicencaTipo licencaTipo) {
         Intent intent = new Intent(getBaseContext(), MapActivity.class);
         intent.putExtra(ARG_LICENCA_TIPO, licencaTipo.toString());
         intent.putExtra(ARG_MAPA_ID, 0);
@@ -147,12 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestPermissions() {
         permissions = new ArrayList<>();
-        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
         permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
         permissions.add(Manifest.permission.INTERNET);
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         requestSpecificPermission(0);
     }
 

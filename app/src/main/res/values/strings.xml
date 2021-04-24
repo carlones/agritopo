@@ -581,9 +581,8 @@
     <string name="agritopo_reativacao">Agritopo (Reativação)</string>
     <string name="versao">Versão</string>
     <string name="tipo_licenca">Tipo Licença</string>
-    <string name="chave">Chave Serial</string>
-    <string name="data_expiracao">Data de Expiração</string>
-    <string name="licenciado_para">Licenciado para</string>
+    <string name="device_id">ID do Dispositivo</string>
+    <string name="data_validade">Data de Validade</string>
     <string name="suporte">Suporte</string>
     <string name="neogis_site_politica_privacidade">http://www.neogis.com.br/Home/PrivacyPolicy</string>
     <string name="politica_privacidade">Política de Privacidade</string>

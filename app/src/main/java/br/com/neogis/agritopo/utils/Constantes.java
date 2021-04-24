@@ -30,14 +30,6 @@ public final class Constantes {
     public static final int KM2_EM_METROS2 = 1000000;
     public static final int HECTARE_EM_METROS2 = 10000;
 
-    public static final String PESSOA_NOME = "nome";
-    public static final String PESSOA_EMAIL = "email";
-    public static final String PESSOA_CPFCNPJ = "cpf_cnpj";
-    public static final String PESSOA_AREA_ATUACAO = "area_atuacao";
-    public static final String PESSOA_EMPRESA = "empresa";
-    public static final String PESSOA_MUNICIPIO = "municipio";
-    public static final String PESSOA_MUNICIPIO_ID = "municipio_id";
-    public static final int PESSOA_INFORMAR_MUNICIPIO = 1;
     public static final String ARG_LICENCA_TIPO = "licenca_tipo";
     public static final String ARG_MAPA_ID = "mapa_id";
     public static final String ARG_MAPA_MODO = "mapa_modo";
@@ -67,5 +59,7 @@ public final class Constantes {
     public static final int LICENCA_GRATUITA_LIMITE_ELEMENTOS = 10;
     public static final String ARQUIVO_LICENCA = "chave.ngs";
 
-    public static final String K = "\tø°kòÀ´ØªD\u001CLÜÑ7ç¶¸`ÖâÃc\u0087\u001E\b±\u007F'[ª×Ú";
+    public static final String K = "\u00e2\u0082\u000FG\u008A\u00a3\n" +
+            "\f\u000F\u00b6\u00b2\u00b2\u004f\u0077\u0006\u009F\u0014_\u001B\u006e\u00f1" +
+            "\u0055\u003a\u0045\u002d\u00fa\u0095\u0053\u0073\u005d\"\u009A";
 }

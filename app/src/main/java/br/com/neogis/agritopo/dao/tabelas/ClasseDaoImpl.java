@@ -37,7 +37,13 @@ public class ClasseDaoImpl extends DaoController implements ClasseDao {
         Cursor cursor = db.rawQuery(
                 "SELECT classeid, nome\n" +
                         "FROM classe", new String[]{});
-        return getListaObjetos(cursor);
+        try {
+            return getListaObjetos(cursor);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -49,12 +55,18 @@ public class ClasseDaoImpl extends DaoController implements ClasseDao {
                         "WHERE classeid = ?",
                 new String[]{Integer.toString(id)}
         );
-        List<Classe> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
+        try {
+            List<Classe> l = getListaObjetos(cursor);
+            fecharConexao();
+            if (l.isEmpty())
+                return null;
+            else
+                return l.get(0);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override

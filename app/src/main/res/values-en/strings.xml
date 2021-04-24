@@ -137,9 +137,8 @@
     <string name="title_activity_seletor_licenca">License Selection</string>
     <string name="versao">Version</string>
     <string name="tipo_licenca">License Type</string>
-    <string name="chave">Serial Key</string>
-    <string name="data_expiracao">Expiration Date</string>
-    <string name="licenciado_para">Licensed to</string>
+    <string name="device_id">Device ID</string>
+    <string name="data_validade">Expiration Date</string>
     <string name="suporte">Support</string>
     <string name="politica_privacidade">Privacy Policy</string>
     <string name="content_sobre_atualizar_licenca">Update License</string>

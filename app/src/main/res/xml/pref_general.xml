@@ -59,11 +59,11 @@
         <!--suppress AndroidDomInspection -->
         <com.github.angads25.filepicker.view.FilePickerPreference
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:defaultValue="/sdcard:/mnt"
+            android:defaultValue="/sdcard:/sdcard-ext"
             android:key="@string/pref_key_diretorio_exportar_arquivos"
             android:summary="@string/pref_summary_diretorio_exportar_arquivos"
             android:title="@string/pref_title_diretorio_exportar_arquivos"
-            app:error_dir="/mnt"
+            app:error_dir="/sdcard"
             app:extensions=""
             app:root_dir="/sdcard"
             app:selection_mode="single_mode"
@@ -73,11 +73,11 @@
         <!--suppress AndroidDomInspection -->
         <com.github.angads25.filepicker.view.FilePickerPreference
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:defaultValue="/sdcard:/mnt"
+            android:defaultValue="/sdcard:/sdcard-ext"
             android:key="@string/pref_key_diretorio_leitura_arquivos"
             android:summary="@string/pref_summary_diretorio_leitura_arquivos"
             android:title="@string/pref_title_diretorio_leitura_arquivos"
-            app:error_dir="/mnt"
+            app:error_dir="/sdcard"
             app:extensions=""
             app:root_dir="/sdcard"
             app:selection_mode="single_mode"

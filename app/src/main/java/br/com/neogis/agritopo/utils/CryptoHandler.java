@@ -14,10 +14,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Base64;
 
+import static br.com.neogis.agritopo.utils.Utils.substring;
+
 
 public class CryptoHandler {
-    String SecretKey = "xxxxxxxxxxxxxxxxxxxx";
-    String IV = "xxxxxxxxxxxxxxxx";
+    private String SecretKey = Constantes.K;
+    private String IV = "jfioq34ju98jqfaw";
 
     private static CryptoHandler instance = null;
 
@@ -42,8 +44,12 @@ public class CryptoHandler {
                 IvParameterSpec(IV.substring(0,16).getBytes());
         Cipher ecipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         ecipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivSpec);
+        byte[] ivByte = IV.substring(0,16).getBytes();
         byte[] dstBuff = ecipher.doFinal(srcBuff);
-        String base64 = Base64.encodeToString(dstBuff, Base64.DEFAULT);
+        byte[] mensagem_criptografada = new byte[ivByte.length + dstBuff.length];
+        System.arraycopy(ivByte, 0, mensagem_criptografada, 0, ivByte.length);
+        System.arraycopy(dstBuff, 0, mensagem_criptografada, ivByte.length, dstBuff.length);
+        String base64 = Base64.encodeToString(mensagem_criptografada, Base64.DEFAULT);
         return base64;
     }
 
@@ -51,15 +57,16 @@ public class CryptoHandler {
             NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, IllegalBlockSizeException,
             BadPaddingException, UnsupportedEncodingException {
-
         SecretKeySpec skeySpec = new
                 SecretKeySpec(SecretKey.substring(0,32).getBytes(), "AES");
-        IvParameterSpec ivSpec = new
-                IvParameterSpec(IV.substring(0,16).getBytes());
+        //IvParameterSpec ivSpec = new
+        //        IvParameterSpec(IV.substring(0,16).getBytes());
+        byte[] raw = encrypted.getBytes();//Base64.decode(encrypted, Base64.DEFAULT);
+        IvParameterSpec ivSpec = new IvParameterSpec(substring(raw,0,16));
         Cipher ecipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         ecipher.init(Cipher.DECRYPT_MODE, skeySpec, ivSpec);
-        byte[] raw = Base64.decode(encrypted, Base64.DEFAULT);
-        byte[] originalBytes = ecipher.doFinal(raw);
+        byte[] mensagem_codificada = substring(raw,16,48);
+        byte[] originalBytes = ecipher.doFinal(mensagem_codificada);
         String original = new String(originalBytes, "UTF8");
         return original;
     }

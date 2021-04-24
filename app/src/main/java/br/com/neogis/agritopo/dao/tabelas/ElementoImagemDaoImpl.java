@@ -35,9 +35,15 @@ public class ElementoImagemDaoImpl extends DaoController implements ElementoImag
     public List<ElementoImagem> getAll() {
         abrirLeitura();
         Cursor cursor = db.rawQuery("SELECT * FROM elementoimagem", new String[]{});
-        List<ElementoImagem> objetos = getListaObjetos(cursor);
-        fecharConexao();
-        return objetos;
+        try {
+            List<ElementoImagem> objetos = getListaObjetos(cursor);
+            fecharConexao();
+            return objetos;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public List<ElementoImagem> getByElemento(int id){
@@ -45,9 +51,15 @@ public class ElementoImagemDaoImpl extends DaoController implements ElementoImag
         Cursor cursor = db.rawQuery(
                 "SELECT * FROM elementoimagem WHERE elementoid = ?"
                 , new String[]{Integer.toString(id)});
-        List<ElementoImagem> l = getListaObjetos(cursor);
-        fecharConexao();
-        return l;
+        try {
+            List<ElementoImagem> l = getListaObjetos(cursor);
+            fecharConexao();
+            return l;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -56,12 +68,18 @@ public class ElementoImagemDaoImpl extends DaoController implements ElementoImag
         Cursor cursor = db.rawQuery(
                 "SELECT * FROM elementoimagem WHERE id = ?"
                 , new String[]{Integer.toString(id)});
-        List<ElementoImagem> l = getListaObjetos(cursor);
-        fecharConexao();
-        if (l.isEmpty())
-            return null;
-        else
-            return l.get(0);
+        try {
+            List<ElementoImagem> l = getListaObjetos(cursor);
+            fecharConexao();
+            if (l.isEmpty())
+                return null;
+            else
+                return l.get(0);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override

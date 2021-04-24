@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -20,10 +21,17 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.PermissionRequest;
 import android.widget.Toast;
 import org.osmdroid.util.GeoPoint;
 
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
+
 import br.com.neogis.agritopo.singleton.Configuration;
+
+import static android.content.Context.WIFI_SERVICE;
 
 /**
  * Created by carlo on 14/10/2017.
@@ -168,28 +176,57 @@ public final class Utils {
         return Constantes.RAIO_DA_TERRA_EM_METROS * c; // Distance in m
     }
 
-    public static TelephonyManager getTelephonyManager(Activity activity) {
+    /*public static TelephonyManager getTelephonyManager(Context context) {
         TelephonyManager telephonyManager = null;
         if (Build.VERSION.SDK_INT < 23)
-            telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         else {
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                        1);
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             } else
-                telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+                throw new SecurityException("Sem permissão de ler o status do telefone (READ_PHONE_STATE)");
+                //ContextCompat.requestPermissions(context,
+                //        new String[]{Manifest.permission.READ_PHONE_STATE},
+                //        1);
         }
         return telephonyManager;
-    }
+    }*/
 
-    public static String getDeviceId(Activity activity) {
+    public static String getDeviceId(Context context) {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
 
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(Integer.toHexString(b & 0xFF) + ":");
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+            //handle exception
+        }
+        return "";
+        /*WifiManager m_wm = (WifiManager) context.getSystemService(WIFI_SERVICE);
+        String m_wlanMacAdd = m_wm.getConnectionInfo().getMacAddress();
+        return m_wlanMacAdd;*/
+
+        /*
         // IMEI para GSM, MEID/ESN para CDMA. Nem todos os aparelhos possuem chip de telefonia
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return null;
         }
-        String deviceId = getTelephonyManager(activity).getDeviceId();
+        String deviceId = getTelephonyManager(context).getDeviceId();
         if (deviceId != null) {
             Utils.info("Telephony:" + deviceId);
             return "Telephony:" + deviceId;
@@ -206,8 +243,18 @@ public final class Utils {
         // https://stackoverflow.com/questions/11705906/programmatically-getting-the-mac-of-an-android-device
 
         // Muda a cada formatação
-        String androidId = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         Utils.info("Secure android id: " + androidId);
-        return "SecureAndroidId:" + androidId;
+        return "SecureAndroidId:" + androidId;*/
+    }
+
+    public static byte[] substring(byte[] array, int start, int end) {
+        if (end <= start)
+            return null;
+        int length = (end - start);
+
+        byte[] newArray = new byte[length];
+        System.arraycopy(array, start, newArray, 0, length);
+        return newArray;
     }
 }

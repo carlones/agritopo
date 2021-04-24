@@ -59,10 +59,11 @@ public final class Configuration {
 
     private void LoadGeneralConfiguration(Context context, SharedPreferences prefs){
         MedidaUtilizadaEmAreas = TipoMedidaArea.values()[Integer.parseInt(prefs.getString(context.getResources().getString(R.string.pref_key_measure_area), "0"))];
-        DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos),
-                Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
-        DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),
-                Environment.getExternalStorageDirectory().getAbsolutePath() + "/agritopo") + "/";
+        String extStore = System.getenv("EXTERNAL_STORAGE");
+        if (extStore.equals(""))
+            extStore = Environment.getExternalStorageDirectory().getAbsolutePath();
+        DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos),extStore + "/agritopo") + "/";
+        DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),extStore + "/agritopo") + "/";
         DiretorioFotos = DiretorioLeituraArquivos + File.separator + "Media" + File.separator + "Fotos" + File.separator;
     }
 

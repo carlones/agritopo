@@ -14,7 +14,7 @@ public class MapFileController {
     public List<MapFile> Maps;
 
     private int selected = 0;
-    private boolean versaoGratuita = true;
+    private boolean versaoGratuita;
 
     public MapFileController(boolean versaoGratuita) {
         Maps = new ArrayList<>();

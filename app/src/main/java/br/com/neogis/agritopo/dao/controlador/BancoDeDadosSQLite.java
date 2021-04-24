@@ -21,7 +21,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
     private static BancoDeDadosSQLite sInstance;
 
     private static final String NOME_BANCO = "neogis_agritopo.db";
-    private static final int VERSAO = 8;
+    private static final int VERSAO = 9;
     private Context contexto;
 
     /*
@@ -173,7 +173,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
                 ");\n" +
                 "\n" +
                 "\n");
-        db.execSQL("CREATE TABLE chaveserial (\n" +
+        db.execSQL("CREATE TABLE serialkey (\n" +
                 " id INT NOT NULL PRIMARY KEY,\n" +
                 " chave VARCHAR(8) NOT NULL,\n" +
                 " dataexpiracao LONG NOT NULL,\n" +
@@ -233,7 +233,7 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
         Log.i("Agritopo", "BancoDeDadosSQLite: atualizando da versão " + Integer.toString(oldVersion) + " para a versão " + Integer.toString(newVersion));
         if (newVersion > oldVersion) {
             if(oldVersion <= 5){
-                db.execSQL("CREATE TABLE chaveserial ( \n" +
+                db.execSQL("CREATE TABLE serialkey ( \n" +
                         " id INT NOT NULL PRIMARY KEY, \n" +
                         " chave VARCHAR(8) NOT NULL, \n" +
                         " dataexpiracao LONG NOT NULL, \n" +
@@ -275,8 +275,20 @@ public class BancoDeDadosSQLite extends SQLiteOpenHelper {
             }
 
             if(oldVersion <= 8){
-                db.execSQL("ALTER TABLE chaveserial ADD proprietarioid INT;");
-                db.execSQL("UPDATE chaveserial SET proprietarioid = usuarioid;");
+                try {
+                    db.execSQL("ALTER TABLE serialkey ADD proprietarioid INT;");
+                    db.execSQL("UPDATE serialkey SET proprietarioid = usuarioid;");
+                } catch (Exception e) {
+
+                }
+            }
+
+            if(oldVersion <= 9){
+                try {
+                    db.execSQL("DROP TABLE serialkey;");
+                } catch (Exception e) {
+
+                }
             }
 
             Log.i("Agritopo", "BancoDeDadosSQLite: versão atualizada de " + oldVersion + " para " + newVersion);

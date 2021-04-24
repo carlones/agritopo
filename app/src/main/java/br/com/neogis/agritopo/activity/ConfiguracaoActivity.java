@@ -3,7 +3,6 @@ package br.com.neogis.agritopo.activity;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
@@ -19,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.view.MenuItem;
 
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment;
 import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
@@ -27,12 +25,6 @@ import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
 import java.util.List;
 
 import br.com.neogis.agritopo.R;
-import br.com.neogis.agritopo.dao.tabelas.ChaveSerial;
-import br.com.neogis.agritopo.dao.tabelas.Fabricas.FabricaSincronizacaoDao;
-import br.com.neogis.agritopo.dao.tabelas.Integracao.Sincronizacao;
-import br.com.neogis.agritopo.dao.tabelas.Integracao.SincronizacaoDao;
-import br.com.neogis.agritopo.service.SerialKeyService;
-import br.com.neogis.agritopo.utils.DateUtils;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -325,9 +317,7 @@ public class ConfiguracaoActivity extends AppCompatPreferenceActivity implements
 
             final Preference sincPref = findPreference( getResources().getString(R.string.pref_key_ultima_sincronizacao) );
 
-            SerialKeyService serviceKey = new SerialKeyService(getActivity().getApplicationContext());
-
-            if (serviceKey.containsValidSerialKey(ChaveSerial.LicencaTipo.Pago) || serviceKey.containsValidSerialKey(ChaveSerial.LicencaTipo.Gratuito)) {
+            if (Licenca.getInstance().getTipo() == Licenca.LicencaTipo.Professional) {
                 SincronizacaoDao sincDao = FabricaSincronizacaoDao.Criar(getActivity().getApplicationContext());
                 Sincronizacao sinc = sincDao.get(1);
                 if(sinc != null && sinc.getData().getTime() > 0)
