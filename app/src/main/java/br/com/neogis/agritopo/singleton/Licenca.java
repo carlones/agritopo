@@ -86,14 +86,14 @@ public class Licenca {
             return;
         }
 
-        String resultado = "{pro" + CryptoHandler.getInstance().decrypt(fileContents);
+        String resultado = CryptoHandler.getInstance().decrypt(fileContents);
         //"{produto: 'Agritopo-Standalone', email: 'carlos.migliavacca@gmail.com', device: 'ABC1234567', data_final: '2021-12-31' }
         JSONObject jsonObjectdecode = new JSONObject(resultado);
         this.dispositivoRegistrado = (String)jsonObjectdecode.get("device");
         this.produtoRegistrado = (String)jsonObjectdecode.get("produto");
         this.dataVencimentoRegistrado = DateUtils.convertoToDateyyyyMMdd((String)jsonObjectdecode.get("data_final"));
         this.tipoRegistrado = (
-                jsonObjectdecode.get("produto")=="Agritopo-Standalone"?
+                jsonObjectdecode.get("produto").equals("Agritopo Standalone")?
                 LicencaTipo.Professional:
                 LicencaTipo.Gratuito
         );

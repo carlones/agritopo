@@ -1,25 +1,18 @@
 package br.com.neogis.agritopo.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
-import javax.crypto.BadPaddingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Base64;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import android.util.Base64;
-
-import static br.com.neogis.agritopo.utils.Utils.substring;
-
-
 public class CryptoHandler {
-    private String SecretKey = Constantes.K;
-    private String IV = "jfioq34ju98jqfaw";
+    private String key = Constantes.K;
 
     private static CryptoHandler instance = null;
 
@@ -31,43 +24,67 @@ public class CryptoHandler {
         return instance;
     }
 
-    public String encrypt(String message) throws NoSuchAlgorithmException,
-            NoSuchPaddingException, IllegalBlockSizeException,
-            BadPaddingException, InvalidKeyException,
-            UnsupportedEncodingException, InvalidAlgorithmParameterException {
-
-        byte[] srcBuff = message.getBytes("UTF8");
-        //here using substring because AES takes only 16 or 24 or 32 byte of key
-        SecretKeySpec skeySpec = new
-                SecretKeySpec(SecretKey.substring(0,32).getBytes(), "AES");
-        IvParameterSpec ivSpec = new
-                IvParameterSpec(IV.substring(0,16).getBytes());
-        Cipher ecipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-        ecipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivSpec);
-        byte[] ivByte = IV.substring(0,16).getBytes();
-        byte[] dstBuff = ecipher.doFinal(srcBuff);
-        byte[] mensagem_criptografada = new byte[ivByte.length + dstBuff.length];
-        System.arraycopy(ivByte, 0, mensagem_criptografada, 0, ivByte.length);
-        System.arraycopy(dstBuff, 0, mensagem_criptografada, ivByte.length, dstBuff.length);
-        String base64 = Base64.encodeToString(mensagem_criptografada, Base64.DEFAULT);
-        return base64;
+    public CryptoHandler(){
     }
 
-    public String decrypt(String encrypted) throws NoSuchAlgorithmException,
-            NoSuchPaddingException, InvalidKeyException,
-            InvalidAlgorithmParameterException, IllegalBlockSizeException,
-            BadPaddingException, UnsupportedEncodingException {
-        SecretKeySpec skeySpec = new
-                SecretKeySpec(SecretKey.substring(0,32).getBytes(), "AES");
-        //IvParameterSpec ivSpec = new
-        //        IvParameterSpec(IV.substring(0,16).getBytes());
-        byte[] raw = encrypted.getBytes();//Base64.decode(encrypted, Base64.DEFAULT);
-        IvParameterSpec ivSpec = new IvParameterSpec(substring(raw,0,16));
-        Cipher ecipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-        ecipher.init(Cipher.DECRYPT_MODE, skeySpec, ivSpec);
-        byte[] mensagem_codificada = substring(raw,16,48);
-        byte[] originalBytes = ecipher.doFinal(mensagem_codificada);
-        String original = new String(originalBytes, "UTF8");
-        return original;
+    // String plaintext -> Base64-encoded String ciphertext
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String encrypt(String plaintext) {
+        try {
+            // Generate a random 16-byte initialization vector
+            byte initVector[] = new byte[16];
+            (new Random()).nextBytes(initVector);
+            IvParameterSpec iv = new IvParameterSpec(initVector);
+
+            // prep the key
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            // prep the AES Cipher
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+
+            // Encode the plaintext as array of Bytes
+            byte[] cipherbytes = cipher.doFinal(plaintext.getBytes());
+
+            // Build the output message initVector + cipherbytes -> base64
+            byte[] messagebytes = new byte[initVector.length + cipherbytes.length];
+
+            System.arraycopy(initVector, 0, messagebytes, 0, 16);
+            System.arraycopy(cipherbytes, 0, messagebytes, 16, cipherbytes.length);
+
+            // Return the cipherbytes as a Base64-encoded string
+            return messagebytes.toString();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    // Base64-encoded String ciphertext -> String plaintext
+    public String decrypt(String ciphertext) {
+        try {
+            byte[] cipherbytes = ciphertext.getBytes("UTF-8");
+
+            byte[] initVector = Arrays.copyOfRange(cipherbytes,0,16);
+
+            byte[] messagebytes = Arrays.copyOfRange(cipherbytes,16,cipherbytes.length);
+
+            IvParameterSpec iv = new IvParameterSpec(initVector);
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+
+            // Convert the ciphertext Base64-encoded String back to bytes, and
+            // then decrypt
+            byte[] byte_array = cipher.doFinal(messagebytes);
+
+            // Return plaintext as String
+            return new String(byte_array, "UTF-8");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 }
