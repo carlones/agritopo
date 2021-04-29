@@ -59,5 +59,5 @@ public final class Constantes {
     public static final int LICENCA_GRATUITA_LIMITE_ELEMENTOS = 10;
     public static final String ARQUIVO_LICENCA = "chave.ngs";
 
-    public static final String K = "g\\S0k3HN`HNS\"Sw2+NaHXs]l@w~/a+rY";
+    public static final String K = "tVK0Nh+7j1+lZBBERBLeQQ==";
 }

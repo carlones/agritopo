@@ -1,7 +1,9 @@
 package br.com.neogis.agritopo.singleton;
 
+import java.io.FileInputStream;
 import android.content.Context;
 import android.os.Environment;
+import android.util.Base64;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
@@ -75,9 +77,17 @@ public class Licenca {
         applicationContext = context.getApplicationContext();
         arquivoLicenca = Configuration.getInstance().DiretorioLeituraArquivos + "chave.ngs";
         File file = new File(arquivoLicenca);
-        String fileContents = "";
+        byte[] encText;
+        String fileContents;
+        //String fileData;
         try {
-            fileContents = FileUtils.readFileToString(file);
+            //fileContents = FileUtils.readFileToString(file);
+            //fileData = fileContents.toString();
+            FileInputStream encryptedTextFis = new FileInputStream(arquivoLicenca);
+            encText = new byte[encryptedTextFis.available()];
+            encryptedTextFis.read(encText);
+            encryptedTextFis.close();
+            fileContents = Base64.encodeToString(encText, Base64.DEFAULT);
         } catch (IOException e) {
             this.dispositivoRegistrado = "";
             this.produtoRegistrado = "";
