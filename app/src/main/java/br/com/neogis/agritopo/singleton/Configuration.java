@@ -30,6 +30,7 @@ public final class Configuration {
     public String DiretorioExportacaoArquivos;
     public String DiretorioLeituraArquivos;
     public String DiretorioFotos;
+    public String Licenca;
 
     //Sincronizacao
     public String HostSincroniaObjetos;
@@ -65,6 +66,7 @@ public final class Configuration {
         DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos),extStore + "/agritopo") + "/";
         DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),extStore + "/agritopo") + "/";
         DiretorioFotos = DiretorioLeituraArquivos + File.separator + "Media" + File.separator + "Fotos" + File.separator;
+        Licenca = prefs.getString(context.getResources().getString(R.string.pref_key_licenca),"");
     }
 
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){

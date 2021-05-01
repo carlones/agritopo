@@ -3,6 +3,7 @@
     <string name="pref_title_group_general_general">Geral</string>
     <string name="pref_title_group_general_directory">Diretórios</string>
     <string name="pref_title_group_general_measure">Medidas</string>
+    <string name="pref_title_group_general_licenca">Licença</string>
 
     <string name="pref_title_group_mapping_crosshair">Mira</string>
     <string name="pref_title_group_mapping_information">Informação</string>
@@ -57,6 +58,10 @@
     <string name="pref_key_diretorio_leitura_arquivos">diretorio_leitura_arquivos</string>
     <string name="pref_title_diretorio_leitura_arquivos">Diretório de Leitura</string>
     <string name="pref_summary_diretorio_leitura_arquivos">Diretório onde será realizada a leitura de arquivos</string>
+
+    <string name="pref_key_licenca">licenca</string>
+    <string name="pref_title_licenca">Licença</string>
+    <string name="pref_summary_licenca">Licença de uso do aplicativo</string>
 
     <string name="pref_key_color_cursor">color_cursor</string>
     <string name="pref_title_color_cursor">Cor da Mira</string>

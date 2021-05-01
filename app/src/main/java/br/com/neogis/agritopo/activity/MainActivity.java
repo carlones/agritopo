@@ -63,22 +63,6 @@ public class MainActivity extends AppCompatActivity {
         Configuration.getInstance().LoadConfiguration(getApplicationContext());
         try {
             Licenca.getInstance().LoadLicenca(getApplicationContext());
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
