@@ -85,4 +85,12 @@
             app:title_text="Selecione o diretório" />
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_title_group_general_licenca">
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/pref_key_licenca"
+            android:title="@string/pref_title_licenca"
+            android:summary="@string/pref_summary_licenca" />
+    </PreferenceCategory>
 </PreferenceScreen>

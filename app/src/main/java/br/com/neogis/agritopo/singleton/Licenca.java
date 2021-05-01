@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -26,6 +27,8 @@ import br.com.neogis.agritopo.utils.CryptoHandler;
 import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.Utils;
 
+import static br.com.neogis.agritopo.utils.Constantes.ARQUIVO_LICENCA;
+import static br.com.neogis.agritopo.utils.Constantes.PRODUTO;
 import static br.com.neogis.agritopo.utils.DateUtils.getCurrentDateFromGPS;
 
 public class Licenca {
@@ -46,67 +49,81 @@ public class Licenca {
     public static Licenca getInstance(){
         if(INSTANCE == null) {
             INSTANCE = new Licenca();
-            try {
-                if(applicationContext != null)
+            if(applicationContext != null) {
+                try {
                     INSTANCE.LoadLicenca(applicationContext);
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (InvalidAlgorithmParameterException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (IllegalBlockSizeException e) {
-                e.printStackTrace();
-            } catch (BadPaddingException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         return INSTANCE;
     }
 
-    public void LoadLicenca(Context context) throws NoSuchPaddingException, UnsupportedEncodingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, JSONException, ParseException {
+    public void LoadLicenca(Context context) throws ParseException {
         applicationContext = context.getApplicationContext();
-        arquivoLicenca = Configuration.getInstance().DiretorioLeituraArquivos + "chave.ngs";
-        File file = new File(arquivoLicenca);
+        if (!lerArquivoLicenca())
+            if (!lerConfiguracaoLicenca())
+                atribuirLicencaGratuita();
+    }
+
+    private boolean lerConfiguracaoLicenca() {
+        String resultado = CryptoHandler.getInstance().decrypt(Configuration.getInstance().Licenca);
+        if (resultado != null)
+            return decomporResultado(resultado);
+        else
+            return false;
+    }
+
+    private boolean lerArquivoLicenca() {
+        arquivoLicenca = Configuration.getInstance().DiretorioLeituraArquivos + ARQUIVO_LICENCA;
         byte[] encText;
         String fileContents;
-        //String fileData;
+        FileInputStream encryptedTextFis = null;
         try {
-            //fileContents = FileUtils.readFileToString(file);
-            //fileData = fileContents.toString();
-            FileInputStream encryptedTextFis = new FileInputStream(arquivoLicenca);
+            encryptedTextFis = new FileInputStream(arquivoLicenca);
             encText = new byte[encryptedTextFis.available()];
             encryptedTextFis.read(encText);
             encryptedTextFis.close();
             fileContents = Base64.encodeToString(encText, Base64.DEFAULT);
+            String resultado = CryptoHandler.getInstance().decrypt(fileContents);
+            if (resultado != null) {
+                return decomporResultado(resultado);
+            } else {
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            return false;
         } catch (IOException e) {
-            this.dispositivoRegistrado = "";
-            this.produtoRegistrado = "";
-            this.dataVencimentoRegistrado = DateUtils.convertoToDateyyyyMMdd("2500-12-31");
-            this.tipoRegistrado = LicencaTipo.Gratuito;
-            return;
+            return false;
         }
+    }
 
-        String resultado = CryptoHandler.getInstance().decrypt(fileContents);
-        //"{produto: 'Agritopo-Standalone', email: 'carlos.migliavacca@gmail.com', device: 'ABC1234567', data_final: '2021-12-31' }
-        JSONObject jsonObjectdecode = new JSONObject(resultado);
-        this.dispositivoRegistrado = (String)jsonObjectdecode.get("device");
-        this.produtoRegistrado = (String)jsonObjectdecode.get("produto");
-        this.dataVencimentoRegistrado = DateUtils.convertoToDateyyyyMMdd((String)jsonObjectdecode.get("data_final"));
-        this.tipoRegistrado = (
-                jsonObjectdecode.get("produto").equals("Agritopo Standalone")?
-                LicencaTipo.Professional:
-                LicencaTipo.Gratuito
-        );
+    private void atribuirLicencaGratuita() throws ParseException {
+        this.dispositivoRegistrado = "";
+        this.produtoRegistrado = PRODUTO;
+        this.dataVencimentoRegistrado = DateUtils.convertoToDateyyyyMMdd("2500-12-31");
+        this.tipoRegistrado = LicencaTipo.Gratuito;
+    }
+
+    private boolean decomporResultado(String resultado) {
+        try {
+            JSONObject jsonObjectdecode = new JSONObject(resultado);
+            this.dispositivoRegistrado = (String)jsonObjectdecode.get("device");
+            this.produtoRegistrado = (String)jsonObjectdecode.get("produto");
+            this.dataVencimentoRegistrado = DateUtils.convertoToDateyyyyMMdd((String)jsonObjectdecode.get("data_final"));
+            this.tipoRegistrado = (
+                    jsonObjectdecode.get("produto").equals(PRODUTO)?
+                            LicencaTipo.Professional:
+                            LicencaTipo.Gratuito
+            );
+            return true;
+        } catch (JSONException e) {
+            return false;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     public String getDispositivoRegistrado() {

@@ -58,6 +58,7 @@ public final class Constantes {
     public static final int LICENCA_GRATUITA_LIMITE_ARQUIVO_VETORIAL = 20000;
     public static final int LICENCA_GRATUITA_LIMITE_ELEMENTOS = 10;
     public static final String ARQUIVO_LICENCA = "chave.ngs";
+    public static final String PRODUTO = "Agritopo Standalone";
 
-    public static final String K = "tVK0Nh+7j1+lZBBERBLeQQ==";
+    public static final String K = "R519Su1eh7me5RfmIt/WiA==";
 }
