@@ -23,12 +23,15 @@ import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.Utils;
 
 import static android.view.View.INVISIBLE;
+import static br.com.neogis.agritopo.utils.Constantes.ARG_IMPORTAR_NOME_ARQUIVO;
 import static br.com.neogis.agritopo.utils.Constantes.LICENCA_GRATUITA_LIMITE_ELEMENTOS;
+import static br.com.neogis.agritopo.utils.Constantes.PEGAR_EULA;
 import static br.com.neogis.agritopo.utils.Constantes.PEGAR_SERIAL_KEY;
 
 public class SobreActivity extends AppCompatActivity {
     private TextView aboutContent;
     private Button atualizarLicenca;
+    private Button eula;
     private String licenca = "";
     private String versao = "";
     private String idDispositivo = "";
@@ -42,9 +45,16 @@ public class SobreActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         aboutContent = (TextView) findViewById(R.id.aboutContent);
         atualizarLicenca = (Button) findViewById(R.id.atualizarLicenca);
+        eula = (Button) findViewById(R.id.eula);
 
         licenca = Licenca.getInstance().getTipoAutorizado().name();
         idDispositivo = Utils.getDeviceId(getApplicationContext());
+        eula.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), EULAActivity.class);
+                startActivityForResult(intent, PEGAR_EULA);
+            }
+        });
 
         ConstruirAjuda();
 
@@ -154,8 +164,6 @@ public class SobreActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_EMAIL, addresses);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, message);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
+        startActivity(intent);
     }
 }

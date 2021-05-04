@@ -604,4 +604,5 @@
     <string name="licenca_validada_com_sucesso">Licença validada com  sucesso!</string>
     <string name="erro_ao_validar_licenca">Erro ao validar licença</string>
     <string name="existe_conexao_com_internet">Erro ao contatar o site. Existe conexão com a Internet?</string>
+    <string name="content_sobre_eula">EULA - End User License Agreement</string>
 </resources>

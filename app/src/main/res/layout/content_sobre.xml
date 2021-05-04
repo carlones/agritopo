@@ -8,7 +8,7 @@
     tools:context="br.com.neogis.agritopo.activity.SobreActivity"
     tools:showIn="@layout/activity_sobre">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -53,6 +53,14 @@
                     android:layout_margin="2dip"
                     android:text=""
                     android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/eula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/content_sobre_eula"
+                    tools:layout_editor_absoluteX="148dp"
+                    tools:layout_editor_absoluteY="279dp" />
 
             </LinearLayout>
         </RelativeLayout>
