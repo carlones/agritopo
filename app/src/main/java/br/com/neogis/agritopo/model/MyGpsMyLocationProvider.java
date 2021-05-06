@@ -32,14 +32,15 @@ public class MyGpsMyLocationProvider extends GpsMyLocationProvider {
 
     @Override
     public Location getLastKnownLocation() {
-        Location location = super.getLastKnownLocation();
-        if (location == null) {
-            LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-            List<String> providers = mLocationManager.getProviders(true);
-            Location bestLocation = null;
-            for (String provider : providers) {
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        Location location = null;
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            location = super.getLastKnownLocation();
+            if (location == null) {
+                LocationManager mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+                List<String> providers = mLocationManager.getProviders(true);
+                Location bestLocation = null;
+                for (String provider : providers) {
                     location = mLocationManager.getLastKnownLocation(provider);
                     if (location == null) {
                         continue;
@@ -47,9 +48,10 @@ public class MyGpsMyLocationProvider extends GpsMyLocationProvider {
                     if (bestLocation == null || location.getAccuracy() < bestLocation.getAccuracy()) {
                         bestLocation = location;
                     }
+
                 }
+                location = bestLocation;
             }
-            location = bestLocation;
         }
         return location;
     }
