@@ -63,10 +63,10 @@ public class SobreActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String titulo = "Solicitação de licença Agritopo";
                     String mensagem =
-                            "<p>Suporte Neogis,</p><br/>\r\n" +
-                            "<p>O cliente com  Id do dispositivo <b>" + idDispositivo + "</b> solicitou uma nova licença!</p>\r\n" +
-                            "<p>Favor entrar em contato, solicitar mais informações e licenciar.</p></br>\r\n" +
-                            "<p>Obrigado</p>";
+                            "Suporte Neogis,\r\n\r\n" +
+                            "O cliente com  Id do dispositivo " + idDispositivo + " solicitou uma nova licença!\r\n" +
+                            "Favor entrar em contato, solicitar mais informações e licenciar.\r\n\r\n" +
+                            "Obrigado.\r\n";
 
                     composeEmail(new String[]{"suporte@neogis.com.br"}, titulo, mensagem);
                     Utils.toast(getApplicationContext(), "Entraremos em contato em até 1 dia útil.");
