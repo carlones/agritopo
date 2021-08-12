@@ -63,6 +63,10 @@
     <string name="pref_title_licenca">Licença</string>
     <string name="pref_summary_licenca">Licença de uso do aplicativo</string>
 
+    <string name="pref_key_chave">chave</string>
+    <string name="pref_title_chave">Chave</string>
+    <string name="pref_summary_chave">Chave do Sistema</string>
+
     <string name="pref_key_color_cursor">color_cursor</string>
     <string name="pref_title_color_cursor">Cor da Mira</string>
     <string name="pref_summary_color_cursor">Define a cor da mira ao cadastrar pontos, distâncias e áreas.</string>

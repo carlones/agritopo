@@ -150,7 +150,7 @@ public class Licenca {
                         getDataVencimentoRegistrado()
                 ) >= 0
                         && getTipoRegistrado() == Licenca.LicencaTipo.Professional
-                        && getDispositivoRegistrado().equals(Utils.getDeviceId(applicationContext)))
+                        && getDispositivoRegistrado().equals(Configuration.getInstance().Chave))
         {
             r = Licenca.LicencaTipo.Professional;
         }

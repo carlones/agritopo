@@ -7,9 +7,11 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 
 import java.io.File;
+import java.util.UUID;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.utils.Constantes;
+import br.com.neogis.agritopo.utils.Utils;
 
 public final class Configuration {
     private static Configuration INSTANCE = null;
@@ -30,6 +32,7 @@ public final class Configuration {
     public String DiretorioExportacaoArquivos;
     public String DiretorioLeituraArquivos;
     public String DiretorioFotos;
+    public String Chave;
     public String Licenca;
 
     //Sincronizacao
@@ -66,7 +69,16 @@ public final class Configuration {
         DiretorioExportacaoArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_exportar_arquivos),extStore + "/agritopo") + "/";
         DiretorioLeituraArquivos = prefs.getString(context.getResources().getString(R.string.pref_key_diretorio_leitura_arquivos),extStore + "/agritopo") + "/";
         DiretorioFotos = DiretorioLeituraArquivos + File.separator + "Media" + File.separator + "Fotos" + File.separator;
-        Licenca = prefs.getString(context.getResources().getString(R.string.pref_key_licenca),"");
+        String padrao = Utils.getDeviceId(context);
+        if (padrao.equals("")) {
+            padrao = UUID.randomUUID().toString();
+        }
+        String ChaveGravada = prefs.getString(context.getResources().getString(R.string.pref_key_chave),"");
+        if (ChaveGravada.equals("")){
+            prefs.edit().putString(context.getResources().getString(R.string.pref_key_chave),padrao).apply();
+        }
+        Chave = prefs.getString(context.getResources().getString(R.string.pref_key_chave),padrao);
+        Licenca = prefs.getString(context.getResources().getString(R.string.pref_key_licenca), "");
     }
 
     private void LoadMappingConfiguration(Context context, SharedPreferences prefs){

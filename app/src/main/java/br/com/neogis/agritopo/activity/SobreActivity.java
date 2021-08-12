@@ -15,9 +15,11 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.UUID;
 
 import br.com.neogis.agritopo.R;
 import br.com.neogis.agritopo.holder.AdicionarAreaHolder;
+import br.com.neogis.agritopo.singleton.Configuration;
 import br.com.neogis.agritopo.singleton.Licenca;
 import br.com.neogis.agritopo.utils.DateUtils;
 import br.com.neogis.agritopo.utils.Utils;
@@ -48,7 +50,7 @@ public class SobreActivity extends AppCompatActivity {
         eula = (Button) findViewById(R.id.eula);
 
         licenca = Licenca.getInstance().getTipoAutorizado().name();
-        idDispositivo = Utils.getDeviceId(getApplicationContext());
+        idDispositivo = Configuration.getInstance().Chave;
         eula.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), EULAActivity.class);
@@ -63,10 +65,10 @@ public class SobreActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String titulo = "Solicitação de licença Agritopo";
                     String mensagem =
-                            "Suporte Neogis,\r\n\r\n" +
-                            "O cliente com  Id do dispositivo " + idDispositivo + " solicitou uma nova licença!\r\n" +
-                            "Favor entrar em contato, solicitar mais informações e licenciar.\r\n\r\n" +
-                            "Obrigado.\r\n";
+                    "Suporte Neogis,\r\n\r\n" +
+                    "O cliente com  Id do dispositivo " + idDispositivo + " solicitou uma nova licença!\r\n" +
+                    "Favor entrar em contato, solicitar mais informações e licenciar.\r\n\r\n" +
+                    "Obrigado.\r\n";
 
                     composeEmail(new String[]{"suporte@neogis.com.br"}, titulo, mensagem);
                     Utils.toast(getApplicationContext(), "Entraremos em contato em até 1 dia útil.");
